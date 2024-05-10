@@ -1,0 +1,157 @@
+steps:
+  FCT_REGION_TRANS-582f0ae1-2656-4860-918a-a753ac6b2a2d:
+    operation:
+      config:
+        clusterKey: false
+        clusterKeyConfig:
+          items:
+            - {}
+        clusterKeyConfigExpressions:
+          items:
+            - {}
+        clusterKeyExpressions: false
+        groupByAll: false
+        insertStrategy: UNION ALL
+        orderby: false
+        orderbycolumn:
+          items:
+            - {}
+        postSQL: ""
+        preSQL: ""
+        selectDistinct: false
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: Region data as defined by TPC-H
+      isMultisource: false
+      locationName: TARGET_DB
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: ce93a6d2-143c-48d1-8163-d5d422d72cf1
+              stepCounter: 582f0ae1-2656-4860-918a-a753ac6b2a2d
+            dataType: NUMBER
+            description: ""
+            name: DIM_REGION_TRANS_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 41ccfe67-24c4-47e2-96f1-19f59f43242b
+                    stepCounter: a9353ef1-7d8d-44e6-b061-2ae63d6f4719
+                transform: ""
+          - columnReference:
+              columnCounter: 6646298c-9998-4a41-9ab9-dabc23741247
+              stepCounter: 582f0ae1-2656-4860-918a-a753ac6b2a2d
+            dataType: NUMBER(38,0)
+            description: ""
+            name: R_REGIONKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0e080073-59a8-462b-90c4-65f2551c244c
+                    stepCounter: a9353ef1-7d8d-44e6-b061-2ae63d6f4719
+                transform: ""
+          - columnReference:
+              columnCounter: 3ab8e737-2d31-4879-8ff4-cc4cea369481
+              stepCounter: 582f0ae1-2656-4860-918a-a753ac6b2a2d
+            dataType: VARCHAR(25)
+            description: ""
+            name: R_NAME
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e35cd8c6-e6f2-4cce-8bcc-f84724b77e4b
+                    stepCounter: a9353ef1-7d8d-44e6-b061-2ae63d6f4719
+                transform: ""
+          - columnReference:
+              columnCounter: de7027ca-b8e2-43e0-8e8d-7d46e5375927
+              stepCounter: 582f0ae1-2656-4860-918a-a753ac6b2a2d
+            dataType: VARCHAR(152)
+            description: ""
+            name: R_COMMENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c5bb2926-51f8-4168-afa0-3aaaa6541655
+                    stepCounter: a9353ef1-7d8d-44e6-b061-2ae63d6f4719
+                transform: ""
+          - columnReference:
+              columnCounter: ce3b5cd8-446f-4fed-ba83-a4e29bafa996
+              stepCounter: 582f0ae1-2656-4860-918a-a753ac6b2a2d
+            dataType: TIMESTAMP
+            description: ""
+            name: SYSTEM_START_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c13aab25-aeb5-4d20-abff-be5103a01293
+                    stepCounter: a9353ef1-7d8d-44e6-b061-2ae63d6f4719
+                transform: ""
+          - columnReference:
+              columnCounter: 3eb31cf7-4752-4429-ac09-60153ed2103c
+              stepCounter: 582f0ae1-2656-4860-918a-a753ac6b2a2d
+            dataType: TIMESTAMP
+            description: ""
+            name: SYSTEM_END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: fdfeda15-e8b1-451a-a04e-c247ef9f57d5
+                    stepCounter: a9353ef1-7d8d-44e6-b061-2ae63d6f4719
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: baaa89a8-e0b3-4d80-beaa-57b55d2ed290
+              stepCounter: 582f0ae1-2656-4860-918a-a753ac6b2a2d
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 1139895e-9c84-44b1-91fa-1a05aa206d28
+              stepCounter: 582f0ae1-2656-4860-918a-a753ac6b2a2d
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            isSystemUpdateDate: true
+            name: SYSTEM_UPDATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: TARGET_DB
+                nodeName: DIM_REGION_TRANS
+            join:
+              joinCondition: FROM {{ ref('TARGET_DB', 'DIM_REGION_TRANS') }} "DIM_REGION_TRANS"
+            name: FCT_REGION_TRANS
+            noLinkRefs: []
+      name: FCT_REGION_TRANS
+      overrideSQL: false
+      schema: ""
+      sqlType: "162"
+      type: sql
+    stepCounter: 582f0ae1-2656-4860-918a-a753ac6b2a2d

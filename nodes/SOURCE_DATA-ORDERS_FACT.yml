@@ -1,0 +1,93 @@
+steps:
+  ORDERS_FACT-89284e21-f064-40fc-9e72-68e60539667d:
+    operation:
+      database: ""
+      dataset: ""
+      deployEnabled: true
+      description: ""
+      locationName: SOURCE_DATA
+      metadata:
+        columns:
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 2b243730-6363-49a6-9460-da1235f356ca
+              stepCounter: 89284e21-f064-40fc-9e72-68e60539667d
+            config: {}
+            dataType: NUMBER(38,0)
+            defaultValue: ""
+            description: ""
+            name: PRODUCT_ID
+            nullable: true
+            primaryKey: false
+            uniqueKey: false
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 200262df-b685-4d51-a8c2-428ef7d10bc8
+              stepCounter: 89284e21-f064-40fc-9e72-68e60539667d
+            config: {}
+            dataType: NUMBER(38,0)
+            defaultValue: ""
+            description: ""
+            name: STORE_ID
+            nullable: true
+            primaryKey: false
+            uniqueKey: false
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: ca889888-23e3-4a0b-8b02-8acfa55d2c00
+              stepCounter: 89284e21-f064-40fc-9e72-68e60539667d
+            config: {}
+            dataType: NUMBER(38,0)
+            defaultValue: ""
+            description: ""
+            name: TIME_ID
+            nullable: true
+            primaryKey: false
+            uniqueKey: false
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 6a06bb0a-eb44-4059-8126-e384cd568001
+              stepCounter: 89284e21-f064-40fc-9e72-68e60539667d
+            config: {}
+            dataType: NUMBER(10,2)
+            defaultValue: ""
+            description: ""
+            name: ORDERS_DOLLARS
+            nullable: true
+            primaryKey: false
+            uniqueKey: false
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 4350e5f0-e4a7-4a08-9256-6cb474c70505
+              stepCounter: 89284e21-f064-40fc-9e72-68e60539667d
+            config: {}
+            dataType: NUMBER(38,0)
+            defaultValue: ""
+            description: ""
+            name: ORDERS_QUANTITY
+            nullable: true
+            primaryKey: false
+            uniqueKey: false
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'ORDERS_FACT') }}
+      name: ORDERS_FACT
+      schema: ""
+      sqlType: Source
+      table: ORDERS_FACT
+      type: sourceInput
+    stepCounter: 89284e21-f064-40fc-9e72-68e60539667d
