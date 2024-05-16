@@ -2,10 +2,12 @@ steps:
   WRK_PRODUCTS_VW-d2540eaa-307c-4678-b433-33155425ad31:
     operation:
       config:
-        clusterKey: false
+        clusterKey: true
         clusterKeyConfig:
           items:
-            - {}
+            - columnName:
+                columnCounter: 5c05a241-0098-4a31-84fd-bcb174a42ff4
+                stepCounter: d2540eaa-307c-4678-b433-33155425ad31
         clusterKeyConfigExpressions:
           items:
             - {}
@@ -20,13 +22,13 @@ steps:
         preSQL: ""
         selectDistinct: false
         testsEnabled: false
-        truncateBefore: false
+        truncateBefore: true
       database: ""
       deployEnabled: true
       description: ""
       isMultisource: false
       locationName: TARGET_DB
-      materializationType: view
+      materializationType: table
       metadata:
         appliedNodeTests: []
         columns:

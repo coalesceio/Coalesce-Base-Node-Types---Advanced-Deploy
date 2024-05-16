@@ -5,7 +5,9 @@ steps:
         clusterKey: true
         clusterKeyConfig:
           items:
-            - columnName: null
+            - columnName:
+                columnCounter: 0e080073-59a8-462b-90c4-65f2551c244c
+                stepCounter: a9353ef1-7d8d-44e6-b061-2ae63d6f4719
         clusterKeyConfigExpressions:
           items:
             - {}
