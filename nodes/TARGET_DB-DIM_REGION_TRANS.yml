@@ -69,6 +69,7 @@ steps:
             dataType: VARCHAR(25)
             description: ""
             hashDetails: null
+            isChangeTracking: true
             name: R_NAME
             nullable: false
             sourceColumnReferences:
