@@ -28,7 +28,7 @@ steps:
       description: Region data as defined by TPC-H
       isMultisource: false
       locationName: TARGET_DB
-      materializationType: transient table
+      materializationType: view
       metadata:
         appliedNodeTests: []
         columns:
@@ -206,7 +206,7 @@ steps:
             name: DIM_REGION_TRANS
             noLinkRefs: []
       name: DIM_REGION_TRANS
-      overrideSQL: false
+      overrideSQL: true
       schema: ""
       sqlType: "183"
       type: sql
