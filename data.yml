@@ -7,14 +7,23 @@ locations:
       "149":
         database: ANANDHIS_DEV
         schema: SOURCE_DATA
+      "150":
+        database: ANANDHIS_DEV
+        schema: SOURCE_DATA
   TARGET_DB:
     mappingDefinitions:
       "149":
         database: ANANDHIS_DEV
         schema: TARGET_DEV
+      "150":
+        database: ANANDHIS_DEV
+        schema: TARGET_QA
   TARGET_DEV:
     mappingDefinitions:
       "149":
+        database: ANANDHIS_DEV
+        schema: TARGET_DEV
+      "150":
         database: ANANDHIS_DEV
         schema: TARGET_DEV
 macros:
