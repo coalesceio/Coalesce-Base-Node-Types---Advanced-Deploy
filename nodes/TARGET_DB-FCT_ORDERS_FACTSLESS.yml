@@ -25,7 +25,7 @@ steps:
         preSQL: ""
         selectDistinct: false
         testsEnabled: false
-        truncateBefore: false
+        truncateBefore: true
       database: ""
       deployEnabled: true
       description: ""

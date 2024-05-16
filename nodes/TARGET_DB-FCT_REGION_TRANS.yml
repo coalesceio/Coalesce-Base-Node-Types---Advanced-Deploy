@@ -47,6 +47,7 @@ steps:
               stepCounter: 582f0ae1-2656-4860-918a-a753ac6b2a2d
             dataType: NUMBER(38,0)
             description: ""
+            isBusinessKey: true
             name: R_REGIONKEY
             nullable: false
             sourceColumnReferences:

@@ -189,7 +189,8 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - aliases: {}
+          - aliases:
+              COURSES_SC: c11fa2b4-c0d5-4126-99ce-4a31dd7e803a
             customSQL:
               customSQL: ""
             dependencies:
@@ -198,7 +199,7 @@ steps:
             join:
               joinCondition: |-
                 FROM {{ ref('SOURCE_DATA', 'COURSES_SC') }} "COURSES_SC"
-                where "COURSE_ID" > 1
+                where "COURSES_SC"."COURSE_NAME" like '%d%'
             name: PSTG_COURSES_trans
             noLinkRefs: []
       name: PSTG_COURSES_trans

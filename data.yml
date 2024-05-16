@@ -346,16 +346,24 @@ stepTypes:
 
             {% elif desiredState %}
 
-                {% if  desiredState.node.override.create.enabled %}
+                {% if  desiredState.node.override.create.enabled and desiredState.node.materializationType == 'view' %}
             	
-            	    {{ desiredState.node.override.create.script }}
+            	    {% if currentState != undefined %}
+                        {% if currentState.node.materializationType != 'view' %}
+                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+                            DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                        {% endif %}
+                    {% endif %}
+
+            	      {{ desiredState.node.override.create.script }}
+
 
                 {%elif desiredState.node.materializationType == 'view' %}
 
                     {% if currentState != undefined %}
                         {% if currentState.node.materializationType != 'view' %}
-                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "create") }}
-                            DROP TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+                            DROP TABLE IF EXISTS{{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
                         {% endif %}
                     {% endif %}
 
@@ -399,16 +407,6 @@ stepTypes:
 
             {% elif desiredState.node.materializationType == 'table' or desiredState.node.materializationType == 'transient table' %}
 
-                    {% if currentState != undefined %}
-                        {% if currentState.node.materializationType != 'table' and currentState.node.materializationType != 'transient table' %}
-                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "create") }}
-                             {% if currentState.node.materializationType == 'view' %} 
-                                  DROP {{currentState.node.materializationType}} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                            {% else %}
-                                  DROP TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
 
                     {# Figure out cluster key #}
                     {% set nsVariables = namespace(finalClusterKey="") %}
@@ -443,6 +441,44 @@ stepTypes:
                         {% endif %}
                     {% endif %}
 
+                    {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
+
+                             {# Change in materialization type #}
+                            
+                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+
+                             {% if currentState.node.materializationType == 'view' %} 
+                                  DROP {{currentState.node.materializationType}} IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                            {% else %}
+                                  DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                            {% endif %}
+
+                         {{ stage('Create Fact ' + desiredState.node.materializationType , true, "sql", "create") }}
+            			  CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                        (
+                            {% for col in desiredState.columns %}
+                                "{{ col.name }}" {{ col.dataType }}
+                                {%- if not col.nullable %} NOT NULL
+                                    {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+                                {% endif %}
+                                {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+                                {%- if not loop.last -%}, {% endif %}
+                            {% endfor %}
+                        )
+            			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
+
+                        {% if desiredState.config.clusterKey == true %}
+                            {{ stage('Apply Table Clustering', true, "sql", "create") }}
+                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
+
+                            {{ stage('Resume Recluster Table', true, "sql", "create") }}
+                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
+                        {% endif %}
+
+
+                    {% endif %}
+
+
                     {% if currentState == undefined %}
                         {{ stage('Create Fact ' + desiredState.node.materializationType , true, "sql", "create") }}
             			CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
@@ -466,7 +502,7 @@ stepTypes:
                             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
                         {% endif %}
 
-                    {% elif currentState != undefined %}
+                    {% elif currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
 
                         {# Change Node Name or Change Storage Location #}
                         {# Storage Location Tests #}
@@ -1126,16 +1162,23 @@ stepTypes:
 
             {% elif desiredState %}
 
-                {% if  desiredState.node.override.create.enabled %}
-            	
-            	    {{ desiredState.node.override.create.script }}
+                {% if  desiredState.node.override.create.enabled and desiredState.node.materializationType == 'view' %}
+
+                     {% if currentState != undefined %}
+                        {% if currentState.node.materializationType != 'view' %}
+                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+                            DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                        {% endif %}
+                    {% endif %}
+
+            	      {{ desiredState.node.override.create.script }}
 
                 {%elif desiredState.node.materializationType == 'view' %}
 
                     {% if currentState != undefined %}
                         {% if currentState.node.materializationType != 'view' %}
-                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "create") }}
-                            DROP TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+                            DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
                         {% endif %}
                     {% endif %}
 
@@ -1175,18 +1218,7 @@ stepTypes:
                     {% endfor %}
 
                 {% elif desiredState.node.materializationType == 'table' or desiredState.node.materializationType == 'transient table'  %}
-
-                    {% if currentState != undefined %}
-                        {% if currentState.node.materializationType != 'table' and currentState.node.materializationType != 'transient table' %}
-                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "create") }}
-                             {% if currentState.node.materializationType == 'view' %} 
-                                  DROP {{currentState.node.materializationType}} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                            {% else %}
-                                  DROP TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
-
+                    
                     {# Figure out cluster key #}
                     {% set nsVariables = namespace(finalClusterKey="") %}
                     {% if desiredState.config.clusterKey == true %}
@@ -1220,6 +1252,44 @@ stepTypes:
                         {% endif %}
                     {% endif %}
 
+
+                    {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
+
+                            {# Change in materialization type #}
+
+                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+
+                             {% if currentState.node.materializationType == 'view' %} 
+                                  DROP {{currentState.node.materializationType}} IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                            {% else %}
+                                  DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                            {% endif %}
+                             
+                            {{ stage('Create Work '+ ' {{desiredState.node.materializationType}}' , true, "sql", "create") }}
+                           CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                            (
+                            {% for col in desiredState.columns %}
+                                "{{ col.name }}" {{ col.dataType }}
+                                {%- if not col.nullable %} NOT NULL
+                                    {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+                                {% endif %}
+                                {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+                                {%- if not loop.last -%}, {% endif %}
+                            {% endfor %}
+                            )
+                           {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
+
+                           {% if desiredState.config.clusterKey == true %}
+                              {{ stage('Apply Table Clustering', true, "sql", "create") }}
+                             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
+
+                               {{ stage('Resume Recluster Table', true, "sql", "create") }}
+                              ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
+
+                           {% endif %}
+                            
+                    {% endif %}
+
                     {% if currentState == undefined %}
                         {{ stage('Create Work '+ ' {{desiredState.node.materializationType}}' , true, "sql", "create") }}
                         CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
@@ -1243,7 +1313,7 @@ stepTypes:
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
                     {% endif %}
 
-                    {% elif currentState != undefined %}
+                    {% elif currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
 
                         {# Change Node Name or Change Storage Location #}
                         {# Storage Location Tests #}
@@ -1901,16 +1971,7 @@ stepTypes:
 
             {% if desiredState.node.materializationType == 'table' or desiredState.node.materializationType == 'transient table' %}
 
-                    {% if currentState != undefined %}
-                        {% if currentState.node.materializationType != 'table' and currentState.node.materializationType != 'transient table' %}
-                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "create") }}
-                            DROP TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                        {% endif %}
-                    {% endif %}
-
-                    {% if currentState == undefined %}
-
-                    {# Figure out cluster key #}
+                        {# Figure out cluster key #}
                     {% set nsVariables = namespace(finalClusterKey="") %}
                     {% if desiredState.config.clusterKey == true %}
                         {% if desiredState.config.clusterKeyExpressions == true %}
@@ -1943,6 +2004,39 @@ stepTypes:
                         {% endif %}
                     {% endif %}
 
+                    {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
+
+                         {# Change in materialization type #} 
+
+                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+                            DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+
+                            {{ stage('Create Persistent Stage '+ desiredState.node.materializationType, true, "sql", "create") }}
+            			   CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                           (
+                            {% for col in desiredState.columns %}
+                                "{{ col.name }}" {{ col.dataType }}
+                                {%- if not col.nullable %} NOT NULL
+                                    {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+                                {% endif %}
+                                {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+                                {%- if not loop.last -%}, {% endif %}
+                            {% endfor %}
+                            )
+            			  {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
+
+                          {% if desiredState.config.clusterKey == true %}
+                            {{ stage('Apply Table Clustering', true, "sql", "create") }}
+                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
+
+                            {{ stage('Resume Recluster Table', true, "sql", "create") }}
+                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
+                          {% endif %}
+                
+                    {% endif %}
+
+                    {% if currentState == undefined %}
+
                     {{ stage('Create Persistent Stage' +' ' + desiredState.node.materializationType, true, "sql", "create") }}
                     CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     (
@@ -1968,7 +2062,7 @@ stepTypes:
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
                     {% endif %}
 
-                    {% elif currentState != undefined %}
+                    {% elif currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
 
                         {# Change Node Name or Change Storage Location #}
                         {# Storage Location Tests #}
@@ -2318,7 +2412,7 @@ stepTypes:
                 {% endfor %}
 
 
-            {% if node.materializationType == 'table' %}
+            {% if node.materializationType == 'table' or node.materializationType == 'transient table'  %}
 
             {# == Queries to be excuted before data insertion  == #}
 
@@ -2956,8 +3050,6 @@ stepTypes:
             {# == Node Type Description    : This node creates dimension table,view and also override create sql for view  with advanced deployment strategy == #}
 
 
-
-
             {% if desiredState == currentState %}
 
             {{ stage('Nothing to do.') }}
@@ -2967,22 +3059,30 @@ stepTypes:
 
             {# Override CreateSQL for view #}
 
-                {% if  desiredState.node.override.create.enabled %}
+                {% if  desiredState.node.override.create.enabled and desiredState.node.materializationType == 'view' %}
             	
-            	    {{ desiredState.node.override.create.script }}
+            	    {% if currentState != undefined %}
+                        {% if currentState.node.materializationType != 'view' %}
+                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+                            DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                        {% endif %}
+                    {% endif %}
+
+            	      {{ desiredState.node.override.create.script }}
+
 
                 {%elif desiredState.node.materializationType == 'view' %}
 
                     {% if currentState != undefined %}
                         {% if currentState.node.materializationType != 'view' %}
-                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "create") }}
-                            DROP TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+                            DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
                         {% endif %}
                     {% endif %}
 
-            {# CreateSQL for View #}
+                     {# CreateSQL for View #}
 
-            		{{ stage('Create Dimension View') }}
+            		{{ stage('Create Dimension View', true, "sql", "create") }}
 
             		CREATE OR REPLACE VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             		(
@@ -3022,18 +3122,8 @@ stepTypes:
 
             {% elif desiredState.node.materializationType == 'table' or desiredState.node.materializationType == 'transient table'  %}
 
-                    {% if currentState != undefined %}
-                        {% if currentState.node.materializationType != 'table' and currentState.node.materializationType != 'transient table' %}
-                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "create") }}
-                             {% if currentState.node.materializationType == 'view' %} 
-                                  DROP {{currentState.node.materializationType}} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                            {% else %}
-                                  DROP TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
-
                     {# Figure out cluster key #}
+
                     {% set nsVariables = namespace(finalClusterKey="") %}
                     {% if desiredState.config.clusterKey == true %}
                         {% if desiredState.config.clusterKeyExpressions == true %}
@@ -3066,6 +3156,46 @@ stepTypes:
                         {% endif %}
                     {% endif %}
 
+                    {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType%}
+                    
+                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+                             {% if currentState.node.materializationType == 'view' %} 
+                                  DROP {{currentState.node.materializationType}} IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                            {% else %}
+                                  DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                            {% endif %}
+
+                        {# CreateSQL for Table #}
+                    
+                        {{ stage('Create Dimension ' + desiredState.node.materializationType , true, "sql", "create") }}
+            			
+                           CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+            			  (
+            			  {% for col in desiredState.columns %}
+            				"{{ col.name }}" {{ col.dataType }}
+            				{% if col.isSurrogateKey %}
+            					identity
+            				{% endif %}
+            				{%- if not col.nullable %} NOT NULL
+            					{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+            				{% endif %}
+            				{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            				{%- if not loop.last -%}, {% endif %}
+            			  {% endfor %}
+            		    	)
+            			  {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
+
+                          {% if desiredState.config.clusterKey == true %}
+                            {{ stage('Apply Table Clustering', true, "sql", "create") }}
+                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
+
+                            {{ stage('Resume Recluster Table', true, "sql", "create") }}
+                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
+                          {% endif %}
+                            
+                    {% endif %}
+
+
                     {% if currentState == undefined %}
 
                     {# CreateSQL for Table #}
@@ -3095,7 +3225,7 @@ stepTypes:
                             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
                         {% endif %}
 
-                    {% elif currentState != undefined %}
+                    {% elif currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
 
                         {# Change Node Name or Change Storage Location #}
                         {# Storage Location Tests #}
@@ -4009,15 +4139,7 @@ stepTypes:
 
             {%if desiredState.node.materializationType == 'table' or desiredState.node.materializationType == 'transient table' %}
                 
-
-                    {% if currentState != undefined %}
-                        {% if currentState.node.materializationType != 'table' and currentState.node.materializationType != 'transient table' %}
-                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "create") }}
-                            DROP TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                        {% endif %}
-                    {% endif %}
-
-                    {# Figure out cluster key #}
+             {# Figure out cluster key #}
                     {% set nsVariables = namespace(finalClusterKey="") %}
                     {% if desiredState.config.clusterKey == true %}
                         {% if desiredState.config.clusterKeyExpressions == true %}
@@ -4050,6 +4172,35 @@ stepTypes:
                         {% endif %}
                     {% endif %}
 
+                    {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
+
+                            {# Change in materialization type #}
+                            {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+                            DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+
+                            {{ stage('Create Fact '+ desiredState.node.materializationType, true, "sql", "create") }}
+            			CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                        (
+                            {% for col in desiredState.columns %}
+                                "{{ col.name }}" {{ col.dataType }}
+                                {%- if not col.nullable %} NOT NULL
+                                    {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+                                {% endif %}
+                                {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+                                {%- if not loop.last -%}, {% endif %}
+                            {% endfor %}
+                        )
+            			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
+
+                        {% if desiredState.config.clusterKey == true %}
+                            {{ stage('Apply Table Clustering', true, "sql", "create") }}
+                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
+
+                            {{ stage('Resume Recluster Table', true, "sql", "create") }}
+                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
+                        {% endif %}
+                    {% endif %}   
+
                     {% if currentState == undefined %}
                         {{ stage('Create Fact '+ desiredState.node.materializationType, true, "sql", "create") }}
             			CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
@@ -4073,7 +4224,7 @@ stepTypes:
                             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
                         {% endif %}
 
-                    {% elif currentState != undefined %}
+                    {% elif currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
 
                         {# Change Node Name or Change Storage Location #}
                         {# Storage Location Tests #}
@@ -5246,11 +5397,11 @@ stepTypes:
             isRequired: true
 
           - type: multisourceToggle
-            enableIf: "{% if node.materializationType == 'table' %} true {% else %} false {% endif %}" 
+            enableIf: "{% if node.materializationType == 'table' %} true {% else %} false {% endif %}"
 
           - type: overrideSQLToggle
             enableIf: "{% if node.materializationType == 'view' %} true {% else %} false {% endif %}"
-            
+
           - displayName: Multi Source Strategy
             attributeName: insertStrategy
             type: dropdownSelector
@@ -5271,7 +5422,7 @@ stepTypes:
             attributeName: testsEnabled
             type: toggleButton
             default: true
-            
+
           - displayName: Pre-SQL
             attributeName: preSQL
             type: textBox
