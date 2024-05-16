@@ -28,7 +28,7 @@ steps:
       description: ""
       isMultisource: false
       locationName: TARGET_DB
-      materializationType: table
+      materializationType: transient table
       metadata:
         appliedNodeTests: []
         columns:
