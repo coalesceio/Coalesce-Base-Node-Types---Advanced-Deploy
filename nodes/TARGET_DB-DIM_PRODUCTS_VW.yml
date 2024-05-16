@@ -26,7 +26,7 @@ steps:
       description: ""
       isMultisource: false
       locationName: TARGET_DB
-      materializationType: view
+      materializationType: table
       metadata:
         appliedNodeTests: []
         columns:

@@ -2,7 +2,13 @@ steps:
   PSTG_COURSES_trans-bc06af5c-3350-4fd0-bcc8-2115f455d2ba:
     operation:
       config:
-        clusterKey: false
+        clusterKey: true
+        clusterKeyConfig:
+          items:
+            - columnName:
+                columnCounter: cce67ac5-48c4-4f80-ac9f-c891abe47af4
+                stepCounter: bc06af5c-3350-4fd0-bcc8-2115f455d2ba
+        clusterKeyExpressions: false
         groupByAll: false
         insertStrategy: UNION ALL
         orderby: true
