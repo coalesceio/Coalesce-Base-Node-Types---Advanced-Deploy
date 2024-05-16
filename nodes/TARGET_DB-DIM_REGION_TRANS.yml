@@ -197,7 +197,15 @@ steps:
         sourceMapping:
           - aliases: {}
             customSQL:
-              customSQL: ""
+              customSQL: |-
+                {{ stage('Override Create SQL',true,"sql","create") }}
+                	CREATE OR REPLACE VIEW {{ ref('TARGET_DB', 'DIM_REGION_TRANS')}} AS (
+                		SELECT 
+                 "R_REGIONKEY" AS "R_REGIONKEY",
+                 "R_NAME" AS "R_NAME",
+                 "R_COMMENT" AS "R_COMMENT"
+                 FROM {{ ref('TARGET_DB', 'WRK_REGION_TRANS') }}
+                	)
             dependencies:
               - locationName: TARGET_DB
                 nodeName: WRK_REGION_TRANS
