@@ -1,94 +1,102 @@
-steps:
-  WRK_REGION_TRANS-0344c1e3-84b3-4215-90d7-27c93d76129e:
-    operation:
-      config:
-        clusterKey: false
-        clusterKeyConfig:
-          items:
-            - {}
-        clusterKeyConfigExpressions:
-          items:
-            - {}
-        clusterKeyExpressions: false
-        groupByAll: false
-        insertStrategy: INSERT
-        orderby: true
-        orderbycolumn:
-          items:
-            - sortColName:
-                columnCounter: 0bb065ac-b887-4bda-a851-32bd839a8ffb
-                stepCounter: 0344c1e3-84b3-4215-90d7-27c93d76129e
-              sortOrder: desc
-        postSQL: ""
-        preSQL: ""
-        selectDistinct: true
-        testsEnabled: false
-        truncateBefore: false
-      database: ""
-      deployEnabled: true
-      description: Region data as defined by TPC-H
-      isMultisource: false
-      locationName: TARGET_DB
-      materializationType: view
-      metadata:
-        appliedNodeTests: []
-        columns:
-          - columnReference:
-              columnCounter: 0bb065ac-b887-4bda-a851-32bd839a8ffb
-              stepCounter: 0344c1e3-84b3-4215-90d7-27c93d76129e
-            dataType: NUMBER(38,0)
-            description: ""
-            hashDetails: null
-            name: R_REGIONKEY
-            nullable: false
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: c1dd0f2f-8f8e-4bdd-b115-358529cc687d
-                    stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
-                transform: ""
-          - columnReference:
-              columnCounter: 7129883a-c620-4b47-9025-f8a6e11759d9
-              stepCounter: 0344c1e3-84b3-4215-90d7-27c93d76129e
-            dataType: VARCHAR(25)
-            description: ""
-            hashDetails: null
-            name: R_NAME
-            nullable: false
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 3f696bcc-eafb-41b9-87d5-f654e9ea847d
-                    stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
-                transform: ""
-          - columnReference:
-              columnCounter: 80920414-9437-4286-9435-3cd89e928aca
-              stepCounter: 0344c1e3-84b3-4215-90d7-27c93d76129e
-            dataType: VARCHAR(152)
-            description: ""
-            hashDetails: null
-            name: R_COMMENT
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 8e339f6c-7247-4178-91d5-03535265c584
-                    stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
-                transform: ""
-        cteString: ""
-        enabledColumnTestIDs: []
-        sourceMapping:
-          - aliases:
-              REGION: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
-            customSQL:
-              customSQL: ""
-            dependencies:
-              - locationName: SOURCE_DATA
-                nodeName: REGION
-            join:
-              joinCondition: FROM {{ ref('SOURCE_DATA', 'REGION') }} "REGION"
-            name: WRK_REGION_TRANS
-            noLinkRefs: []
-      name: WRK_REGION_TRANS
-      overrideSQL: false
-      schema: ""
-      sqlType: "179"
-      type: sql
-    stepCounter: 0344c1e3-84b3-4215-90d7-27c93d76129e
+fileVersion: 1
+id: 0344c1e3-84b3-4215-90d7-27c93d76129e
+name: WRK_REGION_TRANS
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: 0bb065ac-b887-4bda-a851-32bd839a8ffb
+            stepCounter: 0344c1e3-84b3-4215-90d7-27c93d76129e
+          sortOrder: desc
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: true
+    testsEnabled: false
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: Region data as defined by TPC-H
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0bb065ac-b887-4bda-a851-32bd839a8ffb
+          stepCounter: 0344c1e3-84b3-4215-90d7-27c93d76129e
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        hashDetails: null
+        name: R_REGIONKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c1dd0f2f-8f8e-4bdd-b115-358529cc687d
+                stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7129883a-c620-4b47-9025-f8a6e11759d9
+          stepCounter: 0344c1e3-84b3-4215-90d7-27c93d76129e
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        hashDetails: null
+        name: R_NAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3f696bcc-eafb-41b9-87d5-f654e9ea847d
+                stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 80920414-9437-4286-9435-3cd89e928aca
+          stepCounter: 0344c1e3-84b3-4215-90d7-27c93d76129e
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        hashDetails: null
+        name: R_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8e339f6c-7247-4178-91d5-03535265c584
+                stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          REGION: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: REGION
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'REGION') }} "REGION"
+        name: WRK_REGION_TRANS
+        noLinkRefs: []
+  name: WRK_REGION_TRANS
+  overrideSQL: false
+  schema: ""
+  sqlType: "179"
+  type: sql
+  version: 1
+type: Node

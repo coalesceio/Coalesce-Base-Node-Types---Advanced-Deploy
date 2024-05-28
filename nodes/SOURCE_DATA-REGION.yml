@@ -1,78 +1,80 @@
-steps:
-  REGION-c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4:
-    operation:
-      database: ""
-      dataset: ""
-      deployEnabled: true
-      description: ""
-      locationName: SOURCE_DATA
-      metadata:
-        columns:
-          - acceptedValues:
-              strictMatch: true
-              values: []
-            appliedColumnTests: {}
-            columnReference:
-              columnCounter: c1dd0f2f-8f8e-4bdd-b115-358529cc687d
-              stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
-            config: {}
-            dataType: NUMBER(38,0)
-            defaultValue: ""
-            description: ""
-            name: R_REGIONKEY
-            nullable: true
-            primaryKey: false
-            uniqueKey: false
-          - acceptedValues:
-              strictMatch: true
-              values: []
-            appliedColumnTests: {}
-            columnReference:
-              columnCounter: 3f696bcc-eafb-41b9-87d5-f654e9ea847d
-              stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
-            config: {}
-            dataType: VARCHAR(25)
-            defaultValue: ""
-            description: ""
-            name: R_NAME
-            nullable: true
-            primaryKey: false
-            uniqueKey: false
-          - acceptedValues:
-              strictMatch: true
-              values: []
-            appliedColumnTests: {}
-            columnReference:
-              columnCounter: 8e339f6c-7247-4178-91d5-03535265c584
-              stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
-            config: {}
-            dataType: VARCHAR(152)
-            defaultValue: ""
-            description: ""
-            name: R_COMMENT
-            nullable: true
-            primaryKey: false
-            uniqueKey: false
-          - acceptedValues:
-              strictMatch: true
-              values: []
-            appliedColumnTests: {}
-            columnReference:
-              columnCounter: c3cd8098-cbb9-4314-bc3d-b2b4933d4de3
-              stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
-            config: {}
-            dataType: TIMESTAMP_LTZ(9)
-            defaultValue: ""
-            description: ""
-            name: R_LOAD_TIMESTAMP
-            nullable: true
-            primaryKey: false
-            uniqueKey: false
-        join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'REGION') }}
-      name: REGION
-      schema: ""
-      sqlType: Source
-      table: REGION
-      type: sourceInput
-    stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
+fileVersion: 1
+id: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
+name: REGION
+operation:
+  database: ""
+  dataset: ""
+  deployEnabled: true
+  description: ""
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c1dd0f2f-8f8e-4bdd-b115-358529cc687d
+          stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: R_REGIONKEY
+        nullable: true
+        primaryKey: false
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3f696bcc-eafb-41b9-87d5-f654e9ea847d
+          stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
+        config: {}
+        dataType: VARCHAR(25)
+        defaultValue: ""
+        description: ""
+        name: R_NAME
+        nullable: true
+        primaryKey: false
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8e339f6c-7247-4178-91d5-03535265c584
+          stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
+        config: {}
+        dataType: VARCHAR(152)
+        defaultValue: ""
+        description: ""
+        name: R_COMMENT
+        nullable: true
+        primaryKey: false
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c3cd8098-cbb9-4314-bc3d-b2b4933d4de3
+          stepCounter: c091f3b3-0aa3-4ac5-bdc6-337a549ac1e4
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        defaultValue: ""
+        description: ""
+        name: R_LOAD_TIMESTAMP
+        nullable: true
+        primaryKey: false
+        uniqueKey: false
+    join:
+      joinCondition: FROM {{ ref('SOURCE_DATA', 'REGION') }}
+  name: REGION
+  schema: ""
+  sqlType: Source
+  table: REGION
+  type: sourceInput
+  version: 1
+type: Node
