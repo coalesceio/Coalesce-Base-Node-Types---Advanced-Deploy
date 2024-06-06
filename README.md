@@ -430,7 +430,6 @@ You can create the node as:
     * True - Multiple sources can be combined in a single node. The sources are combined using the option specified in the Multi Source Strategy.
 	    * UNION: Combines with duplicate elimination.
 	    * UNION ALL: Combines without duplicate elimination.
-	    * INSERT: [Missing Content]
     * False - Single source node or multiple sources combined using a join.
 * **Business key**: It is a required column for both Type 1 and Type 2.
 * **Distinct**: True/False toggle that determines whether to add DISTINCT to SQL Query.
@@ -605,7 +604,6 @@ You can create the node as:
     * True - Multiple sources can be combined in a single node. The sources are combined using the option specified in the Multi Source Strategy.
 	    * UNION: Combines with duplicate elimination.
 	    * UNION ALL: Combines without duplicate elimination.
-	    * INSERT: [Missing Content]
     * False - Single source node or multiple sources combined using a join.
 * **Distinct**: True/False toggle that determines whether to add DISTINCT to SQL Query.
     * True - Group by All is invisible. DISTINCT data is chosen for processing
