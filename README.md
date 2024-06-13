@@ -103,7 +103,7 @@ You can create the node as:
     * True - Multiple sources can be combined in a single node. The sources are combined using the option specified in the Multi Source Strategy.
 	    * UNION: Combines with duplicate elimination.
 	    * UNION ALL: Combines without duplicate elimination.
-	    * INSERT: [Missing Content]
+	    * INSERT: Runs an individual insert query for each source.
     * False - Single source node or multiple sources combined using a join.
 * **Truncate Before**: True / False toggle that determines whether or not a table is overwritten each time a task executes.
     * True - INSERT OVERWRITE is used to overwrite existing data with new data loaded by task.
