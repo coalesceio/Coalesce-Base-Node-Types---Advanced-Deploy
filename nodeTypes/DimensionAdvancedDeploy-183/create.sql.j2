@@ -156,7 +156,7 @@ select 1 = 0
         {% endif %}
 
 
-        {% if currentState == undefined %}
+        {% if currentState == undefined or  currentState.storageLocations | length == 0  %}
 
         {# CreateSQL for Table #}
         

@@ -85,7 +85,7 @@ select 1 = 0
     
         {% endif %}
 
-        {% if currentState == undefined %}
+        {% if currentState == undefined or currentState.storageLocations | length == 0  %}
 
         {{ stage('Create Persistent Stage' +' ' + desiredState.node.materializationType, true, "sql", "create") }}
         CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
