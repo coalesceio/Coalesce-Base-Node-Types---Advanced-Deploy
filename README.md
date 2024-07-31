@@ -811,4 +811,3 @@ This is executed in two stages:
 [Macros](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/macros/macro-1.yml)
 
 
-[<img src="https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/assets/7216836/376a79f1-eced-4974-a307-f52ccb228a1e" alt="Git Logo" height="40">](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy)
