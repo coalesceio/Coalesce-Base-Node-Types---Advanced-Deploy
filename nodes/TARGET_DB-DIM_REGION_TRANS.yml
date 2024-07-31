@@ -221,7 +221,7 @@ operation:
         name: DIM_REGION_TRANS
         noLinkRefs: []
   name: DIM_REGION_TRANS
-  overrideSQL: true
+  overrideSQL: false
   schema: ""
   sqlType: "183"
   type: sql

@@ -46,7 +46,7 @@ operation:
           - columnReferences:
               - columnCounter: 100cf13b-4ec0-4079-bdfb-1fc61fd2ccb2
                 stepCounter: 32911527-c716-46ed-9beb-03ad1cf263e4
-            transform: ""
+            transform: "\"PRODUCTS\".\"PRODUCT_ID\"::BOOLEAN"
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 5c05a241-0098-4a31-84fd-bcb174a42ff4
@@ -60,7 +60,7 @@ operation:
           - columnReferences:
               - columnCounter: e46e9af0-da50-4c56-89d7-9ac87520bc7d
                 stepCounter: 32911527-c716-46ed-9beb-03ad1cf263e4
-            transform: ""
+            transform: "\"PRODUCTS\".\"PRODUCT_NAME\"::BOOLEAN"
       - appliedColumnTests: {}
         columnReference:
           columnCounter: c8919a6d-f9ad-44c9-85ca-e3c32f778153
@@ -74,7 +74,7 @@ operation:
           - columnReferences:
               - columnCounter: 9d2eab17-a9ca-40c8-b28a-51b441d88391
                 stepCounter: 32911527-c716-46ed-9beb-03ad1cf263e4
-            transform: ""
+            transform: "\"PRODUCTS\".\"BRAND\"::BOOLEAN"
       - appliedColumnTests: {}
         columnReference:
           columnCounter: e82806a6-2f0b-44d7-9440-336b6904209c
@@ -88,7 +88,7 @@ operation:
           - columnReferences:
               - columnCounter: 146b207d-7b69-43b2-acd7-e1ec9648cac3
                 stepCounter: 32911527-c716-46ed-9beb-03ad1cf263e4
-            transform: ""
+            transform: "\"PRODUCTS\".\"COLOUR\"::BOOLEAN"
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
