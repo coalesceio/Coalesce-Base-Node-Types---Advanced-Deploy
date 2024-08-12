@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 7e969139-fffa-4ca6-865c-236d3baf740c
-name: DIM_PRODUCTS_GROCERY
+name: DIM_PRODUCTS_GROCERY1
 operation:
   config:
     clusterKey: false
@@ -24,7 +24,7 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
-    truncateBefore: false
+    truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
@@ -88,6 +88,7 @@ operation:
         config: {}
         dataType: VARCHAR(100)
         description: ""
+        isChangeTracking: true
         name: BRAND
         nullable: true
         sourceColumnReferences:
@@ -215,17 +216,20 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          PRODUCTS_GROCERY: 99b663b7-8eb7-40fb-91aa-facf571876f1
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: PRODUCTS_GROCERY
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS_GROCERY') }} "PRODUCTS_GROCERY"
-        name: DIM_PRODUCTS_GROCERY
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'PRODUCTS_GROCERY') }} "PRODUCTS_GROCERY"
+            where "PRODUCTS_GROCERY"."BRAND" like '%G%'
+        name: DIM_PRODUCTS_GROCERY1
         noLinkRefs: []
-  name: DIM_PRODUCTS_GROCERY
+  name: DIM_PRODUCTS_GROCERY1
   overrideSQL: false
   schema: ""
   sqlType: "183"
