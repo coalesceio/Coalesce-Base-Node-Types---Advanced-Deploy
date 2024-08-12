@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 970dbeaf-b08e-484d-95dc-f95c2dafcafb
-name: DIM_PROD_TRANS
+name: DIM_PROD_TRANS1
 operation:
   config:
     clusterKey: false
@@ -117,6 +117,7 @@ operation:
         config: {}
         dataType: VARCHAR(50)
         description: ""
+        isChangeTracking: true
         name: COLOUR
         nullable: true
         sourceColumnReferences:
@@ -266,7 +267,7 @@ operation:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS_GROCERY') }} "PRODUCTS_GROCERY"
         name: PRO_GROCERY
         noLinkRefs: []
-  name: DIM_PROD_TRANS
+  name: DIM_PROD_TRANS1
   overrideSQL: false
   schema: ""
   sqlType: "183"
