@@ -6,18 +6,12 @@ operation:
     clusterKey: true
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: 32e11e0d-ce85-44ea-aac2-d63acef4bd3d
-            stepCounter: 5db6148e-1582-4087-aaf4-e705a887f250
+        - {}
     clusterKeyConfigExpressions:
       items:
-        - columnNameExpressions:
-            columnCounter: b87cf7aa-c3b5-41d1-b794-16b7de8adb67
-            stepCounter: 5db6148e-1582-4087-aaf4-e705a887f250
-          sqlExpression: ""
-        - columnNameExpressions:
-            columnCounter: 32e11e0d-ce85-44ea-aac2-d63acef4bd3d
-            stepCounter: 5db6148e-1582-4087-aaf4-e705a887f250
+        - columnNameExpressions: null
+          sqlExpression: ex. trunc("<column_name>", -5)
+        - columnNameExpressions: null
           sqlExpression: trunc("PRODUCT_NAME", -5)
     clusterKeyExpressions: true
     groupByAll: false

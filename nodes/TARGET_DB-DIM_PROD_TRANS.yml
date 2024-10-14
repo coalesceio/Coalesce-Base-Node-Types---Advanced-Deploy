@@ -3,14 +3,21 @@ id: 970dbeaf-b08e-484d-95dc-f95c2dafcafb
 name: DIM_PROD_TRANS
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
         - {}
     clusterKeyConfigExpressions:
       items:
-        - {}
-    clusterKeyExpressions: false
+        - columnNameExpressions:
+            columnCounter: 80d1a66d-123c-4037-9a8b-eb31aad22b83
+            stepCounter: 970dbeaf-b08e-484d-95dc-f95c2dafcafb
+          sqlExpression: ""
+        - columnNameExpressions:
+            columnCounter: b63833b6-f39f-40df-a30e-3532d4c930ad
+            stepCounter: 970dbeaf-b08e-484d-95dc-f95c2dafcafb
+          sqlExpression: trunc("BRAND", -5)
+    clusterKeyExpressions: true
     groupByAll: true
     insertStrategy: UNION ALL
     orderby: true
@@ -30,7 +37,7 @@ operation:
   description: ""
   isMultisource: true
   locationName: TARGET_DB
-  materializationType: transient table
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
