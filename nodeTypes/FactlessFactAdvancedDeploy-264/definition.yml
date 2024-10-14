@@ -41,7 +41,7 @@ metadata:
         attributeName: clusterKey
         displayName: Cluster Key
         default: false
-        isRequired: true
+        isRequired: false
         enableIf: "{% if node.materializationType == 'table' or node.materializationType == 'transient table'  %} true {% else %} false {% endif %}"
 
       - type: toggleButton
@@ -75,9 +75,9 @@ metadata:
            isRequired: false
       
         -  type: textBox
-           displayName: Expression
+           displayName: Expression(Column name to be enclosed within double quotes)
            attributeName: sqlExpression
-           default: "ex. trunc(<column_name>, -5)"
+           default: "ex. trunc(\"<column_name>\", -5)"
            isRequired: false
       
         isRequired: false

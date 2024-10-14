@@ -6,10 +6,18 @@ operation:
     clusterKey: true
     clusterKeyConfig:
       items:
-        - columnName:
+        - columnName: null
+    clusterKeyConfigExpressions:
+      items:
+        - columnNameExpressions:
+            columnCounter: f12413ff-386a-42fb-8a79-4c09ec71958d
+            stepCounter: bc06af5c-3350-4fd0-bcc8-2115f455d2ba
+          sqlExpression: ""
+        - columnNameExpressions:
             columnCounter: cce67ac5-48c4-4f80-ac9f-c891abe47af4
             stepCounter: bc06af5c-3350-4fd0-bcc8-2115f455d2ba
-    clusterKeyExpressions: false
+          sqlExpression: trunc("COURSE_NAME", -5)
+    clusterKeyExpressions: true
     groupByAll: false
     insertStrategy: UNION ALL
     orderby: true
