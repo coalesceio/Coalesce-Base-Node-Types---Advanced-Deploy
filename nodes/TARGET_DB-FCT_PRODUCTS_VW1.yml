@@ -6,7 +6,7 @@ operation:
     clusterKey: true
     clusterKeyConfig:
       items:
-        - columnName: null
+        - {}
     clusterKeyConfigExpressions:
       items:
         - columnNameExpressions:
