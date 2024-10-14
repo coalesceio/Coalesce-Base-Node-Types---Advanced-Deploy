@@ -3,10 +3,12 @@ id: 0344c1e3-84b3-4215-90d7-27c93d76129e
 name: WRK_REGION_TRANS
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 0bb065ac-b887-4bda-a851-32bd839a8ffb
+            stepCounter: 0344c1e3-84b3-4215-90d7-27c93d76129e
     clusterKeyConfigExpressions:
       items:
         - {}

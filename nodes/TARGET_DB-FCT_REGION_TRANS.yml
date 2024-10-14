@@ -67,6 +67,7 @@ operation:
         config: {}
         dataType: VARCHAR(25)
         description: ""
+        isBusinessKey: true
         name: R_NAME
         nullable: false
         sourceColumnReferences:
