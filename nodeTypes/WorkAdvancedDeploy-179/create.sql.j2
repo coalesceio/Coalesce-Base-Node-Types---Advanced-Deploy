@@ -175,11 +175,10 @@ select 1 = 0
             {# Storage Location Tests #}
             {# Only need to account for updated Storage Location mappings   #}
             {# Current Namespace Varialbes #}
-            {% set nsVariables = namespace(nsCurrentDepStorageLocations="") %}
-            {% set nsVariables = namespace(nsCurrentSourceStorageLocations="") %}
-            {% set nsVariables = namespace(nsCurrentTargetStorageLocations="") %}
-            {% set nsVariables = namespace(nsCurrentUsedStorageLocations="") %}
-
+            {% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="", 
+            nsCurrentTargetStorageLocations="",
+            nsCurrentUsedStorageLocations="") %}
+           
             {# Current State Storage Location Info #}
             {% for source in currentState.sources %}
                 {% for dep in source.dependencies %}
@@ -206,11 +205,10 @@ select 1 = 0
             {% set currentUniqueStorageLocations = currentStorageLocations | unique | sort | list %}
 
             {# Desired Namespace Variables #}
-            {% set nsVariables = namespace(nsDesiredDepStorageLocations="") %}
-            {% set nsVariables = namespace(nsDesiredSourceStorageLocations="") %}
-            {% set nsVariables = namespace(nsDesiredTargetStorageLocations="") %}
-            {% set nsVariables = namespace(nsDesiredUsedStorageLocations="") %}
-
+            {% set nsVariables = namespace(nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",
+            nsDesiredTargetStorageLocations="",
+            nsDesiredUsedStorageLocations="") %}
+           
             {% set nsVariables = namespace(storageLocationTest="") %}
 
             {# Desired State Storage Location Info #}
