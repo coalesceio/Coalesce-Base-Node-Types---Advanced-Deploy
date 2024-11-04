@@ -117,11 +117,8 @@ select 1 = 0
             {# Change Node Name or Change Storage Location #}
             {# Storage Location Tests #}
             {# Only need to account for updated Storage Location mappings   #}
-            {# Current Namespace Varialbes #}
-            {% set nsVariables = namespace(nsCurrentDepStorageLocations="") %}
-            {% set nsVariables = namespace(nsCurrentSourceStorageLocations="") %}
-            {% set nsVariables = namespace(nsCurrentTargetStorageLocations="") %}
-            {% set nsVariables = namespace(nsCurrentUsedStorageLocations="") %}
+             {# Current and Desired Namespace Varialbes #}
+            {% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest="") %}
 
             {# Current State Storage Location Info #}
             {% for source in currentState.sources %}
@@ -147,14 +144,6 @@ select 1 = 0
 
             {% set currentStorageLocations = (nsVariables.nsCurrentUsedStorageLocations).split(',') | list %}
             {% set currentUniqueStorageLocations = currentStorageLocations | unique | sort | list %}
-
-            {# Desired Namespace Variables #}
-            {% set nsVariables = namespace(nsDesiredDepStorageLocations="") %}
-            {% set nsVariables = namespace(nsDesiredSourceStorageLocations="") %}
-            {% set nsVariables = namespace(nsDesiredTargetStorageLocations="") %}
-            {% set nsVariables = namespace(nsDesiredUsedStorageLocations="") %}
-
-            {% set nsVariables = namespace(storageLocationTest="") %}
 
             {# Desired State Storage Location Info #}
             {% for source in desiredState.sources %}
@@ -182,21 +171,29 @@ select 1 = 0
             {% set desiredUniqueStorageLocations = desiredStorageLocations | unique | sort | list %}
 
             {# Test  #}
-            {% set nsVariables.storageLocationTest = true %}
+            
             {% for name in desiredUniqueStorageLocations if nsVariables.storageLocationTest == true %}
                 {# Current mappings #}
+                 {%if currentState.storageLocations|length == 0%}
+              
+              {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | string %}
+              {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | string %}
+               {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
+            {%elif name in currentUniqueStorageLocations %}
+            
                 {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
                 {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
-                {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
-                
-                {# Desired mappings #}
-                {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
-                {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
-                {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}
-
-                {% if currentDatabaseSchema != desiredDatabaseSchema %}
-                    {% set nsVariables.storageLocationTest = false %}
-                {% endif %}
+                {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}  
+            {%endif%}
+           
+            {# Desired mappings #}
+            {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
+            {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
+            {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}           
+            
+             {% if currentDatabaseSchema != desiredDatabaseSchema %}
+                {% set nsVariables.storageLocationTest = false %}
+             {% endif %}
             {% endfor %}
 
             {# Clustering Test #}
