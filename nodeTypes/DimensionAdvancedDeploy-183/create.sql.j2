@@ -192,7 +192,7 @@ select 1 = 0
             {# Only need to account for updated Storage Location mappings   #}
 
              {# Current and Desired Namespace Varialbes #}
-            {% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest="") %}
+            {% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest=true) %}
 
             {# Current State Storage Location Info #}
             {% for source in currentState.sources %}
