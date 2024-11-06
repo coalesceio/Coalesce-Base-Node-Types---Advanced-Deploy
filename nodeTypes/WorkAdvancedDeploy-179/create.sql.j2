@@ -10,7 +10,6 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Description    : This node creates work table,view and also override create sql for view with advanced deployment strategy == #}
 
 
-
 {% if desiredState == currentState %}
 
 {{ stage('Nothing to do.') }}
@@ -174,7 +173,7 @@ select 1 = 0
             {# Change Node Name or Change Storage Location #}
             {# Storage Location Tests #}
             {# Only need to account for updated Storage Location mappings   #}     
-             {# Current and Desired Namespace Varialbes initialisation #}
+             {# Current and Desired Namespace Variables initialisation #}
 
             {% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest=true) %}
 
