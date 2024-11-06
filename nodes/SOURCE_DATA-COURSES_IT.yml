@@ -1,0 +1,77 @@
+fileVersion: 1
+id: b8a20ef4-84e8-47d0-8b99-edb891107257
+name: COURSES_IT
+operation:
+  database: ""
+  dataset: ""
+  deployEnabled: true
+  description: ""
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cef8c1ab-2e03-444a-889c-e34c2527403f
+          stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: COURSE_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 90c893c6-168b-4b9b-a2af-25244449bcdd
+          stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: COURSE_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 00dfe3e7-c8d5-4db7-a2b0-64db76c3b0d0
+          stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: INSTRUCTOR
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+    join:
+      joinCondition: FROM {{ ref('SOURCE_DATA', 'COURSES_IT') }}
+  name: COURSES_IT
+  schema: ""
+  sqlType: Source
+  table: COURSES_IT
+  type: sourceInput
+  version: 1
+type: Node
