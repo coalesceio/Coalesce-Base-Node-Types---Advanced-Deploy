@@ -1,5 +1,3 @@
-<!-- markdownlint-disable MD033 -->
-
 ## Base Node Types Advanced Deploy
 
 The Coalesce Base Node Types Package includes:
