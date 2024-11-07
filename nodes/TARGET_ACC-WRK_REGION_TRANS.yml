@@ -31,7 +31,7 @@ operation:
   deployEnabled: true
   description: Region data as defined by TPC-H
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_ACC
   materializationType: table
   metadata:
     appliedNodeTests: []

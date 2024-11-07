@@ -203,7 +203,8 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          WRK_REGION_TRANS: 0344c1e3-84b3-4215-90d7-27c93d76129e
         customSQL:
           customSQL: |-
             {{ stage('Override Create SQL',true,"sql","create") }}
@@ -215,10 +216,10 @@ operation:
              FROM {{ ref('TARGET_DB', 'WRK_REGION_TRANS') }}
             	)
         dependencies:
-          - locationName: TARGET_DB
+          - locationName: TARGET_ACC
             nodeName: WRK_REGION_TRANS
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'WRK_REGION_TRANS') }} "WRK_REGION_TRANS"
+          joinCondition: FROM {{ ref('TARGET_ACC', 'WRK_REGION_TRANS') }} "WRK_REGION_TRANS"
         name: DIM_REGION_TRANS
         noLinkRefs: []
   name: DIM_REGION_TRANS
