@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 5db6148e-1582-4087-aaf4-e705a887f250
-name: WRK_PRODUCTS
+name: WRK_PRODUCTS_SAMP
 operation:
   config:
     clusterKey: true
@@ -33,7 +33,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_ACC
   materializationType: table
   metadata:
     appliedNodeTests: []
@@ -73,7 +73,7 @@ operation:
         config: {}
         dataType: VARCHAR(100)
         description: ""
-        name: BRAND
+        name: BRAND1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -85,7 +85,7 @@ operation:
           columnCounter: 766bc6b2-c695-40f7-8479-8469e345f7af
           stepCounter: 5db6148e-1582-4087-aaf4-e705a887f250
         config: {}
-        dataType: VARCHAR(50)
+        dataType: VARCHAR(100)
         description: ""
         name: COLOUR
         nullable: true
@@ -105,9 +105,9 @@ operation:
             nodeName: PRODUCTS
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
-        name: WRK_PRODUCTS
+        name: WRK_PRODUCTS_SAMP
         noLinkRefs: []
-  name: WRK_PRODUCTS
+  name: WRK_PRODUCTS_SAMP
   overrideSQL: false
   schema: ""
   sqlType: "179"
