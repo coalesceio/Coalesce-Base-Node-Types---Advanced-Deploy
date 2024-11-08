@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 2f1b691b-5092-4db6-9537-02602f51ccc5
-name: FCT_PRODUCTS_SAMP
+name: FCT_PRODUCTS_SAMP12
 operation:
   config:
     clusterKey: false
@@ -93,7 +93,7 @@ operation:
         config: {}
         dataType: VARCHAR(50)
         description: ""
-        name: COLOUR
+        name: COLOUR1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -166,7 +166,7 @@ operation:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS_GROCERY') }} "PRODUCTS_GROCERY"
         name: NEW_SOURCE
         noLinkRefs: []
-  name: FCT_PRODUCTS_SAMP
+  name: FCT_PRODUCTS_SAMP12
   overrideSQL: false
   schema: ""
   sqlType: "162"

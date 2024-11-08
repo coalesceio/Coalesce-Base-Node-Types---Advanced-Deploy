@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 1ef580b5-069d-43b8-9d30-a737bf3aaa89
-name: WRK_PRODUCTS_MULTI
+name: WRK_PRODUCTS_MULTI_1
 operation:
   config:
     clusterKey: false
@@ -74,7 +74,7 @@ operation:
         config: {}
         dataType: VARCHAR(100)
         description: ""
-        name: BRAND
+        name: BRAND1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -127,7 +127,7 @@ operation:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS_GROCERY') }} "PRODUCTS_GROCERY"
         name: WRK_PRO_SOURCE
         noLinkRefs: []
-  name: WRK_PRODUCTS_MULTI
+  name: WRK_PRODUCTS_MULTI_1
   overrideSQL: false
   schema: ""
   sqlType: "179"
