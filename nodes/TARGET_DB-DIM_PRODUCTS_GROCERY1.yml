@@ -59,7 +59,7 @@ operation:
         dataType: NUMBER(38,0)
         description: ""
         isBusinessKey: true
-        name: PRODUCT_ID
+        name: PRODUCT_ID1
         nullable: false
         sourceColumnReferences:
           - columnReferences:
@@ -71,7 +71,7 @@ operation:
           columnCounter: 5d0e8337-e6b6-412b-8925-a0f901621632
           stepCounter: 7e969139-fffa-4ca6-865c-236d3baf740c
         config: {}
-        dataType: VARCHAR(255)
+        dataType: VARCHAR(100)
         description: ""
         isChangeTracking: true
         name: PRODUCT_NAME
@@ -104,7 +104,7 @@ operation:
         dataType: VARCHAR(50)
         description: ""
         isChangeTracking: true
-        name: COLOUR
+        name: COLOUR1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
