@@ -4,7 +4,7 @@ name: COURSES_IT
 operation:
   database: ""
   dataset: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   locationName: SOURCE_DATA
   metadata:

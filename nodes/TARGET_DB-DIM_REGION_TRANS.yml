@@ -3,18 +3,20 @@ id: a9353ef1-7d8d-44e6-b061-2ae63d6f4719
 name: DIM_REGION_TRANS
 operation:
   config:
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: 0e080073-59a8-462b-90c4-65f2551c244c
-            stepCounter: a9353ef1-7d8d-44e6-b061-2ae63d6f4719
+        - {}
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
     groupByAll: false
     insertStrategy: UNION ALL
+    insertZeroKey: true
+    insertZeroKeyDate: 01/01/1900
+    insertZeroKeyStr: UNKNOWN
+    insertZeroKeySurrogateKey: "-1"
     orderby: false
     orderbycolumn:
       items:
@@ -23,9 +25,9 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: true
-    truncateBefore: true
+    truncateBefore: false
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: Region data as defined by TPC-H
   isMultisource: false
   locationName: TARGET_DB

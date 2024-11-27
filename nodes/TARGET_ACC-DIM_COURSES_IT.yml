@@ -13,6 +13,7 @@ operation:
     clusterKeyExpressions: false
     groupByAll: false
     insertStrategy: UNION ALL
+    insertZeroKey: false
     orderby: false
     orderbycolumn:
       items:
@@ -23,7 +24,7 @@ operation:
     testsEnabled: false
     truncateBefore: false
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: true
   locationName: TARGET_ACC
