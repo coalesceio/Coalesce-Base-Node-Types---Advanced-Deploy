@@ -24,7 +24,7 @@ operation:
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: view
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
@@ -83,7 +83,7 @@ operation:
         dataType: VARCHAR(100)
         description: ""
         isChangeTracking: true
-        name: BRAND
+        name: BRAND_NEW
         nullable: true
         sourceColumnReferences:
           - columnReferences:
