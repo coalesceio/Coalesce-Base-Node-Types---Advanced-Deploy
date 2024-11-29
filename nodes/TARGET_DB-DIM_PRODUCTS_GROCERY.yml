@@ -83,7 +83,7 @@ operation:
         dataType: VARCHAR(100)
         description: ""
         isChangeTracking: true
-        name: BRAND_NEW
+        name: BRAND_NEW1
         nullable: true
         sourceColumnReferences:
           - columnReferences:
