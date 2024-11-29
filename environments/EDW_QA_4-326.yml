@@ -2,7 +2,7 @@ fileVersion: 1
 id: "326"
 mappingDefinitions:
   SOURCE_DATA:
-    database: POONAMM_DEV
+    database: ANANDHIS_DEV
     schema: SOURCE_DATA
   TARGET_ACC:
     database: POONAMM_DEV
