@@ -321,6 +321,7 @@ You can create the node as:
 | **Setting** | **Description** |
 |---------|-------------|
 | **Create As**| Table|
+| **Insert Zero Key Record** | Toggle: True/False<br/>Insert Zero Key Record to Dimention if enabled |
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
 | **Business key** | Required column for Type 1 and Type 2 Dimensions |
 | **Change tracking** | Required column for Type 2 Dimension |
