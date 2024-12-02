@@ -15,7 +15,7 @@ operation:
     insertStrategy: UNION ALL
     insertZeroKey: true
     insertZeroKeyDate: 01-01-1900
-    insertZeroKeyStr: UNKNOWN
+    insertZeroKeyStr: NA
     insertZeroKeySurrogateKey: "0"
     orderby: false
     orderbycolumn:
@@ -31,7 +31,7 @@ operation:
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: view
   metadata:
     appliedNodeTests: []
     columns:
