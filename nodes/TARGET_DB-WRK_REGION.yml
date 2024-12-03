@@ -1,0 +1,109 @@
+fileVersion: 1
+id: 5a8291b5-4016-40be-bdc1-b94bb3a2618a
+name: WRK_REGION
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a8c19d59-3558-4c00-8ce7-4096b8ad9837
+          stepCounter: 5a8291b5-4016-40be-bdc1-b94bb3a2618a
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: R_REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 662c917b-a163-4f2a-b87d-961d30e477f9
+                stepCounter: 3244fd4e-6b75-4e79-a3f7-cc2eb38bc5a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 337ddefc-9de0-49dd-b0be-b79d80363d65
+          stepCounter: 5a8291b5-4016-40be-bdc1-b94bb3a2618a
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: R_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 73843b71-0ff5-468a-805f-aa1e2e016a36
+                stepCounter: 3244fd4e-6b75-4e79-a3f7-cc2eb38bc5a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1e90ec3-a93d-4031-939b-480d19503836
+          stepCounter: 5a8291b5-4016-40be-bdc1-b94bb3a2618a
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: R_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a9542f84-b9b1-48b4-a166-998c4974b0e1
+                stepCounter: 3244fd4e-6b75-4e79-a3f7-cc2eb38bc5a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6c205fe3-9880-4a54-8b0e-f90fd099fa72
+          stepCounter: 5a8291b5-4016-40be-bdc1-b94bb3a2618a
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: R_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0908f87f-280e-4e04-8eee-b92323df0099
+                stepCounter: 3244fd4e-6b75-4e79-a3f7-cc2eb38bc5a1
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: V_REGION
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'V_REGION') }} "V_REGION"
+        name: WRK_REGION
+        noLinkRefs: []
+  name: WRK_REGION
+  overrideSQL: false
+  schema: ""
+  sqlType: "179"
+  type: sql
+  version: 1
+type: Node
