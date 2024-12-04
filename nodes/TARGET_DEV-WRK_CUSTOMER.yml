@@ -1,5 +1,5 @@
 fileVersion: 1
-id: f5ed5552-d7f2-4245-8da8-3dd9b65ff7ed
+id: 3512a843-7f06-4f0c-8972-79b4680f53e1
 name: WRK_CUSTOMER
 operation:
   config:
@@ -26,15 +26,15 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DEV
   materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 33cb118c-69bf-4eec-8c14-69806be97e99
-          stepCounter: f5ed5552-d7f2-4245-8da8-3dd9b65ff7ed
+          columnCounter: dc1b1d45-e450-43cc-8b7b-c0552a5b7859
+          stepCounter: 3512a843-7f06-4f0c-8972-79b4680f53e1
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -47,8 +47,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f054ca88-9b94-4de4-93ac-54da888eb03f
-          stepCounter: f5ed5552-d7f2-4245-8da8-3dd9b65ff7ed
+          columnCounter: e3790891-59fd-4f3f-a049-370fa976f1d1
+          stepCounter: 3512a843-7f06-4f0c-8972-79b4680f53e1
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -61,8 +61,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: fd757031-1768-41dc-9d3e-d49090686761
-          stepCounter: f5ed5552-d7f2-4245-8da8-3dd9b65ff7ed
+          columnCounter: e1c690cb-0720-4bc0-a8cb-4552e78de4e5
+          stepCounter: 3512a843-7f06-4f0c-8972-79b4680f53e1
         config: {}
         dataType: VARCHAR(40)
         description: ""
@@ -75,8 +75,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 03237011-5bb8-4ed3-8072-7218b41b2622
-          stepCounter: f5ed5552-d7f2-4245-8da8-3dd9b65ff7ed
+          columnCounter: f6c04ec3-cef2-43d0-8927-bdde57c07a3d
+          stepCounter: 3512a843-7f06-4f0c-8972-79b4680f53e1
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -89,8 +89,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6156634b-5684-483d-9fd7-5407779c8221
-          stepCounter: f5ed5552-d7f2-4245-8da8-3dd9b65ff7ed
+          columnCounter: ddacffe0-a2fb-49be-a7d1-b214cd018720
+          stepCounter: 3512a843-7f06-4f0c-8972-79b4680f53e1
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -103,8 +103,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 8efd70e8-4ef5-4dea-a1eb-97fa66c7d421
-          stepCounter: f5ed5552-d7f2-4245-8da8-3dd9b65ff7ed
+          columnCounter: 854dadbf-09d0-497e-b860-29956e76bbea
+          stepCounter: 3512a843-7f06-4f0c-8972-79b4680f53e1
         config: {}
         dataType: NUMBER(12,2)
         description: ""
@@ -117,8 +117,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 175c5b3c-1880-4f40-ba26-2cebf8586a0d
-          stepCounter: f5ed5552-d7f2-4245-8da8-3dd9b65ff7ed
+          columnCounter: 5a819401-bd56-4f52-874a-b36cac0fd3ed
+          stepCounter: 3512a843-7f06-4f0c-8972-79b4680f53e1
         config: {}
         dataType: VARCHAR(10)
         description: ""
@@ -131,8 +131,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 67b52676-0453-4a69-b07b-4b3ad61849e0
-          stepCounter: f5ed5552-d7f2-4245-8da8-3dd9b65ff7ed
+          columnCounter: 0da391f3-9689-42dd-b43e-cb934188b213
+          stepCounter: 3512a843-7f06-4f0c-8972-79b4680f53e1
         config: {}
         dataType: VARCHAR(117)
         description: ""
@@ -145,8 +145,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 25957294-6d95-48c3-b127-0606818993db
-          stepCounter: f5ed5552-d7f2-4245-8da8-3dd9b65ff7ed
+          columnCounter: 315d31d7-e21b-4309-a264-5a09e1c977d2
+          stepCounter: 3512a843-7f06-4f0c-8972-79b4680f53e1
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -164,10 +164,10 @@ operation:
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DB
+          - locationName: TARGET_DEV
             nodeName: V_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'V_CUSTOMER') }} "V_CUSTOMER"
+          joinCondition: FROM {{ ref('TARGET_DEV', 'V_CUSTOMER') }} "V_CUSTOMER"
         name: WRK_CUSTOMER
         noLinkRefs: []
   name: WRK_CUSTOMER
