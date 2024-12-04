@@ -148,10 +148,10 @@ operation:
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DEV
+          - locationName: TARGET_DB
             nodeName: WRK_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('TARGET_DEV', 'WRK_CUSTOMER') }} "WRK_CUSTOMER"
+          joinCondition: FROM {{ ref('TARGET_DB', 'WRK_CUSTOMER') }} "WRK_CUSTOMER"
         name: V_CUSTOMER1
         noLinkRefs: []
   name: V_CUSTOMER1

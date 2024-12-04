@@ -160,14 +160,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          V_CUSTOMER: e845cb2a-78aa-4c3c-8290-aca34074b844
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DEV
+          - locationName: TARGET_DB
             nodeName: V_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('TARGET_DEV', 'V_CUSTOMER') }} "V_CUSTOMER"
+          joinCondition: FROM {{ ref('TARGET_DB', 'V_CUSTOMER') }} "V_CUSTOMER"
         name: WRK_CUSTOMER
         noLinkRefs: []
   name: WRK_CUSTOMER
