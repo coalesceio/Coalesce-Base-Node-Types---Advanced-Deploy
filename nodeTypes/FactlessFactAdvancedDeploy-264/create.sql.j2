@@ -8,7 +8,11 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Version        : 1  == #}
 {# == Node Type Name           : Factless Fact Advanced Deploy == #}
 {# == Node Type Description    : This node creates fact table,view and also override create sql for view with Advanced Deploy Strategy == #}
-
+{#Release date:20240516 Version:1.0.0#}
+{#Release date:20240731  Version:1.1.1 Released By:AS  Description: Fix for missing current state storage location #}
+{#Release date:20240812  Version:1.1.3 Released By:AS  Description: Cluster key formatting modified  #}
+{#Release date:20241014  Version:1.1.4 Released By:AS  Description: Typo error and single namespace variable initialization #}
+{#Release date:20241114  Version:1.1.5 Released By:AS  Description: Node Description / Comments #}
 
 {% if desiredState == currentState %}
 
@@ -109,7 +113,7 @@ select 1 = 0
             {# Change Node Name or Change Storage Location #}
             {# Storage Location Tests #}
             {# Only need to account for updated Storage Location mappings   #}
-            {# Current and Desired Namespace Varialbes initialisation #}
+            {# Current and Desired Namespace Variables initialisation #}
             
             {% set nsVariables = namespace(nsCurrentDepStorageLocations="",nsCurrentSourceStorageLocations="",nsCurrentTargetStorageLocations="",nsCurrentUsedStorageLocations="",nsDesiredDepStorageLocations="",nsDesiredSourceStorageLocations="",nsDesiredTargetStorageLocations="",nsDesiredUsedStorageLocations="",storageLocationTest=true) %}
 
@@ -327,7 +331,7 @@ select 1 = 0
                         {% if descriptionTest == false %}
                             {% if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
-                            COMMENT '{{ desiredDescription }}'
+                            COMMENT '{{ desiredDescription |escape }}'
                             {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
                         {% endif %}
                         {% if defaultValueTest == false %}
