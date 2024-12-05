@@ -277,7 +277,7 @@ operation:
   name: FCT_CUSTOMER
   overrideSQL: false
   schema: ""
-  sqlType: "264"
+  sqlType: "390"
   type: sql
   version: 1
 type: Node

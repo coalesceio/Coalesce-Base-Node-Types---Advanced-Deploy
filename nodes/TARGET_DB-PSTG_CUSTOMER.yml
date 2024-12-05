@@ -277,7 +277,7 @@ operation:
   name: PSTG_CUSTOMER
   overrideSQL: false
   schema: ""
-  sqlType: persistentStage
+  sqlType: "391"
   type: sql
   version: 1
 type: Node
