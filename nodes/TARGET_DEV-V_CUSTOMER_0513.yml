@@ -9,7 +9,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DEV
   materializationType: view
   metadata:
     appliedNodeTests: []
@@ -147,7 +147,7 @@ operation:
         customSQL:
           customSQL: |-
             {{ stage('Override Create SQL') }}
-            	CREATE OR REPLACE VIEW {{ ref('TARGET_DB', 'V_CUSTOMER_0513')}} AS (
+            	CREATE OR REPLACE VIEW {{ ref('TARGET_DEV', 'V_CUSTOMER_0513')}} AS (
             		SELECT 
              "C_CUSTKEY" AS "C_CUSTKEY",
              "C_NAME" AS "C_NAME",
@@ -158,13 +158,13 @@ operation:
              "C_MKTSEGMENT" AS "C_MKTSEGMENT",
              "C_COMMENT" AS "C_COMMENT",
              "C_LOAD_TIMESTAMP" AS "C_LOAD_TIMESTAMP"
-             FROM {{ ref('TARGET_DB', 'WRK_CUSTOMER_0512') }}
+             FROM {{ ref('TARGET_DEV', 'WRK_CUSTOMER_0512') }}
             	)
         dependencies:
-          - locationName: TARGET_DB
+          - locationName: TARGET_DEV
             nodeName: WRK_CUSTOMER_0512
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'WRK_CUSTOMER_0512') }} "WRK_CUSTOMER_0512"
+          joinCondition: FROM {{ ref('TARGET_DEV', 'WRK_CUSTOMER_0512') }} "WRK_CUSTOMER_0512"
         name: V_CUSTOMER_0513
         noLinkRefs: []
   name: V_CUSTOMER_0513
