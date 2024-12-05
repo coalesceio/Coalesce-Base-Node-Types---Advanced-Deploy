@@ -9,7 +9,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DEV
+  locationName: TARGET_DB
   materializationType: view
   metadata:
     appliedNodeTests: []
@@ -143,14 +143,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          STG_CUSTOMER_0512: 10ecd9d6-a0f4-4d10-aa1a-e200745aed05
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DEV
+          - locationName: TARGET_DB
             nodeName: STG_CUSTOMER_0512
         join:
-          joinCondition: FROM {{ ref('TARGET_DEV', 'STG_CUSTOMER_0512') }} "STG_CUSTOMER_0512"
+          joinCondition: FROM {{ ref('TARGET_DB', 'STG_CUSTOMER_0512') }} "STG_CUSTOMER_0512"
         name: V_CUSTOMER_0512
         noLinkRefs: []
   name: V_CUSTOMER_0512
