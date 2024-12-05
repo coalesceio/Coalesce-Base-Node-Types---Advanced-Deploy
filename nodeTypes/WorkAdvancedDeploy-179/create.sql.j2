@@ -234,13 +234,12 @@ select 1 = 0
             {% set desiredUniqueStorageLocations = desiredStorageLocations | unique | sort | list %}
 
             {# Test  #}
-            {%if currentState.storageLocations|length == 0%}
-              
+            {%if currentState.storageLocations|length == 0%}          
               {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='database') | string %}
               {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='schema') | string %}
                {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
-            {%else %}
-    
+               
+            {%else %}   
             {# Current target node mappings #}
             {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='database') | first %}
             {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', currentState.node.location.name) | map(attribute='schema') | first %}
