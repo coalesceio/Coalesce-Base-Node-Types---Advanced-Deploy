@@ -9,7 +9,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DEV
   materializationType: view
   metadata:
     appliedNodeTests: []
@@ -143,14 +143,29 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          WRK_CUSTOMER_0513: ff661f14-a940-4e8b-b1e6-eac87e7aafbc
         customSQL:
-          customSQL: ""
+          customSQL: |-
+            {{ stage('Override Create SQL') }}
+            	CREATE OR REPLACE VIEW {{ ref('TARGET_DEV', 'V_CUSTOMER_0514')}} AS (
+            		SELECT 
+             "C_CUSTKEY" AS "C_CUSTKEY",
+             "C_NAME" AS "C_NAME",
+             "C_ADDRESS" AS "C_ADDRESS",
+             "C_NATIONKEY" AS "C_NATIONKEY",
+             "C_PHONE" AS "C_PHONE",
+             "C_ACCTBAL" AS "C_ACCTBAL",
+             "C_MKTSEGMENT" AS "C_MKTSEGMENT",
+             "C_COMMENT" AS "C_COMMENT",
+             "C_LOAD_TIMESTAMP" AS "C_LOAD_TIMESTAMP"
+             FROM {{ ref('TARGET_DEV', 'WRK_CUSTOMER_0513') }}
+            	)
         dependencies:
-          - locationName: TARGET_DB
+          - locationName: TARGET_DEV
             nodeName: WRK_CUSTOMER_0513
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'WRK_CUSTOMER_0513') }} "WRK_CUSTOMER_0513"
+          joinCondition: FROM {{ ref('TARGET_DEV', 'WRK_CUSTOMER_0513') }} "WRK_CUSTOMER_0513"
         name: V_CUSTOMER_0514
         noLinkRefs: []
   name: V_CUSTOMER_0514
