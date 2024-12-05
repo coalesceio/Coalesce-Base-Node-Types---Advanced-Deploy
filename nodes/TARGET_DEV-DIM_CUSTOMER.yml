@@ -30,7 +30,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DEV
   materializationType: table
   metadata:
     appliedNodeTests: []
@@ -285,7 +285,8 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          V_CUSTOMER: 5e42ff72-a097-4754-95b4-25cf0e091072
         customSQL:
           customSQL: ""
         dependencies:

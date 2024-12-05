@@ -264,14 +264,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          DIM_CUSTOMER: 21dfebb1-b65a-4af9-9be1-ab1444dc0355
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DB
+          - locationName: TARGET_DEV
             nodeName: DIM_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
+          joinCondition: FROM {{ ref('TARGET_DEV', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
         name: FCT_CUSTOMER
         noLinkRefs: []
   name: FCT_CUSTOMER
