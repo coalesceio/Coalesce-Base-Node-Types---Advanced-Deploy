@@ -162,10 +162,10 @@ operation:
              FROM {{ ref('TARGET_DEV', 'WRK_CUSTOMER_0513') }}
             	)
         dependencies:
-          - locationName: TARGET_DB
+          - locationName: TARGET_DEV
             nodeName: WRK_CUSTOMER_0513
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'WRK_CUSTOMER_0513') }} "WRK_CUSTOMER_0513"
+          joinCondition: FROM {{ ref('TARGET_DEV', 'WRK_CUSTOMER_0513') }} "WRK_CUSTOMER_0513"
         name: V_CUSTOMER_0514
         noLinkRefs: []
   name: V_CUSTOMER_0514
