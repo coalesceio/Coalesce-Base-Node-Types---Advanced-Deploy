@@ -6,9 +6,9 @@ mappingDefinitions:
     schema: SOURCE_DATA
   TARGET_DB:
     database: POONAMM_DEV
-    schema: EDW_QA_7
+    schema: EDW_QA_8
   TARGET_DEV:
     database: POONAMM_DEV
-    schema: EDW_QA_8
+    schema: EDW_QA_5
 name: EDW_QA_5
 type: Environment
