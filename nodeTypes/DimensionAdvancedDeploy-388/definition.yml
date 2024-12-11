@@ -1,14 +1,14 @@
 fileVersion: 1
-id: "389"
+id: "388"
 isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
   nodeMetadataSpec: |-
-    capitalized: Copy of Fact Advanced Deploy
-    plural: Facts
-    short: FCT
-    tagColor: '#D9A438'
+    capitalized: Dimension Advanced Deploy
+    short: DIM
+    tagColor: '#1E339A'
+    plural: Dimensions
 
     deployStrategy: advanced
 
@@ -17,6 +17,7 @@ metadata:
       items:
       - type: materializationSelector
         isRequired: true
+        default: table
         options:
         - table
         - view
@@ -25,6 +26,33 @@ metadata:
       - type: overrideSQLToggle
         enableIf: "{% if node.materializationType == 'view' %} true {% else %} false {% endif %}"
 
+      - type: toggleButton
+        attributeName: insertZeroKey
+        displayName: Insert Zero Key Record
+        default: false
+        enableIf: "{% if node.materializationType == 'table' or node.materializationType == 'transient table'%} true {% else %} false {% endif %}"
+
+      - displayName: Default String Value
+        attributeName: insertZeroKeyStr
+        type: textBox
+        default: "UNKNOWN"
+        isRequired: false
+        enableIf: "{% if config.insertZeroKey == true and node.materializationType != 'view' %} true {% else %} false {% endif %}"
+
+      - displayName: Default Surrogate Key Value
+        attributeName: insertZeroKeySurrogateKey
+        type: textBox
+        default: "0"
+        isRequired: false
+        enableIf: "{% if config.insertZeroKey == true and node.materializationType != 'view' %} true {% else %} false {% endif %}"
+
+      - displayName: Default Date Value (Date Format DD-MM-YYYY)
+        attributeName: insertZeroKeyDate
+        type: textBox
+        default: "01-01-1900"
+        isRequired: false
+        enableIf: "{% if config.insertZeroKey == true and node.materializationType != 'view' %} true {% else %} false {% endif %}"
+    	
       - type: multisourceToggle
         enableIf: "{% if node.override.create.enabled %} false {% else %} true {% endif %}"
 
@@ -39,15 +67,30 @@ metadata:
         enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
 
       - type: businessKeyColumns
+        isRequired: true
+
+      - type: changeTrackingColumns
         isRequired: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
+
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: false
+        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
+
+      - displayName: Enable Tests
+        attributeName: testsEnabled
+        type: toggleButton
+        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
+        default: false
 
       - type: toggleButton
         attributeName: clusterKey
         displayName: Cluster Key
         default: false
         isRequired: false
-        enableIf: "{% if node.materializationType == 'table' or node.materializationType == 'transient table'  %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType == 'table' or node.materializationType == 'transient table' %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: clusterKeyExpressions
@@ -88,29 +131,17 @@ metadata:
         isRequired: false
         enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
 
-      - displayName: Truncate Before
-        attributeName: truncateBefore
-        type: toggleButton
-        default: false
-        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
-
-      - displayName: Enable Tests
-        attributeName: testsEnabled
-        type: toggleButton
-        default: false
-        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
-        
       - displayName: Distinct
         attributeName: selectDistinct
         type: toggleButton
+        enableIf: "{% if config.groupByAll or  node.override.create.enabled %} false {% else %} true {% endif %}"
         default: false
-        enableIf: "{% if config.groupByAll or  node.override.create.enabled %} %} false {% else %} true {% endif %}"
-
+        
       - displayName: Group By All
         attributeName: groupByAll
         type: toggleButton
         default: false
-        enableIf: "{% if config.selectDistinct or  node.override.create.enabled %} %} false {% else %} true {% endif %}"   
+        enableIf: "{% if config.selectDistinct or  node.override.create.enabled %} false {% else %} true {% endif %}"    
 
       - displayName: Order By
         attributeName: orderby
@@ -138,6 +169,7 @@ metadata:
         isRequired: true
         enableIf: "{% if config.orderby %} true {% else %} false {% endif %}"
 
+        
       - displayName: Pre-SQL
         attributeName: preSQL
         type: textBox
@@ -153,6 +185,36 @@ metadata:
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 
     systemColumns:
+    - displayName: '{{NODE_NAME}}_KEY'
+      transform: ''
+      dataType: NUMBER
+      placement: beginning
+      attributeName: isSurrogateKey
+
+    - displayName: SYSTEM_VERSION
+      transform: ''
+      dataType: NUMBER
+      placement: end
+      attributeName: isSystemVersion
+
+    - displayName: SYSTEM_CURRENT_FLAG
+      transform: ''
+      dataType: VARCHAR
+      placement: end
+      attributeName: isSystemCurrentFlag
+
+    - displayName: SYSTEM_START_DATE
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemStartDate
+
+    - displayName: SYSTEM_END_DATE
+      transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemEndDate
+
     - displayName: SYSTEM_CREATE_DATE
       transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
       dataType: TIMESTAMP
@@ -164,5 +226,5 @@ metadata:
       dataType: TIMESTAMP
       placement: end
       attributeName: isSystemUpdateDate
-name: Copy of Fact Advanced Deploy
+name: Dimension Advanced Deploy
 type: NodeType

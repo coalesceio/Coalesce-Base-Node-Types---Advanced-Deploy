@@ -1,14 +1,14 @@
 fileVersion: 1
-id: "395"
+id: "390"
 isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
   nodeMetadataSpec: |-
-    capitalized: Copy of Work Advanced Deploy
-    short: WRK
-    plural: Stages
-    tagColor: '#2EB67D'
+    capitalized: Factless Fact Advanced Deploy
+    plural: Facts
+    short: FCT
+    tagColor: '#D9A438'
 
     deployStrategy: advanced
 
@@ -16,16 +16,28 @@ metadata:
     - groupName: Options
       items:
       - type: materializationSelector
-        default: table
+        isRequired: true
+        
         options:
         - table
-        - view
         - transient table
-        isRequired: true
 
       - type: overrideSQLToggle
         enableIf: "{% if node.materializationType == 'view' %} true {% else %} false {% endif %}"
-        
+
+      - type: multisourceToggle
+        enableIf: "{% if node.override.create.enabled %} false {% else %} true {% endif %}"
+
+      - displayName: Multi Source Strategy
+        attributeName: insertStrategy
+        type: dropdownSelector
+        default: UNION ALL
+        options:
+        - "UNION"
+        - "UNION ALL"
+        isRequired: false
+        enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
+
       - type: toggleButton
         attributeName: clusterKey
         displayName: Cluster Key
@@ -72,24 +84,12 @@ metadata:
         isRequired: false
         enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
 
-      - type: multisourceToggle
-        enableIf: "{% if node.override.create.enabled %} false {% else %} true {% endif %}" 
-        
-      - displayName: Multi Source Strategy
-        attributeName: insertStrategy
-        type: dropdownSelector
-        default: INSERT
-        options:
-        - "INSERT"
-        - "UNION"
-        - "UNION ALL"
-        isRequired: true
-        enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
+
 
       - displayName: Truncate Before
         attributeName: truncateBefore
         type: toggleButton
-        default: true
+        default: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 
       - displayName: Enable Tests
@@ -97,20 +97,18 @@ metadata:
         type: toggleButton
         default: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
-
+        
       - displayName: Distinct
         attributeName: selectDistinct
         type: toggleButton
         default: false
-        enableIf: "{% if config.groupByAll or  node.override.create.enabled %} false {% else %} true {% endif %}"
-
+        enableIf: "{% if config.groupByAll or  node.override.create.enabled %} %} false {% else %} true {% endif %}"
 
       - displayName: Group By All
         attributeName: groupByAll
         type: toggleButton
         default: false
-        enableIf: "{% if config.selectDistinct or  node.override.create.enabled %} false {% else %} true {% endif %}"
-
+        enableIf: "{% if config.selectDistinct or  node.override.create.enabled %} %} false {% else %} true {% endif %}"   
 
       - displayName: Order By
         attributeName: orderby
@@ -137,7 +135,7 @@ metadata:
            
         isRequired: true
         enableIf: "{% if config.orderby %} true {% else %} false {% endif %}"
-        
+
       - displayName: Pre-SQL
         attributeName: preSQL
         type: textBox
@@ -151,5 +149,18 @@ metadata:
         syntax: sql
         isRequired: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
-name: old Work Advanced Deploy
+
+    systemColumns:
+    - displayName: SYSTEM_CREATE_DATE
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemCreateDate
+
+    - displayName: SYSTEM_UPDATE_DATE
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemUpdateDate
+name: Factless Fact  Advanced Deploy
 type: NodeType

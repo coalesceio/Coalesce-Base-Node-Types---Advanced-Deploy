@@ -173,7 +173,7 @@ operation:
   name: WRK_CUSTOMER_1
   overrideSQL: false
   schema: ""
-  sqlType: "395"
+  sqlType: "179"
   type: sql
   version: 1
 type: Node
