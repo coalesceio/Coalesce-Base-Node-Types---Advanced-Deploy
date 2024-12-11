@@ -3,11 +3,16 @@ id: 329bf2e2-078c-46c0-9600-29590445f788
 name: PSTG_CUSTOMER
 operation:
   config:
+    clusterKey: false
+    groupByAll: false
+    orderby: false
     postSQL: ""
     preSQL: ""
+    selectDistinct: false
     testsEnabled: true
+    truncateBefore: false
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
