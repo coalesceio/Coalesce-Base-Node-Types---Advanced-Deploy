@@ -241,14 +241,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          FCT_CUSTOMER: 520ea1bc-0fdb-4968-9070-410288da9296
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DB
+          - locationName: TARGET_DEV
             nodeName: FCT_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'FCT_CUSTOMER') }} "FCT_CUSTOMER"
+          joinCondition: FROM {{ ref('TARGET_DEV', 'FCT_CUSTOMER') }} "FCT_CUSTOMER"
         name: V_CUSTOMER1
         noLinkRefs: []
   name: V_CUSTOMER1
