@@ -6,7 +6,7 @@ mappingDefinitions:
     schema: SOURCE_DATA
   TARGET_DB:
     database: POONAMM_DEV
-    schema: EDW_QA_8
+    schema: EDW_QA_6
   TARGET_DEV:
     database: POONAMM_DEV
     schema: EDW_QA_5
