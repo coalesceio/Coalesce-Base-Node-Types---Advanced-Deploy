@@ -157,7 +157,7 @@ operation:
   name: V_CUSTOMER_1
   overrideSQL: false
   schema: ""
-  sqlType: "382"
+  sqlType: View
   type: sql
   version: 1
 type: Node

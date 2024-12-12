@@ -159,7 +159,7 @@ operation:
   name: STG_CUSTOMER_1
   overrideSQL: false
   schema: ""
-  sqlType: "383"
+  sqlType: Stage
   type: sql
   version: 1
 type: Node
