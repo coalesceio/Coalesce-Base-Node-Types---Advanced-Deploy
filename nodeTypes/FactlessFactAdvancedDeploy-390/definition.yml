@@ -1,5 +1,5 @@
 fileVersion: 1
-id: "264"
+id: "390"
 isDisabled: false
 metadata:
   defaultStorageLocation: null
@@ -17,6 +17,7 @@ metadata:
       items:
       - type: materializationSelector
         isRequired: true
+        
         options:
         - table
         - transient table
