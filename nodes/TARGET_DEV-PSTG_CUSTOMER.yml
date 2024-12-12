@@ -12,7 +12,7 @@ operation:
     testsEnabled: true
     truncateBefore: false
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DEV

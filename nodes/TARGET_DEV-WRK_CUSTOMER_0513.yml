@@ -26,7 +26,7 @@ operation:
   deployEnabled: false
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DEV
   materializationType: table
   metadata:
     appliedNodeTests: []
@@ -165,10 +165,10 @@ operation:
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DB
+          - locationName: TARGET_DEV
             nodeName: V_CUSTOMER_0513
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'V_CUSTOMER_0513') }} "V_CUSTOMER_0513"
+          joinCondition: FROM {{ ref('TARGET_DEV', 'V_CUSTOMER_0513') }} "V_CUSTOMER_0513"
         name: WRK_CUSTOMER_0513
         noLinkRefs: []
   name: WRK_CUSTOMER_0513
