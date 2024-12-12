@@ -23,10 +23,10 @@ operation:
     testsEnabled: false
     truncateBefore: false
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DEV
   materializationType: table
   metadata:
     appliedNodeTests: []
@@ -194,14 +194,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          V_CUSTOMER: 5e42ff72-a097-4754-95b4-25cf0e091072
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DB
+          - locationName: TARGET_DEV
             nodeName: V_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'V_CUSTOMER') }} "V_CUSTOMER"
+          joinCondition: FROM {{ ref('TARGET_DEV', 'V_CUSTOMER') }} "V_CUSTOMER"
         name: FCT_CUSTOMER1
         noLinkRefs: []
   name: FCT_CUSTOMER1

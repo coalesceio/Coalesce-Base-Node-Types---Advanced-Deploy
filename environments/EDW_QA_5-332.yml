@@ -8,7 +8,7 @@ mappingDefinitions:
     database: POONAMM_DEV
     schema: EDW_QA_6
   TARGET_DEV:
-    database: POONAMM_DEV
-    schema: EDW_QA_7
+    database: POONAMM_QA
+    schema: PUBLIC
 name: EDW_QA_5
 type: Environment
