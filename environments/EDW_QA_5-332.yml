@@ -9,6 +9,6 @@ mappingDefinitions:
     schema: EDW_QA_6
   TARGET_DEV:
     database: POONAMM_PROD
-    schema: EDW_PROD1
+    schema: EDW_PROD2
 name: EDW_QA_5
 type: Environment
