@@ -27,7 +27,7 @@ operation:
   description: ""
   isMultisource: true
   locationName: TARGET_ACC
-  materializationType: table
+  materializationType: view
   metadata:
     appliedNodeTests: []
     columns:
