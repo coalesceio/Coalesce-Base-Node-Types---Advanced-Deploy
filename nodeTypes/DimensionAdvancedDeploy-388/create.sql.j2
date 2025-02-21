@@ -14,12 +14,7 @@ does not permit copying or modification for any other purpose.
 {#Release date:20241014  Version:1.1.4 Released By:AS  Description: Typo error and single namespace variable initialization #}
 {#Release date:20241114  Version:1.1.5 Released By:AS  Description: Node Description / Comments #}
 
-{% if desiredState == currentState %}
-
-{{ stage('Nothing to do.') }}
-select 1 = 0
-
-{% elif desiredState %}
+{% if desiredState %}
 
 {# Override CreateSQL for view #}
 
@@ -45,7 +40,7 @@ select 1 = 0
         {% endif %}
 
          {# CreateSQL for View #}
-
+        {% if currentState == undefined or currentState != desiredState %}
 		{{ stage('Create Dimension View', true, "sql", "create") }}
 
 		CREATE OR REPLACE VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
@@ -83,7 +78,7 @@ select 1 = 0
                {% endif %} 
             {% endif %}
 		{% endfor %}
-
+        {% endif %}
 {% elif desiredState.node.materializationType == 'table' or desiredState.node.materializationType == 'transient table'  %}
 
         {# Figure out cluster key #}
@@ -289,7 +284,7 @@ select 1 = 0
                         {%- if not addDesCol.nullable %} NOT NULL
                             {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{% endif %}
                         {% endif %}
-                        {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDescol.description | escape }}'{% endif %}
+                        {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDesCol.description | escape }}'{% endif %}
                 {% endif %}
             {% endfor %}
 
@@ -442,10 +437,4 @@ select 1 = 0
        DROP TABLE IF EXISTS {{ fullyQualifiedTargetObjectName }}
 
     {% endif %}
-
-{%- else -%}
-
-{{ stage('Nothing to do.') }}
-select 1 = 0
-
 {% endif %}
