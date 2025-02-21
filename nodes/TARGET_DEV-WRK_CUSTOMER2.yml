@@ -58,7 +58,7 @@ operation:
           stepCounter: d92fdb56-dea9-42c1-a51c-d8d66701bc11
         config: {}
         dataType: VARCHAR(25)
-        description: ""
+        description: This is Customer Name
         name: C_NAME
         nullable: true
         sourceColumnReferences:

@@ -73,7 +73,7 @@ operation:
           stepCounter: f18d335e-e16a-407f-a0bf-2c3b6c4892df
         config: {}
         dataType: VARCHAR(25)
-        description: ""
+        description: This is Customer Name
         isChangeTracking: true
         name: C_NAME
         nullable: true
