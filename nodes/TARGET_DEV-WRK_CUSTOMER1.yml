@@ -175,7 +175,9 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: CUSTOMER
         join:
-          joinCondition: FROM  {{ ref('SOURCE_DATA', 'CUSTOMER') }} CUSTOMER
+          joinCondition: |-
+            FROM  {{ ref('SOURCE_DATA', 'CUSTOMER') }} CUSTOMER
+            WHERE "C_CUSTKEY" >10
         name: WRK_CUSTOMER1
         noLinkRefs: []
   name: WRK_CUSTOMER1
