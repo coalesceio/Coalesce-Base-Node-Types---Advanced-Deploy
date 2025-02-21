@@ -1,0 +1,17 @@
+fileVersion: 1
+id: "377"
+mappingDefinitions:
+  SOURCE_DATA:
+    database: POONAMM_DEV
+    schema: SOURCE_DATA
+  TARGET_ACC:
+    database: POONAMM_DEV
+    schema: EDW_QA_4
+  TARGET_DB:
+    database: POONAMM_DEV
+    schema: EDW_QA_5
+  TARGET_DEV:
+    database: POONAMM_DEV
+    schema: EDW_QA_2
+name: EDW_QA_2
+type: Environment
