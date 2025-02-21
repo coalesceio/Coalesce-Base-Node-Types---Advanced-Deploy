@@ -110,7 +110,7 @@ operation:
           stepCounter: 9f17a67b-daf5-485f-8735-81ef7307f765
         config: {}
         dataType: VARCHAR(15)
-        description: ""
+        description: This is phone number
         name: C_PHONE
         nullable: true
         sourceColumnReferences:
