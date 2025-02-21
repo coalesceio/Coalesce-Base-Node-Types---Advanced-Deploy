@@ -284,14 +284,17 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          WRK_CUSTOMER_VIEW: ee7b4249-b860-48df-aede-5f46251edf77
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DEV
             nodeName: WRK_CUSTOMER_VIEW
         join:
-          joinCondition: FROM {{ ref('TARGET_DEV', 'WRK_CUSTOMER_VIEW') }} "WRK_CUSTOMER_VIEW"
+          joinCondition: |-
+            FROM {{ ref('TARGET_DEV', 'WRK_CUSTOMER_VIEW') }} "WRK_CUSTOMER_VIEW"
+            WHERE "C_CUSTKEY" >20
         name: DIM_CUSTOMER_VIEW
         noLinkRefs: []
   name: DIM_CUSTOMER_VIEW

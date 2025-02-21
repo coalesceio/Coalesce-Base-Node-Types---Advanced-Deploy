@@ -167,18 +167,17 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          CUSTOMER: 9896fdb7-f430-4efb-af33-f36d1a022e11
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: CUSTOMER
         join:
-          joinCondition: |2-
-
-
-             
-              FROM  {{ ref('SOURCE_DATA', 'CUSTOMER') }} CUSTOMER
+          joinCondition: |-
+            FROM  {{ ref('SOURCE_DATA', 'CUSTOMER') }} CUSTOMER
+            WHERE "C_CUSTKEY" >10
         name: WRK_CUSTOMER_VIEW
         noLinkRefs: []
   name: WRK_CUSTOMER_VIEW
