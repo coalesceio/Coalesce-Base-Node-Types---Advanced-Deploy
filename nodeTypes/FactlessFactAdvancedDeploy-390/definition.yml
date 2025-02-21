@@ -2,7 +2,7 @@ fileVersion: 1
 id: "390"
 isDisabled: false
 metadata:
-  defaultStorageLocation: null
+  defaultStorageLocation: TARGET_DEV
   error: null
   nodeMetadataSpec: |-
     capitalized: Factless Fact Advanced Deploy

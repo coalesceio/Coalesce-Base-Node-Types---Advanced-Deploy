@@ -2,7 +2,7 @@ fileVersion: 1
 id: "388"
 isDisabled: false
 metadata:
-  defaultStorageLocation: null
+  defaultStorageLocation: TARGET_DEV
   error: null
   nodeMetadataSpec: |-
     capitalized: Dimension Advanced Deploy
