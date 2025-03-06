@@ -16,19 +16,19 @@ operation:
         - columnNameDefault:
             columnCounter: d185307c-fa1b-49ac-86cd-3ccced7fb84c
             stepCounter: 46070a27-7f26-4238-a707-bbcda8e86b1d
-          columnValueDefault: "'NAME'"
+          columnValueDefault: "'XX'"
         - columnNameDefault:
-            columnCounter: df475032-6fa8-4a84-975d-be5c57f9375e
+            columnCounter: 41777f73-c5b7-4780-a93e-6900a609e83a
             stepCounter: 46070a27-7f26-4238-a707-bbcda8e86b1d
-          columnValueDefault: "10"
+          columnValueDefault: 00-000-000
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: true
     insertZeroKeyAdvanced: true
     insertZeroKeyBol: "TRUE"
-    insertZeroKeyDate: 01-01-1900
-    insertZeroKeyStr: UNKNOWN
-    insertZeroKeySurrogateKey: "0"
+    insertZeroKeyDate: 10-10-2020
+    insertZeroKeyStr: TEST
+    insertZeroKeySurrogateKey: "-1"
     orderby: false
     orderbycolumn:
       items:
@@ -37,13 +37,13 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
-    truncateBefore: false
+    truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: view
   metadata:
     appliedNodeTests: []
     columns:
