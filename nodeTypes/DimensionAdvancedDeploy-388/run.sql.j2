@@ -62,6 +62,7 @@ does not permit copying or modification for any other purpose.
 				{% elif col.isSystemVersion%}1
 				{% elif col.dataType | upper in ('BOOLEAN') %} {{ config.insertZeroKeyBol }}
 				{% elif col.dataType[:3] | upper in ('NUM','INT','DEC','FLO') %}0
+				{% elif col.dataType [:12]| upper in ('TIMESTAMP_LT','TIMESTAMP_NT','TIMESTAMP_TZ') %} '{{config.insertZeroKeyTimestamp}}' ::{{ col.dataType |upper}}
 				{% elif col.dataType[:4] | upper in ('DATE','TIME') %}CAST(TO_TIMESTAMP( '{{config.insertZeroKeyDate}}', 'DD-MM-YYYY') AS {{ col.dataType }})
 				{% elif col.dataType[:3] | upper in ('VAR','CHA','STR','BIN') %}
 						{% if dtparams[0] and dtparams[0] | int <  config.insertZeroKeyStr | length  %}
