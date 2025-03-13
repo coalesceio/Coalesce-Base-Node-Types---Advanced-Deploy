@@ -171,7 +171,7 @@ metadata:
         isRequired: false
         enableIf: "{% if config.insertZeroKey == true and node.materializationType != 'view' %} true {% else %} false {% endif %}"
 
-      - displayName: Default Timestamp Value (Date Format YYYY-MM-DD HH24:MI:SS.FF)
+      - displayName: Default Timestamp Value (Timestamp Format YYYY-MM-DD HH24:MI:SS.FF)
         attributeName: insertZeroKeyTimestamp
         type: textBox
         default: "1900-01-01 00:00:00.000"
