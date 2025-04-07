@@ -1,10 +1,9 @@
 fileVersion: 1
-id: 9896fdb7-f430-4efb-af33-f36d1a022e11
+id: a82b03fa-128e-4c0d-9969-66312ab31cf8
 name: CUSTOMER
 operation:
   database: ""
-  dataset: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   locationName: SOURCE_DATA
   metadata:
@@ -14,8 +13,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 05a44c92-ac8e-4f09-b604-1ee2c8a9e9c3
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: e996b82c-ca91-4416-8445-5490ae18c954
+          stepCounter: a82b03fa-128e-4c0d-9969-66312ab31cf8
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
@@ -33,8 +32,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 75ac81f7-bebc-435d-8216-7abb8d827f60
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 0924c542-3f00-4db8-ab30-6bef639b1cbe
+          stepCounter: a82b03fa-128e-4c0d-9969-66312ab31cf8
         config: {}
         dataType: VARCHAR(25)
         defaultValue: ""
@@ -52,8 +51,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 1512c565-c696-45f9-a7fe-47c11038cd5a
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 6f347c56-5da5-4263-bf84-53ad2a0461c1
+          stepCounter: a82b03fa-128e-4c0d-9969-66312ab31cf8
         config: {}
         dataType: VARCHAR(40)
         defaultValue: ""
@@ -71,8 +70,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: b8639bd7-c322-4ed4-bef7-bab70e763d64
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: bffd61f1-7b2d-474b-af33-1d6eeb94a734
+          stepCounter: a82b03fa-128e-4c0d-9969-66312ab31cf8
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
@@ -90,8 +89,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 621caf44-3b80-4942-9bd7-6d254fe206c5
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: cf02b2bd-7201-47c6-803d-30f57d458282
+          stepCounter: a82b03fa-128e-4c0d-9969-66312ab31cf8
         config: {}
         dataType: VARCHAR(15)
         defaultValue: ""
@@ -109,8 +108,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a454239a-07e7-426c-b45d-d4e18824fde7
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: e1952ce8-9362-41c7-b9d0-9349f22b41ed
+          stepCounter: a82b03fa-128e-4c0d-9969-66312ab31cf8
         config: {}
         dataType: NUMBER(12,2)
         defaultValue: ""
@@ -128,8 +127,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 58e70bb3-5c3c-4992-88e4-9546d9a6f26a
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 885d8d6c-6957-4bfd-944c-18c90457a577
+          stepCounter: a82b03fa-128e-4c0d-9969-66312ab31cf8
         config: {}
         dataType: VARCHAR(10)
         defaultValue: ""
@@ -147,8 +146,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: d125e2c9-0178-4e42-87ee-76864ded0317
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 3b3664c4-357e-400b-b651-301d11ed80bd
+          stepCounter: a82b03fa-128e-4c0d-9969-66312ab31cf8
         config: {}
         dataType: VARCHAR(117)
         defaultValue: ""
@@ -166,8 +165,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: cf9946c0-e5b4-4f4a-a99d-865038d71fb2
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 416cee95-09aa-4414-bd31-109c94f0ce85
+          stepCounter: a82b03fa-128e-4c0d-9969-66312ab31cf8
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         defaultValue: ""
@@ -180,12 +179,9 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-    join:
-      joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }}
   name: CUSTOMER
   schema: ""
   sqlType: Source
-  table: CUSTOMER
   type: sourceInput
   version: 1
 type: Node
