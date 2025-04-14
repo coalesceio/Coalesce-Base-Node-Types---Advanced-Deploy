@@ -1,0 +1,134 @@
+fileVersion: 1
+id: eb381a91-ab9a-40af-9c6a-99e5bfb061dd
+name: WRK_DATA_LOAD_TEST
+operation:
+  config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ec894eb1-ed3e-4aec-959e-162a9128dfa6
+          stepCounter: eb381a91-ab9a-40af-9c6a-99e5bfb061dd
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: SRC_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0a086cbc-3e05-4c75-9a0a-09bfb5f99c9b
+                stepCounter: 92f7a251-1afc-4d02-b5ff-e9d3874e15a6
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0e44f07a-5d2c-4d33-b9ad-3ec63a6e01c2
+          stepCounter: eb381a91-ab9a-40af-9c6a-99e5bfb061dd
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6ea45838-6d45-430b-b9db-eabc36ff0c7f
+                stepCounter: 92f7a251-1afc-4d02-b5ff-e9d3874e15a6
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 53504688-01d5-4c79-b102-8143057e96ac
+          stepCounter: eb381a91-ab9a-40af-9c6a-99e5bfb061dd
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 99bd4967-cf07-4ed1-9826-dc8c8d3da3cc
+                stepCounter: 92f7a251-1afc-4d02-b5ff-e9d3874e15a6
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: df92e55b-7307-4426-aebb-e464c0f7d239
+          stepCounter: eb381a91-ab9a-40af-9c6a-99e5bfb061dd
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: COUNTRY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 53f6426f-d360-441d-93ef-29fc3f53a901
+                stepCounter: 92f7a251-1afc-4d02-b5ff-e9d3874e15a6
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 637545c1-7406-49df-82f7-a8833453618d
+          stepCounter: eb381a91-ab9a-40af-9c6a-99e5bfb061dd
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: UPDATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ec242c0b-4d05-4775-b2bd-269f3f4a1308
+                stepCounter: 92f7a251-1afc-4d02-b5ff-e9d3874e15a6
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: DATA_LOAD_TEST
+        join:
+          joinCondition: |2-
+
+
+             
+              FROM  {{ ref('SOURCE_DATA', 'DATA_LOAD_TEST') }} DATA_LOAD_TEST
+        name: WRK_DATA_LOAD_TEST
+        noLinkRefs: []
+  name: WRK_DATA_LOAD_TEST
+  overrideSQL: false
+  schema: ""
+  sqlType: "179"
+  type: sql
+  version: 1
+type: Node

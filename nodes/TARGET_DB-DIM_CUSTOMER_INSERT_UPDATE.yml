@@ -35,7 +35,7 @@ operation:
     updateStrategy: INSERT/UPDATE
   database: ""
   deployEnabled: true
-  description: ""
+  description: Inserts and updates records in the DIM_CUSTOMER_INSERT_UPDATE dimension table by comparing data from the WRK_CUSTOMER table. A temporary table SRC_STAGE is created to stage the data for these operations.
   isMultisource: false
   locationName: TARGET_DB
   materializationType: table
@@ -52,7 +52,12 @@ operation:
         config: {}
         dataType: NUMBER
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is a system-generated surrogate key for the dimension table. 
+          - It serves as a unique identifier for each customer record in the data warehouse.
+          - As a primary key, it ensures uniqueness and facilitates efficient data retrieval.
+          - This key is crucial for joining the customer dimension with fact tables in star schema data models.
+          - It is used to track customer-related metrics, reports, and business KPIs.
         isSurrogateKey: true
         name: DIM_CUSTOMER1_KEY
         nullable: true
@@ -65,7 +70,12 @@ operation:
           stepCounter: b2c169c6-b1df-44db-bfa3-7156d2d086cc
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - This column represents the customer's key identifier.
+          - It originates from the 'C_CUSTKEY' column in the 'WRK_CUSTOMER' source table.
+          - It uniquely identifies each customer and serves as a business key.
+          - The column plays a crucial role in linking customer information across different systems.
+          - It is used in reports, business metrics, and customer-centric analyses.
         isBusinessKey: true
         name: C_CUSTKEY
         nullable: true
@@ -80,7 +90,12 @@ operation:
           stepCounter: b2c169c6-b1df-44db-bfa3-7156d2d086cc
         config: {}
         dataType: VARCHAR(25)
-        description: ""
+        description: |-
+          - This column contains the name of the customer.
+          - It is sourced from the 'C_NAME' column of the 'WRK_CUSTOMER' table.
+          - This attribute provides a descriptive label for identifying customers.
+          - It is a core attribute used in customer segmentation, reporting, and analysis.
+          - Downstream, this column is used to personalize customer interactions and marketing efforts.
         name: C_NAME
         nullable: true
         sourceColumnReferences:
@@ -94,7 +109,12 @@ operation:
           stepCounter: b2c169c6-b1df-44db-bfa3-7156d2d086cc
         config: {}
         dataType: VARCHAR(40)
-        description: ""
+        description: |-
+          - This column stores the address of the customer.
+          - The data is sourced from the 'C_ADDRESS' column in the 'WRK_CUSTOMER' table.
+          - This column is configured for change tracking, which means history of changes to address are tracked.
+          - It is used for location-based analysis and targeted marketing campaigns.
+          - This information is also critical for logistics, shipping, and other operational aspects.
         isChangeTracking: true
         name: C_ADDRESS
         nullable: true
@@ -109,7 +129,12 @@ operation:
           stepCounter: b2c169c6-b1df-44db-bfa3-7156d2d086cc
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - This column represents the nation key associated with the customer.
+          - It is derived from the 'C_NATIONKEY' column in the 'WRK_CUSTOMER' source table.
+          - It links to the nation dimension, facilitating geographical analysis of customer data.
+          - It is used in reports and dashboards to analyze customer distribution by nation.
+          - This key supports the calculation of nation-specific KPIs and business metrics.
         name: C_NATIONKEY
         nullable: true
         sourceColumnReferences:
@@ -123,7 +148,12 @@ operation:
           stepCounter: b2c169c6-b1df-44db-bfa3-7156d2d086cc
         config: {}
         dataType: VARCHAR(15)
-        description: ""
+        description: |-
+          - This column contains the phone number of the customer.
+          - It is populated from the 'C_PHONE' column in the 'WRK_CUSTOMER' table.
+          - This attribute is used for direct communication with customers.
+          - It supports marketing campaigns, customer service, and operational activities.
+          - This column enables personalized outreach and facilitates timely customer interactions.
         name: C_PHONE
         nullable: true
         sourceColumnReferences:
@@ -137,7 +167,12 @@ operation:
           stepCounter: b2c169c6-b1df-44db-bfa3-7156d2d086cc
         config: {}
         dataType: NUMBER(12,2)
-        description: ""
+        description: |-
+          - This column represents the account balance of the customer.
+          - It is sourced from the 'C_ACCTBAL' column of the 'WRK_CUSTOMER' table.
+          - This attribute provides financial insights into the customer's relationship.
+          - It is used in financial reports, risk assessments, and credit analysis.
+          - This data enables the calculation of financial KPIs and profitability metrics.
         name: C_ACCTBAL
         nullable: true
         sourceColumnReferences:
@@ -151,7 +186,12 @@ operation:
           stepCounter: b2c169c6-b1df-44db-bfa3-7156d2d086cc
         config: {}
         dataType: VARCHAR(10)
-        description: ""
+        description: |-
+          - This column indicates the market segment to which the customer belongs.
+          - It originates from the 'C_MKTSEGMENT' column in the 'WRK_CUSTOMER' table.
+          - This attribute allows for targeted marketing and sales strategies.
+          - It supports the analysis of customer behavior and preferences within segments.
+          - This column is used for segmentation-based reporting and campaign performance analysis.
         name: C_MKTSEGMENT
         nullable: true
         sourceColumnReferences:
@@ -165,7 +205,12 @@ operation:
           stepCounter: b2c169c6-b1df-44db-bfa3-7156d2d086cc
         config: {}
         dataType: VARCHAR(117)
-        description: ""
+        description: |-
+          - This column contains descriptive comments related to the customer.
+          - It is sourced from the 'C_COMMENT' column in the 'WRK_CUSTOMER' table.
+          - This attribute provides additional context and insights about the customer.
+          - It is used in customer service, feedback analysis, and issue resolution.
+          - This column allows for a more nuanced understanding of customer needs and behaviors.
         name: C_COMMENT
         nullable: true
         sourceColumnReferences:
@@ -179,7 +224,12 @@ operation:
           stepCounter: b2c169c6-b1df-44db-bfa3-7156d2d086cc
         config: {}
         dataType: TIMESTAMP_LTZ(9)
-        description: ""
+        description: |-
+          - This column captures the timestamp when the customer record was loaded.
+          - It is sourced from the 'C_LOAD_TIMESTAMP' column in the 'WRK_CUSTOMER' table.
+          - This attribute provides information on data freshness and load history.
+          - It is used for auditing, data quality monitoring, and troubleshooting.
+          - The timestamp helps track data updates and ensures data accuracy over time.
         name: C_LOAD_TIMESTAMP
         nullable: true
         sourceColumnReferences:
@@ -197,7 +247,12 @@ operation:
         config: {}
         dataType: NUMBER
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is system-generated and represents the version number of the record.
+          - It is automatically assigned by the system during data processing.
+          - It is used for tracking changes to the record over time for auditing purposes.
+          - It is essential for maintaining data integrity and supporting historical analysis.
+          - This column ensures that all changes to the record are properly versioned.
         isSystemVersion: true
         name: SYSTEM_VERSION
         nullable: true
@@ -214,7 +269,12 @@ operation:
         config: {}
         dataType: VARCHAR
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is system-generated and indicates if the record is the current version.
+          - It is automatically managed by the system during data updates.
+          - It simplifies querying for the most up-to-date information.
+          - It supports efficient data retrieval and accurate reporting.
+          - The flag ensures that only current records are used for real-time analysis.
         isSystemCurrentFlag: true
         name: SYSTEM_CURRENT_FLAG
         nullable: true
@@ -231,7 +291,12 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is system-generated and indicates the timestamp from when the record is valid.
+          - It defaults to the current timestamp using the SQL transformation 'CAST(CURRENT_TIMESTAMP AS TIMESTAMP)'.
+          - It supports temporal analysis and historical reporting.
+          - It is essential for tracking the effective dates of records.
+          - This column enables time-sensitive decision-making and trend analysis.
         isSystemStartDate: true
         name: SYSTEM_START_DATE
         nullable: true
@@ -248,7 +313,12 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is system-generated and indicates the timestamp until when the record is valid.
+          - It defaults to '2999-12-31 00:00:00' using the SQL transformation 'CAST('2999-12-31 00:00:00' AS TIMESTAMP)'.
+          - It supports temporal analysis and historical reporting.
+          - It is essential for tracking the expiration dates of records.
+          - This column enables time-sensitive decision-making and trend analysis.
         isSystemEndDate: true
         name: SYSTEM_END_DATE
         nullable: true
@@ -265,7 +335,12 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is system-generated and represents the timestamp when the record was created.
+          - It defaults to the current timestamp using the SQL transformation 'CAST(CURRENT_TIMESTAMP AS TIMESTAMP)'.
+          - It is used for auditing and tracking data lineage.
+          - It supports identifying the origin and creation time of records.
+          - The timestamp is crucial for data governance and compliance purposes.
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
         nullable: true
@@ -282,7 +357,12 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is system-generated and represents the timestamp when the record was last updated.
+          - It defaults to the current timestamp using the SQL transformation 'CAST(CURRENT_TIMESTAMP AS TIMESTAMP)'.
+          - It is used for auditing and tracking data changes.
+          - It supports identifying the last modification time of records.
+          - The timestamp is crucial for data quality monitoring and troubleshooting.
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
         nullable: true

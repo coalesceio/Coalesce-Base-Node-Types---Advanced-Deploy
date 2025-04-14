@@ -1,5 +1,8 @@
 fileVersion: 1
 id: "377"
-mappingDefinitions: {}
+mappingDefinitions:
+  SOURCE_LOAD_TEST:
+    database: ""
+    schema: ""
 name: EDW_QA_2
 type: Environment

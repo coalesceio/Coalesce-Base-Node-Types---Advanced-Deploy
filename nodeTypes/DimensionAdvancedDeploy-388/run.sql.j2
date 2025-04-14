@@ -460,8 +460,9 @@ does not permit copying or modification for any other purpose.
 {{ stage('INSERT/UPDATE ' + ' Sources' | string) }}		
 BEGIN
 -- =====================================
--- Common Subquery (original logic kept)
+-- Common Subquery 
 -- =====================================
+ EXECUTE IMMEDIATE $$
 -- Step 1: Create a temporary table to hold SRC data
 CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  AS
  (
@@ -674,8 +675,10 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
             {% endif %} 
         {% endfor %}  
 );
+$$;
 {# SCD-Type 2 Dimension update== #}
 		 BEGIN TRANSACTION;
+		  EXECUTE IMMEDIATE $$
 -- =====================================
 -- UPDATE Statement
 -- =====================================
@@ -695,7 +698,9 @@ WHERE
     {%- endfor %}
     AND TGT."{{ get_value_by_column_attribute("isSystemVersion") }}" = SRC."{{ get_value_by_column_attribute("isSystemVersion") }}"
 ;
+$$;
 {# SCD-Type 2 Dimension insert == #}
+ EXECUTE IMMEDIATE $$
 -- =====================================
 -- INSERT Statement
 -- =====================================
@@ -713,6 +718,7 @@ SELECT
 FROM {{ ref_no_link(node.location.name,"SRC_STAGE") }}   SRC
 WHERE SRC."DML_OPERATION" IN ('INSERT_INITAL_VERSION_ROWS', 'INSERT_NEW_VERSION_ROWS')
 ;
+$$;
 COMMIT;
 END
  {% endif %}
@@ -720,7 +726,7 @@ END
     {% else %}
         
         {# SCD-Type 1 Dimension == #}
-
+       {%- if varUpdateStrategy == 'MERGE' -%} 
             {{ stage('MERGE ' + ' Sources' | string) }}
             MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
             USING (
@@ -802,7 +808,130 @@ END
                 {% if not loop.last %}, {% endif %}
             {% endfor -%}
             )
-					
+		{% else %}
+		 {{ stage('INSERT/UPDATE ' + ' Sources' | string) }}
+BEGIN
+
+-- Step 1: UPDATE existing rows
+UPDATE {{ ref_no_link(node.location.name, node.name) }} 
+SET
+{%- for col in columns if not (  col.isBusinessKey or
+                                col.isSurrogateKey or
+                                col.isSystemVersion or
+                                col.isSystemCurrentFlag or
+                                col.isSystemStartDate or
+                                col.isSystemEndDate or
+                                col.isSystemCreateDate) %}
+    "{{ col.name }}" = SRC."{{ col.name }}"
+    {% if not loop.last %}, {% endif %}
+{%- endfor %}
+FROM (
+    {% for source in sources %}
+       ( SELECT
+        {% if config.selectDistinct %}
+        DISTINCT
+        {% endif %}
+        {% for col in source.columns if not col.isSurrogateKey %}
+            {% if col.isSystemVersion %}
+            	1
+            {% elif col.isSystemCurrentFlag %}
+            	'Y'
+            {% else %}
+                {{ get_source_transform(col) }}
+            {% endif %}
+            AS "{{ col.name }}"
+            {%- if not loop.last %}, {% endif %}
+        {% endfor %}
+        {{ source.join }}
+         {% if config.groupByAll %}
+         GROUP BY ALL
+         {% endif %}
+         {{ sortorder_by_colv() }} )     
+         {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+             {{config.insertStrategy}}
+        {% endif %}
+    {% endfor %}
+) SRC
+JOIN {{ ref_no_link(node.location.name, node.name) }}  TGT
+    ON
+    {%- for col in columns if col.isBusinessKey %}
+        {% if not loop.first %} AND {% endif %}
+        SRC."{{ col.name }}" = TGT."{{ col.name }}"
+    {%- endfor %}
+WHERE
+{%- for col in columns if not (   col.isBusinessKey or
+                                  col.isSurrogateKey or
+                                  col.isSystemVersion or
+                                  col.isSystemCurrentFlag or
+                                  col.isSystemStartDate or
+                                  col.isSystemEndDate or
+                                  col.isSystemUpdateDate or
+                                  col.isSystemCreateDate) %}
+    {% if loop.first %}
+    (
+    {% else %}
+    OR
+    {% endif %}
+    NVL(CAST(SRC."{{ col.name }}" AS STRING), '**NULL**') <> NVL(CAST(TGT."{{ col.name }}" AS STRING), '**NULL**')
+    {% if loop.last %}
+    )
+    {% endif %}
+{%- endfor %};
+
+-- Step 2: INSERT new rows
+INSERT INTO {{ ref_no_link(node.location.name, node.name) }}  (
+{%- for col in columns if not col.isSurrogateKey %}
+    "{{ col.name }}"
+    {% if not loop.last %}, {% endif %}
+{%- endfor %}
+)
+SELECT
+{%- for col in columns if not col.isSurrogateKey %}
+    SRC."{{ col.name }}"
+    {% if not loop.last %}, {% endif %}
+{%- endfor %}
+FROM (
+    {% for source in sources %}
+       ( SELECT
+        {% if config.selectDistinct %}
+        DISTINCT
+        {% endif %}
+        {% for col in source.columns if not col.isSurrogateKey %}
+            {% if col.isSystemVersion %}
+            	1
+            {% elif col.isSystemCurrentFlag %}
+            	'Y'
+            {% else %}
+                {{ get_source_transform(col) }}
+            {% endif %}
+            AS "{{ col.name }}"
+            {%- if not loop.last %}, {% endif %}
+        {% endfor %}
+        {{ source.join }}
+         {% if config.groupByAll %}
+         GROUP BY ALL
+         {% endif %}
+         {{ sortorder_by_colv() }} )     
+         {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+             {{config.insertStrategy}}
+        {% endif %}
+    {% endfor %}
+) SRC
+LEFT JOIN {{ ref_no_link(node.location.name, node.name) }}  TGT
+    ON
+    {%- for col in columns if col.isBusinessKey %}
+        {% if not loop.first %} AND {% endif %}
+        SRC."{{ col.name }}" = TGT."{{ col.name }}"
+    {%- endfor %}
+WHERE
+    {%- for col in columns if col.isBusinessKey %}
+        {% if not loop.first %} AND {% endif %}
+        TGT."{{ col.name }}" IS NULL
+    {%- endfor %};
+
+END;
+
+		{% endif %}
     {% endif %}
 
 {# == Queries to be excuted post data insertion  == #}

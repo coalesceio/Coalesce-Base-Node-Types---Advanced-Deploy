@@ -177,7 +177,7 @@ operation:
         join:
           joinCondition: |2-
               FROM  {{ ref('SOURCE_DATA', 'CUSTOMER') }} CUSTOMER
-               WHERE C_NATIONKEY=8 and C_MKTSEGMENT='AUTOMOBILE' AND C_NAME IN ('Customer#000001126' ,'Customer#000000620')
+               WHERE C_NATIONKEY=8 and C_MKTSEGMENT='AUTOMOBILE' AND C_NAME IN ('Customer#000001126','Customer#000000620')
         name: WRK_CUSTOMER
         noLinkRefs: []
   name: WRK_CUSTOMER
