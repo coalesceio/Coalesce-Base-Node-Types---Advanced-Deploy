@@ -17,9 +17,12 @@ operation:
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: true
+    insertZeroKeyAdvanced: false
+    insertZeroKeyBol: null
     insertZeroKeyDate: 01-01-1900
     insertZeroKeyStr: UNKNOWN
     insertZeroKeySurrogateKey: "0"
+    insertZeroKeyTimestamp: null
     orderby: false
     orderbycolumn:
       items:

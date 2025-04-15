@@ -13,7 +13,7 @@ metadata:
     deployStrategy: advanced
 
     config:
-    - groupName: Options
+    - groupName: General Options
       items:
       - type: materializationSelector
         isRequired: true
@@ -39,12 +39,6 @@ metadata:
         isRequired: false
         enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
 
-      - type: businessKeyColumns
-        isRequired: true
-
-      - type: changeTrackingColumns
-        isRequired: false
-        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 
       - displayName: Truncate Before
         attributeName: truncateBefore
@@ -58,6 +52,61 @@ metadata:
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
         default: false
 
+      - displayName: Distinct
+        attributeName: selectDistinct
+        type: toggleButton
+        enableIf: "{% if config.groupByAll or  node.override.create.enabled %} false {% else %} true {% endif %}"
+        default: false
+        
+      - displayName: Group By All
+        attributeName: groupByAll
+        type: toggleButton
+        default: false
+        enableIf: "{% if config.selectDistinct or  node.override.create.enabled %} false {% else %} true {% endif %}"    
+
+      - displayName: Order By
+        attributeName: orderby
+        type: toggleButton
+        default: false
+        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
+
+      - type: tabular
+        displayName: 'Sort column'
+        attributeName: orderbycolumn
+        columns:
+
+          -  type: columnDropdownSelector
+             displayName: Column Name
+             attributeName: sortColName
+
+          -  type: dropdownSelector
+             displayName: Sort Order
+             attributeName: sortOrder
+             default: desc
+             options:
+             - desc
+             - asc
+           
+        isRequired: true
+        enableIf: "{% if config.orderby %} true {% else %} false {% endif %}"
+
+    - groupName: Dimension Options
+      items:
+      - displayName: Update Strategy
+        attributeName: updateStrategy
+        type: dropdownSelector
+        default: MERGE
+        options:
+        - "MERGE"
+        - "INSERT/UPDATE"
+        isRequired: false
+        
+      - type: businessKeyColumns
+        isRequired: true
+
+      - type: changeTrackingColumns
+        isRequired: false
+        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
       - type: toggleButton
         attributeName: clusterKey
         displayName: Cluster Key
@@ -103,44 +152,6 @@ metadata:
       
         isRequired: false
         enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
-
-      - displayName: Distinct
-        attributeName: selectDistinct
-        type: toggleButton
-        enableIf: "{% if config.groupByAll or  node.override.create.enabled %} false {% else %} true {% endif %}"
-        default: false
-        
-      - displayName: Group By All
-        attributeName: groupByAll
-        type: toggleButton
-        default: false
-        enableIf: "{% if config.selectDistinct or  node.override.create.enabled %} false {% else %} true {% endif %}"    
-
-      - displayName: Order By
-        attributeName: orderby
-        type: toggleButton
-        default: false
-        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
-
-      - type: tabular
-        displayName: 'Sort column'
-        attributeName: orderbycolumn
-        columns:
-
-          -  type: columnDropdownSelector
-             displayName: Column Name
-             attributeName: sortColName
-
-          -  type: dropdownSelector
-             displayName: Sort Order
-             attributeName: sortOrder
-             default: desc
-             options:
-             - desc
-             - asc
-           
-        isRequired: true
-        enableIf: "{% if config.orderby %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: insertZeroKey
