@@ -1,0 +1,138 @@
+fileVersion: 1
+id: "459"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: View
+    short: VW
+    tagColor: '#A3A3A3'
+    plural: Views
+
+    deployStrategy: advanced
+
+    config:
+      - groupName: Options
+        items: 
+        - type: materializationSelector
+          options:
+            - view
+          default: view
+          isRequired: true
+
+        - type: toggleButton
+          attributeName: qualify
+          displayName: QUALIFY filter
+
+        - displayName: Window functions
+          attributeName: winfunc
+          type: dropdownSelector
+          default: ROW_NUMBER
+          options:
+          - "ROW_NUMBER"
+          - "RANK"
+          - "DENSE_RANK"
+          - "LEAD"
+          - "LAG"
+          - "FIRST_VALUE"
+          - "LAST_VALUE"
+          - "NTILE"
+          - "SUM"
+          - "AVG"
+          - "MAX"
+          - "MIN"
+          - "PERCENT_RANK"
+          - "CUME_DIST"
+          - "RATIO_TO_REPORT"	  
+          isRequired: true
+          enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
+        
+      
+        -  type: columnDropdownSelector
+           displayName: 'Window function column name'
+           attributeName: winfuncColName
+           isRequired: false
+           enableIf: "{% if config.qualify and config.winfunc not in('ROW_NUMBER','RANK','DENSE_RANK','PERCENT_RANK','NTILE') %} true {% else %} false {% endif %}"
+
+        - type: textBox
+          displayName: Constant value-desired number of buckets
+          attributeName: ntileval
+          isRequired: false
+          enableIf: "{% if config.qualify and config.winfunc in('NTILE') %} true {% else %} false {% endif %}" 
+
+
+        - type: tabular
+          displayName: 'Partition By Columns'
+          attributeName: partitionBy
+          columns:
+      
+          -  type: columnDropdownSelector
+             displayName: Column Name
+             attributeName: partColName
+             isRequired: false
+          isRequired: false
+          enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
+
+        - type: tabular
+          displayName: 'Order by Columns'
+          attributeName: orderBy
+          columns:
+      
+          -  type: columnDropdownSelector
+             displayName: Order by Column
+             attributeName: colName
+             isRequired: true
+             enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
+        
+          isRequired: false
+          enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
+
+        -  type: dropdownSelector
+           displayName: Sort Order
+           attributeName: sortorder
+           default: desc
+           options:
+           - desc
+           - asc
+           isRequired: false
+           enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
+
+        -  type: dropdownSelector
+           displayName: Operator
+           attributeName: oprt
+           default: "=="
+           options:
+           - "=="
+           - ">"
+           - "<"
+           - ">="
+           - "<="
+           isRequired: false
+           enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
+
+        - type: toggleButton
+          attributeName: compcol
+          displayName: Compare return value of function with window column
+          enableIf: "{% if config.qualify and config.winfunc not in('ROW_NUMBER','RANK','DENSE_RANK','PERCENT_RANK','NTILE') %} true {% else %} false {% endif %}"
+
+
+        - type: textBox
+          displayName: Expected Value
+          attributeName: val
+          isRequired: false
+          enableIf: "{% if config.qualify and config.compcol != true %} true {% else %} false {% endif %}"  
+        
+        - type: multisourceToggle
+
+        - displayName: Multi Source Strategy
+          attributeName: insertStrategy
+          type: dropdownSelector
+          default: UNION
+          options:
+          - "UNION"
+          - "UNION ALL" 
+          isRequired: true
+          enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
+name: View advanced deploy
+type: NodeType

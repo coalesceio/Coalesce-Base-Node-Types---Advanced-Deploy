@@ -1,9 +1,9 @@
 fileVersion: 1
-id: b8a20ef4-84e8-47d0-8b99-edb891107257
-name: COURSES_IT
+id: a6152fa8-d84c-4c9b-8e62-13a33b1eff5b
+name: REGION
 operation:
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   locationName: SOURCE_DATA
   metadata:
@@ -13,13 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: cef8c1ab-2e03-444a-889c-e34c2527403f
-          stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+          columnCounter: a4a3db55-4f5b-47f1-a3ea-eb5b6dd5c57e
+          stepCounter: a6152fa8-d84c-4c9b-8e62-13a33b1eff5b
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: COURSE_ID
+        name: R_REGIONKEY
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -32,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 90c893c6-168b-4b9b-a2af-25244449bcdd
-          stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+          columnCounter: f43cc017-58ae-4afc-b002-3a01fa4aa40d
+          stepCounter: a6152fa8-d84c-4c9b-8e62-13a33b1eff5b
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: VARCHAR(25)
         defaultValue: ""
         description: ""
-        name: COURSE_NAME
+        name: R_NAME
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 00dfe3e7-c8d5-4db7-a2b0-64db76c3b0d0
-          stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+          columnCounter: aefc3bed-d3fa-4f35-9e4e-c44b8e8cf3f9
+          stepCounter: a6152fa8-d84c-4c9b-8e62-13a33b1eff5b
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: VARCHAR(152)
         defaultValue: ""
         description: ""
-        name: INSTRUCTOR
+        name: R_COMMENT
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -65,7 +65,26 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-  name: COURSES_IT
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 402caaf2-76e4-4cf4-895b-d1f27d51f503
+          stepCounter: a6152fa8-d84c-4c9b-8e62-13a33b1eff5b
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        defaultValue: ""
+        description: ""
+        name: R_LOAD_TIMESTAMP
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: REGION
   schema: ""
   sqlType: Source
   type: sourceInput

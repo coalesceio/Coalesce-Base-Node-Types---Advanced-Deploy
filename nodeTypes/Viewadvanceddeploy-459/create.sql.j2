@@ -1,0 +1,56 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : View Advanced Deploy == #}
+{# == Node Type Description    : This node creates a view == #}
+
+
+{% if desiredState %}
+
+
+	   {% if currentState == undefined or currentState != desiredState %}
+        {{ stage('Create View', true, "sql", "create") }}
+
+        CREATE OR REPLACE VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+        (
+            {% for col in desiredState.columns %}
+                "{{ col.name }}"
+                {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+                {%- if not loop.last -%}, {% endif %}
+            {% endfor %}
+        )
+        {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
+        AS
+        {% for source in desiredState.sources %}
+            SELECT
+            {% for col in source.columns %}
+                {{ get_source_transform(col) }} AS "{{ col.name }}"
+                {%- if not loop.last -%}, {% endif %}
+            {% endfor %}
+
+            {{ source.join }}
+             {%if config.qualify%}
+             {%if config.compcol%}               
+                   QUALIFY {{source.columns[0].sourceColumns[0].node.name}}{{'.'~config.winfuncColName.name}} {{config.oprt}} {%if config.winfuncColName is not defined or config.winfuncColName is none%}{{config.winfunc~'()'}}  {%else%} {{config.winfunc~'('}}{{source.columns[0].sourceColumns[0].node.name}}{{'.'~config.winfuncColName.name~')'}} {%endif%}
+              OVER (PARTITION BY  {{ partition_by() }} ORDER BY {{ order_by_col() }} {{config.sortorder}})
+             {%else%}
+              QUALIFY {%if config.winfuncColName is not defined or config.winfuncColName is none%}{{config.winfunc~'()'}}  {%else%} {{config.winfunc~'('}}{{source.columns[0].sourceColumns[0].node.name}}{{'.'~config.winfuncColName.name~')'}} {%endif%}
+              OVER (PARTITION BY  {{ partition_by() }} ORDER BY {{ order_by_col() }} {{config.sortorder}}) {{config.oprt}} {{config.val}}
+              {%endif%}
+             {%endif%}
+            {% if not loop.last %}
+                {% if desiredState.config.insertStrategy in ['UNION', 'UNION ALL'] %}
+                    {{ desiredState.config.insertStrategy }}
+                {% else %}
+                    UNION
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}	
+	
+{%endif%}
