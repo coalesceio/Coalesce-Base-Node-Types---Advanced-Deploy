@@ -4,7 +4,7 @@ isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
-  nodeMetadataSpec: |
+  nodeMetadataSpec: |-
     capitalized: View
     short: VW
     tagColor: '#A3A3A3'
@@ -61,6 +61,12 @@ metadata:
           isRequired: false
           enableIf: "{% if config.qualify and config.winfunc in('NTILE') %} true {% else %} false {% endif %}" 
 
+        
+        - displayName: Partition By
+          attributeName: partitionby
+          type: toggleButton
+          default: false
+          enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
 
         - type: tabular
           displayName: 'Partition By Columns'
@@ -71,50 +77,56 @@ metadata:
              displayName: Column Name
              attributeName: partColName
              isRequired: false
+             enableIf: "{% if config.qualify and config.partitionby %} true {% else %} false {% endif %}"
+             
           isRequired: false
+          enableIf: "{% if config.qualify and config.partitionby %} true {% else %} false {% endif %}"
+
+        - displayName: Order By
+          attributeName: orderby
+          type: toggleButton
+          default: false
           enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
 
         - type: tabular
-          displayName: 'Order by Columns'
-          attributeName: orderBy
+          displayName: 'Sort column'
+          attributeName: orderbycolumn
           columns:
-      
-          -  type: columnDropdownSelector
-             displayName: Order by Column
-             attributeName: colName
-             isRequired: true
-             enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
-        
-          isRequired: false
-          enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
 
-        -  type: dropdownSelector
-           displayName: Sort Order
-           attributeName: sortorder
-           default: desc
-           options:
-           - desc
-           - asc
-           isRequired: false
-           enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
+          -  type: columnDropdownSelector
+             displayName: Column Name
+             attributeName: sortColName
+
+          -  type: dropdownSelector
+             displayName: Sort Order
+             attributeName: sortOrder
+             default: desc
+             options:
+             - desc
+             - asc
+           
+          isRequired: false
+          enableIf: "{% if config.qualify and config.orderby %} true {% else %} false {% endif %}"
+
 
         -  type: dropdownSelector
            displayName: Operator
            attributeName: oprt
-           default: "=="
+           default: "="
            options:
-           - "=="
+           - "="
            - ">"
            - "<"
            - ">="
            - "<="
+           - "BETWEEN"
            isRequired: false
            enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
 
         - type: toggleButton
           attributeName: compcol
           displayName: Compare return value of function with window column
-          enableIf: "{% if config.qualify and config.winfunc not in('ROW_NUMBER','RANK','DENSE_RANK','PERCENT_RANK','NTILE') %} true {% else %} false {% endif %}"
+          enableIf: "{% if config.qualify and config.winfunc not in('ROW_NUMBER','RANK','DENSE_RANK','PERCENT_RANK','NTILE','CUME_DIST') %} true {% else %} false {% endif %}"
 
 
         - type: textBox
@@ -123,16 +135,6 @@ metadata:
           isRequired: false
           enableIf: "{% if config.qualify and config.compcol != true %} true {% else %} false {% endif %}"  
         
-        - type: multisourceToggle
-
-        - displayName: Multi Source Strategy
-          attributeName: insertStrategy
-          type: dropdownSelector
-          default: UNION
-          options:
-          - "UNION"
-          - "UNION ALL" 
-          isRequired: true
-          enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
-name: View advanced deploy
+     
+name: View-Qualify advanced deploy
 type: NodeType

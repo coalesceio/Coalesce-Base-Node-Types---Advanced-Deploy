@@ -1,26 +1,31 @@
 fileVersion: 1
-id: 52ba2ac0-0497-43be-9246-f47f089c1077
-name: VW_STORE_SALES_RNK
+id: acbd5380-6024-4f9b-a683-d5e84568b612
+name: VW_STORE_SALES_SUM
 operation:
   config:
-    compcol: false
+    compcol: true
     insertStrategy: UNION
     ntileval: ""
-    oprt: BETWEEN
+    oprt: <
     orderBy:
       items:
         - colName:
-            columnCounter: 4be0380b-057c-4333-8136-d1a9021ea7b5
-            stepCounter: 52ba2ac0-0497-43be-9246-f47f089c1077
+            columnCounter: f847439c-cd74-4d7e-9c05-5bee675b4237
+            stepCounter: acbd5380-6024-4f9b-a683-d5e84568b612
+    orderby: false
     partitionBy:
       items:
         - partColName:
-            columnCounter: 0f13e6ba-92c1-45ef-bc9a-75ba53e3bfa6
-            stepCounter: 52ba2ac0-0497-43be-9246-f47f089c1077
+            columnCounter: c3613347-9159-474f-b386-b02a10939b47
+            stepCounter: acbd5380-6024-4f9b-a683-d5e84568b612
+    partitionby: false
     qualify: true
     sortorder: desc
-    val: " 2 and 3"
-    winfunc: DENSE_RANK
+    val: ""
+    winfunc: SUM
+    winfuncColName:
+      columnCounter: 3fa81102-c2c4-4620-97c8-e42cb1518454
+      stepCounter: acbd5380-6024-4f9b-a683-d5e84568b612
   database: ""
   deployEnabled: true
   description: ""
@@ -32,8 +37,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0f13e6ba-92c1-45ef-bc9a-75ba53e3bfa6
-          stepCounter: 52ba2ac0-0497-43be-9246-f47f089c1077
+          columnCounter: f847439c-cd74-4d7e-9c05-5bee675b4237
+          stepCounter: acbd5380-6024-4f9b-a683-d5e84568b612
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -46,8 +51,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b0006166-fc67-4460-8c86-1727aa22af8c
-          stepCounter: 52ba2ac0-0497-43be-9246-f47f089c1077
+          columnCounter: c3613347-9159-474f-b386-b02a10939b47
+          stepCounter: acbd5380-6024-4f9b-a683-d5e84568b612
         config: {}
         dataType: DATE
         description: ""
@@ -60,8 +65,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 4be0380b-057c-4333-8136-d1a9021ea7b5
-          stepCounter: 52ba2ac0-0497-43be-9246-f47f089c1077
+          columnCounter: 3fa81102-c2c4-4620-97c8-e42cb1518454
+          stepCounter: acbd5380-6024-4f9b-a683-d5e84568b612
         config: {}
         dataType: NUMBER(10,2)
         description: ""
@@ -83,9 +88,9 @@ operation:
             nodeName: STORE_SALES
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'STORE_SALES') }} "STORE_SALES"
-        name: VW_STORE_SALES_RNK
+        name: VW_STORE_SALES_SUM
         noLinkRefs: []
-  name: VW_STORE_SALES_RNK
+  name: VW_STORE_SALES_SUM
   overrideSQL: false
   schema: ""
   sqlType: "459"

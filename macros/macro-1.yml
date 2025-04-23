@@ -37,6 +37,7 @@ macroString: |-
    
   {%- endmacro -%}
 
+
   {#-- The below block of code initialises a list of all source columns in a node whether they are in the mapping grid or not #}
   {% set nsSourceColumns = namespace(allSourceColumns=[]) %}
   {% for source in sources %}
@@ -80,7 +81,6 @@ macroString: |-
       {{ nsVariables.orderBy }}
 
   {% endmacro %}
-
 
 
   {%- macro getColumnId( colName ) -%}

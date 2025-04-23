@@ -7,7 +7,7 @@ does not permit copying or modification for any other purpose.
 #}
 {# == Node Type Version        : 1  == #}
 {# == Node Type Name           : View Advanced Deploy == #}
-{# == Node Type Description    : This node creates a view == #}
+{# == Node Type Description    : This node creates a view with addition of qualify filter == #}
 
 
 {% if desiredState %}
@@ -15,6 +15,7 @@ does not permit copying or modification for any other purpose.
 
 	   {% if currentState == undefined or currentState != desiredState %}
         {{ stage('Create View', true, "sql", "create") }}
+        
 
         CREATE OR REPLACE VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
         (
@@ -34,22 +35,16 @@ does not permit copying or modification for any other purpose.
             {% endfor %}
 
             {{ source.join }}
-             {%if config.qualify%}
-             {%if config.compcol%}               
-                   QUALIFY {{source.columns[0].sourceColumns[0].node.name}}{{'.'~config.winfuncColName.name}} {{config.oprt}} {%if config.winfuncColName is not defined or config.winfuncColName is none%}{{config.winfunc~'()'}}  {%else%} {{config.winfunc~'('}}{{source.columns[0].sourceColumns[0].node.name}}{{'.'~config.winfuncColName.name~')'}} {%endif%}
-              OVER (PARTITION BY  {{ partition_by() }} ORDER BY {{ order_by_col() }} {{config.sortorder}})
-             {%else%}
-              QUALIFY {%if config.winfuncColName is not defined or config.winfuncColName is none%}{{config.winfunc~'()'}}  {%else%} {{config.winfunc~'('}}{{source.columns[0].sourceColumns[0].node.name}}{{'.'~config.winfuncColName.name~')'}} {%endif%}
-              OVER (PARTITION BY  {{ partition_by() }} ORDER BY {{ order_by_col() }} {{config.sortorder}}) {{config.oprt}} {{config.val}}
+             {%if desiredState.config.qualify -%}
+             {%if desiredState.config.compcol -%}               
+                   QUALIFY {{source.columns[0].sourceColumns[0].node.name}}{{'.'~desiredState.config.winfuncColName.name}} {{desiredState.config.oprt}} {%if desiredState.config.winfuncColName is not defined or desiredState.config.winfuncColName is none%}{{desiredState.config.winfunc~'()'}}  {%else%} {{desiredState.config.winfunc~'('}}{{source.columns[0].sourceColumns[0].node.name}}{{'.'~desiredState.config.winfuncColName.name~')'}} {%endif%}
+              OVER ({%if desiredState.config.partitionby %}PARTITION BY  {{ partition_by() }}{% endif %}{% if desiredState.config.orderby %} {{ sortorder_by_colv() }} {% endif %})
+             {%else -%}
+              QUALIFY {%if (desiredState.config.winfuncColName is not defined or desiredState.config.winfuncColName is none) and desiredState.config. winfunc != 'NTILE' and config.winfunc != 'CUME_DIST' %}{{config.winfunc~'()'}} {%elif config.winfunc == 'NTILE'or config.winfunc == 'CUME_DIST' %} {{desiredState.config.winfunc~'('}}{{desiredState.config.ntileval~')'}}
+               {%else%} {{config.winfunc~'('}}{{source.columns[0].sourceColumns[0].node.name}}{{'.'~desiredState.config.winfuncColName.name~')'}} {%endif%}
+              OVER ( {%if desiredState.config.partitionby %}PARTITION BY  {{ partition_by() }}{% endif %}{% if desiredState.config.orderby %} {{ sortorder_by_colv() }} {% endif %}) {{config.oprt}} {{config.val}}
               {%endif%}
              {%endif%}
-            {% if not loop.last %}
-                {% if desiredState.config.insertStrategy in ['UNION', 'UNION ALL'] %}
-                    {{ desiredState.config.insertStrategy }}
-                {% else %}
-                    UNION
-                {% endif %}
-            {% endif %}
         {% endfor %}
     {% endif %}	
 	
