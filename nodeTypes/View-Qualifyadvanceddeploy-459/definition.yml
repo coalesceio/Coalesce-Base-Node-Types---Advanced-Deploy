@@ -67,6 +67,8 @@ metadata:
                        "NOTE:
                        \n
                         Adding partition by and order by clause depends on the window function and the desired outcome"
+          enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
+        
       
         - displayName: Partition By
           attributeName: partitionby

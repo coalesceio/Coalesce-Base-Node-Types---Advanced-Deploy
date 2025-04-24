@@ -12,11 +12,19 @@ operation:
         - colName:
             columnCounter: 4be0380b-057c-4333-8136-d1a9021ea7b5
             stepCounter: 52ba2ac0-0497-43be-9246-f47f089c1077
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: 4be0380b-057c-4333-8136-d1a9021ea7b5
+            stepCounter: 52ba2ac0-0497-43be-9246-f47f089c1077
+          sortOrder: desc
     partitionBy:
       items:
         - partColName:
             columnCounter: 0f13e6ba-92c1-45ef-bc9a-75ba53e3bfa6
             stepCounter: 52ba2ac0-0497-43be-9246-f47f089c1077
+    partitionby: true
     qualify: true
     sortorder: desc
     val: " 2 and 3"
