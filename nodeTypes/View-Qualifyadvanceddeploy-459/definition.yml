@@ -60,8 +60,14 @@ metadata:
           attributeName: ntileval
           isRequired: false
           enableIf: "{% if config.qualify and config.winfunc in('NTILE') %} true {% else %} false {% endif %}" 
-
-        
+      
+        - type: label
+          attributeName: note2
+          displayName: 
+                       "NOTE:
+                       \n
+                        Adding partition by and order by clause depends on the window function and the desired outcome"
+      
         - displayName: Partition By
           attributeName: partitionby
           type: toggleButton
@@ -130,7 +136,7 @@ metadata:
 
 
         - type: textBox
-          displayName: Expected Value
+          displayName: Expected Value  (In case of "BETWEEN" comparison operator, the expected value is like ' 2 and 3')
           attributeName: val
           isRequired: false
           enableIf: "{% if config.qualify and config.compcol != true %} true {% else %} false {% endif %}"  

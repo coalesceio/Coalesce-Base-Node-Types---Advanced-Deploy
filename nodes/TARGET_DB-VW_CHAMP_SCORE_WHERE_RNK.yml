@@ -11,11 +11,13 @@ operation:
         - colName:
             columnCounter: d83bfae4-a032-4e4c-865c-e4758b238dd5
             stepCounter: 39f889d9-0e3d-449a-b8ab-460ae6346af2
+    orderby: false
     partitionBy:
       items:
         - partColName:
             columnCounter: 02b82b2a-4d56-4733-a38e-5f09d660ba48
             stepCounter: 39f889d9-0e3d-449a-b8ab-460ae6346af2
+    partitionby: false
     qualify: true
     sortorder: desc
     val: "1"

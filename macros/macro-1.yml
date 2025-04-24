@@ -12,7 +12,6 @@ macroString: |-
       {% set parameters = desiredState.parameters %}
   {% endif %}
 
-
   {#-- This macro will frame the order by clause with the columns and sort order specified in config #}
   {#-- Input parmeters   - None #}
   {#-- Return            - Order by clause #}
