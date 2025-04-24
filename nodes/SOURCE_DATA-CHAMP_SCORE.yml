@@ -3,7 +3,7 @@ id: 94cee435-102d-412a-a560-a0f58e030415
 name: CHAMP_SCORE
 operation:
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   locationName: SOURCE_DATA
   metadata:

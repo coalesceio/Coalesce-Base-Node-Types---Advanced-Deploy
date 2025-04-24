@@ -3,7 +3,7 @@ id: ec3deaea-e4e6-4985-9ec0-cbe20dde4dbf
 name: ORDERS
 operation:
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   locationName: SOURCE_DATA
   metadata:

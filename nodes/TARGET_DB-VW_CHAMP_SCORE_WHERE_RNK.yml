@@ -11,13 +11,19 @@ operation:
         - colName:
             columnCounter: d83bfae4-a032-4e4c-865c-e4758b238dd5
             stepCounter: 39f889d9-0e3d-449a-b8ab-460ae6346af2
-    orderby: false
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: d83bfae4-a032-4e4c-865c-e4758b238dd5
+            stepCounter: 39f889d9-0e3d-449a-b8ab-460ae6346af2
+          sortOrder: desc
     partitionBy:
       items:
         - partColName:
-            columnCounter: 02b82b2a-4d56-4733-a38e-5f09d660ba48
+            columnCounter: 590c1e2a-d173-441c-90fb-c5bd819efbda
             stepCounter: 39f889d9-0e3d-449a-b8ab-460ae6346af2
-    partitionby: false
+    partitionby: true
     qualify: true
     sortorder: desc
     val: "1"

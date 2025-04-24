@@ -3,7 +3,7 @@ id: a6152fa8-d84c-4c9b-8e62-13a33b1eff5b
 name: REGION
 operation:
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   locationName: SOURCE_DATA
   metadata:

@@ -6,7 +6,7 @@ operation:
     compcol: false
     ntileval: ""
     oprt: ">"
-    orderby: false
+    orderby: true
     orderbycolumn:
       items:
         - sortColName:

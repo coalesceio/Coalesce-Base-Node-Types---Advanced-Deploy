@@ -12,13 +12,19 @@ operation:
         - colName:
             columnCounter: 041657be-e15e-476d-a077-c22a6c8bfab3
             stepCounter: 0113f35c-d946-4bd5-9437-c50e05d602c0
-    orderby: false
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: d702f6ad-3c59-4a46-ae10-806af11d5cd1
+            stepCounter: 0113f35c-d946-4bd5-9437-c50e05d602c0
+          sortOrder: asc
     partitionBy:
       items:
         - partColName:
             columnCounter: 7cc44c20-325f-43ba-8de9-83ba4e9ceb37
             stepCounter: 0113f35c-d946-4bd5-9437-c50e05d602c0
-    partitionby: false
+    partitionby: true
     qualify: true
     sortorder: desc
     val: ""

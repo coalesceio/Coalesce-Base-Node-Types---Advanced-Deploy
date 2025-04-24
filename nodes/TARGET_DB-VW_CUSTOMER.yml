@@ -10,11 +10,19 @@ operation:
         - colName:
             columnCounter: 995f8e63-d483-4bc6-837e-35bd92a95ada
             stepCounter: aed40419-5821-461e-89a4-caada404bec8
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: c8022163-0eb5-464c-b737-86183ca69b17
+            stepCounter: aed40419-5821-461e-89a4-caada404bec8
+          sortOrder: asc
     partitionBy:
       items:
         - partColName:
             columnCounter: b2feefb2-bd67-4b59-ad03-11c72fdf528e
             stepCounter: aed40419-5821-461e-89a4-caada404bec8
+    partitionby: false
     qualify: true
     selectDistinct: false
     sortorder: desc

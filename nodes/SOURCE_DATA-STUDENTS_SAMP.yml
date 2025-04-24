@@ -3,7 +3,7 @@ id: cd21cae0-a49f-4e97-bffa-5ccdf493d850
 name: STUDENTS_SAMP
 operation:
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   locationName: SOURCE_DATA
   metadata:

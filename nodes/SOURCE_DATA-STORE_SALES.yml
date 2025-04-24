@@ -3,7 +3,7 @@ id: f58ea1b1-cf12-434f-9a01-3bc0711df80c
 name: STORE_SALES
 operation:
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   locationName: SOURCE_DATA
   metadata:

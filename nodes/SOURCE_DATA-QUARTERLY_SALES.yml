@@ -3,7 +3,7 @@ id: 5ec9b6c4-37c1-402a-9d88-370ccd036cbf
 name: QUARTERLY_SALES
 operation:
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   locationName: SOURCE_DATA
   metadata:
