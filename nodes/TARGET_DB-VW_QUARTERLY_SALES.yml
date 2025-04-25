@@ -22,7 +22,9 @@ operation:
     qualify: true
     val: "1"
     winfunc: FIRST_VALUE
-    winfuncColName: null
+    winfuncColName:
+      columnCounter: 3c747939-5664-4dfa-b946-602bc58a9339
+      stepCounter: c5ca4cf2-d8ab-4818-94e3-3307f7b24533
   database: ""
   deployEnabled: true
   description: ""

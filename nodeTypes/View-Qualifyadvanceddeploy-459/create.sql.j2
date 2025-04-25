@@ -85,9 +85,9 @@ does not permit copying or modification for any other purpose.
                    QUALIFY {{source.columns[0].sourceColumns[0].node.name}}{{'.'~desiredState.config.winfuncColName.name}} {{desiredState.config.oprt}} {%if desiredState.config.winfuncColName is not defined or desiredState.config.winfuncColName is none%}{{desiredState.config.winfunc~'()'}}  {%else%} {{desiredState.config.winfunc~'('}}{{source.columns[0].sourceColumns[0].node.name}}{{'.'~desiredState.config.winfuncColName.name~')'}} {%endif%}
               OVER ({%if desiredState.config.partitionby %}PARTITION BY  {{ partition_by() }}{% endif %}{% if desiredState.config.orderby %} {{ sortorder_by_colv() }} {% endif %})
              {%else -%}
-              QUALIFY {%if (desiredState.config.winfuncColName is not defined or desiredState.config.winfuncColName is none) and desiredState.config. winfunc != 'NTILE' and config.winfunc != 'CUME_DIST' %}{{config.winfunc~'()'}} {%elif config.winfunc == 'NTILE'or config.winfunc == 'CUME_DIST' %} {{desiredState.config.winfunc~'('}}{{desiredState.config.ntileval~')'}}
-               {%else%} {{config.winfunc~'('}}{{source.columns[0].sourceColumns[0].node.name}}{{'.'~desiredState.config.winfuncColName.name~')'}} {%endif%}
-              OVER ( {%if desiredState.config.partitionby %}PARTITION BY  {{ partition_by() }}{% endif %}{% if desiredState.config.orderby %} {{ sortorder_by_colv() }} {% endif %}) {{config.oprt}} {{config.val}}
+              QUALIFY {%if (desiredState.config.winfuncColName is not defined or desiredState.config.winfuncColName is none) and desiredState.config. winfunc != 'NTILE' and desiredState.config.winfunc != 'CUME_DIST' %}{{desiredState.config.winfunc~'()'}} {%elif desiredState.config.winfunc == 'NTILE'or desiredState.config.winfunc == 'CUME_DIST' %} {{desiredState.config.winfunc~'('}}{{desiredState.config.ntileval~')'}}
+               {%else%} {{desiredState.config.winfunc~'('}}{{source.columns[0].sourceColumns[0].node.name}}{{'.'~desiredState.config.winfuncColName.name~')'}} {%endif%}
+              OVER ( {%if desiredState.config.partitionby %}PARTITION BY  {{ partition_by() }}{% endif %}{% if desiredState.config.orderby %} {{ sortorder_by_colv() }} {% endif %}) {{desiredState.config.oprt}} {{desiredState.config.val}}
               {%endif%}
              {%endif%}
         {% endfor %}
