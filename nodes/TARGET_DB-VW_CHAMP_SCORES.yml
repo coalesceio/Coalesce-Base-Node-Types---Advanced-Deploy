@@ -1,0 +1,93 @@
+fileVersion: 1
+id: 2277dad4-7bac-4788-9b0e-76e949b05d91
+name: VW_CHAMP_SCORES
+operation:
+  config:
+    compcol: false
+    ntileval: ""
+    oprt: "="
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: ea946862-8fb8-44b0-b92b-324baa807fb3
+            stepCounter: 2277dad4-7bac-4788-9b0e-76e949b05d91
+          sortOrder: desc
+    partitionBy:
+      items:
+        - {}
+    partitionby: false
+    qualify: true
+    val: "1"
+    winfunc: ROW_NUMBER
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cd27ba90-bc85-41a8-8327-acb3cb1e60cd
+          stepCounter: 2277dad4-7bac-4788-9b0e-76e949b05d91
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        name: PLAYER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 05e28d04-87f1-4fb7-b777-dbcd927d0547
+                stepCounter: db44c9d2-bb1a-40b4-9bc8-a5200e264304
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ea946862-8fb8-44b0-b92b-324baa807fb3
+          stepCounter: 2277dad4-7bac-4788-9b0e-76e949b05d91
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: POINTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7044f3a6-2646-4572-bd06-5a4b89f3052c
+                stepCounter: db44c9d2-bb1a-40b4-9bc8-a5200e264304
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e3928c70-9243-442d-aca3-4ddfec05550c
+          stepCounter: 2277dad4-7bac-4788-9b0e-76e949b05d91
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: SEASON
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5e006135-7e0c-4ba0-903c-608a0ed9de45
+                stepCounter: db44c9d2-bb1a-40b4-9bc8-a5200e264304
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: CHAMP_SCORE
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'CHAMP_SCORE') }} "CHAMP_SCORE"
+        name: VW_CHAMP_SCORES
+        noLinkRefs: []
+  name: VW_CHAMP_SCORES
+  overrideSQL: false
+  schema: ""
+  sqlType: "459"
+  type: sql
+  version: 1
+type: Node
