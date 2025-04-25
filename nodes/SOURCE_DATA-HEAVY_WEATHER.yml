@@ -3,7 +3,7 @@ id: 1a61911b-809c-4089-951f-8e9976ef3b60
 name: HEAVY_WEATHER
 operation:
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   locationName: SOURCE_DATA
   metadata:
