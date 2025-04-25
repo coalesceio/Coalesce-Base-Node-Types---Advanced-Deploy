@@ -1,37 +1,30 @@
 fileVersion: 1
-id: 0113f35c-d946-4bd5-9437-c50e05d602c0
-name: VW_INC_PRECIP_LEAD11
+id: ff56ce51-d5e1-4d56-b0c4-c7754755bf1b
+name: VW_HEAVY_WEATHER
 operation:
   config:
     compcol: true
-    insertStrategy: UNION
     ntileval: ""
-    oprt: ">"
-    orderBy:
-      items:
-        - colName:
-            columnCounter: 041657be-e15e-476d-a077-c22a6c8bfab3
-            stepCounter: 0113f35c-d946-4bd5-9437-c50e05d602c0
+    oprt: "="
     orderby: true
     orderbycolumn:
       items:
         - sortColName:
-            columnCounter: d702f6ad-3c59-4a46-ae10-806af11d5cd1
-            stepCounter: 0113f35c-d946-4bd5-9437-c50e05d602c0
-          sortOrder: asc
+            columnCounter: 099d75e9-19ab-4d2a-a654-76c8c4f8f1a2
+            stepCounter: ff56ce51-d5e1-4d56-b0c4-c7754755bf1b
+          sortOrder: desc
     partitionBy:
       items:
         - partColName:
-            columnCounter: 7cc44c20-325f-43ba-8de9-83ba4e9ceb37
-            stepCounter: 0113f35c-d946-4bd5-9437-c50e05d602c0
+            columnCounter: cd4e9d7f-063b-4311-ad31-5d4b7782d62e
+            stepCounter: ff56ce51-d5e1-4d56-b0c4-c7754755bf1b
     partitionby: true
     qualify: true
-    sortorder: desc
     val: ""
     winfunc: LEAD
     winfuncColName:
-      columnCounter: d702f6ad-3c59-4a46-ae10-806af11d5cd1
-      stepCounter: 0113f35c-d946-4bd5-9437-c50e05d602c0
+      columnCounter: 0cabff17-f2d9-409d-95b9-0729de2d5fe4
+      stepCounter: ff56ce51-d5e1-4d56-b0c4-c7754755bf1b
   database: ""
   deployEnabled: true
   description: ""
@@ -43,8 +36,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 041657be-e15e-476d-a077-c22a6c8bfab3
-          stepCounter: 0113f35c-d946-4bd5-9437-c50e05d602c0
+          columnCounter: 099d75e9-19ab-4d2a-a654-76c8c4f8f1a2
+          stepCounter: ff56ce51-d5e1-4d56-b0c4-c7754755bf1b
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -57,8 +50,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d702f6ad-3c59-4a46-ae10-806af11d5cd1
-          stepCounter: 0113f35c-d946-4bd5-9437-c50e05d602c0
+          columnCounter: 0cabff17-f2d9-409d-95b9-0729de2d5fe4
+          stepCounter: ff56ce51-d5e1-4d56-b0c4-c7754755bf1b
         config: {}
         dataType: NUMBER(3,2)
         description: ""
@@ -71,8 +64,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7cc44c20-325f-43ba-8de9-83ba4e9ceb37
-          stepCounter: 0113f35c-d946-4bd5-9437-c50e05d602c0
+          columnCounter: cd4e9d7f-063b-4311-ad31-5d4b7782d62e
+          stepCounter: ff56ce51-d5e1-4d56-b0c4-c7754755bf1b
         config: {}
         dataType: VARCHAR(20)
         description: ""
@@ -85,8 +78,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 96eeea20-c741-4ffd-832e-f3ea30a61aae
-          stepCounter: 0113f35c-d946-4bd5-9437-c50e05d602c0
+          columnCounter: 063854aa-299d-44ec-85a2-e742a5d7663f
+          stepCounter: ff56ce51-d5e1-4d56-b0c4-c7754755bf1b
         config: {}
         dataType: VARCHAR(20)
         description: ""
@@ -108,9 +101,9 @@ operation:
             nodeName: HEAVY_WEATHER
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'HEAVY_WEATHER') }} "HEAVY_WEATHER"
-        name: VW_INC_PRECIP_LEAD11
+        name: VW_HEAVY_WEATHER
         noLinkRefs: []
-  name: VW_INC_PRECIP_LEAD11
+  name: VW_HEAVY_WEATHER
   overrideSQL: false
   schema: ""
   sqlType: "459"
