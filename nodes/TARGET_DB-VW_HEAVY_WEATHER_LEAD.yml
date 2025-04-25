@@ -1,0 +1,110 @@
+fileVersion: 1
+id: e5884308-5037-478b-9783-9171d96b6c1d
+name: VW_HEAVY_WEATHER_LEAD
+operation:
+  config:
+    compcol: true
+    ntileval: ""
+    oprt: "="
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: 74357c2e-5f77-4556-97f3-04e8ea03765c
+            stepCounter: e5884308-5037-478b-9783-9171d96b6c1d
+          sortOrder: desc
+    partitionBy:
+      items:
+        - {}
+    partitionby: true
+    qualify: true
+    val: ""
+    winfunc: LEAD
+    winfuncColName:
+      columnCounter: 9e33428d-48e6-4fc5-9e71-f297ed79f7dc
+      stepCounter: e5884308-5037-478b-9783-9171d96b6c1d
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 74357c2e-5f77-4556-97f3-04e8ea03765c
+          stepCounter: e5884308-5037-478b-9783-9171d96b6c1d
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: START_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fe74c0eb-7f0b-4fe2-a3af-4235f901b63b
+                stepCounter: 1a61911b-809c-4089-951f-8e9976ef3b60
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9e33428d-48e6-4fc5-9e71-f297ed79f7dc
+          stepCounter: e5884308-5037-478b-9783-9171d96b6c1d
+        config: {}
+        dataType: NUMBER(3,2)
+        description: ""
+        name: PRECIP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5b23327f-8e49-43a9-acbf-be620b55b908
+                stepCounter: 1a61911b-809c-4089-951f-8e9976ef3b60
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 48c8877d-8070-4b09-8708-f35227a5999a
+          stepCounter: e5884308-5037-478b-9783-9171d96b6c1d
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1e4eb28e-23ff-4e48-8c0c-6bc821698793
+                stepCounter: 1a61911b-809c-4089-951f-8e9976ef3b60
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fa9a0ef9-fac2-43a4-bf67-e1319dbc0cf2
+          stepCounter: e5884308-5037-478b-9783-9171d96b6c1d
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: COUNTY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 22b14055-45d3-46d0-b9a3-2be4cb0c802c
+                stepCounter: 1a61911b-809c-4089-951f-8e9976ef3b60
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: HEAVY_WEATHER
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'HEAVY_WEATHER') }} "HEAVY_WEATHER"
+        name: VW_HEAVY_WEATHER_LEAD
+        noLinkRefs: []
+  name: VW_HEAVY_WEATHER_LEAD
+  overrideSQL: false
+  schema: ""
+  sqlType: "459"
+  type: sql
+  version: 1
+type: Node
