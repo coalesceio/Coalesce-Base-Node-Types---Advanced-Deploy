@@ -45,7 +45,7 @@ metadata:
           - "PERCENT_RANK"
           - "CUME_DIST"
           - "RATIO_TO_REPORT"	  
-          isRequired: true
+          isRequired: false
           enableIf: "{% if config.qualify %} true {% else %} false {% endif %}"
         
       

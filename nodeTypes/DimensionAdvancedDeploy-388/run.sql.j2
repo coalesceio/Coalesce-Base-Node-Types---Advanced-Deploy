@@ -201,10 +201,10 @@ does not permit copying or modification for any other purpose.
 			     	{{ node.name}}.{{ col.name}} ={{config.insertZeroKeySurrogateKey}}
 			     {% endfor %}
               )
-			{% endif %}
-			;
+            ;
 			COMMIT;
             END
+			{% endif %}
 		  {% endif -%}	
     {% if is_type_2 %}
          

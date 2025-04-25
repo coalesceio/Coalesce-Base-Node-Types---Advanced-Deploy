@@ -22,7 +22,8 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
-    truncateBefore: false
+    truncateBefore: true
+    updateStrategy: MERGE
   database: ""
   deployEnabled: false
   description: ""
@@ -68,8 +69,8 @@ operation:
                 stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
             transform: ""
           - columnReferences:
-              - columnCounter: cef8c1ab-2e03-444a-889c-e34c2527403f
-                stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+              - columnCounter: 1f3d84ab-ddcf-4693-b7f6-1fcca4b460cd
+                stepCounter: 34be8ad1-3ef7-4685-997d-0156eb8cfaf9
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -87,8 +88,8 @@ operation:
                 stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
             transform: ""
           - columnReferences:
-              - columnCounter: 90c893c6-168b-4b9b-a2af-25244449bcdd
-                stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+              - columnCounter: 4034931f-20aa-456f-b31a-573a4649dd88
+                stepCounter: 34be8ad1-3ef7-4685-997d-0156eb8cfaf9
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -106,8 +107,8 @@ operation:
                 stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
             transform: ""
           - columnReferences:
-              - columnCounter: 00dfe3e7-c8d5-4db7-a2b0-64db76c3b0d0
-                stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+              - columnCounter: 6a3a19f2-0473-4c9c-8e60-3719b48e8a31
+                stepCounter: 34be8ad1-3ef7-4685-997d-0156eb8cfaf9
             transform: ""
       - acceptedValues:
           strictMatch: true

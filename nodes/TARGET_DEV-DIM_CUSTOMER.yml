@@ -21,7 +21,7 @@ operation:
     insertZeroKeyDate: 01-01-1900
     insertZeroKeyStr: UNKNOWN
     insertZeroKeySurrogateKey: "0"
-    insertZeroKeyTimestamp: null
+    insertZeroKeyTimestamp: "1900-01-01 00:00:00"
     orderby: false
     orderbycolumn:
       items:
@@ -31,7 +31,7 @@ operation:
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
-    updateStrategy: null
+    updateStrategy: MERGE
   database: ""
   deployEnabled: true
   description: ""

@@ -6,10 +6,13 @@ operation:
     clusterKey: false
     groupByAll: false
     insertStrategy: UNION ALL
-    insertZeroKey: true
+    insertZeroKey: false
+    insertZeroKeyAdvanced: false
+    insertZeroKeyBol: "TRUE"
     insertZeroKeyDate: 29-11-2024
     insertZeroKeyStr: NA
     insertZeroKeySurrogateKey: "-1"
+    insertZeroKeyTimestamp: null
     orderby: false
     orderbycolumn:
       items:
@@ -19,6 +22,7 @@ operation:
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
+    updateStrategy: MERGE
   database: ""
   deployEnabled: false
   description: ""

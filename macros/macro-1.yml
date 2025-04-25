@@ -37,30 +37,17 @@ macroString: |-
   {%- endmacro -%}
 
   {#-- The below block of code initialises a list of all source columns in a node whether they are in the mapping grid or not #}
-  {% set nsSourceColumns = namespace(allSourceColumns=[]) %}
-  {% for source in sources %}
-      {% set nsSourceColumns.allSourceColumns = nsSourceColumns.allSourceColumns | list + source.columns | list %}
-  {% endfor %}
+  {%- macro partition_by() -%}
 
-  {%- macro partition_by( nodetype ) -%}
-
-      {%- set nsVariables = namespace(partition="",delim="") -%}
+      {%- set nsVariables = namespace(partition="") -%}
       {%- set sourceTableName = node.name -%}
-
-      {%-if nodetype == 'DIM' -%}
-              {%set nsVariables.delim = '~'%}
-      {%else%}
-              {%set nsVariables.delim = ','%}
-      {%- endif -%}
 
       {%- for i in config.partitionBy.get('items') -%}
           {%- set colName = i.partColName.name -%}
-          {%- set colId = getColumnId(colName) -%}
-          {%- set columnMetadata = nsSourceColumns.allSourceColumns | selectattr('id','equalto',colId) | first -%}
           {%- if loop.first -%}
-              {%- set nsVariables.partition = get_source_transform(columnMetadata) -%}
+              {%- set nsVariables.partition = getSourceNameFromColumnName(colName) + '."' + colName + '"' -%}
           {%- else -%}
-              {%- set nsVariables.partition = nsVariables.partition + nsVariables.delim + get_source_transform(columnMetadata) -%}
+              {%- set nsVariables.partition = nsVariables.partition + ',' + getSourceNameFromColumnName(colName) + '."' + colName + '"' -%}
           {%- endif -%}
 
       {%- endfor -%}
@@ -75,6 +62,14 @@ macroString: |-
       {{- columnId -}}
 
   {%- endmacro -%}
+
+  {% macro getSourceNameFromColumnName( colName ) %}
+
+      {%- set sourceObject = sources[0].columns | selectattr('id','eq',getColumnId( colName )) | map(attribute='sourceColumns')  | first | map(attribute='node.name') | first -%}
+
+      "{{- sourceObject -}}"
+
+  {% endmacro %}
 
 
   {#-- This macro will split the join clause into from and rest of the clauses like where,groupby,orderby ,qualify  #}
