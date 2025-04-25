@@ -1,0 +1,17 @@
+fileVersion: 1
+id: "465"
+mappingDefinitions:
+  SOURCE_DATA:
+    database: ANANDHIS_DEV
+    schema: SOURCE_DATA
+  TARGET_ACC:
+    database: ANANDHIS_DEV
+    schema: TARGET
+  TARGET_DB:
+    database: ANANDHIS_DEV
+    schema: TARGET_ACC
+  TARGET_DEV:
+    database: ANANDHIS_DEV
+    schema: TARGET_DEV
+name: QA_2
+type: Environment
