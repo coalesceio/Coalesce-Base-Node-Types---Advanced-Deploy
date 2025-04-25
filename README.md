@@ -360,7 +360,7 @@ You can create the node as:
 |---------|-------------|
 | **Create As**| Transient Table |
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
-| **Update Strategy**| Options : MERGE,INSERT/UPDATE <br/>- **MERGE**: Uses a single MERGE statement to handle both insert and update operations based on matching keys.<br/>- **INSERT/UPDATE**: Separately executes UPDATE for existing records and INSERT for new ones using custom logic.|| **Business key** | Required column for Type 1 and Type 2 Dimensions |
+| **Update Strategy**| Options : MERGE,INSERT/UPDATE <br/>- **MERGE**: Uses a single MERGE statement to handle both insert and update operations based on matching keys.<br/>- **INSERT/UPDATE**: Separately executes UPDATE for existing records and INSERT for new ones using custom logic.For preferred choice,refer [Preferences](#preferences)|
 | **Business key** | Required column for Type 1 and Type 2 Dimensions |
 | **Change tracking** | Required column for Type 2 Dimension |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
@@ -384,6 +384,12 @@ You can create the node as:
 | **Group by All** | Toggle: True/False<br/>**True**: DISTINCT is invisible, data grouped by all columns<br/>**False**: DISTINCT is visible |
 | **Order By** | Toggle: True/False<br/>**True**: Sort column and sort order drop down are visible and are required to form order by clause. <br/>**False**: Sort options invisible |
 
+## Preferences
+
+* With Update Strategy config option in Dimension,we can choose either to perform a MERGE or INSERT/UPDATE operation to create various SCDs(Slowly Changing Dimensions).
+* Insert/Update operations scale well up to 10 million rows but MERGE is recommended for its superior execution performance.
+* For large datasets,MERGE operation is recommended.
+  
 ### Dimension Advanced Deploy Joins
 
 Join conditions and other clauses can be specified in the join space next to mapping of columns in the UI.
