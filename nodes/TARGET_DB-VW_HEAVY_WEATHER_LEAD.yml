@@ -9,11 +9,15 @@ operation:
     orderby: true
     orderbycolumn:
       items:
-        - sortColName: null
-          sortOrder: null
+        - sortColName:
+            columnCounter: 74357c2e-5f77-4556-97f3-04e8ea03765c
+            stepCounter: e5884308-5037-478b-9783-9171d96b6c1d
+          sortOrder: desc
     partitionBy:
       items:
-        - partColName: null
+        - partColName:
+            columnCounter: 48c8877d-8070-4b09-8708-f35227a5999a
+            stepCounter: e5884308-5037-478b-9783-9171d96b6c1d
     partitionby: true
     qualify: true
     val: ""
