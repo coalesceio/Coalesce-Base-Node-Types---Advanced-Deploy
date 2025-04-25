@@ -64,8 +64,8 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: fc66c63b-24b2-4dc5-bc5e-0f8b46130505
-                stepCounter: 99b663b7-8eb7-40fb-91aa-facf571876f1
+              - columnCounter: ea42f8a8-bae9-4f03-abd4-875bbd10b286
+                stepCounter: f0d79a7c-4ad1-4155-8209-d955849eb5f1
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -78,8 +78,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: fe527263-ba0b-4949-8d1e-1c736a46c506
-                stepCounter: 99b663b7-8eb7-40fb-91aa-facf571876f1
+              - columnCounter: 9a950bfb-77c0-4a36-a5a4-129e48363bbb
+                stepCounter: f0d79a7c-4ad1-4155-8209-d955849eb5f1
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -93,8 +93,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: bfa66aba-000f-48f0-b149-cd17a31be833
-                stepCounter: 99b663b7-8eb7-40fb-91aa-facf571876f1
+              - columnCounter: eb886dcf-352a-4a1b-889b-842271a643a1
+                stepCounter: f0d79a7c-4ad1-4155-8209-d955849eb5f1
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -107,8 +107,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: bd48835a-233c-4fb7-b0f8-c2e1e8ff8a5d
-                stepCounter: 99b663b7-8eb7-40fb-91aa-facf571876f1
+              - columnCounter: a52689fd-dcce-4f7d-8b89-bb3d97270993
+                stepCounter: f0d79a7c-4ad1-4155-8209-d955849eb5f1
             transform: ""
       - acceptedValues:
           strictMatch: true
@@ -228,7 +228,7 @@ operation:
   name: DIM_PRODUCTS_GROCERY3
   overrideSQL: false
   schema: ""
-  sqlType: "183"
+  sqlType: "388"
   type: sql
   version: 1
 type: Node

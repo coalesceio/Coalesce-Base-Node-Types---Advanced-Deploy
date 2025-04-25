@@ -61,8 +61,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 7ffe3e12-a1cd-4278-81c1-5ec933d24b88
-                stepCounter: c11fa2b4-c0d5-4126-99ce-4a31dd7e803a
+              - columnCounter: 1f3d84ab-ddcf-4693-b7f6-1fcca4b460cd
+                stepCounter: 34be8ad1-3ef7-4685-997d-0156eb8cfaf9
             transform: ""
           - columnReferences:
               - columnCounter: cef8c1ab-2e03-444a-889c-e34c2527403f
@@ -79,8 +79,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 4e6c520f-a550-4660-8001-060cd34f4f35
-                stepCounter: c11fa2b4-c0d5-4126-99ce-4a31dd7e803a
+              - columnCounter: 4034931f-20aa-456f-b31a-573a4649dd88
+                stepCounter: 34be8ad1-3ef7-4685-997d-0156eb8cfaf9
             transform: ""
           - columnReferences:
               - columnCounter: 90c893c6-168b-4b9b-a2af-25244449bcdd
@@ -97,8 +97,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 140d3693-4b18-48a4-847e-1a36bca8d3a0
-                stepCounter: c11fa2b4-c0d5-4126-99ce-4a31dd7e803a
+              - columnCounter: 6a3a19f2-0473-4c9c-8e60-3719b48e8a31
+                stepCounter: 34be8ad1-3ef7-4685-997d-0156eb8cfaf9
             transform: ""
           - columnReferences:
               - columnCounter: 00dfe3e7-c8d5-4db7-a2b0-64db76c3b0d0
@@ -245,7 +245,7 @@ operation:
   name: PSTG_COURSES_SC
   overrideSQL: false
   schema: ""
-  sqlType: "180"
+  sqlType: "391"
   type: sql
   version: 1
 type: Node

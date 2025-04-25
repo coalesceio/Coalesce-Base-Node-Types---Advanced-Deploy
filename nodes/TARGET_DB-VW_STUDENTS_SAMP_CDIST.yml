@@ -1,0 +1,145 @@
+fileVersion: 1
+id: 9d041581-5e3e-4143-898e-94321de4ceb5
+name: VW_STUDENTS_SAMP_CDIST
+operation:
+  config:
+    compcol: false
+    insertStrategy: UNION
+    ntileval: ""
+    oprt: ">="
+    orderBy:
+      items:
+        - colName:
+            columnCounter: a35902b3-07b4-42b6-8f98-6a435a2a0fb3
+            stepCounter: 9d041581-5e3e-4143-898e-94321de4ceb5
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: 893242ed-3ad6-447d-b632-1ef484051a76
+            stepCounter: 9d041581-5e3e-4143-898e-94321de4ceb5
+          sortOrder: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: b35c391f-01d0-4f6b-8939-f42f063ee279
+            stepCounter: 9d041581-5e3e-4143-898e-94321de4ceb5
+    partitionby: false
+    qualify: true
+    sortorder: asc
+    val: "0.4"
+    winfunc: CUME_DIST
+    winfuncColName:
+      columnCounter: a35902b3-07b4-42b6-8f98-6a435a2a0fb3
+      stepCounter: 9d041581-5e3e-4143-898e-94321de4ceb5
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 893242ed-3ad6-447d-b632-1ef484051a76
+          stepCounter: 9d041581-5e3e-4143-898e-94321de4ceb5
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e575ddf6-de17-40cf-a59f-224229a3e97e
+                stepCounter: cd21cae0-a49f-4e97-bffa-5ccdf493d850
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a35902b3-07b4-42b6-8f98-6a435a2a0fb3
+          stepCounter: 9d041581-5e3e-4143-898e-94321de4ceb5
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: GRADE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 024f2664-c7b5-4ff1-ba81-693a2598734d
+                stepCounter: cd21cae0-a49f-4e97-bffa-5ccdf493d850
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b35c391f-01d0-4f6b-8939-f42f063ee279
+          stepCounter: 9d041581-5e3e-4143-898e-94321de4ceb5
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: COUNTRY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2924dc7f-3d4b-41ba-9886-75c9f0ecbefb
+                stepCounter: cd21cae0-a49f-4e97-bffa-5ccdf493d850
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f28de6f0-b438-42af-aff5-a03bac4f3aa9
+          stepCounter: 9d041581-5e3e-4143-898e-94321de4ceb5
+        config: {}
+        dataType: DECIMAL
+        defaultValue: ""
+        description: ""
+        name: CUM_DIST
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: |-
+              CUME_DIST() OVER (
+                  PARTITION BY "STUDENTS_SAMP"."COUNTRY"
+                  ORDER BY "STUDENTS_SAMP"."GRADE" asc
+                )
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 271fcece-553c-43fa-8a9f-8aa4875b21fa
+          stepCounter: 9d041581-5e3e-4143-898e-94321de4ceb5
+        config: {}
+        dataType: ""
+        defaultValue: ""
+        description: ""
+        name: ""
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: STUDENTS_SAMP
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'STUDENTS_SAMP') }} "STUDENTS_SAMP"
+        name: VW_STUDENTS_SAMP_CDIST
+        noLinkRefs: []
+  name: VW_STUDENTS_SAMP_CDIST
+  overrideSQL: false
+  schema: ""
+  sqlType: "459"
+  type: sql
+  version: 1
+type: Node

@@ -68,8 +68,8 @@ operation:
                 stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
             transform: ""
           - columnReferences:
-              - columnCounter: 7ffe3e12-a1cd-4278-81c1-5ec933d24b88
-                stepCounter: c11fa2b4-c0d5-4126-99ce-4a31dd7e803a
+              - columnCounter: cef8c1ab-2e03-444a-889c-e34c2527403f
+                stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -87,8 +87,8 @@ operation:
                 stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
             transform: ""
           - columnReferences:
-              - columnCounter: 4e6c520f-a550-4660-8001-060cd34f4f35
-                stepCounter: c11fa2b4-c0d5-4126-99ce-4a31dd7e803a
+              - columnCounter: 90c893c6-168b-4b9b-a2af-25244449bcdd
+                stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -106,8 +106,8 @@ operation:
                 stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
             transform: ""
           - columnReferences:
-              - columnCounter: 140d3693-4b18-48a4-847e-1a36bca8d3a0
-                stepCounter: c11fa2b4-c0d5-4126-99ce-4a31dd7e803a
+              - columnCounter: 00dfe3e7-c8d5-4db7-a2b0-64db76c3b0d0
+                stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
             transform: ""
       - acceptedValues:
           strictMatch: true
@@ -250,7 +250,7 @@ operation:
   name: DIM_COURSES_IT
   overrideSQL: false
   schema: ""
-  sqlType: "183"
+  sqlType: "388"
   type: sql
   version: 1
 type: Node

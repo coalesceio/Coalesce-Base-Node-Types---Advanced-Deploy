@@ -1,0 +1,112 @@
+fileVersion: 1
+id: c5ca4cf2-d8ab-4818-94e3-3307f7b24533
+name: VW_QUARTERLY_SALES
+operation:
+  config:
+    compcol: false
+    ntileval: ""
+    oprt: "="
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: 3c747939-5664-4dfa-b946-602bc58a9339
+            stepCounter: c5ca4cf2-d8ab-4818-94e3-3307f7b24533
+          sortOrder: desc
+    partitionBy:
+      items:
+        - partColName:
+            columnCounter: 073d8ab5-dd66-46f2-ac5f-a8236d1eae97
+            stepCounter: c5ca4cf2-d8ab-4818-94e3-3307f7b24533
+    partitionby: true
+    qualify: true
+    val: "1"
+    winfunc: FIRST_VALUE
+    winfuncColName:
+      columnCounter: 3c747939-5664-4dfa-b946-602bc58a9339
+      stepCounter: c5ca4cf2-d8ab-4818-94e3-3307f7b24533
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 073d8ab5-dd66-46f2-ac5f-a8236d1eae97
+          stepCounter: c5ca4cf2-d8ab-4818-94e3-3307f7b24533
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: EMPID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c6e98d9f-6764-49a7-87bf-bae2fac27d52
+                stepCounter: 5ec9b6c4-37c1-402a-9d88-370ccd036cbf
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3c747939-5664-4dfa-b946-602bc58a9339
+          stepCounter: c5ca4cf2-d8ab-4818-94e3-3307f7b24533
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e77a70a2-5467-4521-b742-7e8683b8f683
+                stepCounter: 5ec9b6c4-37c1-402a-9d88-370ccd036cbf
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e5d976f5-e0a6-48b1-ae72-9489852e3d3e
+          stepCounter: c5ca4cf2-d8ab-4818-94e3-3307f7b24533
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: QUARTER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4210fe54-d600-435a-be1d-41fe59bdedc0
+                stepCounter: 5ec9b6c4-37c1-402a-9d88-370ccd036cbf
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bfeb5c2c-db38-491e-b033-5847b807531c
+          stepCounter: c5ca4cf2-d8ab-4818-94e3-3307f7b24533
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: DISCOUNT_PERCENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b7657ec1-f768-4350-a8c1-08065048877b
+                stepCounter: 5ec9b6c4-37c1-402a-9d88-370ccd036cbf
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: QUARTERLY_SALES
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'QUARTERLY_SALES') }} "QUARTERLY_SALES"
+        name: VW_QUARTERLY_SALES
+        noLinkRefs: []
+  name: VW_QUARTERLY_SALES
+  overrideSQL: false
+  schema: ""
+  sqlType: "459"
+  type: sql
+  version: 1
+type: Node

@@ -3,17 +3,16 @@ id: 21dfebb1-b65a-4af9-9be1-ab1444dc0355
 name: DIM_CUSTOMER
 operation:
   config:
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
-      items:
-        - {}
+      items: []
     clusterKeyConfigExpressions:
       items:
         - columnNameExpressions: null
           sqlExpression: ex. trunc("<column_name>", -5)
         - columnNameExpressions: null
           sqlExpression: ex. trunc("<column_name>", -5)
-    clusterKeyExpressions: true
+    clusterKeyExpressions: false
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: true
@@ -32,6 +31,7 @@ operation:
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
+    updateStrategy: null
   database: ""
   deployEnabled: true
   description: ""
