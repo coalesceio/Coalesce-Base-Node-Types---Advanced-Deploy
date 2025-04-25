@@ -81,7 +81,7 @@ does not permit copying or modification for any other purpose.
 
             {{ source.join }}
              {%if desiredState.config.qualify -%}
-             {%if desiredState.config.compcol -%}               
+             {%if desiredState.config.compcol and desiredState.config.winfunc not in('ROW_NUMBER','RANK','DENSE_RANK','PERCENT_RANK','NTILE','CUME_DIST') -%}               
                    QUALIFY {{source.columns[0].sourceColumns[0].node.name}}{{'.'~desiredState.config.winfuncColName.name}} {{desiredState.config.oprt}} {%if desiredState.config.winfuncColName is not defined or desiredState.config.winfuncColName is none%}{{desiredState.config.winfunc~'()'}}  {%else%} {{desiredState.config.winfunc~'('}}{{source.columns[0].sourceColumns[0].node.name}}{{'.'~desiredState.config.winfuncColName.name~')'}} {%endif%}
               OVER ({%if desiredState.config.partitionby %}PARTITION BY  {{ partition_by() }}{% endif %}{% if desiredState.config.orderby %} {{ sortorder_by_colv() }} {% endif %})
              {%else -%}
