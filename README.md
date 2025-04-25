@@ -736,14 +736,20 @@ The View node type has two configuration groups:
 | **Window functions** | A drop down with the list of window functions is visible.Window function to be used in QULAIFY filter predicate is chosen.  |
 | **Window function column name**|The window fucntion is applied to this specific column.This is not required for window functions like 'ROW_NUMBER','RANK','DENSE_RANK','PERCENT_RANK','NTILE'|
 | **Constant value-desired number of buckets**|Enabled whn the window function chosen is "NTILE"|
-| **Partition By** | Toggle: True/False<br/>**True**: Lists the columns to be used for partitioning window function <br/>**False**: Partition by column drop down is invisible |
-| **Order By** | Toggle: True/False<br/>**True**: Sort column and sort order drop down are visible and are required to form order by clause<br/>**False**: Sort column and sort order drop down are invisible |
+| **Partition By** | Toggle: True/False<br/>**True**: Lists the columns to be used for partitioning window function <br/>**False**: Partition by column drop down is invisible.Check [preferences](#preferences) for more info |
+| **Order By** | Toggle: True/False<br/>**True**: Sort column and sort order drop down are visible and are required to form order by clause<br/>**False**: Sort column and sort order drop down are invisible.Check [preferences](#preferences) for more info |
 | **Operator** | A drop with the list of comparison operators are listed down |
 | **Compare return value of function with window column** | Toggle: True/False<br/>**True**: The return value of window function is compared with the column chosen for window function <br/>**False**: Compared with an expected value entered in the config below|
 | **Expected value**| The expected value possibly an integer to compare the results of window function|
 
 ![View-Qialify options](https://github.com/user-attachments/assets/67a7d373-d437-4eaf-b30b-2deda610b4ba)
 
+### Preferences
+
+* PARTITION BY is optional.You can omit PARTITION BY if you want to treat the entire result set as one partition.
+* ORDER BY is also optional.But it is required for ranking or cumulative functions where order matters (e.g., ROW_NUMBER(), RANK(), LAG(), LEAD())
+* ORDER BY is optional for functions like AVG(), SUM(), etc., unless you want cumulative behavior.
+  
 ### View Joins
 
 Join conditions and other clauses like where, qualify can be specified in the join space next to mapping of columns in the Coalesce app.
@@ -832,6 +838,14 @@ This is executed in the below stage:
 | **Node definition** | [definition.yml](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactlessFactAdvancedDeploy-264/definition.yml) |
 | **Create Template** | [create.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactlessFactAdvancedDeploy-264/create.sql.j2) |
 | **Run Template** | [run.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactlessFactAdvancedDeploy-264/run.sql.j2) |
+
+### View-Qualify advanced deploy
+
+| **Component** | **Link** |
+|--------------|-----------|
+| **Node definition** | [definition.yml](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/View-Qualifyadvanceddeploy-459/definition.yml) |
+| **Create Template** | [create.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/View-Qualifyadvanceddeploy-459/create.sql.j2) |
+
 
 [Macros](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/macros/macro-1.yml)
 
