@@ -15,11 +15,11 @@ operation:
     clusterKeyExpressions: false
     customZeroKeyValues:
       items:
-        - {}
+        - columnValueDefault: null
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: true
-    insertZeroKeyAdvanced: true
+    insertZeroKeyAdvanced: false
     insertZeroKeyBol: "TRUE"
     insertZeroKeyDate: 01-01-1900
     insertZeroKeyStr: UNKNOWN
@@ -302,7 +302,9 @@ operation:
           - locationName: TARGET_DEV
             nodeName: V_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('TARGET_DEV', 'V_CUSTOMER') }} "V_CUSTOMER"
+          joinCondition: |-
+            FROM {{ ref('TARGET_DEV', 'V_CUSTOMER') }} "V_CUSTOMER"
+            where "V_CUSTOMER"."C_CUSTKEY">2
         name: DIM_CUSTOMER
         noLinkRefs: []
   name: DIM_CUSTOMER

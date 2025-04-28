@@ -36,7 +36,10 @@ macroString: |-
    
   {%- endmacro -%}
 
-  {#-- The below block of code initialises a list of all source columns in a node whether they are in the mapping grid or not #}
+  {#-- The below block of code frmaes the partition by clause for qualify function #}
+  {#-- Input parmeters   - None #}
+  {#-- Return            - partition by clause #}
+
   {%- macro partition_by() -%}
 
       {%- set nsVariables = namespace(partition="") -%}

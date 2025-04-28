@@ -29,7 +29,7 @@ operation:
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
-    updateStrategy: MERGE
+    updateStrategy: INSERT/UPDATE
   database: ""
   deployEnabled: true
   description: ""
@@ -78,7 +78,6 @@ operation:
         config: {}
         dataType: VARCHAR(25)
         description: ""
-        isChangeTracking: true
         name: C_NAME
         nullable: true
         sourceColumnReferences:
@@ -309,14 +308,17 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          STG_CUSTOMER_1: c440250e-cf1e-49a0-90b6-060d5ae76027
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DEV
             nodeName: STG_CUSTOMER_1
         join:
-          joinCondition: FROM {{ ref('TARGET_DEV', 'STG_CUSTOMER_1') }} "STG_CUSTOMER_1"
+          joinCondition: |-
+            FROM {{ ref('TARGET_DEV', 'STG_CUSTOMER_1') }} "STG_CUSTOMER_1"
+            where "STG_CUSTOMER_1"."C_CUSTKEY"  >2 
         name: DIM_CUSTOMER_1
         noLinkRefs: []
   name: DIM_CUSTOMER_1
