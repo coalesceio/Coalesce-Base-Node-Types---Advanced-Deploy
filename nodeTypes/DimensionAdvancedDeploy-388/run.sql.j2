@@ -111,8 +111,8 @@ does not permit copying or modification for any other purpose.
 			     {% endfor -%}
 			     )
 			{%- else %}  
-            BEGIN     
-			BEGIN TRANSACTION;
+            BEGIN
+			{#BEGIN TRANSACTION#}
               -- Update Zero Key Record if it exists
               UPDATE {{ ref_no_link(node.location.name, node.name) }}
               SET

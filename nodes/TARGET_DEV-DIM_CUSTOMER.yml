@@ -13,11 +13,14 @@ operation:
         - columnNameExpressions: null
           sqlExpression: ex. trunc("<column_name>", -5)
     clusterKeyExpressions: false
+    customZeroKeyValues:
+      items:
+        - {}
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: true
-    insertZeroKeyAdvanced: false
-    insertZeroKeyBol: null
+    insertZeroKeyAdvanced: true
+    insertZeroKeyBol: "TRUE"
     insertZeroKeyDate: 01-01-1900
     insertZeroKeyStr: UNKNOWN
     insertZeroKeySurrogateKey: "0"
@@ -31,7 +34,7 @@ operation:
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
-    updateStrategy: MERGE
+    updateStrategy: INSERT/UPDATE
   database: ""
   deployEnabled: true
   description: ""

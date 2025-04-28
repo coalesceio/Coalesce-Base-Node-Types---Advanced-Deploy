@@ -1,0 +1,46 @@
+fileVersion: 1
+id: 635d34a6-f7b1-4bd6-9d32-e1a72a295a3f
+name: VW_NODE
+operation:
+  config:
+    compcol: false
+    ntileval: ""
+    oprt: "="
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    partitionBy:
+      items:
+        - {}
+    partitionby: false
+    qualify: true
+    val: ""
+    winfunc: CUME_DIST
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: VW_NODE
+        noLinkRefs: []
+  name: VW_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "459"
+  type: sql
+  version: 1
+type: Node

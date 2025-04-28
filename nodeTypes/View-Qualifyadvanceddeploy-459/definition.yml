@@ -53,7 +53,7 @@ metadata:
            displayName: 'Window function column name'
            attributeName: winfuncColName
            isRequired: false
-           enableIf: "{% if config.qualify and config.winfunc not in('ROW_NUMBER','RANK','DENSE_RANK','PERCENT_RANK','NTILE') %} true {% else %} false {% endif %}"
+           enableIf: "{% if config.qualify and config.winfunc not in('ROW_NUMBER','RANK','DENSE_RANK','PERCENT_RANK','NTILE','CUME_DIST') %} true {% else %} false {% endif %}"
 
         - type: textBox
           displayName: Constant value-desired number of buckets

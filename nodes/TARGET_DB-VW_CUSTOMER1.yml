@@ -12,11 +12,11 @@ operation:
         - {}
     partitionBy:
       items:
-        - {}
+        - partColName: null
     partitionby: false
-    qualify: false
+    qualify: true
     val: ""
-    winfunc: ROW_NUMBER
+    winfunc: RANK
   database: ""
   deployEnabled: true
   description: ""
