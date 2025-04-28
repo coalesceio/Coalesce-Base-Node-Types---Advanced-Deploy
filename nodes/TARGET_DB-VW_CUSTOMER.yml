@@ -13,6 +13,10 @@ operation:
             columnCounter: 7a63cd82-d8dc-40b9-b589-59ed30e805fc
             stepCounter: 3c000ab1-9173-4f3f-bccf-f127ddb8c52b
           sortOrder: desc
+        - sortColName:
+            columnCounter: e035b292-0134-4d41-af82-d23a17818596
+            stepCounter: 3c000ab1-9173-4f3f-bccf-f127ddb8c52b
+          sortOrder: desc
     partitionBy:
       items:
         - partColName:
@@ -22,9 +26,12 @@ operation:
             columnCounter: 605eba41-8c4b-454f-a5ff-3449a39e7362
             stepCounter: 3c000ab1-9173-4f3f-bccf-f127ddb8c52b
     partitionby: true
-    qualify: false
-    val: "2"
-    winfunc: RANK
+    qualify: true
+    val: "20000"
+    winfunc: MAX
+    winfuncColName:
+      columnCounter: 7a63cd82-d8dc-40b9-b589-59ed30e805fc
+      stepCounter: 3c000ab1-9173-4f3f-bccf-f127ddb8c52b
   database: ""
   deployEnabled: true
   description: ""

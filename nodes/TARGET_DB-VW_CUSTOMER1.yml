@@ -6,16 +6,19 @@ operation:
     compcol: false
     ntileval: ""
     oprt: "="
-    orderby: false
+    orderby: true
     orderbycolumn:
       items:
-        - {}
+        - sortColName:
+            columnCounter: 87df8cb4-0932-41d4-a84e-3d0f61d69a16
+            stepCounter: e0c93851-a9a6-4a9c-aad4-ac09410f48fb
+          sortOrder: desc
     partitionBy:
       items:
         - partColName: null
     partitionby: false
     qualify: true
-    val: ""
+    val: "3"
     winfunc: RANK
   database: ""
   deployEnabled: true

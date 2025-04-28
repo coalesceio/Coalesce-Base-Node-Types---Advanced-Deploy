@@ -858,7 +858,7 @@ JOIN {{ ref_no_link(node.location.name, node.name) }}  TGT
         {% if not loop.first %} AND {% endif %}
         SRC."{{ col.name }}" = TGT."{{ col.name }}"
     {%- endfor %}
-WHERE
+
 {%- for col in columns if not (   col.isBusinessKey or
                                   col.isSurrogateKey or
                                   col.isSystemVersion or
@@ -868,7 +868,7 @@ WHERE
                                   col.isSystemUpdateDate or
                                   col.isSystemCreateDate) %}
     {% if loop.first %}
-    (
+    WHERE (
     {% else %}
     OR
     {% endif %}
