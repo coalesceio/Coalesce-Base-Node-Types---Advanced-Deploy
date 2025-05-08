@@ -218,7 +218,7 @@ You can create the node as:
 | **Create As**| Table|
 | **Cluster key** | Toggle: True/False <br/> If the dimension is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
-| **Business key** | Required column for both Type 1 and Type 2 |
+| **Business key** | Required column for both Type 1 and Type 2 .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
 | **Change tracking** | Required column for Type 2 |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
@@ -341,7 +341,7 @@ You can create the node as:
 | **Insert Zero Key Record** | Toggle: True/False<br/>Insert Zero Key Record to Dimention<br/>**True**:  Zero Key Record Options enabled.<br/>**False**: Zero Key Record not added|
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
 | **Update Strategy**| Options : MERGE,INSERT/UPDATE <br/>- **MERGE**: Uses a single MERGE statement to handle both insert and update operations based on matching keys.<br/>- **INSERT/UPDATE**: Separately executes UPDATE for existing records and INSERT for new ones using custom logic.For preferred choice,refer [Preferences](#preferences)|
-| **Business key** | Required column for Type 1 and Type 2 Dimensions |
+| **Business key** | Required column for Type 1 and Type 2 Dimensions .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
 | **Change tracking** | Required column for Type 2 Dimension |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
@@ -492,7 +492,7 @@ You can create the node as:
 |---------|-------------|
 | **Create As**| Table |
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
-| **Business key** | Required column for Type 1 and Type 2 Dimensions |
+| **Business key** | Required column for Type 1 and Type 2 Dimensions .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
 | **Cluster key** | **True**: Allows you to specify the column based on which clustering is to be done<br/> Allow Expressions Cluster Key: Allows to add an expression to the specified cluster key<br/>**False**: No clustering done |
