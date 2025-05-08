@@ -1,0 +1,73 @@
+fileVersion: 1
+id: 2dece1e9-362f-479f-bd12-cbb29acc2270
+name: GEOSPATIAL_TABLE
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b87f65a7-666d-423b-944e-6ff154d0c713
+          stepCounter: 2dece1e9-362f-479f-bd12-cbb29acc2270
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9cf864b5-f939-4482-bbf3-235606893075
+          stepCounter: 2dece1e9-362f-479f-bd12-cbb29acc2270
+        config: {}
+        dataType: GEOGRAPHY
+        defaultValue: ""
+        description: ""
+        name: G
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ccc64f90-1906-40cf-8f8a-2a4be32f1251
+          stepCounter: 2dece1e9-362f-479f-bd12-cbb29acc2270
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: DESCRIPTION
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: GEOSPATIAL_TABLE
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node
