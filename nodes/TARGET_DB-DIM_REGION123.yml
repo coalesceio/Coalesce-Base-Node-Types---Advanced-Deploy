@@ -3,10 +3,12 @@ id: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
 name: DIM_REGION123
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 9a7dcd86-0c1c-44ca-8883-eacc5cee3857
+            stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
     clusterKeyConfigExpressions:
       items:
         - {}
