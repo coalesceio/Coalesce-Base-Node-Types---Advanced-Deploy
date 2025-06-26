@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
-name: DIM_REGION
+name: DIM_REGION123
 operation:
   config:
     clusterKey: false
@@ -93,7 +93,7 @@ operation:
           columnCounter: 51771795-dc5f-4803-9ee3-c5c0e9c4ebee
           stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
         config: {}
-        dataType: VARCHAR(152)
+        dataType: VARCHAR(256)
         description: ""
         isChangeTracking: true
         name: R_COMMENT
@@ -230,9 +230,9 @@ operation:
             nodeName: REGION
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'REGION') }} "REGION"
-        name: DIM_REGION
+        name: DIM_REGION123
         noLinkRefs: []
-  name: DIM_REGION
+  name: DIM_REGION123
   overrideSQL: false
   schema: ""
   sqlType: "388"
