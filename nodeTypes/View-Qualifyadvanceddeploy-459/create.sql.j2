@@ -18,7 +18,7 @@ does not permit copying or modification for any other purpose.
     {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
 
-     {{ stage('Drop View', true, "sql", "drop") }}
+     {{ stage('Drop View') }}
      DROP VIEW IF EXISTS {{ fullyQualifiedTargetObjectName }}
 
 
@@ -52,7 +52,7 @@ does not permit copying or modification for any other purpose.
              {% endif %}
 			
 			  {% if (ns.storageLocationTest == false or currentState.node.name != desiredState.node.name) %}
-                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name), true, "sql", "drop") }}
+                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
                 DROP VIEW IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
               {%endif%}
 			  
@@ -60,7 +60,7 @@ does not permit copying or modification for any other purpose.
 
 	   {% if currentState == undefined or currentState != desiredState %}
           
-        {{ stage('Create View', true, "sql", "create") }}
+        {{ stage('Create View') }}
         
         CREATE OR REPLACE VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
         (

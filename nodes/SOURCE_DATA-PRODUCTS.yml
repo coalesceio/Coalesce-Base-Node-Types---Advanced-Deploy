@@ -1,5 +1,5 @@
 fileVersion: 1
-id: 9d9a4db7-e8dc-46b5-acf8-008231a1ca86
+id: e78a3df5-ee80-46f5-94cf-a5931ddf0a31
 name: PRODUCTS
 operation:
   database: ""
@@ -13,15 +13,15 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 72887347-d38d-4b6e-a78e-43b525b1362c
-          stepCounter: 9d9a4db7-e8dc-46b5-acf8-008231a1ca86
+          columnCounter: 36bb7d92-07b0-4efa-aef6-f22cbf214e25
+          stepCounter: e78a3df5-ee80-46f5-94cf-a5931ddf0a31
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
         name: PRODUCT_ID
-        nullable: false
-        primaryKey: true
+        nullable: true
+        primaryKey: false
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
@@ -32,8 +32,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 718cc414-1cbf-45f2-8bdd-14df812478fb
-          stepCounter: 9d9a4db7-e8dc-46b5-acf8-008231a1ca86
+          columnCounter: 2ff845ae-28b4-439e-b00a-7ddcc635a718
+          stepCounter: e78a3df5-ee80-46f5-94cf-a5931ddf0a31
         config: {}
         dataType: VARCHAR(255)
         defaultValue: ""
@@ -51,8 +51,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 0aacf31b-65d6-49ee-b6e8-89218629c48d
-          stepCounter: 9d9a4db7-e8dc-46b5-acf8-008231a1ca86
+          columnCounter: eb9c45d5-aa12-4e56-8481-ecd9017d3873
+          stepCounter: e78a3df5-ee80-46f5-94cf-a5931ddf0a31
         config: {}
         dataType: VARCHAR(100)
         defaultValue: ""
@@ -70,8 +70,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 450fc6c8-4fb6-4094-830a-a1671800d792
-          stepCounter: 9d9a4db7-e8dc-46b5-acf8-008231a1ca86
+          columnCounter: d22374ec-2390-466a-a77f-1c90795abfd1
+          stepCounter: e78a3df5-ee80-46f5-94cf-a5931ddf0a31
         config: {}
         dataType: VARCHAR(50)
         defaultValue: ""
