@@ -121,7 +121,7 @@ does not permit copying or modification for any other purpose.
                 {% endif %}
                  
                 {{ stage('Create Work '+ ' {{desiredState.node.materializationType}}' ) }}
-               CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+               CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref(desiredState.node.location.name, desiredState.node.name) }}
                 (
                 {% for col in desiredState.columns %}
                     "{{ col.name }}" {{ col.dataType }}
@@ -147,7 +147,7 @@ does not permit copying or modification for any other purpose.
 
         {% if currentState == undefined or currentState.storageLocations | length == 0  %}
             {{ stage('Create Work '+ ' {{desiredState.node.materializationType}}' ) }}
-            CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+            CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref(desiredState.node.location.name, desiredState.node.name) }}
             (
                 {% for col in desiredState.columns %}
                     "{{ col.name }}" {{ col.dataType }}
