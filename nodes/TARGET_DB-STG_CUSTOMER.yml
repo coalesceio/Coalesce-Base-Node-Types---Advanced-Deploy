@@ -3,9 +3,14 @@ id: 5afc364d-7993-446b-bc41-e2034cbd787c
 name: STG_CUSTOMER
 operation:
   config:
+    asofJoinMain: false
+    clusterKey: false
+    groupByAll: false
     insertStrategy: INSERT
+    orderby: false
     postSQL: ""
     preSQL: ""
+    selectDistinct: false
     testsEnabled: true
     truncateBefore: true
   database: ""
@@ -159,7 +164,7 @@ operation:
   name: STG_CUSTOMER
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: "179"
   type: sql
   version: 1
 type: Node
