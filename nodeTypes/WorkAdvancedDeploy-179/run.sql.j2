@@ -35,11 +35,17 @@ does not permit copying or modification for any other purpose.
 			{{ stage('Truncate Stage Table') }}
 			TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
 		{% endif %}
+{# == Determine Insert Strategy == #}
+{% if node.isMultisource %}
+    {% set insertStrategy = config.insertStrategy %}
+{% else %}
+    {% set insertStrategy = 'INSERT' %}
+{% endif %}							   
 	
 {# == Multi-Source option  == #}
 	
-		{% if config.insertStrategy in ['UNION', 'UNION ALL'] %}
-			{{ stage( config.insertStrategy + ' Sources' | string ) }}
+		{% if insertStrategy in ['UNION', 'UNION ALL'] %}
+			{{ stage( insertStrategy + ' Sources' | string ) }}
 			INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
 				(
 					{% for col in columns %}
@@ -52,7 +58,7 @@ does not permit copying or modification for any other purpose.
 	
 		{% for source in sources %}
 	
-			{% if config.insertStrategy == 'INSERT' %}
+			{% if insertStrategy == 'INSERT' %}
 				{{ stage('Insert ' + source.name | string ) }}
 	
 				INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
@@ -79,8 +85,8 @@ does not permit copying or modification for any other purpose.
                  GROUP BY ALL
                  {% endif %}
                  {{ sortorder_by_colv() }})
-			{% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
-				{{config.insertStrategy}}
+			{% if insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+				{{insertStrategy}}
 			{% endif %}							 
 	
 		{% endfor %}

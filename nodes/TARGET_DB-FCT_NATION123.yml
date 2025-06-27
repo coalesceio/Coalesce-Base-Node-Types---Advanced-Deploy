@@ -1,6 +1,6 @@
 fileVersion: 1
 id: efa4bc6f-1899-4f22-af78-55a7d1a8b9d0
-name: FCT_NATION
+name: FCT_NATION123
 operation:
   config:
     clusterKey: false
@@ -160,9 +160,9 @@ operation:
             nodeName: NATION
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
-        name: FCT_NATION
+        name: FCT_NATION123
         noLinkRefs: []
-  name: FCT_NATION
+  name: FCT_NATION123
   overrideSQL: false
   schema: ""
   sqlType: "390"
