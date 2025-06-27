@@ -32,7 +32,7 @@ operation:
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
-    updateStrategy: MERGE
+    updateStrategy: INSERT/UPDATE
   database: ""
   deployEnabled: true
   description: ""
@@ -78,7 +78,7 @@ operation:
           columnCounter: 1cc431da-3833-4607-af07-856918b1e934
           stepCounter: 1d9e8988-67ec-4e72-8b33-69dff72d9be0
         config: {}
-        dataType: VARCHAR(25)
+        dataType: VARCHAR(40)
         description: ""
         isBusinessKey: true
         name: C_NAME

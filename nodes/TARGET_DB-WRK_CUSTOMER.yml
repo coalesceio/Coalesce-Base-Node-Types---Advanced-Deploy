@@ -10,10 +10,12 @@ operation:
     asofJoinMain: false
     asofJoinON: false
     asofJoinUSING: false
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 95816fc9-5034-478c-b52d-a37863cb7907
+            stepCounter: ff6d5401-0998-42f9-8b1d-4b5393a31021
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -57,7 +59,7 @@ operation:
           columnCounter: fd58b6ac-beaa-4633-8640-699e71bc621c
           stepCounter: ff6d5401-0998-42f9-8b1d-4b5393a31021
         config: {}
-        dataType: VARCHAR(25)
+        dataType: VARCHAR(40)
         description: ""
         name: C_NAME
         nullable: true
