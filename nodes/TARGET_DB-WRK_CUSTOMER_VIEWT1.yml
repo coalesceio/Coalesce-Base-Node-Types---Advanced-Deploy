@@ -1,0 +1,190 @@
+fileVersion: 1
+id: 55a9a198-3c56-483e-86b2-a5b69ff79bd0
+name: WRK_CUSTOMER_VIEWT1
+operation:
+  config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e6fe5b09-0cdb-4c7d-9f72-f309d289a234
+          stepCounter: 55a9a198-3c56-483e-86b2-a5b69ff79bd0
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: C_CUSTKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 133cf0d9-c49c-4b2b-9630-658974a8eed8
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a42ad17b-15d9-48a9-a091-10bff66ea2d4
+          stepCounter: 55a9a198-3c56-483e-86b2-a5b69ff79bd0
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: C_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c6252b3b-40f5-4d7b-b6b9-fd7d31ff370e
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 16fbc949-25c8-4292-81aa-4ea38ed876ce
+          stepCounter: 55a9a198-3c56-483e-86b2-a5b69ff79bd0
+        config: {}
+        dataType: VARCHAR(40)
+        description: ""
+        name: C_ADDRESS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2991cf22-447a-46d8-ac25-043b0029167d
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dcb6d400-c615-4155-ac7d-ef7c5cebc64f
+          stepCounter: 55a9a198-3c56-483e-86b2-a5b69ff79bd0
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: C_NATIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a944dd0c-c64f-4533-ae5e-e620a8d489b8
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f0a669ae-40dd-4c6d-a32a-a38bdb0de6fd
+          stepCounter: 55a9a198-3c56-483e-86b2-a5b69ff79bd0
+        config: {}
+        dataType: VARCHAR(15)
+        description: ""
+        name: C_PHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0d6b9cdd-b537-4b9d-863a-dea813e9739d
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c2500172-464a-49ee-99c4-9a0b448f9b52
+          stepCounter: 55a9a198-3c56-483e-86b2-a5b69ff79bd0
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: C_ACCTBAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 18e50235-351e-49fa-a24b-bbcc1a21b3e0
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0184817a-cd57-4617-be2c-52e1bf277cac
+          stepCounter: 55a9a198-3c56-483e-86b2-a5b69ff79bd0
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: C_MKTSEGMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0c86d530-ac79-44a1-bd52-8723892a45df
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7a513eb4-6d7f-47ed-a032-a653b0925685
+          stepCounter: 55a9a198-3c56-483e-86b2-a5b69ff79bd0
+        config: {}
+        dataType: VARCHAR(117)
+        description: ""
+        name: C_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5f0f3863-e907-41cc-be97-32259082c997
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 88439493-0d07-4f7e-8d59-f10844606d88
+          stepCounter: 55a9a198-3c56-483e-86b2-a5b69ff79bd0
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: C_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 036f4f9d-95cd-4407-b69f-0e1be78c2535
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: CUSTOMER
+        join:
+          joinCondition: |2-
+
+
+             
+              FROM  {{ ref('SOURCE_DATA', 'CUSTOMER') }} CUSTOMER
+        name: WRK_CUSTOMER_VIEWT1
+        noLinkRefs: []
+  name: WRK_CUSTOMER_VIEWT1
+  overrideSQL: false
+  schema: ""
+  sqlType: "179"
+  type: sql
+  version: 1
+type: Node
