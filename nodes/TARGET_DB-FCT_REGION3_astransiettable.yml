@@ -1,0 +1,144 @@
+fileVersion: 1
+id: e6356ace-aacb-4418-b106-2b781182f448
+name: FCT_REGION3_astransiettable
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: transient table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4d12c7ee-0388-435f-853b-28ce80017f0d
+          stepCounter: e6356ace-aacb-4418-b106-2b781182f448
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: R_REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6935df11-3971-4981-aa42-cd2d1ce3c6a3
+                stepCounter: 91481d91-f4e8-4791-b658-ca92ec5cbaa7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8bf631e7-bdfd-465b-9ad7-e629de5e8a0a
+          stepCounter: e6356ace-aacb-4418-b106-2b781182f448
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        isBusinessKey: true
+        name: R_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5f871993-06aa-4f38-9a48-72ae6fb96422
+                stepCounter: 91481d91-f4e8-4791-b658-ca92ec5cbaa7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 617e6692-4e6c-4bea-9392-c65bdaef1f4c
+          stepCounter: e6356ace-aacb-4418-b106-2b781182f448
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: R_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9a4caa47-ee18-490c-941e-65202dd46274
+                stepCounter: 91481d91-f4e8-4791-b658-ca92ec5cbaa7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3a796df6-1114-4a6e-ae0e-b199eb0f82f0
+          stepCounter: e6356ace-aacb-4418-b106-2b781182f448
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: R_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fd61fee7-4fef-49e9-b930-582e4ad8e587
+                stepCounter: 91481d91-f4e8-4791-b658-ca92ec5cbaa7
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: bdfe5622-0714-42bd-8cd9-6025eb404a50
+          stepCounter: e6356ace-aacb-4418-b106-2b781182f448
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d7afbaad-9080-481e-a495-2e06a4ccc994
+          stepCounter: e6356ace-aacb-4418-b106-2b781182f448
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: REGION
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'REGION') }} "REGION"
+        name: FCT_REGION3_astransiettable
+        noLinkRefs: []
+  name: FCT_REGION3_astransiettable
+  overrideSQL: false
+  schema: ""
+  sqlType: "389"
+  type: sql
+  version: 1
+type: Node
