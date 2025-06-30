@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 55a9a198-3c56-483e-86b2-a5b69ff79bd0
-name: WRK_CUSTOMER_VIEWT1
+name: WRK_CUSTOMER_VIEWT12
 operation:
   config:
     asofColumn:
@@ -179,9 +179,9 @@ operation:
 
              
               FROM  {{ ref('SOURCE_DATA', 'CUSTOMER') }} CUSTOMER
-        name: WRK_CUSTOMER_VIEWT1
+        name: WRK_CUSTOMER_VIEWT12
         noLinkRefs: []
-  name: WRK_CUSTOMER_VIEWT1
+  name: WRK_CUSTOMER_VIEWT12
   overrideSQL: false
   schema: ""
   sqlType: "179"
