@@ -27,7 +27,7 @@ operation:
   description: ""
   isMultisource: false
   locationName: TARGET_DB1
-  materializationType: table
+  materializationType: transient table
   metadata:
     appliedNodeTests: []
     columns:
