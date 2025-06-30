@@ -1,14 +1,12 @@
 fileVersion: 1
-id: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
-name: DIM_REGION123
+id: caacf71f-45da-4a9f-bb48-f5c9476a77ad
+name: DIM_CUSTOMER4
 operation:
   config:
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: 9a7dcd86-0c1c-44ca-8883-eacc5cee3857
-            stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
+        - {}
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -49,93 +47,151 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a41eca47-abd4-4bc3-96d6-28ef2ab32b1e
-          stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
+          columnCounter: 6ef53fc3-5d06-4dbe-be37-6329ab7ab575
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
         config: {}
         dataType: NUMBER
         defaultValue: ""
         description: ""
         isSurrogateKey: true
-        name: DIM_REGION_KEY
+        name: DIM_CUSTOMER4_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 40cb5e16-3e79-468c-8982-5515828630fd
-          stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
+          columnCounter: 2f05fb83-e261-4255-bc6f-bc43127e1577
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        name: R_REGIONKEY
+        name: C_CUSTKEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 6935df11-3971-4981-aa42-cd2d1ce3c6a3
-                stepCounter: 91481d91-f4e8-4791-b658-ca92ec5cbaa7
+              - columnCounter: 133cf0d9-c49c-4b2b-9630-658974a8eed8
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9a7dcd86-0c1c-44ca-8883-eacc5cee3857
-          stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
+          columnCounter: 731f467f-f559-427c-a430-1d6ef6386ed0
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
         config: {}
         dataType: VARCHAR(25)
-        description: |-
-          - This column represents the name of the region.
-          - It is sourced from the 'R_NAME' column in the 'REGION' table.
-          - This column is a business key, meaning that it uniquely identifies a row in the table from a business perspective.
-          - Region names are critical for filtering and grouping data in reports, enabling region-specific analysis.
-          - The data type is VARCHAR(25), and it allows null values.
-        isBusinessKey: true
-        name: R_NAME
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 5f871993-06aa-4f38-9a48-72ae6fb96422
-                stepCounter: 91481d91-f4e8-4791-b658-ca92ec5cbaa7
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 51771795-dc5f-4803-9ee3-c5c0e9c4ebee
-          stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
-        config: {}
-        dataType: VARCHAR(256)
         description: ""
-        isChangeTracking: true
-        name: R_COMMENT
+        name: C_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 9a4caa47-ee18-490c-941e-65202dd46274
-                stepCounter: 91481d91-f4e8-4791-b658-ca92ec5cbaa7
+              - columnCounter: c6252b3b-40f5-4d7b-b6b9-fd7d31ff370e
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 48fe8288-6e3f-474c-994c-4157f1dede19
-          stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
+          columnCounter: 311f5c33-1b25-48cc-9cb9-50d23762adb1
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
+        config: {}
+        dataType: VARCHAR(40)
+        description: ""
+        name: C_ADDRESS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2991cf22-447a-46d8-ac25-043b0029167d
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8ed0147b-0e12-44f8-a1fc-89e04cb650c0
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: C_NATIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a944dd0c-c64f-4533-ae5e-e620a8d489b8
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 90d729d6-3754-4a63-bcf9-38d6082ef393
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
+        config: {}
+        dataType: VARCHAR(15)
+        description: ""
+        name: C_PHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0d6b9cdd-b537-4b9d-863a-dea813e9739d
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d942281f-3af5-45b6-b35c-8ecab464bff0
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: C_ACCTBAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 18e50235-351e-49fa-a24b-bbcc1a21b3e0
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bf82d2d1-3607-4d3a-98e9-6c86de3f7c63
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: C_MKTSEGMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0c86d530-ac79-44a1-bd52-8723892a45df
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c03c6319-1dd8-474c-ac3f-8c5fa8e1cde2
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
+        config: {}
+        dataType: VARCHAR(117)
+        description: ""
+        name: C_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5f0f3863-e907-41cc-be97-32259082c997
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b1fa7acf-fd38-4215-b9e9-ee6d7f3635a3
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
         config: {}
         dataType: TIMESTAMP_LTZ(9)
-        description: |-
-          - This column captures the timestamp when the region data was loaded into the data warehouse.
-          - It is sourced from the 'R_LOAD_TIMESTAMP' column in the 'REGION' table.
-          - This timestamp is crucial for tracking data freshness and ensuring data accuracy in reports and analyses.
-          - The data type is TIMESTAMP_LTZ(9), preserving the original timestamp precision from the source system.
-          - It allows for auditing and debugging data integration processes.
-        name: R_LOAD_TIMESTAMP
+        description: ""
+        name: C_LOAD_TIMESTAMP
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: fd61fee7-4fef-49e9-b930-582e4ad8e587
-                stepCounter: 91481d91-f4e8-4791-b658-ca92ec5cbaa7
+              - columnCounter: 036f4f9d-95cd-4407-b69f-0e1be78c2535
+                stepCounter: f5e5394d-065a-47d2-8a1f-698f12d251d7
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 55f2d2ae-0f9a-41f3-accd-72163a4cb0b8
-          stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
+          columnCounter: f659e577-fa4e-4aac-b1bb-8d09d520238c
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
         config: {}
         dataType: NUMBER
         defaultValue: ""
@@ -151,8 +207,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 6124cb20-b805-4100-a774-0ad5162995bf
-          stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
+          columnCounter: eb5419ab-cc87-4f5a-9b4e-3c205ff028ea
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
         config: {}
         dataType: VARCHAR
         defaultValue: ""
@@ -168,8 +224,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 62ffbce0-40b5-4c5c-85e7-3550431735d8
-          stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
+          columnCounter: 22a5c538-5eb1-420c-b522-26d79d76c621
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -185,8 +241,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a4cf3dfc-ac37-4b30-9dc3-bc97050fb205
-          stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
+          columnCounter: 8e4dd601-7bd6-4330-b293-34a5325a363c
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -202,8 +258,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: db752d8f-b317-4614-b608-1eda1e84c0d8
-          stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
+          columnCounter: 5d605b63-ddf7-4974-ba31-fcf6256079b0
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -219,8 +275,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: c4e68dd5-ab96-4911-8ebd-484b019018c1
-          stepCounter: 17250ed3-6b7c-44d4-ab8c-0eb0272124f7
+          columnCounter: cb2b9843-bf09-4a2c-b675-8753ae156ae7
+          stepCounter: caacf71f-45da-4a9f-bb48-f5c9476a77ad
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -239,12 +295,12 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
-            nodeName: REGION
+            nodeName: CUSTOMER
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'REGION') }} "REGION"
-        name: DIM_REGION123
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
+        name: DIM_CUSTOMER4
         noLinkRefs: []
-  name: DIM_REGION123
+  name: DIM_CUSTOMER4
   overrideSQL: false
   schema: ""
   sqlType: "388"
