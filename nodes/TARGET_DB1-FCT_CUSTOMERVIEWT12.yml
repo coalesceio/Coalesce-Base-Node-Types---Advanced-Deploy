@@ -27,7 +27,7 @@ operation:
   description: ""
   isMultisource: false
   locationName: TARGET_DB1
-  materializationType: view
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
