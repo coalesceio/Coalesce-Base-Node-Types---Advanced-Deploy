@@ -91,6 +91,7 @@ does not permit copying or modification for any other purpose.
             {% endif %}
         {% endfor %}
       {% endif %}
+      
     {% elif desiredState.node.materializationType == 'table' or desiredState.node.materializationType == 'transient table'  %}
         
         {# Figure out cluster key #}

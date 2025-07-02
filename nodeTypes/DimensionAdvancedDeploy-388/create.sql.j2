@@ -178,7 +178,7 @@ does not permit copying or modification for any other purpose.
 
         {# CreateSQL for Table #}
         
-            {{ stage('Create Dimension ' + desiredState.node.materializationType , true, "sql", "create") }}
+            {{ stage('Create Dimension ' + desiredState.node.materializationType) }}
 			CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
 			(
 			{% for col in desiredState.columns %}
