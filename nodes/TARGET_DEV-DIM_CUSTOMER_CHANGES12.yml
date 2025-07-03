@@ -37,7 +37,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_ACC
+  locationName: TARGET_DEV
   materializationType: view
   metadata:
     appliedNodeTests: []
@@ -268,10 +268,10 @@ operation:
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_ACC
+          - locationName: TARGET_DEV
             nodeName: WRK_CUSTOMER_CHANGES12
         join:
-          joinCondition: FROM {{ ref('TARGET_ACC', 'WRK_CUSTOMER_CHANGES12') }} "WRK_CUSTOMER_CHANGES12"
+          joinCondition: FROM {{ ref('TARGET_DEV', 'WRK_CUSTOMER_CHANGES12') }} "WRK_CUSTOMER_CHANGES12"
         name: DIM_CUSTOMER_CHANGES12
         noLinkRefs: []
   name: DIM_CUSTOMER_CHANGES12
