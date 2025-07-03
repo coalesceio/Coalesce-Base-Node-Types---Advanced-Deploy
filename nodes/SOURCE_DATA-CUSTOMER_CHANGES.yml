@@ -1,0 +1,149 @@
+fileVersion: 1
+id: 59378b45-64ef-417d-83c3-eaf62ef217c7
+name: CUSTOMER_CHANGES
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a8841cf4-111e-4608-a957-5cf294026d28
+          stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: CUSTOMER_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 77616b63-2892-41cb-9e94-cac377b46a36
+          stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: FIRST_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8c2a9deb-95f8-42fd-a569-82a308784eb3
+          stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: LAST_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 78d8ba49-03bd-437b-af88-7ab3621957da
+          stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+        config: {}
+        dataType: VARCHAR(100)
+        defaultValue: ""
+        description: ""
+        name: EMAIL
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b40da063-7a83-4da8-8a2c-7d4f5482d28f
+          stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: PHONE_NUMBER
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: bd759cb0-3207-4020-ae77-d0be4029a6f3
+          stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+        config: {}
+        dataType: VARCHAR(365)
+        defaultValue: ""
+        description: ""
+        name: FULL_ADDRESS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 27d6d1cd-cfb8-44e4-8f12-2a7a6dbe6c15
+          stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: UPDATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: CUSTOMER_CHANGES
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

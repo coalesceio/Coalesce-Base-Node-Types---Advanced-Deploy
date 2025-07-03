@@ -1,0 +1,162 @@
+fileVersion: 1
+id: 0f8054c8-f231-4727-8b8b-bcc80297de9f
+name: WRK_CUSTOMER_CHANGES12
+operation:
+  config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 99bc72f2-d1e9-478c-966e-e05fe57afd41
+          stepCounter: 0f8054c8-f231-4727-8b8b-bcc80297de9f
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a8841cf4-111e-4608-a957-5cf294026d28
+                stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c096a3a2-9af5-49d2-8c4a-4c85e032e9bc
+          stepCounter: 0f8054c8-f231-4727-8b8b-bcc80297de9f
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: FIRST_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 77616b63-2892-41cb-9e94-cac377b46a36
+                stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a0b37de9-ccd3-4bb8-8450-5885d7d35796
+          stepCounter: 0f8054c8-f231-4727-8b8b-bcc80297de9f
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: LAST_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8c2a9deb-95f8-42fd-a569-82a308784eb3
+                stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0efdf729-c533-459f-b0df-9fcd1836e7d5
+          stepCounter: 0f8054c8-f231-4727-8b8b-bcc80297de9f
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: EMAIL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 78d8ba49-03bd-437b-af88-7ab3621957da
+                stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1e7a31b6-d7c4-4d0c-b661-a0c4f82dec28
+          stepCounter: 0f8054c8-f231-4727-8b8b-bcc80297de9f
+        config: {}
+        dataType: VARCHAR(15)
+        description: ""
+        name: PHONE_NUMBER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b40da063-7a83-4da8-8a2c-7d4f5482d28f
+                stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e00c3d01-b6fe-457a-8106-5232b4aafc7d
+          stepCounter: 0f8054c8-f231-4727-8b8b-bcc80297de9f
+        config: {}
+        dataType: VARCHAR(365)
+        description: ""
+        name: FULL_ADDRESS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bd759cb0-3207-4020-ae77-d0be4029a6f3
+                stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1efa2bc4-996d-4f4c-97dd-4445f0300038
+          stepCounter: 0f8054c8-f231-4727-8b8b-bcc80297de9f
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 27d6d1cd-cfb8-44e4-8f12-2a7a6dbe6c15
+                stepCounter: 59378b45-64ef-417d-83c3-eaf62ef217c7
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: CUSTOMER_CHANGES
+        join:
+          joinCondition: |2-
+
+
+             
+              FROM  {{ ref('SOURCE_DATA', 'CUSTOMER_CHANGES') }} CUSTOMER_CHANGES
+        name: WRK_CUSTOMER_CHANGES12
+        noLinkRefs: []
+  name: WRK_CUSTOMER_CHANGES12
+  overrideSQL: false
+  schema: ""
+  sqlType: "179"
+  type: sql
+  version: 1
+type: Node
