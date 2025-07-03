@@ -37,7 +37,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_ACC
   materializationType: view
   metadata:
     appliedNodeTests: []
@@ -263,14 +263,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          WRK_CUSTOMER_CHANGES12: 0f8054c8-f231-4727-8b8b-bcc80297de9f
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DB
+          - locationName: TARGET_ACC
             nodeName: WRK_CUSTOMER_CHANGES12
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'WRK_CUSTOMER_CHANGES12') }} "WRK_CUSTOMER_CHANGES12"
+          joinCondition: FROM {{ ref('TARGET_ACC', 'WRK_CUSTOMER_CHANGES12') }} "WRK_CUSTOMER_CHANGES12"
         name: DIM_CUSTOMER_CHANGES12
         noLinkRefs: []
   name: DIM_CUSTOMER_CHANGES12
