@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 61778b19-1316-40d3-90e1-daf12e02bdeb
-name: WRK_NATION
+name: WRK_NATION12_VW
 operation:
   config:
     asofColumn:
@@ -137,9 +137,9 @@ operation:
 
              
               FROM  {{ ref('SOURCE_DATA', 'NATION') }} NATION
-        name: WRK_NATION
+        name: WRK_NATION12_VW
         noLinkRefs: []
-  name: WRK_NATION
+  name: WRK_NATION12_VW
   overrideSQL: false
   schema: ""
   sqlType: "179"

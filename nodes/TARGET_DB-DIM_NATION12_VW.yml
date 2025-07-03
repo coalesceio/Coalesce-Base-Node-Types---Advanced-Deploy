@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 7640f63b-74dc-48c4-9ca7-f9ce4ab3d9d1
-name: DIM_NATION
+name: DIM_NATION12_VW
 operation:
   config:
     clusterKey: false
@@ -250,17 +250,18 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          WRK_NATION12_VW: 61778b19-1316-40d3-90e1-daf12e02bdeb
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
-            nodeName: WRK_NATION
+            nodeName: WRK_NATION12_VW
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'WRK_NATION') }} "WRK_NATION"
-        name: DIM_NATION
+          joinCondition: FROM {{ ref('TARGET_DB', 'WRK_NATION12_VW') }} "WRK_NATION12_VW"
+        name: DIM_NATION12_VW
         noLinkRefs: []
-  name: DIM_NATION
+  name: DIM_NATION12_VW
   overrideSQL: false
   schema: ""
   sqlType: "388"
