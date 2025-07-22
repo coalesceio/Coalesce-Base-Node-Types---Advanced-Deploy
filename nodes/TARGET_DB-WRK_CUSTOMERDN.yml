@@ -167,18 +167,19 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          WRK_CUSTOMER12: a2bd93a0-fa12-480c-bbb3-f02439f25e63
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DEV
+          - locationName: TARGET_DB
             nodeName: WRK_CUSTOMER12
         join:
-          joinCondition: |2-
-
-
+          joinCondition: |-
+            
+            
              
-              FROM  {{ ref('TARGET_DEV', 'WRK_CUSTOMER12') }} WRK_CUSTOMER12
+              FROM  {{ ref('TARGET_DB', 'WRK_CUSTOMER12') }} WRK_CUSTOMER12
         name: WRK_CUSTOMERDN
         noLinkRefs: []
   name: WRK_CUSTOMERDN
