@@ -208,19 +208,8 @@ does not permit copying or modification for any other purpose.
 
          {%if nsVariables.joinTest == false%}
 
-              {{ stage('Create Work '+ ' {{desiredState.node.materializationType}}' ) }}
-               CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                (
-                {% for col in desiredState.columns %}
-                    "{{ col.name }}" {{ col.dataType }}
-                    {%- if not col.nullable %} NOT NULL
-                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-                    {% endif %}
-                    {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-                    {%- if not loop.last -%}, {% endif %}
-                {% endfor %}
-                )
-               {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}  
+              {{ stage('Metadata Update' ) }}
+               select 1=0
 
          {%endif%}
 
