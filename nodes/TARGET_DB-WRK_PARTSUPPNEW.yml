@@ -125,18 +125,20 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          PARTSUPP: a5e9abb0-7d21-4842-82d0-1d72bc1013f2
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: PARTSUPP
         join:
-          joinCondition: |2-
-
-
+          joinCondition: |-
+            
+            
              
               FROM  {{ ref('SOURCE_DATA', 'PARTSUPP') }} PARTSUPP
+              where "PS_SUPPKEY" >10
         name: WRK_PARTSUPPNEW
         noLinkRefs: []
   name: WRK_PARTSUPPNEW
