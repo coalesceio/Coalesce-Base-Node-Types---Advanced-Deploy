@@ -180,7 +180,7 @@ operation:
             
              
               FROM  {{ ref('SOURCE_DATA', 'CUSTOMER') }} CUSTOMER
-              
+              where "C_CUSTKEY" > 5
         name: WRK_CUSTOMER123
         noLinkRefs: []
   name: WRK_CUSTOMER123
