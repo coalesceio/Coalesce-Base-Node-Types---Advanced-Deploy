@@ -125,18 +125,20 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          NATION: 575b82a6-b235-4666-b3c6-da36ece75153
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: |2-
-
-
+          joinCondition: |-
+            
+            
              
               FROM  {{ ref('SOURCE_DATA', 'NATION') }} NATION
+              where "NATION"."N_NATIONKEY" >2
         name: WRK_NATIONNEW
         noLinkRefs: []
   name: WRK_NATIONNEW
