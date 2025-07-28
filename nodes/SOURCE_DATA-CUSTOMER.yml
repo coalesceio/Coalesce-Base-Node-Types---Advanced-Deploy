@@ -1,9 +1,9 @@
 fileVersion: 1
-id: 9896fdb7-f430-4efb-af33-f36d1a022e11
+id: e1049aa0-d5c4-4370-912e-7fdb91e04268
 name: CUSTOMER
 operation:
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   locationName: SOURCE_DATA
   metadata:
@@ -13,8 +13,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 05a44c92-ac8e-4f09-b604-1ee2c8a9e9c3
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: dc1b2e39-b261-499a-a534-e8b6808e8951
+          stepCounter: e1049aa0-d5c4-4370-912e-7fdb91e04268
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
@@ -32,8 +32,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 75ac81f7-bebc-435d-8216-7abb8d827f60
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 1f8003bc-91fd-42f4-b6b9-8c6f9744f3ef
+          stepCounter: e1049aa0-d5c4-4370-912e-7fdb91e04268
         config: {}
         dataType: VARCHAR(25)
         defaultValue: ""
@@ -51,8 +51,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 1512c565-c696-45f9-a7fe-47c11038cd5a
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 7207e949-1b23-474c-95d3-ed993607a7fa
+          stepCounter: e1049aa0-d5c4-4370-912e-7fdb91e04268
         config: {}
         dataType: VARCHAR(40)
         defaultValue: ""
@@ -70,8 +70,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: b8639bd7-c322-4ed4-bef7-bab70e763d64
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 6d42c524-9e94-4e9f-bb83-ca8cba4ad8a8
+          stepCounter: e1049aa0-d5c4-4370-912e-7fdb91e04268
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
@@ -89,8 +89,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 621caf44-3b80-4942-9bd7-6d254fe206c5
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 82546af4-1ed4-405d-9c42-8d3beed8a6eb
+          stepCounter: e1049aa0-d5c4-4370-912e-7fdb91e04268
         config: {}
         dataType: VARCHAR(15)
         defaultValue: ""
@@ -108,8 +108,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a454239a-07e7-426c-b45d-d4e18824fde7
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 0e894e40-da6d-410e-90d7-d2fe1a4b9cfc
+          stepCounter: e1049aa0-d5c4-4370-912e-7fdb91e04268
         config: {}
         dataType: NUMBER(12,2)
         defaultValue: ""
@@ -127,8 +127,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 58e70bb3-5c3c-4992-88e4-9546d9a6f26a
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 27245b4c-7932-4802-a4aa-9f98b3870880
+          stepCounter: e1049aa0-d5c4-4370-912e-7fdb91e04268
         config: {}
         dataType: VARCHAR(10)
         defaultValue: ""
@@ -146,8 +146,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: d125e2c9-0178-4e42-87ee-76864ded0317
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: 35a32356-824c-4a38-a978-4dc7a003e264
+          stepCounter: e1049aa0-d5c4-4370-912e-7fdb91e04268
         config: {}
         dataType: VARCHAR(117)
         defaultValue: ""
@@ -165,8 +165,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: cf9946c0-e5b4-4f4a-a99d-865038d71fb2
-          stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          columnCounter: de8bf02f-3e2d-49e8-b6ae-a13fc3b1a961
+          stepCounter: e1049aa0-d5c4-4370-912e-7fdb91e04268
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         defaultValue: ""
