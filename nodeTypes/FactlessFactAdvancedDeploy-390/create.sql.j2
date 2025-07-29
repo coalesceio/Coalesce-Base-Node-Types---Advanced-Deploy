@@ -118,12 +118,15 @@ does not permit copying or modification for any other purpose.
             {% endif %}
            {% endfor %}
          {%endif%}
-
-         {%if nsVariables.joinTest == false or sourcesTest == false%}        
+          
+          {%if nsVariables.joinTest == false or sourcesTest == false%}        
               {{ stage('Metadata Update-Join' ) }}
                -- Join clause changed
+               /* was:{{-currentState.sources[0].join|trim-}} */
+               /*is :{{-desiredState.sources[0].join|trim-}} */
                select 1=0
          {%endif%}
+
 
             {# Test  #}
             {%if currentState.storageLocations|length == 0%}          

@@ -1,6 +1,0 @@
-excludeSelector: ""
-fileVersion: 1
-id: "49"
-includeSelector: "{ location: SOURCE_DATA name: CUSTOMER } OR { location: TARGET_DB name: WRK_CUSTOMER123 }"
-name: Adv-dep job
-type: Job
