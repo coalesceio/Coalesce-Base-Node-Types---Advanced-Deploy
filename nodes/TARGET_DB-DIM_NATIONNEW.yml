@@ -31,7 +31,7 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
-    truncateBefore: false
+    truncateBefore: true
     updateStrategy: MERGE
   database: ""
   deployEnabled: true
@@ -249,14 +249,17 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          WRK_NATIONNEW: ff14a2a7-b163-4a4d-9c40-6dee74b8df75
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
             nodeName: WRK_NATIONNEW
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'WRK_NATIONNEW') }} "WRK_NATIONNEW"
+          joinCondition: |-
+            FROM {{ ref('TARGET_DB', 'WRK_NATIONNEW') }} "WRK_NATIONNEW"
+            where "N_NATIONKEY">3
         name: DIM_NATIONNEW
         noLinkRefs: []
   name: DIM_NATIONNEW

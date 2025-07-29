@@ -21,7 +21,7 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
-    truncateBefore: false
+    truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
@@ -238,14 +238,17 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          WRK_PARTSUPPNEW: b21275a1-425a-48ff-8a5e-37cd778cdfb4
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
             nodeName: WRK_PARTSUPPNEW
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'WRK_PARTSUPPNEW') }} "WRK_PARTSUPPNEW"
+          joinCondition: |-
+            FROM {{ ref('TARGET_DB', 'WRK_PARTSUPPNEW') }} "WRK_PARTSUPPNEW"
+            where "PS_PARTKEY">3
         name: PSTG_PARTSUPPNEW
         noLinkRefs: []
   name: PSTG_PARTSUPPNEW

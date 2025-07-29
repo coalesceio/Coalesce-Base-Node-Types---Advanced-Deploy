@@ -21,7 +21,7 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
-    truncateBefore: false
+    truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
@@ -223,14 +223,17 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          PSTG_PARTSUPPNEW: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: TARGET_DB
             nodeName: PSTG_PARTSUPPNEW
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'PSTG_PARTSUPPNEW') }} "PSTG_PARTSUPPNEW"
+          joinCondition: |-
+            FROM {{ ref('TARGET_DB', 'PSTG_PARTSUPPNEW') }} "PSTG_PARTSUPPNEW"
+            where "PS_SUPPKEY">3
         name: FCT_PARTSUPPNEW
         noLinkRefs: []
   name: FCT_PARTSUPPNEW
