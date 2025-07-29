@@ -1,0 +1,6 @@
+excludeSelector: ""
+fileVersion: 1
+id: "56"
+includeSelector: "{ location: TARGET_DB name: DIM_NATIONNEW } OR { location: TARGET_DB name: FCT_PARTSUPPNEW } OR { location: TARGET_DB name: FCT_CUSTOMER123 } OR { location: TARGET_DB name: PSTG_PARTSUPPNEW } OR { location: SOURCE_DATA name: CUSTOMER } OR { location: SOURCE_DATA name: NATION } OR { location: SOURCE_DATA name: PARTSUPP } OR { location: TARGET_DB name: WRK_CUSTOMER123 } OR { location: TARGET_DB name: WRK_NATIONNEW } OR { location: TARGET_DB name: WRK_NATIONVW } OR { location: TARGET_DB name: WRK_PARTSUPPNEW }"
+name: Adv-dep-job-250729
+type: Job

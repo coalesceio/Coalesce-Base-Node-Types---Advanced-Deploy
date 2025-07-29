@@ -1,0 +1,242 @@
+fileVersion: 1
+id: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+name: FCT_PARTSUPPNEW
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8907945d-74e5-4076-9c0b-d6f64ea94356
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: PSTG_PARTSUPPNEW_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a2d5f668-8f0e-4036-b4b5-5b2b4b683b00
+                stepCounter: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a55f4ce7-ebea-4b99-b457-074f4f7a0459
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        isBusinessKey: true
+        name: PS_PARTKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f7dd7b73-b7e6-4be4-bddd-1dc6e4d864d6
+                stepCounter: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6d25b1f5-c3c5-4e2c-881a-48eebf8a15ee
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PS_SUPPKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 79a21b99-3e15-45e2-89f7-088618145af0
+                stepCounter: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 71c56671-80f2-453a-9c16-e55911031925
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PS_AVAILQTY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6336b90d-8c48-4dda-9f23-a0e2c474c162
+                stepCounter: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e9182dd3-611d-4999-81ba-818286e3eeed
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: PS_SUPPLYCOST
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5cafe5be-4c3e-4fe9-81dc-1eb2732a2d8c
+                stepCounter: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1f5800d6-28f2-46cc-ba94-9c21aa478a49
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: VARCHAR(199)
+        description: ""
+        name: PS_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9e884a2b-a438-48cd-a9d7-cec63b35dfff
+                stepCounter: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 59761fc4-232e-4888-9bc5-3071c31c316a
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: PS_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9320c601-4461-4e52-b9fd-2cc5e043ec3b
+                stepCounter: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f980d2ee-f2df-4fbf-9cfa-b0a23781cc64
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 46d16348-0e93-4183-b3d4-edc145d6fbe9
+                stepCounter: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6f1e1448-1d12-4d47-a212-125be2c96630
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1ff3869d-8180-4f23-9f90-48106054bb39
+                stepCounter: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9d0e0914-e502-4ac8-9118-fe32a18eb58c
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bdd43489-ac17-412d-ba19-734739700fa3
+                stepCounter: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5ad533f4-f18c-4b83-b9cb-cf25fc94a6f6
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0e8ade8c-189a-4673-b0cb-a1f4531f758e
+                stepCounter: 48b13d9a-4490-4d5d-a43f-d7a9690072fc
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 87a8438f-2703-41ef-8598-42dfc06cd856
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6a135b46-993a-44da-ab0a-4c6ee877d272
+          stepCounter: f8a589d5-1ea4-4eaf-ab7c-8d63e2822602
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: PSTG_PARTSUPPNEW
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'PSTG_PARTSUPPNEW') }} "PSTG_PARTSUPPNEW"
+        name: FCT_PARTSUPPNEW
+        noLinkRefs: []
+  name: FCT_PARTSUPPNEW
+  overrideSQL: false
+  schema: ""
+  sqlType: "389"
+  type: sql
+  version: 1
+type: Node
