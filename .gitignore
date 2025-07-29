@@ -1,4 +1,6 @@
 nodeTypes/Dimension-Dimension
 nodeTypes/Fact-Fact
 nodeTypes/PersistentStage-persistentStage
+nodeTypes/View-View
+nodeTypes/Stage-Stage
 
