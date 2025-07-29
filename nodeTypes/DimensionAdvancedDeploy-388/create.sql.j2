@@ -50,17 +50,17 @@ does not permit copying or modification for any other purpose.
             {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='schema') | first %}
             {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}  		
             {% if currentState.node.materializationType != 'view' %}
-                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name),true,"sql","drop") }}
                 DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
             {% elif  desiredState.node.name != currentState.node.name or desiredDatabaseSchema != currentDatabaseSchema  %}
-                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name),true,"sql","drop") }}
                 DROP VIEW IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}                    
             {% endif %}
         {% endif %}
 
          {# CreateSQL for View #}
         {% if currentState == undefined or currentState != desiredState %}
-		{{ stage('Create Dimension View') }}
+		{{ stage('Create Dimension View',true,"sql","create") }}
 
 		CREATE OR REPLACE VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
 		(
@@ -208,7 +208,25 @@ does not permit copying or modification for any other purpose.
             {# Change Node Name or Change Storage Location #}
             {# Storage Location Tests #}
             
-            {% set nsVariables = namespace(storageLocationTest=true) %}
+            {% set nsVariables = namespace(storageLocationTest=true,joinTest=true) %}
+
+         {% set sourcesTest = currentState.sources | count == desiredState.sources | count %}
+ 
+         {%if sourcesTest == true%}
+          {% for src in desiredState.sources %}
+            {% if  currentState.sources[loop.index0].join != src.join %}
+                {% set nsVariables.joinTest = false %}  {# Set joinTest to false if changes are detected #}
+            {% endif %}
+           {% endfor %}
+         {%endif%}
+
+         {%if nsVariables.joinTest == false or sourcesTest == false%}        
+              {{ stage('Metadata Update-Join' ) }}
+               -- Join clause changed
+               /* was:{{-currentState.sources[0].join|trim-}} */
+               /*is :{{-desiredState.sources[0].join|trim-}} */
+               select 1=0
+         {%endif%}
 
             {# Test  #}
             {%if currentState.storageLocations|length == 0%}          
