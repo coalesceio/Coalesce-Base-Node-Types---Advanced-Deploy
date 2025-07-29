@@ -107,7 +107,23 @@ does not permit copying or modification for any other purpose.
 
             {# Change Node Name or Change Storage Location #}
             {# Storage Location Tests #}          
-            {% set nsVariables = namespace(storageLocationTest=true) %}
+            {% set nsVariables = namespace(storageLocationTest=true,joinTest=true) %}
+
+         {% set sourcesTest = currentState.sources | count == desiredState.sources | count %}
+ 
+         {%if sourcesTest == true%}
+          {% for src in desiredState.sources %}
+            {% if  currentState.sources[loop.index0].join != src.join %}
+                {% set nsVariables.joinTest = false %}  {# Set joinTest to false if changes are detected #}
+            {% endif %}
+           {% endfor %}
+         {%endif%}
+
+         {%if nsVariables.joinTest == false or sourcesTest == false%}        
+              {{ stage('Metadata Update-Join' ) }}
+               -- Join clause changed
+               select 1=0
+         {%endif%}
 
             {# Test  #}
             {%if currentState.storageLocations|length == 0%}          
