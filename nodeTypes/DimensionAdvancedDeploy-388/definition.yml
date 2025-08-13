@@ -106,6 +106,7 @@ metadata:
       - type: changeTrackingColumns
         isRequired: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
+        
       - type: toggleButton
         attributeName: clusterKey
         displayName: Cluster Key
