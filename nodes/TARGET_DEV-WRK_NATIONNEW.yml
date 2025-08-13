@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 2fabacc8-995a-4a32-ae69-9c9640a66332
-name: WRK_NATIONVW
+id: ff14a2a7-b163-4a4d-9c40-6dee74b8df75
+name: WRK_NATIONNEW
 operation:
   config:
     asofColumn:
@@ -33,15 +33,15 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
-  materializationType: view
+  locationName: TARGET_DEV
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0070aed6-336b-4971-ba25-1fbae89cd8e3
-          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
+          columnCounter: a15f3651-97c6-4343-be89-0b43b034886d
+          stepCounter: ff14a2a7-b163-4a4d-9c40-6dee74b8df75
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -54,8 +54,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 8e7b35aa-44c5-4508-ba55-6702b868af43
-          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
+          columnCounter: 8036bd33-65fa-4501-95c3-114104434dfc
+          stepCounter: ff14a2a7-b163-4a4d-9c40-6dee74b8df75
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -68,8 +68,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b22be01a-cc43-4ba2-ad5f-524aed675d86
-          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
+          columnCounter: 08d4d09d-de53-4a8e-a5d3-8c1235fe57ea
+          stepCounter: ff14a2a7-b163-4a4d-9c40-6dee74b8df75
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -82,8 +82,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 481ebacc-0b2b-46a8-b51d-b8c21e4a52df
-          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
+          columnCounter: 6d28d8e0-5ef7-48a8-9f48-db0ae66bea7d
+          stepCounter: ff14a2a7-b163-4a4d-9c40-6dee74b8df75
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -96,8 +96,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2f28cafd-6617-4d7f-b816-288f50158464
-          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
+          columnCounter: a4cf53d4-b99d-4ef7-8a18-d65e8f89d357
+          stepCounter: ff14a2a7-b163-4a4d-9c40-6dee74b8df75
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -110,8 +110,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 85fb915b-70d7-47fb-85bf-7c04234f51c7
-          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
+          columnCounter: 39a05522-8ddc-449f-b9c3-3685ea3f39ab
+          stepCounter: ff14a2a7-b163-4a4d-9c40-6dee74b8df75
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -125,21 +125,23 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          NATION: 575b82a6-b235-4666-b3c6-da36ece75153
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: |2-
-
-
+          joinCondition: |-
+            
+            
              
               FROM  {{ ref('SOURCE_DATA', 'NATION') }} NATION
-        name: WRK_NATIONVW
+              where "NATION"."N_NATIONKEY" >2
+        name: WRK_NATIONNEW
         noLinkRefs: []
-  name: WRK_NATIONVW
+  name: WRK_NATIONNEW
   overrideSQL: false
   schema: ""
   sqlType: "179"

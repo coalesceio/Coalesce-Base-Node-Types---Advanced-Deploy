@@ -1,26 +1,47 @@
 fileVersion: 1
-id: 606561b7-706c-4385-a792-a8ee05925b7b
-name: STG_NATIONVW
+id: 2fabacc8-995a-4a32-ae69-9c9640a66332
+name: WRK_NATIONVW
 operation:
   config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
     insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
     postSQL: ""
     preSQL: ""
-    testsEnabled: true
+    selectDistinct: false
+    testsEnabled: false
     truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DEV
   materializationType: view
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d80dd2eb-5814-4a64-9375-6ecfb5ec4b29
-          stepCounter: 606561b7-706c-4385-a792-a8ee05925b7b
+          columnCounter: 0070aed6-336b-4971-ba25-1fbae89cd8e3
+          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -33,8 +54,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 02ea0275-453a-472a-91e8-d69965327af1
-          stepCounter: 606561b7-706c-4385-a792-a8ee05925b7b
+          columnCounter: 8e7b35aa-44c5-4508-ba55-6702b868af43
+          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -47,8 +68,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 900b53b0-71d7-4d40-a9f0-1cc21c4e7ba1
-          stepCounter: 606561b7-706c-4385-a792-a8ee05925b7b
+          columnCounter: b22be01a-cc43-4ba2-ad5f-524aed675d86
+          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -61,8 +82,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b3e700d4-a149-4a5d-8869-d9038fe503d2
-          stepCounter: 606561b7-706c-4385-a792-a8ee05925b7b
+          columnCounter: 481ebacc-0b2b-46a8-b51d-b8c21e4a52df
+          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -75,8 +96,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: bd43d870-ae6e-4079-b069-55f6e3393297
-          stepCounter: 606561b7-706c-4385-a792-a8ee05925b7b
+          columnCounter: 2f28cafd-6617-4d7f-b816-288f50158464
+          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -89,8 +110,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b50afa33-5899-44c7-b4f0-0968aa62e8e0
-          stepCounter: 606561b7-706c-4385-a792-a8ee05925b7b
+          columnCounter: 85fb915b-70d7-47fb-85bf-7c04234f51c7
+          stepCounter: 2fabacc8-995a-4a32-ae69-9c9640a66332
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -111,13 +132,17 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
-        name: STG_NATIONVW
+          joinCondition: |2-
+
+
+             
+              FROM  {{ ref('SOURCE_DATA', 'NATION') }} NATION
+        name: WRK_NATIONVW
         noLinkRefs: []
-  name: STG_NATIONVW
+  name: WRK_NATIONVW
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: "179"
   type: sql
   version: 1
 type: Node
