@@ -7,9 +7,6 @@ mappingDefinitions:
   TARGET_ACC:
     database: ANANDHIS_DEV
     schema: TARGET
-  TARGET_DB_TEST1:
-    database: ""
-    schema: ""
   TARGET_DEV:
     database: ANANDHIS_DEV
     schema: TARGET_DEV
