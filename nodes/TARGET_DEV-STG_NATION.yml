@@ -12,7 +12,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_ACC
+  locationName: TARGET_DEV
   materializationType: table
   metadata:
     appliedNodeTests: []
