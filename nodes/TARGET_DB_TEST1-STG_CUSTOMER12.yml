@@ -1,6 +1,6 @@
 fileVersion: 1
-id: bf819a35-1e32-45ed-950d-25862eb50649
-name: STG_CUSTOMERTB
+id: b0cec2f0-e157-4b0c-8553-ebc7f9da8462
+name: STG_CUSTOMER12
 operation:
   config:
     insertStrategy: INSERT
@@ -12,15 +12,15 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB_TEST
-  materializationType: table
+  locationName: TARGET_DB_TEST1
+  materializationType: view
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ce36626e-cd5c-4b83-9ff4-bd395f152147
-          stepCounter: bf819a35-1e32-45ed-950d-25862eb50649
+          columnCounter: c0e62ff6-4912-4417-be8c-0f2c4fa83f8a
+          stepCounter: b0cec2f0-e157-4b0c-8553-ebc7f9da8462
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -33,8 +33,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f31732da-8d62-48df-856e-435d81cc1df3
-          stepCounter: bf819a35-1e32-45ed-950d-25862eb50649
+          columnCounter: 59b29e55-4b1d-4b4e-b269-2083b5cbd5fa
+          stepCounter: b0cec2f0-e157-4b0c-8553-ebc7f9da8462
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -47,8 +47,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: af994dac-963f-4e49-8ed8-934413a5692e
-          stepCounter: bf819a35-1e32-45ed-950d-25862eb50649
+          columnCounter: 918ae872-c3b7-47dd-892f-9f6c980c7635
+          stepCounter: b0cec2f0-e157-4b0c-8553-ebc7f9da8462
         config: {}
         dataType: VARCHAR(40)
         description: ""
@@ -61,8 +61,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 80c0e89d-cecd-4638-bfba-87d3399d8a0e
-          stepCounter: bf819a35-1e32-45ed-950d-25862eb50649
+          columnCounter: 07afd3c2-5378-4f64-b16a-5570aa6a8762
+          stepCounter: b0cec2f0-e157-4b0c-8553-ebc7f9da8462
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -75,8 +75,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6e55eeaa-0f24-4cd4-a9bb-6ba4e78213e6
-          stepCounter: bf819a35-1e32-45ed-950d-25862eb50649
+          columnCounter: 14ff90d1-0162-4302-b2c4-0514effc361f
+          stepCounter: b0cec2f0-e157-4b0c-8553-ebc7f9da8462
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -89,8 +89,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 16a65f23-165f-49d3-80a1-f7d929346853
-          stepCounter: bf819a35-1e32-45ed-950d-25862eb50649
+          columnCounter: 0079020d-17a9-4720-866e-603a5b1b6ebf
+          stepCounter: b0cec2f0-e157-4b0c-8553-ebc7f9da8462
         config: {}
         dataType: NUMBER(12,2)
         description: ""
@@ -103,8 +103,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 56e3f70d-6ee5-42a5-8f58-0fa827a7317c
-          stepCounter: bf819a35-1e32-45ed-950d-25862eb50649
+          columnCounter: afc4a9dc-0184-407e-8207-0545b73de73a
+          stepCounter: b0cec2f0-e157-4b0c-8553-ebc7f9da8462
         config: {}
         dataType: VARCHAR(10)
         description: ""
@@ -117,8 +117,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c433b82c-0166-4d32-a003-de7d3620c57a
-          stepCounter: bf819a35-1e32-45ed-950d-25862eb50649
+          columnCounter: a84f3619-f295-416f-99f1-927e9c1eab01
+          stepCounter: b0cec2f0-e157-4b0c-8553-ebc7f9da8462
         config: {}
         dataType: VARCHAR(117)
         description: ""
@@ -131,8 +131,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 10093cf9-be0c-4cc3-836b-3bf15c310cee
-          stepCounter: bf819a35-1e32-45ed-950d-25862eb50649
+          columnCounter: 087fd461-b9a5-4989-ac15-b6adcb2bd0cd
+          stepCounter: b0cec2f0-e157-4b0c-8553-ebc7f9da8462
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -154,9 +154,9 @@ operation:
             nodeName: CUSTOMER
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
-        name: STG_CUSTOMERTB
+        name: STG_CUSTOMER12
         noLinkRefs: []
-  name: STG_CUSTOMERTB
+  name: STG_CUSTOMER12
   overrideSQL: false
   schema: ""
   sqlType: Stage
