@@ -4,9 +4,6 @@ mappingDefinitions:
   SOURCE_DATA:
     database: ANANDHIS_DEV
     schema: SOURCE_DATA
-  TARGET_ACC:
-    database: ANANDHIS_DEV
-    schema: TARGET
   TARGET_DB_TEST1:
     database: ""
     schema: ""

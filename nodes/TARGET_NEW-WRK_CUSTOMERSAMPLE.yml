@@ -33,7 +33,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_ACC
+  locationName: TARGET_NEW
   materializationType: table
   metadata:
     appliedNodeTests: []
