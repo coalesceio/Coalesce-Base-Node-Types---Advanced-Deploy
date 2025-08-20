@@ -142,7 +142,23 @@ The following stages are executed:
 
 | **Stage** | **Description** |
 |-----------|----------------|
-| **Rename Table\| Alter Column \| Delete Column \| Add Column \| Edit table description** | Alter table statement is executed to perform the alter operation |
+| **Rename Table\| Alter Column \| Delete Column \| Add Column \| Edit table description** | Alter table statement is executed to perform the alter operation|
+
+Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates. A few cases are listed below:
+
+1. Changes in business keys
+2. Changes to change tracking keys
+3. Changes in join clauses
+4. Transformations made at column level
+5. Changing DML options like DISTINCT, ORDER BY, GROUP BY ALL
+
+And many more. Most of the time, specific ‘is’ and ‘was’ values will be displayed to specifically show what changed.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
 
 #### Work Advanced Deploy Recreating the Work Views
 
@@ -283,6 +299,22 @@ The following stages are executed:
 | **Stage** | **Description** |
 |-----------|----------------|
 | **Rename Table\| Alter Column \| Delete Column \| Add Column \| Edit table description** | ALTER table statement is executed to perform the alter operation accordingly |
+
+Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates. A few cases are listed below:
+
+1. Changes in business keys
+2. Changes to change tracking keys
+3. Changes in join clauses
+4. Transformations made at column level
+5. Changing DML options like DISTINCT, ORDER BY, GROUP BY ALL
+
+And many more. Most of the time, specific ‘is’ and ‘was’ values will be displayed to specifically show what changed.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
 
 #### Drop and Recreate Persistent Stage Table/Transient Table
 
@@ -430,6 +462,22 @@ The following stages are executed:
 |-----------|----------------|
 | **Rename Table\| Alter Column \| Delete Column \| Add Column \| Edit table description** | Alter table statement is executed to perform the alter operation |
 
+Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates. A few cases are listed below:
+
+1. Changes in business keys
+2. Changes to change tracking keys
+3. Changes in join clauses
+4. Transformations made at column level
+5. Changing DML options like DISTINCT, ORDER BY, GROUP BY ALL
+
+And many more. Most of the time, specific ‘is’ and ‘was’ values will be displayed to specifically show what changed.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
+
 #### Recreating the Dimension Views
 
 The subsequent deployment of Dimension node of materialization type view with changes in view definition, adding table description or renaming view results in recreating the dimension view.
@@ -568,6 +616,22 @@ The following stages are executed:
 |-----------|----------------|
 | **Rename Table\| Alter Column \| Delete Column \| Add Column \| Edit table description** | Alter table statement is executed to perform the alter operation |
 
+Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates. A few cases are listed below:
+
+1. Changes in business keys
+2. Changes to change tracking keys
+3. Changes in join clauses
+4. Transformations made at column level
+5. Changing DML options like DISTINCT, ORDER BY, GROUP BY ALL
+
+And many more. Most of the time, specific ‘is’ and ‘was’ values will be displayed to specifically show what changed.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
+
 #### Recreating the Fact Advanced Deploy Views
 
 The subsequent deployment of Fact node of materialization type view with changes in view definition, adding table description or renaming view results recreating the view.
@@ -678,6 +742,22 @@ The following stages are executed:
 | **Stage** | **Description** |
 |-----------|----------------|
 | **Rename Table\| Alter Column \| Delete Column \| Add Column \| Edit table description** | Alter table statement is executed to perform the alter operation accordingly |
+
+Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates. A few cases are listed below:
+
+1. Changes in business keys
+2. Changes to change tracking keys
+3. Changes in join clauses
+4. Transformations made at column level
+5. Changing DML options like DISTINCT, ORDER BY, GROUP BY ALL
+
+And many more. Most of the time, specific ‘is’ and ‘was’ values will be displayed to specifically show what changed.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
 
 #### Drop and Recreate Factless Fact Table/Transient Table
   
