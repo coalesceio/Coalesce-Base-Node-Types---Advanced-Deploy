@@ -2,28 +2,12 @@ fileVersion: 1
 id: "185"
 name: View-Qualify
 steps:
-  - 0113f35c-d946-4bd5-9437-c50e05d602c0
-  - 0352a362-ca47-4dba-aa07-80e012b37255
   - 1a61911b-809c-4089-951f-8e9976ef3b60
-  - 1af302b2-f85a-45a7-aacf-be61e8cc3f92
-  - 3244520f-d37b-4ddc-b94b-12341c390f25
-  - 39f889d9-0e3d-449a-b8ab-460ae6346af2
-  - 52ba2ac0-0497-43be-9246-f47f089c1077
-  - 5e21b4c8-a886-4b68-b188-8da2a75fd105
   - 5ec9b6c4-37c1-402a-9d88-370ccd036cbf
   - 6e1c4b8c-1d4e-49d6-8727-eb603d0aa27d
-  - 72c7ec5d-6cab-45a3-9639-f19023dc0eac
   - 94cee435-102d-412a-a560-a0f58e030415
   - 9896fdb7-f430-4efb-af33-f36d1a022e11
-  - 9d041581-5e3e-4143-898e-94321de4ceb5
-  - ac28067a-7034-4210-a270-2de6f42c0cbd
-  - acbd5380-6024-4f9b-a683-d5e84568b612
-  - c4a9c478-6ece-4137-a313-734b035a2297
-  - c5ca4cf2-d8ab-4818-94e3-3307f7b24533
-  - ccd60ba5-12f4-41c9-8fa9-5d3d3e4efc40
   - cd21cae0-a49f-4e97-bffa-5ccdf493d850
   - ec3deaea-e4e6-4985-9ec0-cbe20dde4dbf
-  - f402d50a-22b3-48fd-8ede-7beadf50a654
   - f58ea1b1-cf12-434f-9a01-3bc0711df80c
-  - f8eeae69-67c1-47d3-afc3-7d57f4114900
 type: Subgraph

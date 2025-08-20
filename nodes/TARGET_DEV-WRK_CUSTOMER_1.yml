@@ -3,7 +3,7 @@ id: 38594079-3c04-4604-9e56-11a2d5085407
 name: WRK_CUSTOMER_1
 operation:
   config:
-    asofJoinMain: false
+    asofJoinMain: true
     clusterKey: false
     clusterKeyConfig:
       items:

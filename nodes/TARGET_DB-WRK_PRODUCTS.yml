@@ -5,9 +5,11 @@ operation:
   config:
     asofColumn:
       items:
-        - {}
+        - matchCondition: null
+          rightTable: null
+          rightTableSL: null
     asofJoin: true
-    asofJoinMain: false
+    asofJoinMain: true
     asofJoinON: false
     asofJoinUSING: false
     clusterKey: false

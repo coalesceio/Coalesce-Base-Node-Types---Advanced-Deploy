@@ -40,7 +40,12 @@ operation:
   locationName: TARGET_DB
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: false
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: ""
     columns:
       - acceptedValues:
           strictMatch: true
@@ -195,14 +200,14 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 19653566-7f28-4259-b566-d9d2a0b4f1a6
+          columnCounter: 39a8c560-6688-49c6-b419-0e8a12ceeee5
           stepCounter: 4c19e477-b560-402f-949b-9a650e92805d
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
         description: ""
-        isSystemCreateDate: true
-        name: SYSTEM_CREATE_DATE
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
@@ -212,14 +217,52 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 39a8c560-6688-49c6-b419-0e8a12ceeee5
+          columnCounter: 5acca009-a218-4a8c-9baf-fd02d20cfde6
+          stepCounter: 4c19e477-b560-402f-949b-9a650e92805d
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        hashDetails:
+          hashAlgorithm: SHA1
+        hashedColumns:
+          - columnCounter: dd084741-a76b-44cd-b0bf-0178af225d2f
+            stepCounter: 4c19e477-b560-402f-949b-9a650e92805d
+        name: GH
+        nullable: true
+        sourceColumnReferences: []
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: fdf56223-5f8c-4033-a2d9-82f6d4347acf
+          stepCounter: 4c19e477-b560-402f-949b-9a650e92805d
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        hashDetails:
+          hashAlgorithm: SHA1
+        hashedColumns:
+          - columnCounter: ac9bea97-cd69-4c8b-9a70-f0e08060d893
+            stepCounter: 4c19e477-b560-402f-949b-9a650e92805d
+        name: GH1
+        nullable: true
+        sourceColumnReferences: []
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 19653566-7f28-4259-b566-d9d2a0b4f1a6
           stepCounter: 4c19e477-b560-402f-949b-9a650e92805d
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
         description: ""
-        isSystemUpdateDate: true
-        name: SYSTEM_UPDATE_DATE
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences: []

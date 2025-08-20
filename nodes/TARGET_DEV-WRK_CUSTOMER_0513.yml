@@ -3,6 +3,7 @@ id: ff661f14-a940-4e8b-b1e6-eac87e7aafbc
 name: WRK_CUSTOMER_0513
 operation:
   config:
+    asofJoinMain: true
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -16,7 +17,8 @@ operation:
     orderby: false
     orderbycolumn:
       items:
-        - {}
+        - sortColName: null
+          sortOrder: desc
     postSQL: ""
     preSQL: ""
     selectDistinct: false

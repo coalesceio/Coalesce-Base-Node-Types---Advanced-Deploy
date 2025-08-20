@@ -42,7 +42,7 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 75ac81f7-bebc-435d-8216-7abb8d827f60
+              - columnCounter: 05a44c92-ac8e-4f09-b604-1ee2c8a9e9c3
                 stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
             transform: ""
       - appliedColumnTests: {}
@@ -143,6 +143,26 @@ operation:
               - columnCounter: cf9946c0-e5b4-4f4a-a99d-865038d71fb2
                 stepCounter: 9896fdb7-f430-4efb-af33-f36d1a022e11
             transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 29db44ad-373e-4f8f-809f-7bdf12937b26
+          stepCounter: e8736641-505b-4c33-8f65-77071fa28bdc
+        config: {}
+        dataType: string
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: a1
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: "'sq'"
+        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
