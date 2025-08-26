@@ -3,6 +3,7 @@ id: 0344c1e3-84b3-4215-90d7-27c93d76129e
 name: WRK_REGION_TRANS
 operation:
   config:
+    asofJoinMain: false
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -65,7 +66,7 @@ operation:
           - columnReferences:
               - columnCounter: 35edb398-e1f3-4ff9-acf5-5d78ac4ee437
                 stepCounter: 80960d14-84e5-49ce-8ed9-acf5833365e6
-            transform: ""
+            transform: "\"REGION\".\"R_NAME\" /* this is a test */"
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 80920414-9437-4286-9435-3cd89e928aca

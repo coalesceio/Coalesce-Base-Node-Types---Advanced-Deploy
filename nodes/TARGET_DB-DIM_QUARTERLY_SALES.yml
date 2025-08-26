@@ -21,7 +21,7 @@ operation:
     insertZeroKeyBol: "TRUE"
     insertZeroKeyDate: 01-01-1900
     insertZeroKeyStr: UNKNOWN
-    insertZeroKeySurrogateKey: "0"
+    insertZeroKeySurrogateKey: 0/*zero*/
     insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
     orderby: false
     orderbycolumn:
