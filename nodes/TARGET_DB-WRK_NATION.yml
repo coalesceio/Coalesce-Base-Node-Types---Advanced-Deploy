@@ -84,7 +84,7 @@ operation:
           - columnReferences:
               - columnCounter: c5860108-0995-4d2a-9ec5-fc2cf9f8e326
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
-            transform: ""
+            transform: /*khsflkj*/
       - appliedColumnTests: {}
         columnReference:
           columnCounter: f033a603-ba87-4405-943b-dce5110d797a
