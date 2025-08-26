@@ -206,6 +206,7 @@ does not permit copying or modification for any other purpose.
             {% set nsMetaVariables = namespace(
                 joinTest            = true,
                 transformTest       = true,
+                sourceLinkTest      = true,
                 businessKeyTest     = true,
                 insertStrategyTest  = true,
                 truncateBeforeTest  = true,
@@ -218,6 +219,7 @@ does not permit copying or modification for any other purpose.
                 metaDataChanged     = false,
                 joinDiff            = [],
                 transformDiff       = [],
+                sourceLinkDiff      = [],
                 businessDiff        = [],
                 insertStrategyDiff  = [],
                 truncateBeforeDiff  = [],
@@ -244,8 +246,8 @@ does not permit copying or modification for any other purpose.
                         {# =========================================================
                         Join comparison
                         ========================================================= #}
-                        {% set desiredStateSources = src.join | replace("{{", '"{{"') | replace("}}", '"}}"') %}
-                        {% set currentStateSources = matchingSource.join | replace("{{", '"{{"') | replace("}}", '"}}"') %}
+                        {% set desiredStateSources = src.join | replace("{{", '"{{"') | replace("}}", '"}}"') | replace('/*', '/ *') | replace('*/', '* /') %}
+                        {% set currentStateSources = matchingSource.join | replace("{{", '"{{"') | replace("}}", '"}}"') | replace('/*', '/ *') | replace('*/', '* /') %}
 
                         {# Same number of sources — compare join transformations #}
                         {% if desiredStateSources != currentStateSources %}
@@ -261,42 +263,49 @@ does not permit copying or modification for any other purpose.
                         ========================================================= #}
                         {% for col in src.columns %}
 
-                            {# Transformation Changes #}
-                            {% set currentTransform = matchingSource.columns
+                            {# Try to get matching column #}
+                            {% set matched_column = matchingSource.columns
                                 | selectattr('id', 'equalto', col.id)
-                                | map(attribute='transform')
                                 | first
-                                | default('')
                             %}
 
-                            {% if currentTransform != col.transform %}
-                                {% set nsMetaVariables.transformTest = false %}
-                                {% set _ = nsMetaVariables.transformDiff.append({
-                                    "Change In" : "Column Transformation",
-                                    "Source Name": src.name,
-                                    "Column Name": col.name,
-                                    "is": col.transform,
-                                    "was": currentTransform
-                                }) %}
-                            {% endif %}
+                            {% if matched_column %}
 
-                            {# Column Source Changes #}
-                            {% set currentSource = matchingSource.columns
-                                | selectattr('id', 'equalto', col.id)
-                                | map(attribute='sourceColumns')
-                                | first
-                                | default('')
-                            %}
+                                {# Transformation Changes #}
+                                {% set currentTransform = matchingSource.columns
+                                    | selectattr('id', 'equalto', col.id)
+                                    | map(attribute='transform')
+                                    | first
+                                    | default('')
+                                %}
 
-                            {% if currentSource != col.sourceColumns %}
-                                {% set nsMetaVariables.transformTest = false %}
-                                {% set _ = nsMetaVariables.transformDiff.append({
-                                    "Change In" : "Column Source Link",
-                                    "Source Name": src.name,
-                                    "Column Name": col.name,
-                                    "is": (col.sourceColumns | selectattr('node','defined') | map(attribute='node.name') | first) | default('') ~ "-" ~ (col.sourceColumns | selectattr('column','defined') | map(attribute='column.name') | first) | default(''),
-                                    "was": (currentSource | selectattr('node','defined') | map(attribute='node.name') | first) | default('') ~ "-" ~ (currentSource | selectattr('column','defined') | map(attribute='column.name') | first) | default('')
-                                }) %}
+                                {% if currentTransform != col.transform %}
+                                    {% set nsMetaVariables.transformTest = false %}
+                                    {% set _ = nsMetaVariables.transformDiff.append({
+                                        "Source Name": src.name,
+                                        "Column Name": col.name,
+                                        "is": col.transform | replace('/*', '/ *') | replace('*/', '* /'),
+                                        "was": currentTransform | replace('/*', '/ *') | replace('*/', '* /')
+                                    }) %}
+                                {% endif %}
+
+                                {# Column Source Changes #}
+                                {% set currentSource = matchingSource.columns
+                                    | selectattr('id', 'equalto', col.id)
+                                    | map(attribute='sourceColumns')
+                                    | first
+                                    | default('')
+                                %}
+
+                                {% if currentSource != col.sourceColumns %}
+                                    {% set nsMetaVariables.sourceLinkTest = false %}
+                                    {% set _ = nsMetaVariables.sourceLinkTest.append({
+                                        "Source Name": src.name,
+                                        "Column Name": col.name,
+                                        "is": (col.sourceColumns | selectattr('node','defined') | map(attribute='node.name') | first) | default('') ~ "-" ~ (col.sourceColumns | selectattr('column','defined') | map(attribute='column.name') | first) | default(''),
+                                        "was": (currentSource | selectattr('node','defined') | map(attribute='node.name') | first) | default('') ~ "-" ~ (currentSource | selectattr('column','defined') | map(attribute='column.name') | first) | default('')
+                                    }) %}
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                     {% endif %}
@@ -305,10 +314,14 @@ does not permit copying or modification for any other purpose.
                 {% if nsMetaVariables.transformTest == false %}
                     {{ update_metadata("Transform", nsMetaVariables.transformDiff, "Transform") }}
                 {% endif %}
+
+                {% if nsMetaVariables.sourceLinkTest == false %}
+                    {{ update_metadata("Source Link", nsMetaVariables.sourceLinkDiff, "Source Link") }}
+                {% endif %}
             {% else %}
                 {# Source count mismatch — compare source names instead #}
-                {% set desiredStateSources = desiredState.sources | map(attribute='name') | list %}
-                {% set currentStateSources = currentState.sources | map(attribute='name') | list %}
+                {% set desiredStateSources = desiredState.sources | map(attribute='name') | list | sort %}
+                {% set currentStateSources = currentState.sources | map(attribute='name') | list | sort %}
 
                 {% if desiredStateSources != currentStateSources %}
                     {% set nsMetaVariables.joinTest = false %}
@@ -394,9 +407,8 @@ does not permit copying or modification for any other purpose.
 
                     {% set nsMetaVariables.testsEnabledTest = false %}
                     {% set _ = nsMetaVariables.testsEnabledDiff.append({
-                        "is": desiredState.node.tests | map(attribute="name") | list ,
-                        "was": currentState.node.tests | map(attribute="name") | list
-                    }) %}
+                        "is": desiredState.node.tests | map(attribute="name") | list | sort ,
+                        "was": currentState.node.tests | map(attribute="name") | list | sort }) %}
                 {% else %}
                     {% for dtest in desiredState.node.tests %}
                         {% set ctest = (currentState.node.tests | selectattr("name", "equalto", dtest.name) | first) %}
@@ -404,8 +416,8 @@ does not permit copying or modification for any other purpose.
                         {% if ctest != dtest %}
                             {% set nsMetaVariables.testsEnabledTest = false %}
                             {% set _ = nsMetaVariables.testsEnabledDiff.append({
-                                "is": dtest,
-                                "was": ctest
+                                "is": dtest | replace('/*', '/ *') | replace('*/', '* /'),
+                                "was": ctest | replace('/*', '/ *') | replace('*/', '* /')
                             }) %}
                         {% endif %}
                     {% endfor %}
@@ -427,8 +439,8 @@ does not permit copying or modification for any other purpose.
 
                             {% if currentTest != col.tests %}
                                 {% set nsMetaVariables.testsEnabledTest = false %}
-                                {% set cTests = currentTest | map(attribute="name") | list %}
-                                {% set dTests = col.tests | map(attribute="name") | list %}
+                                {% set cTests = currentTest | map(attribute="name") | list | sort %}
+                                {% set dTests = col.tests | map(attribute="name") | list | sort %}
                                 {% set _ = nsMetaVariables.testsEnabledDiff.append({
                                     "Column Name": col.name,
                                     "is": dTests,
@@ -478,8 +490,8 @@ does not permit copying or modification for any other purpose.
             {% if currentState.config.preSQL != desiredState.config.preSQL %}
                 {% set nsMetaVariables.preSQLTest = false %}
                 {% set _ = nsMetaVariables.preSQLDiff.append({
-                    "is": desiredState.config.preSQL,
-                    "was": currentState.config.preSQL
+                    "is": desiredState.config.preSQL | replace('/*', '/ *') | replace('*/', '* /'),
+                    "was": currentState.config.preSQL | replace('/*', '/ *') | replace('*/', '* /')
                 }) %}
 
                 {{ update_metadata("pre SQL", nsMetaVariables.preSQLDiff, "pre SQL") }}
@@ -492,8 +504,8 @@ does not permit copying or modification for any other purpose.
             {% if currentState.config.postSQL != desiredState.config.postSQL %}
                 {% set nsMetaVariables.postSQLTest = false %}
                 {% set _ = nsMetaVariables.postSQLDiff.append({
-                    "is": desiredState.config.postSQL,
-                    "was": currentState.config.postSQL
+                    "is": desiredState.config.postSQL | replace('/*', '/ *') | replace('*/', '* /'),
+                    "was": currentState.config.postSQL | replace('/*', '/ *') | replace('*/', '* /')
                 }) %}
 
                 {{ update_metadata("post SQL", nsMetaVariables.postSQLDiff, "post SQL") }}
@@ -550,6 +562,7 @@ does not permit copying or modification for any other purpose.
             {% if nsMetaVariables.joinTest == false
             or sourcesTest == false
             or nsMetaVariables.transformTest == false
+            or nsMetaVariables.sourceLinkTest == false
             or nsMetaVariables.businessKeyTest == false
             or nsMetaVariables.insertStrategyTest == false
             or nsMetaVariables.truncateBeforeTest == false

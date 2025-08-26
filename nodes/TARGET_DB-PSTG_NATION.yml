@@ -1,6 +1,6 @@
 fileVersion: 1
-id: ebb889e4-ce52-4d59-94a5-5288b035483c
-name: DIM_GEOMETRY_TABLE1_ft1
+id: ec891f65-d4e4-4858-843b-034da1e2e4df
+name: PSTG_NATION
 operation:
   config:
     clusterKey: false
@@ -11,18 +11,8 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    customZeroKeyValues:
-      items:
-        - {}
     groupByAll: false
     insertStrategy: UNION ALL
-    insertZeroKey: false
-    insertZeroKeyAdvanced: false
-    insertZeroKeyBol: "TRUE"
-    insertZeroKeyDate: 01-01-1900
-    insertZeroKeyStr: UNKNOWN
-    insertZeroKeySurrogateKey: "0"
-    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
     orderby: false
     orderbycolumn:
       items:
@@ -30,81 +20,111 @@ operation:
     postSQL: ""
     preSQL: ""
     selectDistinct: false
-    testsEnabled: true
+    testsEnabled: false
     truncateBefore: false
-    updateStrategy: MERGE
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_ACC
+  locationName: TARGET_DB
   materializationType: table
   metadata:
-    appliedNodeTests:
-      - continueOnFailure: true
-        description: ""
-        name: Test
-        runOrder: After
-        templateString: select * from  "RUHULAMINS_DEV"."TARGET"."DIM_GEOMETRY_TABLE1_ft1" where description is NULL
+    appliedNodeTests: []
     columns:
       - acceptedValues:
           strictMatch: true
           values: []
-        appliedColumnTests:
-          hasNull: false
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 1b833aea-aa3b-407b-adad-4136b60c553b
-          stepCounter: ebb889e4-ce52-4d59-94a5-5288b035483c
+          columnCounter: fe375322-645d-40fa-b24d-c7061f885511
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
         config: {}
         dataType: NUMBER
         defaultValue: ""
         description: ""
         isSurrogateKey: true
-        name: DIM_GEOMETRY_TABLE1_KEY
+        name: PSTG_NATION_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
-      - appliedColumnTests:
-          hasNull: true
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: c8ecdd62-f838-4eba-862a-638362f79936
-          stepCounter: ebb889e4-ce52-4d59-94a5-5288b035483c
+          columnCounter: e7846e3b-e857-4e1e-b8d1-02feac8800c3
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
         config: {}
-        dataType: GEOMETRY
+        dataType: NUMBER(38,0)
         description: ""
-        isChangeTracking: true
-        name: G
+        name: N_NATIONKEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 2012533e-97d1-4b70-bb03-31170b66308e
-                stepCounter: ba2fb403-e540-4354-8ad9-1fea7fc00d34
+              - columnCounter: 91399ef9-4498-47eb-be9c-cb650a92cd0d
+                stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
             transform: ""
-      - appliedColumnTests:
-          hasNull: true
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7e2e691c-5a46-47ea-9834-53d02366e7aa
-          stepCounter: ebb889e4-ce52-4d59-94a5-5288b035483c
+          columnCounter: 3fe76e28-2f91-424b-a5ec-1be388872ff5
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: VARCHAR(25)
         description: ""
-        isBusinessKey: true
-        name: DESCRIPTION
+        name: N_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: fdbdf85a-8ec7-432d-b34e-19cda2541174
-                stepCounter: ba2fb403-e540-4354-8ad9-1fea7fc00d34
+              - columnCounter: 69645033-88c1-44be-b582-6cc611c314ac
+                stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bfccc762-458e-4e0f-bf37-b8f54fa8c656
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c5860108-0995-4d2a-9ec5-fc2cf9f8e326
+                stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5c604d15-61a3-4668-86a9-92a6e39e2697
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f87b01a4-a42d-4b47-9804-f73dfa0bb3e4
+                stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fbc86cf3-aecb-494d-93cd-3f1b95d32c56
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: NEW_COL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 747e0591-2494-402a-93f4-24e7af94bd9a
+                stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
-        appliedColumnTests:
-          hasNull: false
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 28f18ecd-3095-49b8-98a0-4d21e406b54d
-          stepCounter: ebb889e4-ce52-4d59-94a5-5288b035483c
+          columnCounter: ca9be5ac-37f2-4435-b5fa-00406c77cece
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
         config: {}
         dataType: NUMBER
         defaultValue: ""
@@ -118,11 +138,10 @@ operation:
       - acceptedValues:
           strictMatch: true
           values: []
-        appliedColumnTests:
-          hasNull: false
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: af2b560e-500e-46f3-9cb1-9782775eac3b
-          stepCounter: ebb889e4-ce52-4d59-94a5-5288b035483c
+          columnCounter: 02b92b69-9741-4ede-a562-a7958e0279a9
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
         config: {}
         dataType: VARCHAR
         defaultValue: ""
@@ -136,11 +155,10 @@ operation:
       - acceptedValues:
           strictMatch: true
           values: []
-        appliedColumnTests:
-          hasNull: false
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 9b4bb9ed-d307-4b8e-a109-5eded7d175e0
-          stepCounter: ebb889e4-ce52-4d59-94a5-5288b035483c
+          columnCounter: 1530429a-b517-4ba7-a230-7cae3ea82a94
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -154,11 +172,10 @@ operation:
       - acceptedValues:
           strictMatch: true
           values: []
-        appliedColumnTests:
-          hasNull: false
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 23da2c81-0065-4640-8f79-9c97b1c7d696
-          stepCounter: ebb889e4-ce52-4d59-94a5-5288b035483c
+          columnCounter: 41f27838-a170-4d7a-98ff-a6771f83a8de
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -172,11 +189,10 @@ operation:
       - acceptedValues:
           strictMatch: true
           values: []
-        appliedColumnTests:
-          hasNull: false
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: d9e6473f-b682-4276-9e19-c7f278034ea6
-          stepCounter: ebb889e4-ce52-4d59-94a5-5288b035483c
+          columnCounter: 5c8d6ac1-3c5d-4da8-b863-8a3cf3b792ce
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -190,11 +206,10 @@ operation:
       - acceptedValues:
           strictMatch: true
           values: []
-        appliedColumnTests:
-          hasNull: false
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: baecaa67-5425-4264-addd-278425104fb0
-          stepCounter: ebb889e4-ce52-4d59-94a5-5288b035483c
+          columnCounter: 487ee8ef-2d8d-49df-9f34-293962f272ae
+          stepCounter: ec891f65-d4e4-4858-843b-034da1e2e4df
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -206,23 +221,22 @@ operation:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
-    enabledColumnTestIDs:
-      - hasNull
+    enabledColumnTestIDs: []
     sourceMapping:
       - aliases: {}
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
-            nodeName: GEOMETRY_TABLE
+            nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'GEOMETRY_TABLE') }} "GEOMETRY_TABLE"
-        name: DIM_GEOMETRY_TABLE1_ft1
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+        name: PSTG_NATION
         noLinkRefs: []
-  name: DIM_GEOMETRY_TABLE1_ft1
+  name: PSTG_NATION
   overrideSQL: false
   schema: ""
-  sqlType: "388"
+  sqlType: "391"
   type: sql
   version: 1
 type: Node
