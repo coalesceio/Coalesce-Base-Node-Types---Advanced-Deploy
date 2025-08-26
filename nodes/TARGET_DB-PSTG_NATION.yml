@@ -102,13 +102,13 @@ operation:
         config: {}
         dataType: VARCHAR(152)
         description: ""
-        name: /*block added*/2/*block added*/N_COMMENT
+        name: N_COMMENT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: f87b01a4-a42d-4b47-9804-f73dfa0bb3e4
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
-            transform: /*block added*/
+            transform: /*block added*/2/*block added*/
       - appliedColumnTests: {}
         columnReference:
           columnCounter: fbc86cf3-aecb-494d-93cd-3f1b95d32c56

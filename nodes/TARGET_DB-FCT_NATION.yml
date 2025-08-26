@@ -63,7 +63,7 @@ operation:
           - columnReferences:
               - columnCounter: 69645033-88c1-44be-b582-6cc611c314ac
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
-            transform: ""
+            transform: /* this is "comment"                             */
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 82b7d185-a78e-4f2b-845f-5d871c13da8f
@@ -77,7 +77,7 @@ operation:
           - columnReferences:
               - columnCounter: c5860108-0995-4d2a-9ec5-fc2cf9f8e326
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
-            transform: ""
+            transform: /* Multiple \n\n\n\n\n\n\n\ line comment */
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 66ee9983-3406-4879-a094-e078cdf33757
@@ -91,7 +91,12 @@ operation:
           - columnReferences:
               - columnCounter: f87b01a4-a42d-4b47-9804-f73dfa0bb3e4
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
-            transform: /*block added*/2/*Block Added*/
+            transform: |
+              /* 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, libero sed faucibus malesuada, orci ex tincidunt ligula, nec tempor urna orci vitae arcu. Nulla facilisi. Praesent nec augue sed sapien vehicula tristique sit amet sed sapien. Suspendisse id erat non augue dapibus rhoncus. Nullam quis lorem turpis. Proin quis tellus fermentum, pulvinar urna sed, feugiat eros. Vivamus rhoncus efficitur velit, eget sodales eros suscipit ac. Donec quis felis ac ligula lacinia posuere. Integer semper, arcu ac fringilla egestas, massa nulla vehicula felis, in porta lectus orci vitae nisl. Phasellus ut vulputate justo, at rhoncus enim. Vivamus vitae fermentum felis, non volutpat erat. Etiam eu scelerisque nulla. Integer at posuere justo. Ut vitae turpis varius, pulvinar lacus a, hendrerit ligula.
+              
+              Fusce a finibus nisl. Curabitur gravida lorem in lorem vehicula tincidunt. Proin blandit velit vel ante fringilla volutpat. Pellentesque ultricies nibh justo, eu fermentum nisl malesuada id. Sed nec finibus sem, nec luctus felis. Donec tempor ultricies augue, eget viverra massa tincidunt ut. Ut sed dictum nulla, vitae feugiat quam. Suspendisse rutrum nisl nec turpis egestas sollicitudin. Etiam eu ornare leo. Nam vehicula metus in tortor sodales, nec facilisis urna malesuada. Morbi scelerisque, sapien non rhoncus ultrices, purus risus euismod leo, eu dignissim libero risus vel lacus. Integer nec ligula eros. Integer maximus lorem in orci cursus sagittis. Maecenas fermentum malesuada libero, eu suscipit ligula dapibus eget.
+              */
       - appliedColumnTests: {}
         columnReference:
           columnCounter: e877db35-a930-4a67-a664-f1bd21180676
@@ -151,7 +156,7 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION" /*block added*/WHERE "N_NATIONKEY" = 3/*Block Added*/
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION" /*block added*/WHERE "N_NATIONKEY" = 3/*Block Added ADD "COMMENT"*/
         name: FCT_NATION
         noLinkRefs: []
   name: FCT_NATION
