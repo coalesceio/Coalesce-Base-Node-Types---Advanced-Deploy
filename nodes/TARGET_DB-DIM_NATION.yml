@@ -16,28 +16,28 @@ operation:
         - columnNameDefault:
             columnCounter: 2a11a05d-2672-498c-a34a-51af50f9b177
             stepCounter: 6656e45e-e0c4-41ca-94ec-581e7b209a0e
-          columnValueDefault: this is comment /* default */
+          columnValueDefault: /*block added*/this is comment /* default */
         - columnNameDefault:
             columnCounter: 0901f645-4227-4b0f-89ed-cde8a3350092
             stepCounter: 6656e45e-e0c4-41ca-94ec-581e7b209a0e
-          columnValueDefault: 2 /* India */
+          columnValueDefault: /*block added*/2 /* India */
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: true
     insertZeroKeyAdvanced: true
     insertZeroKeyBol: "TRUE"
-    insertZeroKeyDate: 2025-01-01 /*date*/
-    insertZeroKeyStr: UNKNOWN  /*string*/
-    insertZeroKeySurrogateKey: 0 /*surrogate*/
-    insertZeroKeyTimestamp: 2025-01-01 00:00:00.000  /*time*/
+    insertZeroKeyDate: /*block added*/2025-01-01 /*block added*//*Block Added*/
+    insertZeroKeyStr: /*block added*/UNKNOWN /*Block Added*/
+    insertZeroKeySurrogateKey: /*block added*/0 /*Block Added*/
+    insertZeroKeyTimestamp: /*block added*/2025-01-01 00:00:00.000  /*block added*/9/*Block Added*/
     orderby: false
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
-    preSQL: ""
+    postSQL: /*block added*/select 1=5/*Block Added*/
+    preSQL: /*block added*/select 1=4/*Block Added*/
     selectDistinct: false
-    testsEnabled: false
+    testsEnabled: true
     truncateBefore: false
     updateStrategy: MERGE
   database: ""
@@ -47,7 +47,12 @@ operation:
   locationName: TARGET_DB
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: /*block added*/select 1=7/*block added*/
     columns:
       - acceptedValues:
           strictMatch: true
@@ -65,7 +70,7 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: ""
+            transform: /*block added*/1/*Block Added*/
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 0901f645-4227-4b0f-89ed-cde8a3350092
@@ -122,7 +127,7 @@ operation:
           - columnReferences:
               - columnCounter: f87b01a4-a42d-4b47-9804-f73dfa0bb3e4
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
-            transform: ""
+            transform: /*block added*/2/*Block Added*/
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 4446d820-3837-45bd-a4f8-a9584c4cc006
@@ -242,14 +247,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          NATION: cf768faf-1b52-4a05-964e-5618a74054c7
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION" /*block added*/WHERE "N_NATIONKEY" = 3/*Block Added*/
         name: DIM_NATION
         noLinkRefs: []
   name: DIM_NATION

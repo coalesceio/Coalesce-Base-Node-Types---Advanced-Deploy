@@ -17,10 +17,10 @@ operation:
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
-    preSQL: ""
+    postSQL: " /*block added*/select 1=5/*block added*/"
+    preSQL: " /*block added*/select 1=4/*block added*/"
     selectDistinct: false
-    testsEnabled: false
+    testsEnabled: true
     truncateBefore: false
   database: ""
   deployEnabled: true
@@ -29,7 +29,12 @@ operation:
   locationName: TARGET_DB
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: " /*block added*/select 1=5/*block added*/"
     columns:
       - acceptedValues:
           strictMatch: true
@@ -47,7 +52,7 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: ""
+            transform: /*block added*/1/*block added*/
       - appliedColumnTests: {}
         columnReference:
           columnCounter: e7846e3b-e857-4e1e-b8d1-02feac8800c3
@@ -97,13 +102,13 @@ operation:
         config: {}
         dataType: VARCHAR(152)
         description: ""
-        name: N_COMMENT
+        name: /*block added*/2/*block added*/N_COMMENT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: f87b01a4-a42d-4b47-9804-f73dfa0bb3e4
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
-            transform: ""
+            transform: /*block added*/
       - appliedColumnTests: {}
         columnReference:
           columnCounter: fbc86cf3-aecb-494d-93cd-3f1b95d32c56
@@ -223,14 +228,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          NATION: cf768faf-1b52-4a05-964e-5618a74054c7
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} /*block added*/"NATION"/*block added*/
         name: PSTG_NATION
         noLinkRefs: []
   name: PSTG_NATION

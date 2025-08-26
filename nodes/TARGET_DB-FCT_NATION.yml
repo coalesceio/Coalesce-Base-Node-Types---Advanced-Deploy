@@ -17,8 +17,8 @@ operation:
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
-    preSQL: ""
+    postSQL: /*block added*/select 1=5/*Block Added*/
+    preSQL: /*block added*/select 1=4/*Block Added*/
     selectDistinct: false
     testsEnabled: true
     truncateBefore: false
@@ -34,9 +34,7 @@ operation:
         description: ""
         name: Test
         runOrder: After
-        templateString: |-
-          /* hello */
-          select 1=0
+        templateString: /*block added*/select 1=6/*Block Added*/
     columns:
       - appliedColumnTests: {}
         columnReference:
@@ -51,7 +49,7 @@ operation:
           - columnReferences:
               - columnCounter: 91399ef9-4498-47eb-be9c-cb650a92cd0d
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
-            transform: ""
+            transform: /*block added*/1/*Block Added*/
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 049a293d-ce49-41ed-8a83-2eacb59ef473
@@ -93,7 +91,7 @@ operation:
           - columnReferences:
               - columnCounter: f87b01a4-a42d-4b47-9804-f73dfa0bb3e4
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
-            transform: ""
+            transform: /*block added*/2/*Block Added*/
       - appliedColumnTests: {}
         columnReference:
           columnCounter: e877db35-a930-4a67-a664-f1bd21180676
@@ -145,14 +143,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          NATION: cf768faf-1b52-4a05-964e-5618a74054c7
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION" /*block added*/WHERE "N_NATIONKEY" = 3/*Block Added*/
         name: FCT_NATION
         noLinkRefs: []
   name: FCT_NATION
