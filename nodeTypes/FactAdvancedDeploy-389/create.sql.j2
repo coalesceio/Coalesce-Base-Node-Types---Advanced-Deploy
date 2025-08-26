@@ -299,7 +299,7 @@ does not permit copying or modification for any other purpose.
 
                                 {% if currentSource != col.sourceColumns %}
                                     {% set nsMetaVariables.sourceLinkTest = false %}
-                                    {% set _ = nsMetaVariables.sourceLinkTest.append({
+                                    {% set _ = nsMetaVariables.sourceLinkDiff.append({
                                         "Source Name": src.name,
                                         "Column Name": col.name,
                                         "is": (col.sourceColumns | selectattr('node','defined') | map(attribute='node.name') | first) | default('') ~ "-" ~ (col.sourceColumns | selectattr('column','defined') | map(attribute='column.name') | first) | default(''),
@@ -407,8 +407,9 @@ does not permit copying or modification for any other purpose.
 
                     {% set nsMetaVariables.testsEnabledTest = false %}
                     {% set _ = nsMetaVariables.testsEnabledDiff.append({
-                        "is": desiredState.node.tests | map(attribute="name") | list | sort ,
-                        "was": currentState.node.tests | map(attribute="name") | list | sort }) %}
+                        "is": desiredState.node.tests | map(attribute="name") | list | sort,
+                        "was": currentState.node.tests | map(attribute="name") | list | sort 
+                    }) %}
                 {% else %}
                     {% for dtest in desiredState.node.tests %}
                         {% set ctest = (currentState.node.tests | selectattr("name", "equalto", dtest.name) | first) %}

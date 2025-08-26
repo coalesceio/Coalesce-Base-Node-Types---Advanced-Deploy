@@ -278,8 +278,8 @@ does not permit copying or modification for any other purpose.
                                     {% set _ = nsMetaVariables.transformDiff.append({
                                         "Source Name": src.name,
                                         "Column Name": col.name,
-                                        "is": col.transform | replace('/*', '/ *') | replace('*/', '* /'),
-                                        "was": currentTransform | replace('/*', '/ *') | replace('*/', '* /')
+                                        "is": col.transform,
+                                        "was": currentTransform
                                     }) %}
                                 {% endif %}
 

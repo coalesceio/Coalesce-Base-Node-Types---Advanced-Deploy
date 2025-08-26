@@ -108,7 +108,7 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 747e0591-2494-402a-93f4-24e7af94bd9a
+              - columnCounter: 69645033-88c1-44be-b582-6cc611c314ac
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
             transform: ""
       - acceptedValues:
