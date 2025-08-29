@@ -25,7 +25,7 @@ operation:
   database: ""
   deployEnabled: true
   description: ""
-  isMultisource: false
+  isMultisource: true
   locationName: TARGET_DB
   materializationType: table
   metadata:
@@ -53,6 +53,8 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: /*block added*/1/*block added*/
+          - columnReferences: []
+            transform: /*block added*/1/*block added*/
       - appliedColumnTests: {}
         columnReference:
           columnCounter: e7846e3b-e857-4e1e-b8d1-02feac8800c3
@@ -66,6 +68,10 @@ operation:
           - columnReferences:
               - columnCounter: 91399ef9-4498-47eb-be9c-cb650a92cd0d
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
+            transform: ""
+          - columnReferences:
+              - columnCounter: 98f79c3d-f957-446c-911d-61c52947866c
+                stepCounter: 2fe84e06-44b5-4863-a1eb-8805a63aa82a
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -81,6 +87,10 @@ operation:
               - columnCounter: 69645033-88c1-44be-b582-6cc611c314ac
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
             transform: UPPER(N_NAME)
+          - columnReferences:
+              - columnCounter: bb05273d-ea10-4cbb-99bb-082f61392513
+                stepCounter: 2fe84e06-44b5-4863-a1eb-8805a63aa82a
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: bfccc762-458e-4e0f-bf37-b8f54fa8c656
@@ -94,6 +104,10 @@ operation:
           - columnReferences:
               - columnCounter: c5860108-0995-4d2a-9ec5-fc2cf9f8e326
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
+            transform: ""
+          - columnReferences:
+              - columnCounter: a8b9cb89-aae5-4044-ab2b-84b9db582c95
+                stepCounter: 2fe84e06-44b5-4863-a1eb-8805a63aa82a
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -109,6 +123,10 @@ operation:
               - columnCounter: f87b01a4-a42d-4b47-9804-f73dfa0bb3e4
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
             transform: /*block added*/2/*block added*/
+          - columnReferences:
+              - columnCounter: f033a603-ba87-4405-943b-dce5110d797a
+                stepCounter: 2fe84e06-44b5-4863-a1eb-8805a63aa82a
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: fbc86cf3-aecb-494d-93cd-3f1b95d32c56
@@ -122,6 +140,10 @@ operation:
           - columnReferences:
               - columnCounter: 747e0591-2494-402a-93f4-24e7af94bd9a
                 stepCounter: cf768faf-1b52-4a05-964e-5618a74054c7
+            transform: ""
+          - columnReferences:
+              - columnCounter: 13ddaf76-d5e5-4901-b840-b9acee33fe79
+                stepCounter: 2fe84e06-44b5-4863-a1eb-8805a63aa82a
             transform: ""
       - acceptedValues:
           strictMatch: true
@@ -138,6 +160,8 @@ operation:
         name: SYSTEM_VERSION
         nullable: true
         sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
           - columnReferences: []
             transform: ""
       - acceptedValues:
@@ -157,6 +181,8 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
+          - columnReferences: []
+            transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
@@ -172,6 +198,8 @@ operation:
         name: SYSTEM_START_DATE
         nullable: true
         sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
       - acceptedValues:
@@ -191,6 +219,8 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
       - acceptedValues:
           strictMatch: true
           values: []
@@ -206,6 +236,8 @@ operation:
         name: SYSTEM_CREATE_DATE
         nullable: true
         sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
       - acceptedValues:
@@ -225,6 +257,8 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -238,6 +272,17 @@ operation:
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} /*block added*/"NATION"/*block added*/
         name: PSTG_NATION
+        noLinkRefs: []
+      - aliases:
+          WRK_NATION: 2fe84e06-44b5-4863-a1eb-8805a63aa82a
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: WRK_NATION
+        join:
+          joinCondition: FROM {{ ref('TARGET_DB', 'WRK_NATION') }} "WRK_NATION"
+        name: NEW_SOURCE
         noLinkRefs: []
   name: PSTG_NATION
   overrideSQL: false
