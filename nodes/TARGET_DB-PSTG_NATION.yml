@@ -270,7 +270,7 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} /*block added*/"NATION"/*block added*/
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} /*block added*/"NATION"/*block added*/ WHERE "N_NATIONKEY" = 0
         name: PSTG_NATION
         noLinkRefs: []
       - aliases:
