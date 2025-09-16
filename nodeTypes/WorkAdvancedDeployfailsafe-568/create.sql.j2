@@ -1,3 +1,4 @@
+final code
 #
     Copyright (c) 2023 Coalesce. All rights reserved.
 This script and its associated documentation are confidential and proprietary to Coalesce.
@@ -1230,25 +1231,44 @@ does not permit copying or modification for any other purpose.
                 {% set nsMetaVariables.metaDataChanged = true %} 
             {% endif %}
 
-
-
             {# Drop Columns #}
             {% set nsVariables = namespace(colchanges=0) %}
             {% for dropCurCol in currentState.columns %}
                 {% if dropCurCol.id not in desiredState.columns | map(attribute="id") %}
                 {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                    {% if nsVariables.colchanges == 1 %}
-                        {{ stage('Drop Columns') }} 
-                        DECLARE dummy INT;
-                        BEGIN
-                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} DROP COLUMN  "{{ dropCurCol.name }}" ;
-                        EXCEPTION
+                {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='database') | first %}
+                {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='schema') | first %}
+                {% set desirednodeName = desiredState.node.name %}
+                {% set desiredCloneName = '"' + desiredDatabase + '"."'+ desiredSchema + '"."' + desirednodeName + '"'%}	
+                
+                    DECLARE dummy INT;
+                    BEGIN
+                        create table {{desiredCloneName}}
+                        {% if nsVariables.colchanges == 1 %}
+                            {{ stage('Drop Columns clone') }}
+
+                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                            DROP COLUMN 
+                        {% else %}
+                            , 
+                        {% endif %}
+                        "{{ dropCurCol.name }}"
+                         {% if nsVariables.colchanges == 1 %}
+                            {{ stage('Drop Columns') }}
+
+                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                            DROP COLUMN 
+                        {% else %}
+                            , 
+                        {% endif %}
+                        "{{ dropCurCol.name }}"
+                        DROP TABLE {{desiredCloneName}}
+                    EXCEPTION
                             WHEN OTHER THEN
+                            DROP TABLE {{desiredCloneName}}
                             -- If any error occurs, rollback
                             RAISE;
-                        END;
-                    {% endif %}
-
+                    END;
                     {# Metadata changes detected #}
                     {% set nsMetaVariables.metaDataChanged = true %} 
                 {% endif %}
