@@ -1240,22 +1240,18 @@ does not permit copying or modification for any other purpose.
                 {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='schema') | first %}
                 {% set desirednodecolneName = desiredState.node.name + '_clone' %}
                 {% set desiredCloneName = '"' + desiredDatabase + '"."'+ desiredSchema + '"."' + desirednodecolneName + '"'%}	
-                
+                    {{ stage('Drop Columns') }}
                     DECLARE dummy INT;
                     BEGIN
                         create table {{desiredCloneName}}
                         {% if nsVariables.colchanges == 1 %}
-                            {{ stage('Drop Columns clone') }}
-
-                            ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                            ALTER TABLE {{ desiredCloneName }}
                             DROP COLUMN 
                         {% else %}
                             , 
                         {% endif %}
                         "{{ dropCurCol.name }}"
                          {% if nsVariables.colchanges == 1 %}
-                            {{ stage('Drop Columns') }}
-
                             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                             DROP COLUMN 
                         {% else %}
