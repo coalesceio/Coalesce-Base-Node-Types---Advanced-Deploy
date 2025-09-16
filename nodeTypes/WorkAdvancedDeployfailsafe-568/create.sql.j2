@@ -1238,8 +1238,8 @@ does not permit copying or modification for any other purpose.
                 {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
                 {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='database') | first %}
                 {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='schema') | first %}
-                {% set desirednodeName = desiredState.node.name %}
-                {% set desiredCloneName = '"' + desiredDatabase + '"."'+ desiredSchema + '"."' + desirednodeName + '"'%}	
+                {% set desirednodecolneName = desiredState.node.name + '_clone' %}
+                {% set desiredCloneName = '"' + desiredDatabase + '"."'+ desiredSchema + '"."' + desirednodecolneName + '"'%}	
                 
                     DECLARE dummy INT;
                     BEGIN

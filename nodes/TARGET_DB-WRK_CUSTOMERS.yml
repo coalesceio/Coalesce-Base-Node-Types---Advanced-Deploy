@@ -109,6 +109,23 @@ operation:
               - columnCounter: 9f42245d-4c9c-4e3b-b6fd-8c39b264be9e
                 stepCounter: 9de78e79-a42a-4ec2-8211-049332a5dae9
             transform: ""
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 51efd095-119f-4616-8d94-d3b96a313a5d
+          stepCounter: a53702a5-dc69-4885-8ccc-7ff18e86b0be
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: HOUSEHOLD_SIZE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 446faf4f-626b-485b-a3bc-1ad1bd04858e
+                stepCounter: 9de78e79-a42a-4ec2-8211-049332a5dae9
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
