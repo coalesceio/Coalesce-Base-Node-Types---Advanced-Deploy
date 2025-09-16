@@ -18,7 +18,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    failsafetoggle: false
+    failsafetoggle: true
     groupByAll: false
     insertStrategy: INSERT
     orderby: false
@@ -121,20 +121,6 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 446faf4f-626b-485b-a3bc-1ad1bd04858e
-                stepCounter: 9de78e79-a42a-4ec2-8211-049332a5dae9
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 4d24fd0b-baff-47eb-90f1-1af955c51591
-          stepCounter: a53702a5-dc69-4885-8ccc-7ff18e86b0be
-        config: {}
-        dataType: FLOAT
-        description: ""
-        name: TOTAL_ORDER_VALUE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 507939d8-5fad-423e-b2cc-e0988cf0990a
                 stepCounter: 9de78e79-a42a-4ec2-8211-049332a5dae9
             transform: ""
     cteString: ""
