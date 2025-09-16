@@ -1,0 +1,165 @@
+fileVersion: 1
+id: a53702a5-dc69-4885-8ccc-7ff18e86b0be
+name: WRK_CUSTOMERS
+operation:
+  config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    failsafetoggle: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c0c0db36-1da4-4ca4-8ed7-9f3f989e08a8
+          stepCounter: a53702a5-dc69-4885-8ccc-7ff18e86b0be
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EMAIL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: be3679c2-f4ce-4b56-a3f3-58d910376254
+                stepCounter: 9de78e79-a42a-4ec2-8211-049332a5dae9
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1e2ec130-dbaf-49dc-9843-e650e7180383
+          stepCounter: a53702a5-dc69-4885-8ccc-7ff18e86b0be
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: JOIN_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d4143cb6-3288-46a8-94cd-d22dabad2090
+                stepCounter: 9de78e79-a42a-4ec2-8211-049332a5dae9
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f68fd2d5-5cfe-4833-a647-5be62816dfc0
+          stepCounter: a53702a5-dc69-4885-8ccc-7ff18e86b0be
+        config: {}
+        dataType: NUMBER(6,0)
+        description: ""
+        name: AGE_BAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6481d2bf-9071-46db-a8b4-4880e15bcc01
+                stepCounter: 9de78e79-a42a-4ec2-8211-049332a5dae9
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 82f48563-c4f0-458b-a0a4-9640c212ad2d
+          stepCounter: a53702a5-dc69-4885-8ccc-7ff18e86b0be
+        config: {}
+        dataType: VARCHAR(18)
+        description: ""
+        name: HOUSEHOLD_INCOME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d4eaeb8c-ead2-4c2e-92ee-66793f69b400
+                stepCounter: 9de78e79-a42a-4ec2-8211-049332a5dae9
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9c4f8fbd-a64c-4f66-9d18-b9e9e5c34c3e
+          stepCounter: a53702a5-dc69-4885-8ccc-7ff18e86b0be
+        config: {}
+        dataType: VARCHAR(8)
+        description: ""
+        name: MARITAL_STATUS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9f42245d-4c9c-4e3b-b6fd-8c39b264be9e
+                stepCounter: 9de78e79-a42a-4ec2-8211-049332a5dae9
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b5edcfa4-8d44-4e9c-ac26-5e1b243b9bb0
+          stepCounter: a53702a5-dc69-4885-8ccc-7ff18e86b0be
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: HOUSEHOLD_SIZE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 446faf4f-626b-485b-a3bc-1ad1bd04858e
+                stepCounter: 9de78e79-a42a-4ec2-8211-049332a5dae9
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4d24fd0b-baff-47eb-90f1-1af955c51591
+          stepCounter: a53702a5-dc69-4885-8ccc-7ff18e86b0be
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: TOTAL_ORDER_VALUE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 507939d8-5fad-423e-b2cc-e0988cf0990a
+                stepCounter: 9de78e79-a42a-4ec2-8211-049332a5dae9
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          CUSTOMERS: 9de78e79-a42a-4ec2-8211-049332a5dae9
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: CUSTOMERS
+        join:
+          joinCondition: |2-
+
+
+
+             
+              FROM  {{ ref('SOURCE_DATA', 'CUSTOMERS') }} CUSTOMERS
+        name: WRK_CUSTOMERS
+        noLinkRefs: []
+  name: WRK_CUSTOMERS
+  overrideSQL: false
+  schema: ""
+  sqlType: "568"
+  type: sql
+  version: 1
+type: Node
