@@ -795,33 +795,33 @@ If the nodes are redeployed with no changes compared to previous deployment, the
 
 | **Component** | **Link** |
 |--------------|-----------|
-| **Node definition** | [definition.yml](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/PersistentStageAdvancedDeploy-180/definition.yml) |
-| **Create Template** | [create.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/PersistentStageAdvancedDeploy-180/create.sql.j2) |
-| **Run Template** | [run.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/PersistentStageAdvancedDeploy-180/run.sql.j2) |
+| **Node definition** | [definition.yml](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/PersistentStageAdvancedDeploy-391/definition.yml) |
+| **Create Template** | [create.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/PersistentStageAdvancedDeploy-391/create.sql.j2) |
+| **Run Template** | [run.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/PersistentStageAdvancedDeploy-391/run.sql.j2) |
 
 ### Dimension Advanced Deploy Code
 
 | **Component** | **Link** |
 |--------------|-----------|
-| **Node definition** | [definition.yml](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/DimensionAdvancedDeploy-183/definition.yml) |
-| **Create Template** | [create.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/DimensionAdvancedDeploy-183/create.sql.j2) |
-| **Run Template** | [run.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/DimensionAdvancedDeploy-183/run.sql.j2) |
+| **Node definition** | [definition.yml](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/DimensionAdvancedDeploy-388/definition.yml) |
+| **Create Template** | [create.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/DimensionAdvancedDeploy-388/create.sql.j2) |
+| **Run Template** | [run.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/DimensionAdvancedDeploy-388/run.sql.j2) |
 
 ### Fact Advanced Deploy Code
 
 | **Component** | **Link** |
 |--------------|-----------|
-| **Node definition** | [definition.yml](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactAdvancedDeploy-162/definition.yml) |
-| **Create Template** | [create.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactAdvancedDeploy-162/create.sql.j2) |
-| **Run Template** | [run.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactAdvancedDeploy-162/run.sql.j2) |
+| **Node definition** | [definition.yml](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactAdvancedDeploy-389/definition.yml) |
+| **Create Template** | [create.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactAdvancedDeploy-389/create.sql.j2) |
+| **Run Template** | [run.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactAdvancedDeploy-389/run.sql.j2) |
 
 ### Factless Fact Advanced Deploy Code
 
 | **Component** | **Link** |
 |--------------|-----------|
-| **Node definition** | [definition.yml](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactlessFactAdvancedDeploy-264/definition.yml) |
-| **Create Template** | [create.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactlessFactAdvancedDeploy-264/create.sql.j2) |
-| **Run Template** | [run.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactlessFactAdvancedDeploy-264/run.sql.j2) |
+| **Node definition** | [definition.yml](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactlessFactAdvancedDeploy-390/definition.yml) |
+| **Create Template** | [create.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactlessFactAdvancedDeploy-390/create.sql.j2) |
+| **Run Template** | [run.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/FactlessFactAdvancedDeploy-390/run.sql.j2) |
 
 [Macros](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/macros/macro-1.yml)
 
