@@ -106,6 +106,13 @@ metadata:
       - type: changeTrackingColumns
         isRequired: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
+
+      - type: toggleButton
+        attributeName: hardDeletes
+        displayName: Hard Deletes
+        default: false
+        enableIf: "{% if node.materializationType == 'table' or node.materializationType == 'transient table'%} true {% else %} false {% endif %}"
+
       - type: toggleButton
         attributeName: clusterKey
         displayName: Cluster Key
