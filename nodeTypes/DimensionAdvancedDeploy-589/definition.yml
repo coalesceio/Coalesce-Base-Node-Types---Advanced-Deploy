@@ -1,5 +1,5 @@
 fileVersion: 1
-id: "388"
+id: "589"
 isDisabled: false
 metadata:
   defaultStorageLocation: null
@@ -39,6 +39,27 @@ metadata:
         isRequired: false
         enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
 
+      - type: toggleButton
+        displayName: Primary Key
+        attributeName: primary
+        enableIf: "{% if node.materializationType != 'view' %} true {% else %} false {% endif %}"
+
+      - type: textBox
+        displayName: Primary Key Name
+        attributeName: primaryKeyName
+        enableIf: "{% if node.materializationType != 'view' and config.primary %} true {% else %} false {% endif %}"
+
+      - type: tabular   
+        displayName: Primary Key Columns
+        attributeName: primaryKeyCol
+        columns:
+
+        -  type: columnDropdownSelector
+           displayName: Primary Key Columns
+           attributeName: primaryKey
+
+        isRequired: false
+        enableIf: "{% if node.materializationType != 'view' and config.primary %} true {% else %} false {% endif %}"
 
       - displayName: Truncate Before
         attributeName: truncateBefore
@@ -99,7 +120,18 @@ metadata:
         - "MERGE"
         - "INSERT/UPDATE"
         isRequired: false
-        
+
+      - displayName: Unmatched Record Strategy
+        attributeName: deleteStrategy
+        type: dropdownSelector
+        default: "NO DELETE"
+        options:
+        - "NO DELETE"
+        - "SOFT DELETE"
+        - "HARD DELETE"
+        isRequired: false
+        enableIf: "{% if node.materializationType != 'view' and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
+
       - type: businessKeyColumns
         isRequired: true
 
@@ -107,11 +139,42 @@ metadata:
         isRequired: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 
-      - type: toggleButton
-        attributeName: hardDeletes
-        displayName: Hard Deletes
+      - displayName: Exclude Columns from Merge (For SCD Type I)
+        attributeName: excludeMergeToggle
+        type: toggleButton
         default: false
-        enableIf: "{% if node.materializationType == 'table' or node.materializationType == 'transient table'%} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' 
+                        and columns
+                            | selectattr('isChangeTracking')
+                            | list
+                            | length == 0 and config.updateStrategy == 'MERGE' %}
+                      true
+                    {% else %} 
+                      false
+                    {% endif %}"
+
+      - type: tabular
+        displayName: 'Exclude Merge List'
+        attributeName: excludeMergeList
+        columns:
+
+          -  type: columnDropdownSelector
+             displayName: Exclude Column Name
+             attributeName: excludeColName
+           
+        isRequired: false
+        enableIf: "{% if config.excludeMergeToggle
+                        and node.materializationType != 'view'
+                        and config.updateStrategy == 'MERGE'
+                        and columns
+                            | selectattr('isChangeTracking')
+                            | list
+                            | length == 0
+                           %}
+                      true
+                    {% else %} 
+                      false
+                    {% endif %}"
 
       - type: toggleButton
         attributeName: clusterKey
