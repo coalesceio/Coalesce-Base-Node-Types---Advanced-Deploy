@@ -84,25 +84,6 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 09bf9366-28c1-432e-902e-63a16a632af6
-          stepCounter: 1717f69c-e200-4ba6-9d3b-85b886f62218
-        config: {}
-        dataType: TIMESTAMP_NTZ(9)
-        defaultValue: ""
-        description: ""
-        name: CREATED_TIME
-        nullable: true
-        primaryKey: false
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-        transform: ""
-        uniqueKey: false
   name: NATION_TEST
   schema: ""
   sqlType: Source

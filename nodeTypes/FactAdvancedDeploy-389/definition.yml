@@ -17,6 +17,7 @@ metadata:
       items:
       - type: materializationSelector
         isRequired: true
+        default: table
         options:
         - table
         - view
@@ -26,7 +27,7 @@ metadata:
         enableIf: "{% if node.materializationType == 'view' %} true {% else %} false {% endif %}"
 
       - type: multisourceToggle
-        enableIf: "{% if node.override.create.enabled %} false {% else %} true {% endif %}"
+        enableIf: "{% if node.materializationType == 'view' and node.override.create.enabled %} false {% else %} true {% endif %}"
 
       - displayName: Multi Source Strategy
         attributeName: insertStrategy
@@ -36,25 +37,62 @@ metadata:
         - "UNION"
         - "UNION ALL"
         isRequired: false
-        enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
+        enableIf: "{% if not(node.materializationType == 'view' and node.override.create.enabled) and node.isMultisource %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        displayName: Primary Key
+        attributeName: primary
+        enableIf: "{% if node.materializationType != 'view' %} true {% else %} false {% endif %}"
+
+      - type: textBox
+        displayName: Primary Key Name
+        attributeName: primaryKeyName
+        enableIf: "{% if node.materializationType != 'view' and config.primary %} true {% else %} false {% endif %}"
+
+      - type: tabular   
+        displayName: Primary Key Columns
+        attributeName: primaryKeyCol
+        columns:
+
+        -  type: columnDropdownSelector
+           displayName: Primary Key Columns
+           attributeName: primaryKey
+
+        isRequired: false
+        enableIf: "{% if node.materializationType != 'view' and config.primary %} true {% else %} false {% endif %}"
 
       - type: businessKeyColumns
         isRequired: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
+
+      - displayName: Unmatched Record Strategy
+        attributeName: deleteStrategy
+        type: dropdownSelector
+        default: "NO DELETE"
+        options:
+        - "NO DELETE"
+        - "HARD DELETE"
+        isRequired: false
+        enableIf: "{% if node.materializationType != 'view' 
+                      and node.isMultisource == false
+                      and (columns 
+                          | selectattr('isBusinessKey')
+                          | list
+                          | length > 0) %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: clusterKey
         displayName: Cluster Key
         default: false
         isRequired: false
-        enableIf: "{% if node.materializationType == 'table' or node.materializationType == 'transient table'  %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 
       - type: toggleButton
         attributeName: clusterKeyExpressions
         displayName: Allow Expressions in Cluster Key
         default: false
         isRequired: false
-        enableIf: "{% if config.clusterKey %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' and config.clusterKey %} true {% else %} false {% endif %}"
 
       - type: tabular
         displayName: 'Cluster Key'
@@ -67,7 +105,7 @@ metadata:
            isRequired: false
       
         isRequired: false
-        enableIf: "{% if (config.clusterKey and not config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' and config.clusterKey and not config.clusterKeyExpressions %} true {% else %} false {% endif %}"
 
       - type: tabular
         displayName: 'Cluster Key'
@@ -86,7 +124,7 @@ metadata:
            isRequired: false
       
         isRequired: false
-        enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' and config.clusterKey and config.clusterKeyExpressions %} true {% else %} false {% endif %}"
 
       - displayName: Truncate Before
         attributeName: truncateBefore
@@ -103,13 +141,13 @@ metadata:
         attributeName: selectDistinct
         type: toggleButton
         default: false
-        enableIf: "{% if config.groupByAll or  node.override.create.enabled %} %} false {% else %} true {% endif %}"
+        enableIf: "{% if config.groupByAll or (node.materializationType == 'view' and node.override.create.enabled) %} false {% else %} true {% endif %}"
 
       - displayName: Group By All
         attributeName: groupByAll
         type: toggleButton
         default: false
-        enableIf: "{% if config.selectDistinct or  node.override.create.enabled %} %} false {% else %} true {% endif %}"   
+        enableIf: "{% if config.selectDistinct or (node.materializationType == 'view' and node.override.create.enabled) %} false {% else %} true {% endif %}"
 
       - displayName: Order By
         attributeName: orderby
@@ -135,7 +173,7 @@ metadata:
              - asc
            
         isRequired: true
-        enableIf: "{% if config.orderby %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' and config.orderby %} true {% else %} false {% endif %}"
 
       - displayName: Pre-SQL
         attributeName: preSQL

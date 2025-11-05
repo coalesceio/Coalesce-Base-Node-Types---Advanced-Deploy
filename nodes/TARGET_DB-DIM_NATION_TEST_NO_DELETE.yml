@@ -28,25 +28,26 @@ operation:
     insertZeroKeyStr: UNKNOWN
     insertZeroKeySurrogateKey: "0"
     insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
-    orderby: false
+    orderby: true
     orderbycolumn:
       items:
-        - {}
+        - sortColName: null
+          sortOrder: desc
     postSQL: ""
     preSQL: ""
-    primary: false
+    primary: true
     primaryKeyCol:
       items:
-        - {}
+        - primaryKey: null
     primaryKeyName: ""
     selectDistinct: false
-    testsEnabled: false
+    testsEnabled: true
     truncateBefore: false
     updateStrategy: MERGE
   database: ""
   deployEnabled: true
   description: ""
-  isMultisource: false
+  isMultisource: true
   locationName: TARGET_DB
   materializationType: table
   metadata:
@@ -257,7 +258,7 @@ operation:
         name: DIM_NATION_TEST_NO_DELETE
         noLinkRefs: []
   name: DIM_NATION_TEST_NO_DELETE
-  overrideSQL: false
+  overrideSQL: true
   schema: ""
   sqlType: "592"
   type: sql
