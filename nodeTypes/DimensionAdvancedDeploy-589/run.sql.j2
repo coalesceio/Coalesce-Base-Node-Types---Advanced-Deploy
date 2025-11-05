@@ -1045,12 +1045,14 @@ END
        {%- if varUpdateStrategy == 'MERGE' -%}
 
             {# Create a list of column names to exclude from the merge update, if the feature is enabled #}
-            {%- set excludeColList = [] %}
-            {%- if config.excludeMergeToggle %}
+            {% if config.excludeMergeToggle %}
                 {%- set excludeColList = config.excludeMergeList.get('items', [])
                                         | map(attribute='excludeColName.name')
                                         | list %}
-            {%- endif %}
+                {%- set includeColList = columns | rejectattr('name', 'in', excludeColList) | list %}
+            {% else %}
+                {%- set includeColList = columns | list %}
+            {% endif %}
 
             {{ stage('MERGE ' + ' Sources' | string) }}
             MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
@@ -1131,10 +1133,13 @@ END
             {% endfor %}
 
             {% if config.deleteStrategy != "NO DELETE" %}
+
                 WHEN MATCHED AND "SRC"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = '0'
                 {% if config.deleteStrategy == "HARD DELETE" %}
+                    /* Hard delete expored rows */
                     THEN DELETE
                 {% else %}
+                    /* Soft delete expored rows */
                     THEN UPDATE SET
                     {% for col in columns if (col.isSystemCurrentFlag
                                                 or col.isSystemEndDate) %}
@@ -1145,7 +1150,6 @@ END
             {% endif %}
 
             WHEN MATCHED
-            {%- set includeColList = columns | rejectattr('name', 'in', excludeColList) | list %}
                 {% for col in includeColList if not (   col.isBusinessKey or
                                                         col.isSurrogateKey or
                                                         col.isSystemVersion or
