@@ -41,7 +41,16 @@ does not permit copying or modification for any other purpose.
 
             {# == Executed if business key is specified  == #}
 
-        
+                {# Create a list of column names to exclude from the merge update, if the feature is enabled #}
+                {% if config.excludeMergeToggle %}
+                    {%- set excludeColList = config.excludeMergeList.get('items', [])
+                                            | map(attribute='excludeColName.name')
+                                            | list %}
+                    {%- set includeColList = columns | rejectattr('name', 'in', excludeColList) | list %}
+                {% else %}
+                    {%- set includeColList = columns | list %}
+                {% endif %}
+
                 {{ stage('MERGE ' + ' Sources' | string ) }}
                 MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
                 USING (
@@ -127,7 +136,7 @@ does not permit copying or modification for any other purpose.
                 THEN DELETE
         {% endif %}
 				WHEN MATCHED
-					{% for col in columns if not (col.isBusinessKey or col.isSystemUpdateDate or col.isSystemCreateDate) %}
+					{% for col in includeColList if not (col.isBusinessKey or col.isSystemUpdateDate or col.isSystemCreateDate) %}
 								  
 						{% if loop.first %}
 							AND (
@@ -172,7 +181,7 @@ does not permit copying or modification for any other purpose.
 					{% endfor %}   
 
                 THEN UPDATE SET
-                {%- for col in columns if not (col.isBusinessKey or col.isSystemCreateDate) %}
+                {%- for col in includeColList if not (col.isBusinessKey or col.isSystemCreateDate) %}
                         "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
                     {% if not loop.last %}, {% endif %}
                 {% endfor %}

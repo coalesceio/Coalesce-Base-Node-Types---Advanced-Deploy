@@ -463,6 +463,10 @@ does not permit copying or modification for any other purpose.
                             AND
                         {% endif %}
                         {{ get_source_transform(col) }} IS NULL
+
+                        {% if config.deleteStrategy == "SOFT DELETE" %}
+                            AND "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" != '0'
+                        {% endif %}
                     {% endfor %}
                 
                     {{ get_clause(joinclause) }}
@@ -1205,7 +1209,7 @@ END
                 {% endfor %}
                     
             THEN UPDATE SET
-            {%- for col in columns if not (  col.isBusinessKey or
+            {%- for col in includeColList if not (  col.isBusinessKey or
                                                     col.isSurrogateKey or
                                                     col.isSystemVersion or
                                                     col.isSystemCurrentFlag or

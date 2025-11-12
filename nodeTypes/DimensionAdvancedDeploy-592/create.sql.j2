@@ -154,8 +154,7 @@ does not permit copying or modification for any other purpose.
 				{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
 				{%- if not loop.last -%}, {% endif %}
 			  {% endfor %}
-
-                {# =========================================================
+                    {# =========================================================
                 Primary Key Name and Column List Addition
                 ========================================================= #}
                 {% if desiredState.config.primary == true %}
@@ -165,9 +164,17 @@ does not permit copying or modification for any other purpose.
                                             | map(attribute='name')
                                             | list %}
             
-                    {% if primaryKeyList | length > 0 %}
-                        , CONSTRAINT {{ desiredState.config.primaryKeyName }}
+                    {% if primaryKeyList | length > 0 and primaryKeyList[0] %}
+                        , CONSTRAINT
+
+                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                            {{ desiredState.config.primaryKeyName }}
+                        {% else %}
+                            pk_{{ desiredState.node.name }}
+                        {% endif %}
+
                         PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+
                     {% endif %}
                 {% endif %}
 		    	)
@@ -204,21 +211,30 @@ does not permit copying or modification for any other purpose.
 				{%- if not loop.last -%}, {% endif %}
 			{% endfor %}
 
-                {# =========================================================
-                Primary Key Name and Column List Addition
-                ========================================================= #}
-                {% if desiredState.config.primary == true %}
+            {# =========================================================
+            Primary Key Name and Column List Addition
+            ========================================================= #}
+            {% if desiredState.config.primary == true %}
 
-                    {% set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
-                                            | map(attribute='primaryKey')
-                                            | map(attribute='name')
-                                            | list %}
-            
-                    {% if primaryKeyList | length > 0 %}
-                        , CONSTRAINT {{ desiredState.config.primaryKeyName }}
-                        PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                {% set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                                        | map(attribute='primaryKey')
+                                        | map(attribute='name')
+                                        | list %}
+        
+                {% if primaryKeyList | length > 0 and primaryKeyList[0] %}
+                    , CONSTRAINT
+
+                    {% if desiredState.config.primaryKeyName | trim != '' %}
+                        {{ desiredState.config.primaryKeyName }}
+                    {% else %}
+                        pk_{{ desiredState.node.name }}
                     {% endif %}
+
+                    PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+
                 {% endif %}
+            {% endif %}
+
 		    	)
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 
@@ -1049,7 +1065,12 @@ does not permit copying or modification for any other purpose.
                     {% if primaryKeyList | length > 0 %}
                         {{ stage('Alter Primary Key Constraint') }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                        ADD CONSTRAINT {{ desiredState.config.primaryKeyName }}
+                        ADD CONSTRAINT 
+                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                            {{ desiredState.config.primaryKeyName }}
+                        {% else %}
+                            pk_{{ desiredState.node.name }}
+                        {% endif %}
                         PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
                     {% endif %}
                 {% endif %}

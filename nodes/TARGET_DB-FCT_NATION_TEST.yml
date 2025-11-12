@@ -1,35 +1,37 @@
 fileVersion: 1
-id: 37a0fcd7-cd90-46bb-a0f9-9ae0b4f34610
+id: 58880d30-d2c0-42ef-bfa0-7aa2eddfcd16
 name: FCT_NATION_TEST
 operation:
   config:
     clusterKey: false
     clusterKeyConfig:
       items:
-        - {}
+        - columnName: null
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
     deleteStrategy: HARD DELETE
+    excludeMergeList:
+      items:
+        - excludeColName:
+            columnCounter: acece5a2-2224-4610-b169-9f2ec25780d5
+            stepCounter: 58880d30-d2c0-42ef-bfa0-7aa2eddfcd16
+    excludeMergeToggle: true
     groupByAll: false
     insertStrategy: UNION ALL
     orderby: false
     orderbycolumn:
       items:
-        - sortOrder: desc
+        - {}
     postSQL: ""
     preSQL: ""
     primary: false
     primaryKeyCol:
       items:
-        - primaryKey:
-            columnCounter: edadc448-fc58-4db9-8c26-e613fc94b680
-            stepCounter: 37a0fcd7-cd90-46bb-a0f9-9ae0b4f34610
-        - primaryKey:
-            columnCounter: 62b64f0f-ca1b-40e9-b9c9-207d3a080e9e
-            stepCounter: 37a0fcd7-cd90-46bb-a0f9-9ae0b4f34610
-    primaryKeyName: PK_TEST
+        - {}
+        - {}
+    primaryKeyName: ""
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
@@ -44,8 +46,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: edadc448-fc58-4db9-8c26-e613fc94b680
-          stepCounter: 37a0fcd7-cd90-46bb-a0f9-9ae0b4f34610
+          columnCounter: c052fca1-e29a-46f0-9bc5-08d28cbea244
+          stepCounter: 58880d30-d2c0-42ef-bfa0-7aa2eddfcd16
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -54,13 +56,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 5a16769a-f615-4004-998c-90124f2cc8aa
-                stepCounter: 1717f69c-e200-4ba6-9d3b-85b886f62218
+              - columnCounter: 58ccc20c-66b7-49fc-befd-6cc125e39b6c
+                stepCounter: e596ca74-432d-4712-9e2f-43ce514518ca
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 62b64f0f-ca1b-40e9-b9c9-207d3a080e9e
-          stepCounter: 37a0fcd7-cd90-46bb-a0f9-9ae0b4f34610
+          columnCounter: acece5a2-2224-4610-b169-9f2ec25780d5
+          stepCounter: 58880d30-d2c0-42ef-bfa0-7aa2eddfcd16
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -68,13 +70,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 59df5b12-c012-48c5-801b-63b6b2f574d5
-                stepCounter: 1717f69c-e200-4ba6-9d3b-85b886f62218
+              - columnCounter: d24c2c2e-6626-4cb2-adc0-b4ecff29a7a9
+                stepCounter: e596ca74-432d-4712-9e2f-43ce514518ca
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 26bae3c0-792e-4119-af82-73b76c744623
-          stepCounter: 37a0fcd7-cd90-46bb-a0f9-9ae0b4f34610
+          columnCounter: d9ba1b55-0216-408c-aced-fe789e213a3d
+          stepCounter: 58880d30-d2c0-42ef-bfa0-7aa2eddfcd16
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -82,13 +84,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: e0384f2a-509e-4a11-8ce9-cec6a30a3a9e
-                stepCounter: 1717f69c-e200-4ba6-9d3b-85b886f62218
+              - columnCounter: ceb4bcb0-3557-4e9d-adc9-197f0e7f5e8c
+                stepCounter: e596ca74-432d-4712-9e2f-43ce514518ca
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6c1ca81f-8dc0-4850-8c7a-c131a2f1c909
-          stepCounter: 37a0fcd7-cd90-46bb-a0f9-9ae0b4f34610
+          columnCounter: e7319466-84f4-4c09-ad34-19b799834715
+          stepCounter: 58880d30-d2c0-42ef-bfa0-7aa2eddfcd16
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -96,16 +98,16 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 563be9d4-2601-4523-9a96-51a2d1a93ef8
-                stepCounter: 1717f69c-e200-4ba6-9d3b-85b886f62218
+              - columnCounter: db452fbf-219b-4ff4-9b63-6df24a13718c
+                stepCounter: e596ca74-432d-4712-9e2f-43ce514518ca
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 103d72e1-24bc-45de-a7b2-d7c40824293b
-          stepCounter: 37a0fcd7-cd90-46bb-a0f9-9ae0b4f34610
+          columnCounter: 48573c22-d006-4cae-a715-576d0d9da4d1
+          stepCounter: 58880d30-d2c0-42ef-bfa0-7aa2eddfcd16
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -121,8 +123,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 645a06c8-475d-49ba-a3f4-013266111a89
-          stepCounter: 37a0fcd7-cd90-46bb-a0f9-9ae0b4f34610
+          columnCounter: f47807c6-0dfd-4f73-8247-36772f0d6046
+          stepCounter: 58880d30-d2c0-42ef-bfa0-7aa2eddfcd16
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -137,19 +139,9 @@ operation:
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          NATION_TEST: 1717f69c-e200-4ba6-9d3b-85b886f62218
+          NATION_TEST: e596ca74-432d-4712-9e2f-43ce514518ca
         customSQL:
-          customSQL: |-
-            {{ stage('Override Create SQL') }}
-            	CREATE OR REPLACE VIEW {{ ref('TARGET_DB', 'FCT_NATION_TEST')}} AS (
-            		SELECT 
-             "N_NATIONKEY" AS "N_NATIONKEY",
-             "N_NAME" AS "N_NAME",
-             "N_REGIONKEY" AS "N_REGIONKEY",
-             "N_COMMENT" AS "N_COMMENT",
-             "CREATED_TIME" AS "CREATED_TIME"
-             FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }}
-            	)
+          customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: NATION_TEST

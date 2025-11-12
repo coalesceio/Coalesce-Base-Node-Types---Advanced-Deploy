@@ -80,6 +80,35 @@ metadata:
                           | list
                           | length > 0) %} true {% else %} false {% endif %}"
 
+      - displayName: Exclude Columns from Merge (For SCD Type I)
+        attributeName: excludeMergeToggle
+        type: toggleButton
+        default: false
+        enableIf: "{% if node.materializationType != 'view' 
+                      and node.isMultisource == false
+                      and (columns 
+                          | selectattr('isBusinessKey')
+                          | list
+                          | length > 0) %} true {% else %} false {% endif %}"
+
+      - type: tabular
+        displayName: 'Exclude Merge List'
+        attributeName: excludeMergeList
+        columns:
+
+          -  type: columnDropdownSelector
+             displayName: Exclude Column Name
+             attributeName: excludeColName
+           
+        isRequired: false
+        enableIf: "{% if config.excludeMergeToggle
+                      and node.materializationType != 'view' 
+                      and node.isMultisource == false
+                      and (columns 
+                          | selectattr('isBusinessKey')
+                          | list
+                          | length > 0) %} true {% else %} false {% endif %}"
+
       - type: toggleButton
         attributeName: clusterKey
         displayName: Cluster Key

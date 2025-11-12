@@ -159,9 +159,17 @@ does not permit copying or modification for any other purpose.
                                             | map(attribute='name')
                                             | list %}
             
-                    {% if primaryKeyList | length > 0 %}
-                        , CONSTRAINT {{ desiredState.config.primaryKeyName }}
+                    {% if primaryKeyList | length > 0 and primaryKeyList[0] %}
+                        , CONSTRAINT
+
+                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                            {{ desiredState.config.primaryKeyName }}
+                        {% else %}
+                            pk_{{ desiredState.node.name }}
+                        {% endif %}
+
                         PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+
                     {% endif %}
                 {% endif %}
 		    	)
@@ -202,9 +210,17 @@ does not permit copying or modification for any other purpose.
                                             | map(attribute='name')
                                             | list %}
             
-                    {% if primaryKeyList | length > 0 %}
-                        , CONSTRAINT {{ desiredState.config.primaryKeyName }}
+                    {% if primaryKeyList | length > 0 and primaryKeyList[0] %}
+                        , CONSTRAINT 
+
+                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                            {{ desiredState.config.primaryKeyName }}
+                        {% else %}
+                            pk_{{ desiredState.node.name }}
+                        {% endif %}
+
                         PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+
                     {% endif %}
                 {% endif %}
 		    	)
@@ -233,6 +249,7 @@ does not permit copying or modification for any other purpose.
                 sourceLinkTest      = true,
                 businessKeyTest     = true,
                 insertStrategyTest  = true,
+                deleteStrategyTest  = true,
                 truncateBeforeTest  = true,
                 testsEnabledTest    = true,
                 distinctTest        = true,
@@ -246,6 +263,7 @@ does not permit copying or modification for any other purpose.
                 sourceLinkDiff      = [],
                 businessDiff        = [],
                 insertStrategyDiff  = [],
+                deleteStrategyDiff  = [],
                 truncateBeforeDiff  = [],
                 testsEnabledDiff    = [],
                 distinctDiff        = [],
@@ -396,6 +414,20 @@ does not permit copying or modification for any other purpose.
                 }) %}
 
                 {{ update_metadata("Insert Strategy", nsMetaVariables.insertStrategyDiff, "Insert Strategy") }}
+
+            {% endif %}
+
+            {# =========================================================
+            Delete Strategy comparison
+            ========================================================= #}
+            {% if currentState.config.deleteStrategy != desiredState.config.deleteStrategy %}
+                {% set nsMetaVariables.deleteStrategyTest = false %}
+                {% set _ = nsMetaVariables.deleteStrategyDiff.append({
+                    "is": desiredState.config.deleteStrategy,
+                    "was": currentState.config.deleteStrategy
+                }) %}
+
+                {{ update_metadata("Delete Strategy", nsMetaVariables.deleteStrategyDiff, "Delete Strategy") }}
 
             {% endif %}
 
@@ -590,6 +622,7 @@ does not permit copying or modification for any other purpose.
             or nsMetaVariables.sourceLinkTest == false
             or nsMetaVariables.businessKeyTest == false
             or nsMetaVariables.insertStrategyTest == false
+            or nsMetaVariables.deleteStrategyTest == false
             or nsMetaVariables.truncateBeforeTest == false
             or nsMetaVariables.testsEnabledTest == false
             or nsMetaVariables.distinctTest == false
@@ -825,7 +858,12 @@ does not permit copying or modification for any other purpose.
                     {% if primaryKeyList | length > 0 %}
                         {{ stage('Alter Primary Key Constraint') }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                        ADD CONSTRAINT {{ desiredState.config.primaryKeyName }}
+                        ADD CONSTRAINT
+                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                            {{ desiredState.config.primaryKeyName }}
+                        {% else %}
+                            pk_{{ desiredState.node.name }}
+                        {% endif %}
                         PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
                     {% endif %}
                 {% endif %}
