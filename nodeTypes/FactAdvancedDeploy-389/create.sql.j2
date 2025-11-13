@@ -2,19 +2,11 @@
     Copyright (c) 2023 Coalesce. All rights reserved.
 This script and its associated documentation are confidential and proprietary to Coalesce.
 Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
-Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+Coalesce permits you to copy and modify this script for the purposes of using with Coalesce but
 does not permit copying or modification for any other purpose.  
 #}
-{# == Node Type Version        : 1  == #}
 {# == Node Type Name           : Fact Advanced Deploy == #}
 {# == Node Type Description    : This node creates fact table,view and also override create sql for view with Advanced Deploy Strategy == #}
-{#Release date:20240516 Version:1.0.0#}
-{#Release date:20240731  Version:1.1.1 Released By:AS  Description: Fix for missing current state storage location #}
-{#Release date:20240812  Version:1.1.3 Released By:AS  Description: Cluster key formatting modified  #}
-{#Release date:20241014  Version:1.1.4 Released By:AS  Description: Typo error and single namespace variable initialization #}
-{#Release date:20241114  Version:1.1.5 Released By:AS  Description: Node Description / Comments #}
-{#Release date:20250813  Version:1.1.5 Released By:TK  Description: Metadata Update #}
-
 
 {% if desiredState %}
     {% if  desiredState.node.override.create.enabled and desiredState.node.materializationType == 'view' %}
@@ -156,7 +148,31 @@ does not permit copying or modification for any other purpose.
                     {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
                     {%- if not loop.last -%}, {% endif %}
                 {% endfor %}
-            )
+
+                {# =========================================================
+                Primary Key Name and Column List Addition
+                ========================================================= #}
+                {% if desiredState.config.primary == true %}
+
+                    {% set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                                            | map(attribute='primaryKey')
+                                            | map(attribute='name')
+                                            | list %}
+            
+                    {% if primaryKeyList | length > 0 and primaryKeyList[0] %}
+                        , CONSTRAINT
+
+                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                            {{ desiredState.config.primaryKeyName }}
+                        {% else %}
+                            pk_{{ desiredState.node.name }}
+                        {% endif %}
+
+                        PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+
+                    {% endif %}
+                {% endif %}
+		    	)
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 
             {% if desiredState.config.clusterKey == true %}
@@ -183,7 +199,31 @@ does not permit copying or modification for any other purpose.
                     {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
                     {%- if not loop.last -%}, {% endif %}
                 {% endfor %}
-            )
+
+                {# =========================================================
+                Primary Key Name and Column List Addition
+                ========================================================= #}
+                {% if desiredState.config.primary == true %}
+
+                    {% set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                                            | map(attribute='primaryKey')
+                                            | map(attribute='name')
+                                            | list %}
+            
+                    {% if primaryKeyList | length > 0 and primaryKeyList[0] %}
+                        , CONSTRAINT 
+
+                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                            {{ desiredState.config.primaryKeyName }}
+                        {% else %}
+                            pk_{{ desiredState.node.name }}
+                        {% endif %}
+
+                        PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+
+                    {% endif %}
+                {% endif %}
+		    	)
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 
             {% if desiredState.config.clusterKey == true %}
@@ -209,6 +249,7 @@ does not permit copying or modification for any other purpose.
                 sourceLinkTest      = true,
                 businessKeyTest     = true,
                 insertStrategyTest  = true,
+                deleteStrategyTest  = true,
                 truncateBeforeTest  = true,
                 testsEnabledTest    = true,
                 distinctTest        = true,
@@ -216,12 +257,14 @@ does not permit copying or modification for any other purpose.
                 preSQLTest          = true,
                 postSQLTest         = true,
                 orderByTest         = true,
+                excludeMergeTest    = true,
                 metaDataChanged     = false,
                 joinDiff            = [],
                 transformDiff       = [],
                 sourceLinkDiff      = [],
                 businessDiff        = [],
                 insertStrategyDiff  = [],
+                deleteStrategyDiff  = [],
                 truncateBeforeDiff  = [],
                 testsEnabledDiff    = [],
                 distinctDiff        = [],
@@ -229,6 +272,7 @@ does not permit copying or modification for any other purpose.
                 preSQLDiff          = [],
                 postSQLDiff         = [],
                 orderByDiff         = [],
+                excludeMergeDiff    = [],
                 metaDataChanges     = [],
                 metadataUpdate      = 'Metadata Update'
             ) %}
@@ -372,6 +416,20 @@ does not permit copying or modification for any other purpose.
                 }) %}
 
                 {{ update_metadata("Insert Strategy", nsMetaVariables.insertStrategyDiff, "Insert Strategy") }}
+
+            {% endif %}
+
+            {# =========================================================
+            Delete Strategy comparison
+            ========================================================= #}
+            {% if currentState.config.deleteStrategy != desiredState.config.deleteStrategy %}
+                {% set nsMetaVariables.deleteStrategyTest = false %}
+                {% set _ = nsMetaVariables.deleteStrategyDiff.append({
+                    "is": desiredState.config.deleteStrategy,
+                    "was": currentState.config.deleteStrategy
+                }) %}
+
+                {{ update_metadata("Delete Strategy", nsMetaVariables.deleteStrategyDiff, "Delete Strategy") }}
 
             {% endif %}
 
@@ -558,6 +616,39 @@ does not permit copying or modification for any other purpose.
             {% endif %}
 
             {# =========================================================
+            Merge Exclude Column List (per column)
+            ========================================================= #}
+            {% if currentState.config.excludeMergeToggle != desiredState.config.excludeMergeToggle %}
+
+                {% set nsMetaVariables.excludeMergeTest = false %}
+                {% set _ = nsMetaVariables.excludeMergeDiff.append({
+                     "is": desiredState.config.excludeMergeToggle,
+                    "was": currentState.config.excludeMergeToggle
+                }) %}
+    
+            {% elif currentState.config.excludeMergeToggle and desiredState.config.excludeMergeToggle %}
+
+                {%- set desiredExcludeColList = desiredState.config.excludeMergeList.get('items', [])
+                                        | map(attribute='excludeColName.name')
+                                        | list %}
+                {%- set currentExcludeColList = currentState.config.excludeMergeList.get('items', [])
+                                        | map(attribute='excludeColName.name')
+                                        | list %}
+
+                {% if desiredExcludeColList != currentExcludeColList %}
+                    {% set nsMetaVariables.excludeMergeTest = false %}
+                    {% set _ = nsMetaVariables.excludeMergeDiff.append({
+                        "is": desiredExcludeColList,
+                        "was": currentExcludeColList
+                    }) %}
+                {% endif %}
+            {% endif %}
+
+            {% if nsMetaVariables.excludeMergeTest == false %}
+                {{ update_metadata("Exclude Merge", nsMetaVariables.excludeMergeDiff, "Exclude Merge") }}
+            {% endif %}
+
+            {# =========================================================
             Handle detected metadata changes and update
             ========================================================= #}
             {% if nsMetaVariables.joinTest == false
@@ -566,6 +657,7 @@ does not permit copying or modification for any other purpose.
             or nsMetaVariables.sourceLinkTest == false
             or nsMetaVariables.businessKeyTest == false
             or nsMetaVariables.insertStrategyTest == false
+            or nsMetaVariables.deleteStrategyTest == false
             or nsMetaVariables.truncateBeforeTest == false
             or nsMetaVariables.testsEnabledTest == false
             or nsMetaVariables.distinctTest == false
@@ -573,6 +665,7 @@ does not permit copying or modification for any other purpose.
             or nsMetaVariables.postSQLTest == false
             or nsMetaVariables.preSQLTest == false
             or nsMetaVariables.orderByTest == false
+            or nsMetaVariables.excludeMergeTest == false
             %}
                 {% set nsMetaVariables.metaDataChanged = true %}
 
@@ -778,6 +871,41 @@ does not permit copying or modification for any other purpose.
                     {% endif %}
                 {% endif %}
             {% endfor %}
+
+            {# =========================================================
+            Primary Key Name and Column List Test
+            ========================================================= #}
+            {% set primaryKeyTest = currentState.config.primary == desiredState.config.primary %}
+            {% set primaryKeyNameTest = currentState.config.primaryKeyName == desiredState.config.primaryKeyName %}
+            {% set primaryKeyColList = currentState.config.primaryKeyCol == desiredState.config.primaryKeyCol %}
+            
+            {% if primaryKeyTest == false or primaryKeyNameTest == false or primaryKeyColList == false %}
+                {% if not desiredState.config.primary %}
+                    {{ stage('Drop Primary Key Constraint') }}
+                    ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                    DROP PRIMARY KEY
+                {% else %}
+
+                    {% set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                                            | map(attribute='primaryKey')
+                                            | map(attribute='name')
+                                            | list %}
+            
+                    {% if primaryKeyList | length > 0 %}
+                        {{ stage('Alter Primary Key Constraint') }}
+                        ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                        ADD CONSTRAINT
+                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                            {{ desiredState.config.primaryKeyName }}
+                        {% else %}
+                            pk_{{ desiredState.node.name }}
+                        {% endif %}
+                        PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                    {% endif %}
+                {% endif %}
+                    {# Metadata changes detected #}
+                    {% set nsMetaVariables.metaDataChanged = true %}
+            {% endif %}
 
             {# Figure out cluster key #}
             {% set nsVariables = namespace(finalClusterKey="") %}

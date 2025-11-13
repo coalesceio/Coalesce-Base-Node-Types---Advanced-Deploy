@@ -3,6 +3,7 @@ id: 5db6148e-1582-4087-aaf4-e705a887f250
 name: WRK_PRODUCTS_SAMP
 operation:
   config:
+    asofJoinMain: false
     clusterKey: true
     clusterKeyConfig:
       items:

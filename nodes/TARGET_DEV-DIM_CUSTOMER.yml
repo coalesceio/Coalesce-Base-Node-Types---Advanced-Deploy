@@ -29,7 +29,7 @@ operation:
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
+    postSQL: drop table if exists anandhis_dev.target_dev.dim_customerex1
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
@@ -42,7 +42,12 @@ operation:
   locationName: TARGET_DEV
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: ""
     columns:
       - acceptedValues:
           strictMatch: true

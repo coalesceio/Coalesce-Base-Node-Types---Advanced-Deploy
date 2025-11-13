@@ -307,7 +307,9 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          CUSTOMER: 9896fdb7-f430-4efb-af33-f36d1a022e11
+          ORDERS: ec3deaea-e4e6-4985-9ec0-cbe20dde4dbf
         customSQL:
           customSQL: ""
         dependencies:
@@ -316,13 +318,13 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: ORDERS
         join:
-          joinCondition: |2
+          joinCondition: |2-
 
 
              
               FROM  {{ ref('SOURCE_DATA', 'CUSTOMER') }} CUSTOMER
               LEFT JOIN  {{ ref('SOURCE_DATA', 'ORDERS') }} ORDERS 
-              ON ORDERS./*COLUMN*/ = CUSTOMER./*COLUMN*/ 
+             ON ORDERS.O_CUSTKEY = CUSTOMER.C_CUSTKEY 
         name: WRK_CUSTOMER_ORDERS
         noLinkRefs: []
   name: WRK_CUSTOMER_ORDERS

@@ -4,18 +4,17 @@ name: WRK_REGION_TRANS
 operation:
   config:
     asofJoinMain: false
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
-        - columnName:
-            columnCounter: 0bb065ac-b887-4bda-a851-32bd839a8ffb
-            stepCounter: 0344c1e3-84b3-4215-90d7-27c93d76129e
+        - {}
     clusterKeyConfigExpressions:
       items:
-        - {}
+        - columnNameExpressions: null
+          sqlExpression: ex. trunc(<column_name>, -5)
     clusterKeyExpressions: false
     groupByAll: false
-    insertStrategy: INSERT
+    insertStrategy: UNION
     orderby: true
     orderbycolumn:
       items:
@@ -45,7 +44,7 @@ operation:
         dataType: NUMBER(38,0)
         description: ""
         hashDetails: null
-        name: R_REGIONKEY
+        name: R_REGIONKEYS
         nullable: false
         sourceColumnReferences:
           - columnReferences:

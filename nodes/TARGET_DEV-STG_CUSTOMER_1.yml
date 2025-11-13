@@ -146,7 +146,8 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          CUSTOMER: 9896fdb7-f430-4efb-af33-f36d1a022e11
         customSQL:
           customSQL: ""
         dependencies:
