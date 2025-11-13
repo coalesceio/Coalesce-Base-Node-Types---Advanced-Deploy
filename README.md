@@ -371,9 +371,12 @@ You can create the node as:
 | **Create As**| Table|
 | **Insert Zero Key Record** | Toggle: True/False<br/>Insert Zero Key Record to Dimention<br/>**True**:  Zero Key Record Options enabled.<br/>**False**: Zero Key Record not added|
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
+| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_{{tablename}}** |
 | **Update Strategy**| Options : MERGE,INSERT/UPDATE <br/>- **MERGE**: Uses a single MERGE statement to handle both insert and update operations based on matching keys.<br/>- **INSERT/UPDATE**: Separately executes UPDATE for existing records and INSERT for new ones using custom logic.For preferred choice,refer [Preferences](#preferences)|
 | **Business key** | Required column for Type 1 and Type 2 Dimensions .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
 | **Change tracking** | Required column for Type 2 Dimension |
+| **Delete Strategy** | Available for single source nodes with Merge as update strategy<br/>- **NO DELETE**: An option introduced to ensure existing data flows remain intact and unchanged, preventing any delete operation on the target table.<br/>- **SOFT DELETE**: Marks records as logically deleted (isSystemCurrentFlag = 0) while retaining the history.<br/>- **HARD DELETE**: Permanent removal of records from the target table. |
+| **Merge Exclude List** | Available only for SCD type 1 Merges. Allows you to specify one or more columns that are excluded during both the **comparison** (matching) and **updating** phases of the MERGE statement. |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
 | **Cluster key** | **True**: Allows you to specify the column based on which clustering is to be done<br/> Allow Expressions Cluster Key: Allows to add an expression to the specified cluster key<br/>**False**: No clustering done |
@@ -391,7 +394,10 @@ You can create the node as:
 |---------|-------------|
 | **Create As**| Transient Table |
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
+| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_{{tablename}}** |
 | **Update Strategy**| Options : MERGE,INSERT/UPDATE <br/>- **MERGE**: Uses a single MERGE statement to handle both insert and update operations based on matching keys.<br/>- **INSERT/UPDATE**: Separately executes UPDATE for existing records and INSERT for new ones using custom logic.For preferred choice,refer [Preferences](#preferences)|
+| **Delete Strategy** | Available for single source nodes with Merge as update strategy<br/>- **NO DELETE**: An option introduced to ensure existing data flows remain intact and unchanged, preventing any delete operation on the target table.<br/>- **SOFT DELETE**: Marks records as logically deleted (isSystemCurrentFlag = 0) while retaining the history.<br/>- **HARD DELETE**: Permanent removal of records from the target table. |
+| **Merge Exclude List** | Available only for SCD type 1 Merges. Allows you to specify one or more columns that are excluded during both the **comparison** (matching) and **updating** phases of the MERGE statement. |
 | **Business key** | Required column for Type 1 and Type 2 Dimensions |
 | **Change tracking** | Required column for Type 2 Dimension |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
@@ -539,7 +545,10 @@ You can create the node as:
 |---------|-------------|
 | **Create As**| Table |
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
+| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_{{tablename}}** |
 | **Business key** | Required column for Type 1 and Type 2 Dimensions .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
+| **Delete Strategy** | Available for single source nodes and only when business key is chosen<br/>- **NO DELETE**: An option introduced to ensure existing data flows remain intact and unchanged, preventing any delete operation on the target table.<br/>- **HARD DELETE**: Permanent removal of records from the target table. |
+| **Merge Exclude List** | Available only when business key is chosen. Allows you to specify one or more columns that are excluded during both the **comparison** (matching) and **updating** phases of the MERGE statement. |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
 | **Cluster key** | **True**: Allows you to specify the column based on which clustering is to be done<br/> Allow Expressions Cluster Key: Allows to add an expression to the specified cluster key<br/>**False**: No clustering done |
@@ -555,7 +564,10 @@ You can create the node as:
 |---------|-------------|
 | **Create As**| Transient Table |
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
+| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_{{tablename}}** |
 | **Business key** | Required column for Type 1 and Type 2 Dimensions |
+| **Delete Strategy** | Available for single source nodes and only when business key is chosen<br/>- **NO DELETE**: An option introduced to ensure existing data flows remain intact and unchanged, preventing any delete operation on the target table.<br/>- **HARD DELETE**: Permanent removal of records from the target table. |
+| **Merge Exclude List** | Available only when business key is chosen. Allows you to specify one or more columns that are excluded during both the **comparison** (matching) and **updating** phases of the MERGE statement. |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
 | **Cluster key** | **True**: Allows you to specify the column based on which clustering is to be done<br/> Allow Expressions Cluster Key: Allows to add an expression to the specified cluster key<br/>**False**: No clustering done |
