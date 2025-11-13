@@ -257,6 +257,7 @@ does not permit copying or modification for any other purpose.
                 preSQLTest          = true,
                 postSQLTest         = true,
                 orderByTest         = true,
+                excludeMergeTest    = true,
                 metaDataChanged     = false,
                 joinDiff            = [],
                 transformDiff       = [],
@@ -271,6 +272,7 @@ does not permit copying or modification for any other purpose.
                 preSQLDiff          = [],
                 postSQLDiff         = [],
                 orderByDiff         = [],
+                excludeMergeDiff    = [],
                 metaDataChanges     = [],
                 metadataUpdate      = 'Metadata Update'
             ) %}
@@ -614,6 +616,39 @@ does not permit copying or modification for any other purpose.
             {% endif %}
 
             {# =========================================================
+            Merge Exclude Column List (per column)
+            ========================================================= #}
+            {% if currentState.config.excludeMergeToggle != desiredState.config.excludeMergeToggle %}
+
+                {% set nsMetaVariables.excludeMergeTest = false %}
+                {% set _ = nsMetaVariables.excludeMergeDiff.append({
+                     "is": desiredState.config.excludeMergeToggle,
+                    "was": currentState.config.excludeMergeToggle
+                }) %}
+    
+            {% elif currentState.config.excludeMergeToggle and desiredState.config.excludeMergeToggle %}
+
+                {%- set desiredExcludeColList = desiredState.config.excludeMergeList.get('items', [])
+                                        | map(attribute='excludeColName.name')
+                                        | list %}
+                {%- set currentExcludeColList = currentState.config.excludeMergeList.get('items', [])
+                                        | map(attribute='excludeColName.name')
+                                        | list %}
+
+                {% if desiredExcludeColList != currentExcludeColList %}
+                    {% set nsMetaVariables.excludeMergeTest = false %}
+                    {% set _ = nsMetaVariables.excludeMergeDiff.append({
+                        "is": desiredExcludeColList,
+                        "was": currentExcludeColList
+                    }) %}
+                {% endif %}
+            {% endif %}
+
+            {% if nsMetaVariables.excludeMergeTest == false %}
+                {{ update_metadata("Exclude Merge", nsMetaVariables.excludeMergeDiff, "Exclude Merge") }}
+            {% endif %}
+
+            {# =========================================================
             Handle detected metadata changes and update
             ========================================================= #}
             {% if nsMetaVariables.joinTest == false
@@ -630,6 +665,7 @@ does not permit copying or modification for any other purpose.
             or nsMetaVariables.postSQLTest == false
             or nsMetaVariables.preSQLTest == false
             or nsMetaVariables.orderByTest == false
+            or nsMetaVariables.excludeMergeTest == false
             %}
                 {% set nsMetaVariables.metaDataChanged = true %}
 

@@ -13,10 +13,7 @@ operation:
     clusterKeyExpressions: false
     deleteStrategy: HARD DELETE
     excludeMergeList:
-      items:
-        - excludeColName:
-            columnCounter: acece5a2-2224-4610-b169-9f2ec25780d5
-            stepCounter: 58880d30-d2c0-42ef-bfa0-7aa2eddfcd16
+      items: []
     excludeMergeToggle: true
     groupByAll: false
     insertStrategy: UNION ALL

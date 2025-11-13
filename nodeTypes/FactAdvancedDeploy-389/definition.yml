@@ -42,6 +42,7 @@ metadata:
       - type: toggleButton
         displayName: Primary Key
         attributeName: primary
+        default: false
         enableIf: "{% if node.materializationType != 'view' %} true {% else %} false {% endif %}"
 
       - type: textBox

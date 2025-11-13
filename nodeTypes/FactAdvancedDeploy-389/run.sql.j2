@@ -132,6 +132,7 @@ does not permit copying or modification for any other purpose.
                 {% endfor %}
 
         {% if config.deleteStrategy == "HARD DELETE" and node.isMultisource == false %}
+            /* Hard delete rows */
             WHEN MATCHED AND "SRC"."{{ get_value_by_column_attribute("isSystemUpdateDate") }}" IS NULL
                 THEN DELETE
         {% endif %}

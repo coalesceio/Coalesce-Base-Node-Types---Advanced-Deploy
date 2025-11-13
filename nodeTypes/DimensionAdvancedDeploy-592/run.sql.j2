@@ -440,10 +440,10 @@ does not permit copying or modification for any other purpose.
                     {% endfor -%}
 
                     {% if config.deleteStrategy == "HARD DELETE" %}
-                        /* Hard delete expored rows */
+                        /* Hard delete rows */
                         'HARD_DELETE_ROWS' AS "DML_OPERATION"
                     {% else %}
-                        /* soft delete expored rows */
+                        /* soft delete rows */
                         'SOFT_DELETE_ROWS' AS "DML_OPERATION"
                     {% endif %}
 
@@ -1140,10 +1140,10 @@ END
 
                 WHEN MATCHED AND "SRC"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = '0'
                 {% if config.deleteStrategy == "HARD DELETE" %}
-                    /* Hard delete expored rows */
+                    /* Hard delete rows */
                     THEN DELETE
                 {% else %}
-                    /* Soft delete expored rows */
+                    /* Soft delete rows */
                     THEN UPDATE SET
                     {% for col in columns if (col.isSystemCurrentFlag
                                                 or col.isSystemEndDate) %}
