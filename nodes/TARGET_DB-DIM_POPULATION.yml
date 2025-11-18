@@ -14,6 +14,8 @@ operation:
     customZeroKeyValues:
       items:
         - {}
+    deleteStrategy: ""
+    excludeMergeToggle: false
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: true
@@ -67,7 +69,6 @@ operation:
         dataType: NUMBER(38,0)
         description: ""
         isBusinessKey: true
-        isChangeTracking: true
         name: POP_ID
         nullable: false
         sourceColumnReferences:
