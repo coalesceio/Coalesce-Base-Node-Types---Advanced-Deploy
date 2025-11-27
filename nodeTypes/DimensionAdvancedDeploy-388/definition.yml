@@ -133,14 +133,38 @@ metadata:
         - "HARD DELETE"
         isRequired: false
         enableIf: "{% if node.materializationType != 'view' and config.updateStrategy == 'MERGE' and node.isMultisource == false %} true {% else %} false {% endif %}"
+      
+      - type: toggleButton
+        attributeName: lastModifiedComparison
+        displayName: Last Modified Comparison
+        default: false
+
+      - type: columnDropdownSelector
+        attributeName: lastModifiedColumn
+        displayName: Last Modified Column
+        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        attributeName: treatNullAsCurrentTimestamp
+        displayName: Treat NULL as Current Timestamp
+        default: false
+        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        attributeName: type2Dimension
+        displayName: Type 2 Dimension
+        default: false
+        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
 
       - type: businessKeyColumns
         isRequired: true
 
       - type: changeTrackingColumns
         isRequired: false
-        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
-
+        attributeName: changeTrackingColumn
+        displayName: Change Tracking
+        enableIf: "{% if config.lastModifiedComparison  and node.materializationType == 'view' %} false {% else %} true {% endif %}"
+        
       - displayName: Exclude Columns from Merge (For SCD Type I)
         attributeName: excludeMergeToggle
         type: toggleButton

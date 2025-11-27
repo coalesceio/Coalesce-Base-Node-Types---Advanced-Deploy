@@ -80,13 +80,38 @@ metadata:
       
         isRequired: false
         enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
-      
+        
+      - type: toggleButton
+        attributeName: lastModifiedComparison
+        displayName: Last Modified Comparison
+        default: false
+
+      - type: columnDropdownSelector
+        attributeName: lastModifiedColumn
+        displayName: Last Modified Column
+        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        attributeName: treatNullAsCurrentTimestamp
+        displayName: Treat NULL as Current Timestamp
+        default: false
+        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        attributeName: type2Dimension
+        displayName: Type 2 Dimension
+        default: false
+        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+
       - type: businessKeyColumns
-        isRequired: false
-      
+        isRequired: true
+
       - type: changeTrackingColumns
         isRequired: false
-
+        attributeName: changeTrackingColumn
+        displayName: Change Tracking
+        enableIf: "{% if config.lastModifiedComparison  and node.materializationType == 'view' %} false {% else %} true {% endif %}"
+      
       - displayName: Truncate Before
         attributeName: truncateBefore
         type: toggleButton
