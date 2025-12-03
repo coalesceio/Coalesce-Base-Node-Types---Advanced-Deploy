@@ -1,9 +1,9 @@
 fileVersion: 1
-id: f58ea1b1-cf12-434f-9a01-3bc0711df80c
-name: STORE_SALES
+id: 26810b63-0139-4b1c-950d-206126fd78ef
+name: EMPLOYEES_A
 operation:
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   locationName: SOURCE_DATA
   metadata:
@@ -13,13 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 081ba6bd-1fac-47ea-b3bf-99aa39d7e769
-          stepCounter: f58ea1b1-cf12-434f-9a01-3bc0711df80c
+          columnCounter: c85e0856-9084-46d8-a728-f05a40409794
+          stepCounter: 26810b63-0139-4b1c-950d-206126fd78ef
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: STORE_ID
+        name: EMP_ID
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -32,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 3863c198-b196-4a7d-bf57-e7874ae147fd
-          stepCounter: f58ea1b1-cf12-434f-9a01-3bc0711df80c
+          columnCounter: 34c3d8ac-9d52-44c6-ba65-9f1e5e2a363d
+          stepCounter: 26810b63-0139-4b1c-950d-206126fd78ef
         config: {}
-        dataType: DATE
+        dataType: VARCHAR(16777216)
         defaultValue: ""
         description: ""
-        name: SALES_DATE
+        name: EMP_NAME
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 23ae997c-08ac-45ad-a3bf-1e524b4abfdd
-          stepCounter: f58ea1b1-cf12-434f-9a01-3bc0711df80c
+          columnCounter: b9555cb2-e172-41ca-873c-e67f1f40ee2c
+          stepCounter: 26810b63-0139-4b1c-950d-206126fd78ef
         config: {}
-        dataType: NUMBER(10,2)
+        dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: TOTAL_SALES
+        name: DEPT_ID
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -65,7 +65,7 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-  name: STORE_SALES
+  name: EMPLOYEES_A
   schema: ""
   sqlType: Source
   type: sourceInput

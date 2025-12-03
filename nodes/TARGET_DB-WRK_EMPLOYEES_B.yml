@@ -1,0 +1,241 @@
+fileVersion: 1
+id: 0dc9d4a0-831a-492a-85eb-b0a0c1cfda00
+name: WRK_EMPLOYEES_B
+operation:
+  config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d854b866-39cc-41ec-8a63-adbe1720616a
+          stepCounter: 0dc9d4a0-831a-492a-85eb-b0a0c1cfda00
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: EMP_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3c8b0b34-8484-4631-a7bb-030907577330
+                stepCounter: 06706fba-956e-436e-93bb-39dbd9414bbc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9ac2233d-4674-46a5-9789-07ac53dfbb67
+          stepCounter: 0dc9d4a0-831a-492a-85eb-b0a0c1cfda00
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EMP_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8a5a55c6-9dcc-4711-a520-02725565fd99
+                stepCounter: 06706fba-956e-436e-93bb-39dbd9414bbc
+            transform: |-
+              UPPER(REGEXP_REPLACE(
+
+                TRIM(
+
+                  CONCAT(
+
+                    "EMPLOYEES_B"."EMP_ID",
+
+                    "EMPLOYEES_B"."EMP_NAME",
+
+                    "EMPLOYEES_B"."DEPT_ID",
+
+                    CASE
+
+                      WHEN "EMPLOYEES_B"."EMP_ID" <> ''
+
+                      THEN
+
+                        CASE
+
+                          WHEN "EMPLOYEES_B"."EMP_NAME" <> ''
+
+                               OR "EMPLOYEES_B"."DEPT_ID" <> ''
+
+                               OR "EMPLOYEES_B"."EMP_ID" <> ''
+
+                          THEN ' ' || "EMPLOYEES_B"."EMP_NAME"
+
+                          ELSE "EMPLOYEES_B"."EMP_NAME"
+
+                        END
+
+                      ELSE ''
+
+                    END,
+
+                    '|',
+
+                    "EMPLOYEES_B"."EMP_NAME"
+
+                  )
+
+                ),
+
+                '^[,\. ]+',   -- remove any leading commas, periods or spaces
+
+                ''
+
+              ))
+               
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a6b42d4e-9416-42de-a3d6-b0e2a86e3937
+          stepCounter: 0dc9d4a0-831a-492a-85eb-b0a0c1cfda00
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EMP_NAME1
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              UPPER(REGEXP_REPLACE(
+
+                TRIM(
+
+                  CONCAT(
+
+                    "EMPLOYEES_B"."EMP_ID",
+
+                    "EMPLOYEES_B"."EMP_NAME",
+
+                    "EMPLOYEES_B"."DEPT_ID",
+
+                    CASE
+
+                      WHEN "EMPLOYEES_B"."EMP_ID" <> ''
+
+                      THEN
+
+                        CASE
+
+                          WHEN "EMPLOYEES_B"."EMP_NAME" <> ''
+
+                               OR "EMPLOYEES_B"."DEPT_ID" <> ''
+
+                               OR "EMPLOYEES_B"."EMP_ID" <> ''
+
+                          THEN ' ' || "EMPLOYEES_B"."EMP_NAME"
+
+                          ELSE "EMPLOYEES_B"."EMP_NAME"
+
+                        END
+
+                      ELSE ''
+
+                    END,
+
+                    '|',
+
+                    "EMPLOYEES_B"."EMP_NAME"
+
+                  )
+
+                ),
+
+                '^[,\. ]+',   -- remove any leading commas, periods or spaces
+
+                ''
+
+              ))
+               
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 39afb741-2d4a-44ba-8754-5632b112a67a
+          stepCounter: 0dc9d4a0-831a-492a-85eb-b0a0c1cfda00
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: DEPT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 117c64fe-6729-44be-b9f0-826df25dd599
+                stepCounter: 06706fba-956e-436e-93bb-39dbd9414bbc
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0a7b42aa-1a2d-43c8-8f85-e0332dbc19b2
+          stepCounter: 0dc9d4a0-831a-492a-85eb-b0a0c1cfda00
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: has_col
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: |
+              {{hash_test(columns=['"EMPLOYEES_B"."EMP_NAME"'])}}
+        systemColumnType: None
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          EMPLOYEES_B: 06706fba-956e-436e-93bb-39dbd9414bbc
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: EMPLOYEES_B
+        join:
+          joinCondition: |2-
+
+
+
+             
+              FROM  {{ ref('SOURCE_DATA', 'EMPLOYEES_B') }} EMPLOYEES_B
+        name: WRK_EMPLOYEES_B
+        noLinkRefs: []
+  name: WRK_EMPLOYEES_B
+  overrideSQL: false
+  schema: ""
+  sqlType: "179"
+  type: sql
+  version: 1
+type: Node

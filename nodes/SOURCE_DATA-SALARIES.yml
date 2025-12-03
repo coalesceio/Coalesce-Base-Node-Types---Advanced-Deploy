@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 80960d14-84e5-49ce-8ed9-acf5833365e6
-name: REGION
+id: a527e574-9407-4313-b1b6-42e3b3949b9a
+name: SALARIES
 operation:
   database: ""
   deployEnabled: true
@@ -13,13 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: bb2822ca-676d-48ff-a31a-e543be5db830
-          stepCounter: 80960d14-84e5-49ce-8ed9-acf5833365e6
+          columnCounter: 5a2c4bee-2abe-448f-83fb-864cfde9a957
+          stepCounter: a527e574-9407-4313-b1b6-42e3b3949b9a
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: R_REGIONKEY
+        name: EMP_ID
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -32,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 35edb398-e1f3-4ff9-acf5-5d78ac4ee437
-          stepCounter: 80960d14-84e5-49ce-8ed9-acf5833365e6
+          columnCounter: f741c057-59d0-4351-b177-dd1a3333e0dd
+          stepCounter: a527e574-9407-4313-b1b6-42e3b3949b9a
         config: {}
-        dataType: VARCHAR(25)
+        dataType: VARCHAR(16777216)
         defaultValue: ""
         description: ""
-        name: R_NAME
+        name: MONTH
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: caa8703b-91c3-4434-8ae5-c9ab1cee2c12
-          stepCounter: 80960d14-84e5-49ce-8ed9-acf5833365e6
+          columnCounter: 3b30ed38-15f1-45cf-96dd-2229353b85b8
+          stepCounter: a527e574-9407-4313-b1b6-42e3b3949b9a
         config: {}
-        dataType: VARCHAR(152)
+        dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: R_COMMENT
+        name: SALARY
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -65,26 +65,7 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 23da474a-45a9-44e4-b0dc-ccdcdaf9715a
-          stepCounter: 80960d14-84e5-49ce-8ed9-acf5833365e6
-        config: {}
-        dataType: TIMESTAMP_LTZ(9)
-        defaultValue: ""
-        description: ""
-        name: R_LOAD_TIMESTAMP
-        nullable: true
-        primaryKey: false
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-        transform: ""
-        uniqueKey: false
-  name: REGION
+  name: SALARIES
   schema: ""
   sqlType: Source
   type: sourceInput

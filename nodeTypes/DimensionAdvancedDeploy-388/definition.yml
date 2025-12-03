@@ -163,7 +163,7 @@ metadata:
         isRequired: false
         attributeName: changeTrackingColumn
         displayName: Change Tracking
-        enableIf: "{% if config.lastModifiedComparison  and node.materializationType == 'view' %} false {% else %} true {% endif %}"
+        enableIf: "{% if config.lastModifiedComparison  or node.materializationType == 'view' %} false {% else %} true {% endif %}"
         
       - displayName: Exclude Columns from Merge (For SCD Type I)
         attributeName: excludeMergeToggle
@@ -173,7 +173,7 @@ metadata:
                         and columns
                             | selectattr('isChangeTracking')
                             | list
-                            | length == 0 and config.updateStrategy == 'MERGE' %}
+                            | length == 0 and config.updateStrategy == 'MERGE' and    lastModifiedComparison == false %}
                       true
                     {% else %} 
                       false
@@ -195,8 +195,7 @@ metadata:
                         and columns
                             | selectattr('isChangeTracking')
                             | list
-                            | length == 0
-                           %}
+                            | length == 0 and lastModifiedComparison == false%}
                       true
                     {% else %} 
                       false

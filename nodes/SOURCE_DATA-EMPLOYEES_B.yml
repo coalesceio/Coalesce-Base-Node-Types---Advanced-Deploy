@@ -1,9 +1,9 @@
 fileVersion: 1
-id: cd21cae0-a49f-4e97-bffa-5ccdf493d850
-name: STUDENTS_SAMP
+id: 06706fba-956e-436e-93bb-39dbd9414bbc
+name: EMPLOYEES_B
 operation:
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   locationName: SOURCE_DATA
   metadata:
@@ -13,32 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: e575ddf6-de17-40cf-a59f-224229a3e97e
-          stepCounter: cd21cae0-a49f-4e97-bffa-5ccdf493d850
-        config: {}
-        dataType: VARCHAR(16777216)
-        defaultValue: ""
-        description: ""
-        name: NAME
-        nullable: true
-        primaryKey: false
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-        transform: ""
-        uniqueKey: false
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 024f2664-c7b5-4ff1-ba81-693a2598734d
-          stepCounter: cd21cae0-a49f-4e97-bffa-5ccdf493d850
+          columnCounter: 3c8b0b34-8484-4631-a7bb-030907577330
+          stepCounter: 06706fba-956e-436e-93bb-39dbd9414bbc
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: GRADE
+        name: EMP_ID
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 2924dc7f-3d4b-41ba-9886-75c9f0ecbefb
-          stepCounter: cd21cae0-a49f-4e97-bffa-5ccdf493d850
+          columnCounter: 8a5a55c6-9dcc-4711-a520-02725565fd99
+          stepCounter: 06706fba-956e-436e-93bb-39dbd9414bbc
         config: {}
         dataType: VARCHAR(16777216)
         defaultValue: ""
         description: ""
-        name: COUNTRY
+        name: EMP_NAME
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -65,7 +46,26 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-  name: STUDENTS_SAMP
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 117c64fe-6729-44be-b9f0-826df25dd599
+          stepCounter: 06706fba-956e-436e-93bb-39dbd9414bbc
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: DEPT_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: EMPLOYEES_B
   schema: ""
   sqlType: Source
   type: sourceInput
