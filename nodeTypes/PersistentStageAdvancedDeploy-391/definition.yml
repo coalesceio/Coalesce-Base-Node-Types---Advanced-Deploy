@@ -110,8 +110,8 @@ metadata:
         isRequired: false
         attributeName: changeTrackingColumn
         displayName: Change Tracking
-        enableIf: "{% if config.lastModifiedComparison  and node.materializationType == 'view' %} false {% else %} true {% endif %}"
-      
+        enableIf: "{% if config.lastModifiedComparison  or node.materializationType == 'view' %} false {% else %} true {% endif %}"
+        
       - displayName: Truncate Before
         attributeName: truncateBefore
         type: toggleButton
@@ -176,9 +176,6 @@ metadata:
         syntax: sql
         isRequired: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
-
-
-
 
     systemColumns:
 

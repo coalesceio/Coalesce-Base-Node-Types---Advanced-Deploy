@@ -91,7 +91,7 @@ metadata:
         isRequired: false
         attributeName: changeTrackingColumn
         displayName: Change Tracking
-        enableIf: "{% if config.lastModifiedComparison  and node.materializationType == 'view' %} false {% else %} true {% endif %}"
+        enableIf: "{% if config.lastModifiedComparison  or node.materializationType == 'view' %} false {% else %} true {% endif %}"
       
       - displayName: Unmatched Record Strategy
         attributeName: deleteStrategy
