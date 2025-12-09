@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 7dcb1a3c-a65e-478e-b5ef-1e48bcf96edf
-name: PSTG_CUSTOMER
+name: PSTG_CUSTOMER_SCD1_LASTMODIFIED
 operation:
   config:
     clusterKey: false
@@ -13,7 +13,10 @@ operation:
     clusterKeyExpressions: false
     groupByAll: false
     insertStrategy: UNION ALL
-    lastModifiedComparison: false
+    lastModifiedColumn:
+      columnCounter: 4a834cbe-046a-49ed-8f92-3ab7debeb43e
+      stepCounter: 7dcb1a3c-a65e-478e-b5ef-1e48bcf96edf
+    lastModifiedComparison: true
     orderby: false
     orderbycolumn:
       items:
@@ -58,6 +61,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: C_CUSTKEY
         nullable: true
         sourceColumnReferences:
@@ -291,9 +295,9 @@ operation:
             nodeName: CUSTOMER
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
-        name: PSTG_CUSTOMER
+        name: PSTG_CUSTOMER_SCD1_LASTMODIFIED
         noLinkRefs: []
-  name: PSTG_CUSTOMER
+  name: PSTG_CUSTOMER_SCD1_LASTMODIFIED
   overrideSQL: false
   schema: ""
   sqlType: "391"
