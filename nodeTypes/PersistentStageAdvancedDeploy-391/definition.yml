@@ -85,23 +85,24 @@ metadata:
         attributeName: lastModifiedComparison
         displayName: Last Modified Comparison
         default: false
+        enableIf: "{% if config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
 
       - type: columnDropdownSelector
         attributeName: lastModifiedColumn
-        displayName: Last Modified Column
-        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+        displayName: Last Modified Column(Only Timestamp and Numeric Columns can be chosen)
+        enableIf: "{% if node.materializationType != 'view' and config.lastModifiedComparison and config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: treatNullAsCurrentTimestamp
-        displayName: Treat NULL as Current Timestamp
+        displayName: Treat NULL as Current Timestamp(Only applicable for timestamp column)
         default: false
-        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: type2Dimension
         displayName: Type 2 Dimension
         default: false
-        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
 
       - type: businessKeyColumns
         isRequired: true

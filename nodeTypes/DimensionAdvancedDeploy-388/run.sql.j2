@@ -9,19 +9,21 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Description    : This node loads data into dimension table using config options distinct,groupby all,order by ,multi-source  == #}
 
 
-{# == Variable check to identify type of dimension == #}
-
---{% set is_type_2 = columns | selectattr("isChangeTracking") | list | length > 0 %}
-
 {# == Check if last modified comparison toggle is enabled  #}
 
 {% set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
 {% set use_last_modified = config.lastModifiedComparison | default(false) %}
+
+{# == Variable check to identify type of dimension == #}
+
 {% set is_type_2 = config.type2Dimension | default(false) if use_last_modified else (columns | selectattr("isChangeTracking") | list | length > 0) %}
 {%if config.lastModifiedComparison%}
  {% set last_modified_col = config.lastModifiedColumn.name | default('') %}
 {%endif%}
-{% set treat_null_as_current = config.treatNullAsCurrentTimestamp | default(false) %}
+
+{%if config.treatNullAsCurrentTimestamp%}
+  {% set treat_null_as_current = config.treatNullAsCurrentTimestamp | default(false) if config.lastModifiedCompToggle and config.lastModifiedColumn.dataType == 'TIMESTAMP' %}
+{%endif%}
 
 {# == Fetch source info #}
 

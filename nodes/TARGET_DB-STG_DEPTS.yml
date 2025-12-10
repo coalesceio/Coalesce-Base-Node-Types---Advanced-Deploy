@@ -1,0 +1,87 @@
+fileVersion: 1
+id: 509bd835-3ff3-499b-ac71-b06c48480fff
+name: STG_DEPTS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c0f13eb7-a83e-4897-a28a-17dfdfca789f
+          stepCounter: 509bd835-3ff3-499b-ac71-b06c48480fff
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: DEPT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dbec122f-11e6-49ca-9bf7-98097cd9cefe
+                stepCounter: 13a58bbf-673d-415e-a257-6aaa2038689e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d7d784ef-1c88-442c-af33-e4627a9e910f
+          stepCounter: 509bd835-3ff3-499b-ac71-b06c48480fff
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: DEPT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5801d5eb-7fe1-46c7-8833-16e2c255f683
+                stepCounter: 13a58bbf-673d-415e-a257-6aaa2038689e
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6f00bb52-d192-470e-9dd6-10bba27eb257
+          stepCounter: 509bd835-3ff3-499b-ac71-b06c48480fff
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        hashDetails:
+          hashAlgorithm: SHA1
+        hashedColumns:
+          - columnCounter: c0f13eb7-a83e-4897-a28a-17dfdfca789f
+            stepCounter: 509bd835-3ff3-499b-ac71-b06c48480fff
+        name: GH
+        nullable: true
+        sourceColumnReferences: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DEPTS: 13a58bbf-673d-415e-a257-6aaa2038689e
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: DEPTS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'DEPTS') }} "DEPTS"
+        name: STG_DEPTS
+        noLinkRefs: []
+  name: STG_DEPTS
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
