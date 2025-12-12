@@ -8,6 +8,14 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Fact Advance Deploy == #}
 {# == Node Type Description    : This node loads data into  fact table using config options distinct,groupby all,order by ,multi-source  == #}
 
+{# == Check if last modified comparison toggle is enabled  #}
+
+{% set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
+{%if config.lastModifiedComparison%}
+ {% set last_modified_col = config.lastModifiedColumn.name | default('') %}
+{%endif%}
+{% set useCurrentTimeStamp = config.treatNullAsCurrentTimestamp | default(false) if config.lastModifiedCompToggle and config.lastModifiedColumn.dataType == 'TIMESTAMP' %} 
+
 {# == To run data quality tests before data insertion == #}
 
 {% for test in node.tests if config.testsEnabled %}
@@ -56,21 +64,42 @@ does not permit copying or modification for any other purpose.
                 USING (
                 
                 {% for source in sources %}
+                    {%set joinclause= source.join%}
                     (SELECT
                     {% if config.selectDistinct %}
                     DISTINCT
                     {% endif %}
                     {% for col in source.columns %}
+                        {% if col.name == last_modified_col and useCurrentTimeStamp %}
+					     {{ get_source_transform(col) }} AS "{{ col.name }}",
+						 COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) as COMPARISON_VALUE,
+						 MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE		    
+                       {% elif col.name == last_modified_col and not useCurrentTimeStamp%}
+					     {{ get_source_transform(col) }} AS "{{ col.name }}",
+						 {{ get_source_transform(col) }} AS COMPARISON_VALUE,
+					     MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
+                       {%else%}
                         {{ get_source_transform(col) }} AS "{{ col.name }}"
-                        {%- if not loop.last %}, {% endif %}
+                       {%endif%}
+                      {%- if not loop.last %}, {% endif %}
                     {% endfor %}
-                    {{ source.join }}
-                    {% if config.groupByAll %}
+                    {{ get_clause(joinclause,'from')}}
+                    {%if config.lastModifiedComparison%}	        
+                        LEFT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
+                             {% for col in source.columns if col.isBusinessKey -%}
+                                {% if not loop.first %}
+                                    AND
+                                {% endif %}
+                                {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                            {% endfor %}
+                  {%endif%}
+                  {{ get_clause(joinclause) }}
+                  {% if config.groupByAll or config.lastModifiedComparison %}
                         GROUP BY ALL
-                    {% endif %}
+                  {% endif %}
                     {{ sortorder_by_colv() }}
                   )
-
+                    
                     {% if config.deleteStrategy == "HARD DELETE" and node.isMultisource == false %}
                     /* Rows To Be Deleted As They No Longer Exist In Source */
                     UNION ALL
@@ -82,14 +111,22 @@ does not permit copying or modification for any other purpose.
                             {%- for col in source.columns %}
                                 {% if col.isSystemUpdateDate %}
                                     NULL
+                                {% elif col.name == last_modified_col and useCurrentTimeStamp %}
+					                "DIM"."{{col.name}}" AS "{{ col.name }}",
+						            COALESCE("DIM"."{{last_modified_col}}",CURRENT_TIMESTAMP()) as COMPARISON_VALUE,
+						            MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE		    
+                                {% elif col.name == last_modified_col and not useCurrentTimeStamp%}
+					                 "DIM"."{{col.name}}" AS "{{ col.name }}",
+						             "DIM"."{{last_modified_col}}" AS COMPARISON_VALUE,
+					                 MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
                                 {% else %}
                                     "DIM"."{{ col.name }}"
                                 {% endif %}
-                                AS "{{ col.name }}"
+                                {%if col.name != last_modified_col %} AS "{{ col.name }}" {%endif%}
                                 {%- if not loop.last %}, {% endif %}
                             {% endfor -%}
 
-                            {{ source.join }}
+                            {{ get_clause(joinclause,'from') }}
 
                             RIGHT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
                             {% for col in source.columns if col.isBusinessKey -%}
@@ -109,7 +146,7 @@ does not permit copying or modification for any other purpose.
                         
                             {{ get_clause(joinclause) }}
 
-                            {% if config.groupByAll %}
+                            {% if config.groupByAll or config.lastModifiedComparison %}
                                 GROUP BY ALL
                             {% endif %}
 
@@ -137,6 +174,7 @@ does not permit copying or modification for any other purpose.
                 THEN DELETE
         {% endif %}
 				WHEN MATCHED
+                {%if not config.lastModifiedComparison%}
 					{% for col in includeColList if not (col.isBusinessKey or col.isSystemUpdateDate or col.isSystemCreateDate) %}
 								  
 						{% if loop.first %}
@@ -179,8 +217,11 @@ does not permit copying or modification for any other purpose.
 						{% if loop.last %}
 							)
 						{% endif %}
-					{% endfor %}   
-
+					{% endfor %}  
+                {%else%} 
+                    AND ("SRC".COMPARISON_VALUE > "SRC".MAX_TARGET_VALUE 
+                    OR "SRC".MAX_TARGET_VALUE IS NULL)
+                {%endif%}
                 THEN UPDATE SET
                 {%- for col in includeColList if not (col.isBusinessKey or col.isSystemCreateDate) %}
                         "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"

@@ -66,33 +66,21 @@ metadata:
         attributeName: lastModifiedComparison
         displayName: Last Modified Comparison
         default: false
-        enableIf: "{% if node.materializationType != 'view' and config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view'%} true {% else %} false {% endif %}"
 
       - type: columnDropdownSelector
         attributeName: lastModifiedColumn
         displayName: Last Modified Column(Only Timestamp and Numeric Columns can be chosen)
-        enableIf: "{% if config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.lastModifiedComparison  %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: treatNullAsCurrentTimestamp
         displayName: Treat NULL as Current Timestamp(Only applicable for timestamp column)
         default: false
-        enableIf: "{% if config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
-
-      - type: toggleButton
-        attributeName: type2Dimension
-        displayName: Type 2 Dimension
-        default: false
-        enableIf: "{% if config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
 
       - type: businessKeyColumns
         isRequired: true
-
-      - type: changeTrackingColumns
-        isRequired: false
-        attributeName: changeTrackingColumn
-        displayName: Change Tracking
-        enableIf: "{% if config.lastModifiedComparison  or node.materializationType == 'view' %} false {% else %} true {% endif %}"
       
       - displayName: Unmatched Record Strategy
         attributeName: deleteStrategy
@@ -116,7 +104,7 @@ metadata:
         enableIf: "{% if node.materializationType != 'view' and (columns 
                       | selectattr('isBusinessKey')
                       | list
-                      | length > 0) %} true {% else %} false {% endif %}"
+                      | length > 0) and lastModifiedComparison == false%} true {% else %} false {% endif %}"
 
       - type: tabular
         displayName: 'Exclude Merge List'
@@ -134,7 +122,8 @@ metadata:
                       and (columns 
                           | selectattr('isBusinessKey')
                           | list
-                          | length > 0) %} true {% else %} false {% endif %}"
+                          | length > 0) 
+                      and lastModifiedComparison == false%} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: clusterKey

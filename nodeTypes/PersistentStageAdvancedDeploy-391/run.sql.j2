@@ -21,8 +21,8 @@ does not permit copying or modification for any other purpose.
 {%if config.lastModifiedComparison%}
  {% set last_modified_col = config.lastModifiedColumn.name | default('') %}
 {%endif%}
-{% set treat_null_as_current = config.treatNullAsCurrentTimestamp | default(false) %}
 
+{% set useCurrentTimeStamp = config.treatNullAsCurrentTimestamp | default(false) if config.lastModifiedCompToggle and config.lastModifiedColumn.dataType == 'TIMESTAMP' %} 
 
 {# == To run data quality tests before data insertion == #}
 
@@ -131,7 +131,7 @@ does not permit copying or modification for any other purpose.
             {%if config.lastModifiedComparison %} 
             {% for col in source.columns if col.name == last_modified_col -%}
                 AND
-                {%if config.treatNullAsCurrentTimestamp %}
+                {%if useCurrentTimeStamp %}
                   COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP())> "DIM"."{{last_modified_col}}"
                 {%else%}
                   {{ get_source_transform(col) }} > "DIM"."{{last_modified_col}}"
@@ -224,7 +224,7 @@ does not permit copying or modification for any other purpose.
              {%if config.lastModifiedComparison %} 
             {% for col in source.columns if col.name == last_modified_col -%}
                     AND
-                {%if config.treatNullAsCurrentTimestamp %}
+                {%if useCurrentTimeStamp %}
                   COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP())> "DIM"."{{last_modified_col}}"
                 {%else%}
                   {{ get_source_transform(col) }} > "DIM"."{{last_modified_col}}"
@@ -472,11 +472,11 @@ does not permit copying or modification for any other purpose.
                     	1
                     {% elif col.isSystemCurrentFlag %}
                     	'Y'
-                    {% elif col.name == last_modified_col and config.treatNullAsCurrentTimestamp %}
+                    {% elif col.name == last_modified_col and useCurrentTimeStamp %}
 					     {{ get_source_transform(col) }} AS "{{ col.name }}",
 						 COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) as COMPARISON_VALUE,
 						 MAX ({{get_source_transform(col)}}) AS MAX_TARGET_VALUE		    
-                      {% elif col.name == last_modified_col and not config.treatNullAsCurrentTimestamp%}
+                      {% elif col.name == last_modified_col and not useCurrentTimeStamp%}
 					     {{ get_source_transform(col) }} AS "{{ col.name }}",
 						 {{ get_source_transform(col) }} AS COMPARISON_VALUE,
 					     MAX ({{get_source_transform(col)}}) AS MAX_TARGET_VALUE

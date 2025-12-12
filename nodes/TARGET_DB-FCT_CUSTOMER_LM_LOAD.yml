@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 9b098885-f0dc-4289-9a87-8b1be5938c2d
-name: FCT_CUSTOMER
+name: FCT_CUSTOMER_LM_LOAD
 operation:
   config:
     clusterKey: false
@@ -19,7 +19,7 @@ operation:
     groupByAll: false
     insertStrategy: UNION ALL
     lastModifiedColumn:
-      columnCounter: c37ecb0a-ff35-4366-b63e-1cbc0796a2fe
+      columnCounter: b80e7849-ea16-4362-862c-c296b9bf259c
       stepCounter: 9b098885-f0dc-4289-9a87-8b1be5938c2d
     lastModifiedComparison: true
     orderby: false
@@ -35,7 +35,7 @@ operation:
     primaryKeyName: ""
     selectDistinct: false
     testsEnabled: false
-    treatNullAsCurrentTimestamp: false
+    treatNullAsCurrentTimestamp: true
     truncateBefore: false
     type2Dimension: true
   database: ""
@@ -54,6 +54,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: C_CUSTKEY
         nullable: true
         sourceColumnReferences:
@@ -219,9 +220,9 @@ operation:
             nodeName: CUSTOMER
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
-        name: FCT_CUSTOMER
+        name: FCT_CUSTOMER_LM_LOAD
         noLinkRefs: []
-  name: FCT_CUSTOMER
+  name: FCT_CUSTOMER_LM_LOAD
   overrideSQL: false
   schema: ""
   sqlType: "389"

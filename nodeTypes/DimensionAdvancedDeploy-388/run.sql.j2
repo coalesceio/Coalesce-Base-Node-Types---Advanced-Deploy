@@ -21,9 +21,6 @@ does not permit copying or modification for any other purpose.
  {% set last_modified_col = config.lastModifiedColumn.name | default('') %}
 {%endif%}
 
-{%if config.treatNullAsCurrentTimestamp%}
-  {% set treat_null_as_current = config.treatNullAsCurrentTimestamp | default(false) if config.lastModifiedCompToggle and config.lastModifiedColumn.dataType == 'TIMESTAMP' %}
-{%endif%}
 
 {# == Fetch source info #}
 
@@ -1147,7 +1144,7 @@ END
                       {%if col.name != last_modified_col %}  AS "{{ col.name }}"{%endif%}
                       {%- if not loop.last %}, {% endif %}
                   {% endfor %}
-                  {{ source.join }}
+                   {{ get_clause(joinclause),'from'}}
                   {%if config.lastModifiedComparison%}
                    LEFT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
                    {% for col in source.columns if col.isBusinessKey -%}
@@ -1157,6 +1154,7 @@ END
                                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
                             {% endfor %}
                   {%endif%}
+                   {{ get_clause(joinclause) }}
                    {% if config.groupByAll or config.lastModifiedComparison %}
                      GROUP BY ALL
                     {% endif %}
@@ -1190,8 +1188,7 @@ END
                                 {%if col.name != last_modified_col %} AS "{{ col.name }}" {%endif%}
                                 {%- if not loop.last %}, {% endif %}
                             {% endfor -%}
-
-                  {{ source.join }}
+                   {{ get_clause(joinclause,'from') }}
                   RIGHT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
                             {% for col in source.columns if col.isBusinessKey -%}
                                 {% if not loop.first %}
@@ -1205,7 +1202,8 @@ END
                                     AND
                                 {% endif %}
                                 {{ get_source_transform(col) }} IS NULL
-                            {% endfor %}        
+                            {% endfor %}     
+                             {{ get_clause(joinclause) }}   
                  {% if config.groupByAll or config.lastModifiedComparison %}
                      GROUP BY ALL
                     {% endif %}
