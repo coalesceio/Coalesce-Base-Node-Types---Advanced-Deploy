@@ -14,7 +14,7 @@ operation:
     customZeroKeyValues:
       items:
         - {}
-    deleteStrategy: SOFT DELETE
+    deleteStrategy: HARD DELETE
     excludeMergeList:
       items:
         - {}
@@ -45,7 +45,7 @@ operation:
     primaryKeyName: ""
     selectDistinct: false
     testsEnabled: false
-    treatNullAsCurrentTimestamp: false
+    treatNullAsCurrentTimestamp: true
     truncateBefore: true
     type2Dimension: false
     updateStrategy: MERGE
@@ -216,6 +216,18 @@ operation:
               - columnCounter: efe71f4c-5e61-45a8-afb5-df64724a541a
                 stepCounter: 2324ec6f-f946-4d48-b694-707879d259df
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 05d5983e-8270-4841-aea5-b972e709c158
+          stepCounter: 97d4a459-369a-493d-a121-dfe929c1e6ec
+        config: {}
+        dataType: DATE
+        description: ""
+        name: O_LOAD_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: TO_DATE("ORDERS"."O_LOAD_TIMESTAMP")
       - acceptedValues:
           strictMatch: true
           values: []

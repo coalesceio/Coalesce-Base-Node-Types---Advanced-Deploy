@@ -14,7 +14,7 @@ operation:
     customZeroKeyValues:
       items:
         - {}
-    deleteStrategy: NO DELETE
+    deleteStrategy: HARD DELETE
     excludeMergeList:
       items:
         - {}
@@ -28,7 +28,10 @@ operation:
     insertZeroKeyStr: UNKNOWN
     insertZeroKeySurrogateKey: "0"
     insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
-    lastModifiedComparison: false
+    lastModifiedColumn:
+      columnCounter: fcb79413-ab9e-4399-ac41-90be53c77903
+      stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+    lastModifiedComparison: true
     orderby: false
     orderbycolumn:
       items:
@@ -44,7 +47,7 @@ operation:
     testsEnabled: false
     treatNullAsCurrentTimestamp: false
     truncateBefore: false
-    type2Dimension: false
+    type2Dimension: true
     updateStrategy: MERGE
   database: ""
   deployEnabled: true
@@ -79,6 +82,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: C_CUSTKEY
         nullable: true
         sourceColumnReferences:

@@ -45,7 +45,7 @@ operation:
     primaryKeyName: ""
     selectDistinct: false
     testsEnabled: false
-    treatNullAsCurrentTimestamp: false
+    treatNullAsCurrentTimestamp: true
     truncateBefore: false
     type2Dimension: true
     updateStrategy: MERGE

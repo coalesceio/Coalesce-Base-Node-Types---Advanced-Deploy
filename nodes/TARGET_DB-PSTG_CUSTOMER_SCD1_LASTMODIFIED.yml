@@ -25,7 +25,7 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
-    treatNullAsCurrentTimestamp: false
+    treatNullAsCurrentTimestamp: true
     truncateBefore: false
     type2Dimension: false
   database: ""
@@ -181,6 +181,18 @@ operation:
               - columnCounter: 74db4903-0a29-4533-b896-9d4a212a9102
                 stepCounter: 54ea4e3d-1917-4b9f-acb5-a6678c982792
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6d1d526f-3d2f-4b7d-89dc-46662af76dbd
+          stepCounter: 7dcb1a3c-a65e-478e-b5ef-1e48bcf96edf
+        config: {}
+        dataType: date
+        description: ""
+        name: C_LOAD_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: to_date("CUSTOMER"."C_LOAD_TIMESTAMP")
       - acceptedValues:
           strictMatch: true
           values: []

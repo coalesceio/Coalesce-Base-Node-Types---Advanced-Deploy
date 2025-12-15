@@ -22,7 +22,13 @@ does not permit copying or modification for any other purpose.
  {% set last_modified_col = config.lastModifiedColumn.name | default('') %}
 {%endif%}
 
-{% set useCurrentTimeStamp = config.treatNullAsCurrentTimestamp | default(false) if config.lastModifiedCompToggle and config.lastModifiedColumn.dataType == 'TIMESTAMP' %} 
+
+   {%if config.treatNullAsCurrentTimestamp  and 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper)  %}
+     {%set useCurrentTimeStamp = true %}
+   {%else%}
+     {%set useCurrentTimeStamp = false %}
+   {%endif%}
+
 
 {# == To run data quality tests before data insertion == #}
 

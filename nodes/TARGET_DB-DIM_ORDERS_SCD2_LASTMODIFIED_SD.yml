@@ -14,7 +14,7 @@ operation:
     customZeroKeyValues:
       items:
         - {}
-    deleteStrategy: SOFT DELETE
+    deleteStrategy: HARD DELETE
     excludeMergeList:
       items:
         - {}

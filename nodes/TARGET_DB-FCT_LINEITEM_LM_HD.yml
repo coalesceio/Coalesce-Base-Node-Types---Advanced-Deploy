@@ -11,7 +11,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    deleteStrategy: HARD DELETE
+    deleteStrategy: NO DELETE
     excludeMergeList:
       items:
         - {}
