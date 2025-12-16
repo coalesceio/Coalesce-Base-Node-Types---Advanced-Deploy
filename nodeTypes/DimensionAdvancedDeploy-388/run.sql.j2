@@ -296,10 +296,12 @@ does not permit copying or modification for any other purpose.
                     "DIM"."{{ col.name }}" + 1
                 {% elif col.isSystemCurrentFlag %}
                     'Y'
+                {% elif col.name == last_modified_col and useCurrentTimeStamp %}
+					     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP())
                 {% else %}
                    {{ get_source_transform(col) }}
                 {% endif %}
-                {%if col.name != last_modified_col %}AS "{{ col.name }}",{%else%} ,{%endif%}
+                AS "{{ col.name }}",
             {% endfor %}
                 'INSERT_NEW_VERSION_ROWS' AS "DML_OPERATION"
             {{  get_clause(joinclause,'from')  }}
@@ -389,10 +391,12 @@ does not permit copying or modification for any other purpose.
                     DATEADD(MILLISECONDS, -1, CAST(CURRENT_TIMESTAMP AS TIMESTAMP))
                 {% elif col.isSystemCurrentFlag %}
                     'N'
+                {% elif col.name == last_modified_col and useCurrentTimeStamp %}
+				    COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP())
                 {% else %}
                     "DIM"."{{ col.name }}"
                 {% endif %}
-                {%if col.name != last_modified_col%}AS "{{ col.name }}",{%else%},{%endif%}
+                AS "{{ col.name }}",
             {% endfor -%}
                 'update_expired_version_rows' AS "DML_OPERATION"
             {{  get_clause(joinclause,'from')  }}
@@ -1146,7 +1150,7 @@ END
                       {% elif col.isSystemCurrentFlag %}
                     	'Y'
 					  {% elif col.name == last_modified_col and useCurrentTimeStamp %}
-					     {{ get_source_transform(col) }} AS "{{ col.name }}",
+					     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) AS "{{ col.name }}",
 						 COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) as COMPARISON_VALUE,
 						 MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE		    
                       {% elif col.name == last_modified_col and not useCurrentTimeStamp%}
@@ -1193,7 +1197,7 @@ END
 					                "DIM"."{{col.name}}" AS "{{ col.name }}",
 						            COALESCE("DIM"."{{last_modified_col}}",CURRENT_TIMESTAMP()) as COMPARISON_VALUE,
 						            MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE		    
-                                {% elif col.name == last_modified_col and useCurrentTimeStamp%}
+                                {% elif col.name == last_modified_col and not useCurrentTimeStamp%}
 					                 "DIM"."{{col.name}}" AS "{{ col.name }}",
 						             "DIM"."{{last_modified_col}}" AS COMPARISON_VALUE,
 					                 MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
