@@ -68,14 +68,24 @@ metadata:
         default: false
         enableIf: "{% if node.materializationType != 'view'%} true {% else %} false {% endif %}"
 
+      - type: label
+        attributeName: l1
+        displayName: Column chosen can either be a timestamp or incremental id column
+        enableIf: "{% if config.lastModifiedComparison  %} true {% else %} false {% endif %}"
+      
       - type: columnDropdownSelector
         attributeName: lastModifiedColumn
-        displayName: Last Modified Column(Only Timestamp and Numeric Columns can be chosen)
+        displayName: Last Modified Column
+        enableIf: "{% if config.lastModifiedComparison  %} true {% else %} false {% endif %}"
+      
+      - type: label
+        attributeName: l2
+        displayName: The below toggle is applicable only for timestamp column
         enableIf: "{% if config.lastModifiedComparison  %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: treatNullAsCurrentTimestamp
-        displayName: Treat NULL as Current Timestamp(Only applicable for timestamp column)
+        displayName: Treat NULL as Current Timestamp
         default: false
         enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
 

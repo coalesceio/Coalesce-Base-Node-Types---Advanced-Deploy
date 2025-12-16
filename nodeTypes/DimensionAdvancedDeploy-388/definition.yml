@@ -134,20 +134,33 @@ metadata:
         isRequired: false
         enableIf: "{% if node.materializationType != 'view' and config.updateStrategy == 'MERGE' and node.isMultisource == false %} true {% else %} false {% endif %}"
       
+      
       - type: toggleButton
         attributeName: lastModifiedComparison
         displayName: Last Modified Comparison
         default: false
         enableIf: "{% if config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
 
+      - type: label
+        attributeName: l1
+        displayName: Columns can either be a timestamp or incremental id column
+        enableIf: "{% if node.materializationType != 'view' and config.lastModifiedComparison and config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
+        
+
       - type: columnDropdownSelector
         attributeName: lastModifiedColumn
         displayName: Last Modified Column(Only Timestamp and Numeric Columns can be chosen)
         enableIf: "{% if node.materializationType != 'view' and config.lastModifiedComparison and config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
 
+      - type: label
+        attributeName: l2
+        displayName: The below toggle is applicable only for timestamp column
+        enableIf: "{% if node.materializationType != 'view' and config.lastModifiedComparison and config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
+
+
       - type: toggleButton
         attributeName: treatNullAsCurrentTimestamp
-        displayName: Treat NULL as Current Timestamp(Only applicable for timestamp column)
+        displayName: Treat NULL as Current Timestamp
         default: false
         enableIf: "{% if config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
 
@@ -174,7 +187,7 @@ metadata:
                         and columns
                             | selectattr('isChangeTracking')
                             | list
-                            | length == 0 and config.updateStrategy == 'MERGE' and    lastModifiedComparison == false %}
+                            | length == 0 and config.updateStrategy == 'MERGE' and  config.lastModifiedComparison == false %}
                       true
                     {% else %} 
                       false
@@ -196,7 +209,7 @@ metadata:
                         and columns
                             | selectattr('isChangeTracking')
                             | list
-                            | length == 0 and lastModifiedComparison == false%}
+                            | length == 0 and config.lastModifiedComparison == false%}
                       true
                     {% else %} 
                       false

@@ -106,7 +106,7 @@ does not permit copying or modification for any other purpose.
 
             UNION ALL
            {%if config.lastModifiedComparison %}
-                  /* Insert new records with incremented version */
+                  /* Insert new records with incremented version/latest timestamp based on last modified column */
             {%else%}
                  /* New Row Needing To Be Inserted Due To Type-2 Column Changes */
             {%endif%}
