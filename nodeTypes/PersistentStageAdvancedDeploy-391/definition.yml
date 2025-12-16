@@ -80,13 +80,50 @@ metadata:
       
         isRequired: false
         enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
+        
+      - type: toggleButton
+        attributeName: lastModifiedComparison
+        displayName: Last Modified Comparison
+        default: false
+        enableIf: "{% if node.materializationType != 'view'%} true {% else %} false {% endif %}"
+
+      - type: label
+        attributeName: note1
+        displayName: Last Modified columns can be either a timestamp or incremental id column
+        enableIf: "{% if config.lastModifiedComparison  %} true {% else %} false {% endif %}"
       
+
+      - type: columnDropdownSelector
+        attributeName: lastModifiedColumn
+        displayName: Last Modified Column
+        enableIf: "{% if node.materializationType != 'view' and config.lastModifiedComparison %} true {% else %} false {% endif %}"
+      - type: label
+        attributeName: note2
+        displayName: The below toggle is applicable only for timestamp column
+        enableIf: "{% if config.lastModifiedComparison  %} true {% else %} false {% endif %}"
+
+      
+      - type: toggleButton
+        attributeName: treatNullAsCurrentTimestamp
+        displayName: Treat NULL as Current Timestamp
+        default: false
+        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        attributeName: type2Dimension
+        displayName: Type 2 Dimension
+        default: false
+        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+
       - type: businessKeyColumns
-        isRequired: false
-      
+        isRequired: true
+
       - type: changeTrackingColumns
         isRequired: false
-
+        attributeName: changeTrackingColumn
+        displayName: Change Tracking
+        enableIf: "{% if config.lastModifiedComparison  or node.materializationType == 'view' %} false {% else %} true {% endif %}"
+        
       - displayName: Truncate Before
         attributeName: truncateBefore
         type: toggleButton
@@ -151,9 +188,6 @@ metadata:
         syntax: sql
         isRequired: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
-
-
-
 
     systemColumns:
 

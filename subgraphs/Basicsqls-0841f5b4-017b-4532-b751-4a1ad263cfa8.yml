@@ -1,0 +1,8 @@
+fileVersion: 1
+id: 0841f5b4-017b-4532-b751-4a1ad263cfa8
+name: Basic sqls
+steps:
+  - 69c2a588-82ef-4972-8166-280efa604538
+  - 9896fdb7-f430-4efb-af33-f36d1a022e11
+  - b76265fd-e624-4965-85ad-9b30d100fd87
+type: Subgraph

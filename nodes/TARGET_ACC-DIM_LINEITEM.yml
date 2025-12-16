@@ -419,6 +419,25 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7898decc-baed-4977-bfd8-bfc323f55106
+          stepCounter: 5fa00906-a374-4019-b4ed-3b8126eee480
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        hashDetails:
+          hashAlgorithm: SHA1
+        hashedColumns:
+          - columnCounter: 4183511a-2594-47c4-bcb5-173ec54c67fb
+            stepCounter: 5fa00906-a374-4019-b4ed-3b8126eee480
+        name: GH
+        nullable: true
+        sourceColumnReferences: []
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:

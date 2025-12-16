@@ -3,14 +3,15 @@ id: ebb889e4-ce52-4d59-94a5-5288b035483c
 name: DIM_GEOMETRY_TABLE1_ft1
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName: null
     clusterKeyConfigExpressions:
       items:
-        - {}
-    clusterKeyExpressions: false
+        - columnNameExpressions: null
+          sqlExpression: ex. trunc("<column_name>", -5)
+    clusterKeyExpressions: true
     customZeroKeyValues:
       items:
         - {}
@@ -30,6 +31,7 @@ operation:
         - {}
     postSQL: ""
     preSQL: ""
+    primary: false
     selectDistinct: false
     testsEnabled: true
     truncateBefore: false
@@ -39,7 +41,7 @@ operation:
   description: ""
   isMultisource: false
   locationName: TARGET_ACC
-  materializationType: table
+  materializationType: view
   metadata:
     appliedNodeTests:
       - continueOnFailure: true
