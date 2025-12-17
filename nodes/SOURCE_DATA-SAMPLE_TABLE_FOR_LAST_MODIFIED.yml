@@ -1,0 +1,92 @@
+fileVersion: 1
+id: 3c7a6731-7947-4a51-bf80-3f2df32a1e5c
+name: SAMPLE_TABLE_FOR_LAST_MODIFIED
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f9637bcb-a5c1-4b46-b17a-366886a25eb6
+          stepCounter: 3c7a6731-7947-4a51-bf80-3f2df32a1e5c
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: METRIC_VALUE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: af9464cd-8566-400f-9deb-480851b83ff1
+          stepCounter: 3c7a6731-7947-4a51-bf80-3f2df32a1e5c
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: EVENT_TS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7100f7b2-47c8-47f8-85d7-50dd48d02d27
+          stepCounter: 3c7a6731-7947-4a51-bf80-3f2df32a1e5c
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: STATUS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2886b5a0-3054-4082-897b-b283948010ce
+          stepCounter: 3c7a6731-7947-4a51-bf80-3f2df32a1e5c
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: COMMENTS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: SAMPLE_TABLE_FOR_LAST_MODIFIED
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

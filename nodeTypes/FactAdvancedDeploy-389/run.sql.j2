@@ -76,7 +76,7 @@ does not permit copying or modification for any other purpose.
                     {% endif %}
                     {% for col in source.columns %}
                         {% if col.name == last_modified_col and useCurrentTimeStamp %}
-					     {{ get_source_transform(col) }} AS "{{ col.name }}",
+					     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) AS "{{ col.name }}",
 						 COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) as COMPARISON_VALUE,
 						 MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE		    
                        {% elif col.name == last_modified_col and not useCurrentTimeStamp%}

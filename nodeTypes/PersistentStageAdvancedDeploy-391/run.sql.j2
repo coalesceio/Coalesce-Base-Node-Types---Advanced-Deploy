@@ -119,6 +119,8 @@ does not permit copying or modification for any other purpose.
                     "DIM"."{{ col.name }}" + 1
                 {% elif col.isSystemCurrentFlag %}
                     'Y'
+                {% elif col.name == last_modified_col and useCurrentTimeStamp %}
+					     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP())
                 {% else %}
                    {{ get_source_transform(col) }}
                 {% endif %}
@@ -212,6 +214,8 @@ does not permit copying or modification for any other purpose.
                     DATEADD(MILLISECONDS, -1, CAST(CURRENT_TIMESTAMP AS TIMESTAMP))
                 {% elif col.isSystemCurrentFlag %}
                     'N'
+                {% elif col.name == last_modified_col and useCurrentTimeStamp %}
+					     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP())
                 {% else %}
                     "DIM"."{{ col.name }}"
                 {% endif %}
@@ -479,7 +483,7 @@ does not permit copying or modification for any other purpose.
                     {% elif col.isSystemCurrentFlag %}
                     	'Y'
                     {% elif col.name == last_modified_col and useCurrentTimeStamp %}
-					     {{ get_source_transform(col) }} AS "{{ col.name }}",
+					     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) AS "{{ col.name }}",
 						 COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) as COMPARISON_VALUE,
 						 MAX ({{get_source_transform(col)}}) AS MAX_TARGET_VALUE		    
                       {% elif col.name == last_modified_col and not useCurrentTimeStamp%}
