@@ -234,6 +234,10 @@ You can create the node as:
 | **Cluster key** | Toggle: True/False <br/> If the dimension is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
 | **Business key** | Required column for both Type 1 and Type 2 .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
+| **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done |
+| **Last Modified Column(Enabled for Last Modified Comparison)** | Timestamp/Incremental ID column can be chosen.Based on which CDC is done |
+| **Treat Null as Current timestamp(Enabled for Last Modified Comparison)**| Records with NULL timestamp are updated in target|
+| **Type 2 Dimension(Enabled for Last Modified Comparison)**|CDC is based on timestamp/ID column chosen above.Change tracking columns are not enabled for this scenario|
 | **Change tracking** | Required column for Type 2 |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
@@ -251,6 +255,10 @@ You can create the node as:
 | **Cluster key** | Toggle: True/False <br/> If the dimension is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
 | **Business key** | Required column for both Type 1 and Type 2 |
+| **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done |
+| **Last Modified Column(Enabled for Last Modified Comparison)** | Timestamp/Incremental ID column can be chosen.Based on which CDC is done |
+| **Treat Null as Current timestamp(Enabled for Last Modified Comparison)**| Records with NULL timestamp are updated in target|
+| **Type 2 Dimension(Enabled for Last Modified Comparison)**|CDC is based on timestamp/ID column chosen above.Change tracking columns are not enabled for this scenario|
 | **Change tracking** | Required column for Type 2 |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
@@ -374,6 +382,10 @@ You can create the node as:
 | **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_`{{tablename}}`** |
 | **Update Strategy**| Options : MERGE,INSERT/UPDATE <br/>- **MERGE**: Uses a single MERGE statement to handle both insert and update operations based on matching keys.<br/>- **INSERT/UPDATE**: Separately executes UPDATE for existing records and INSERT for new ones using custom logic.For preferred choice,refer [Preferences](#preferences)|
 | **Business key** | Required column for Type 1 and Type 2 Dimensions .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
+| **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done |
+| **Last Modified Column(Enabled for Last Modified Comparison)** | Timestamp/Incremental ID column can be chosen.Based on which CDC is done |
+| **Treat Null as Current timestamp(Enabled for Last Modified Comparison)**| Records with NULL timestamp are updated in target|
+| **Type 2 Dimension(Enabled for Last Modified Comparison)**|CDC is based on timestamp/ID column chosen above.Change tracking columns are not enabled for this scenario|
 | **Change tracking** | Required column for Type 2 Dimension |
 | **Unmatched Record Strategy** | Available for single source nodes with Merge as update strategy<br/>- **NO DELETE**: An option introduced to ensure existing data flows remain intact and unchanged, preventing any delete operation on the target table.<br/>- **SOFT DELETE**: Marks records as logically deleted (isSystemCurrentFlag = 0) while retaining the history.<br/>- **HARD DELETE**: Permanent removal of records from the target table. |
 | **Exclude Columns from Merge** | Available only for SCD type 1 Merges. Allows you to specify one or more columns that are excluded during both the **comparison** (matching) and **updating** phases of the MERGE statement. |
@@ -399,6 +411,10 @@ You can create the node as:
 | **Unmatched Record Strategy** | Available for single source nodes with Merge as update strategy<br/>- **NO DELETE**: An option introduced to ensure existing data flows remain intact and unchanged, preventing any delete operation on the target table.<br/>- **SOFT DELETE**: Marks records as logically deleted (isSystemCurrentFlag = 0) while retaining the history.<br/>- **HARD DELETE**: Permanent removal of records from the target table. |
 | **Exclude Columns from Merge** | Available only for SCD type 1 Merges. Allows you to specify one or more columns that are excluded during both the **comparison** (matching) and **updating** phases of the MERGE statement. |
 | **Business key** | Required column for Type 1 and Type 2 Dimensions |
+| **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done |
+| **Last Modified Column(Enabled for Last Modified Comparison)** | Timestamp/Incremental ID column can be chosen.Based on which CDC is done |
+| **Treat Null as Current timestamp(Enabled for Last Modified Comparison)**| Records with NULL timestamp are updated in target|
+| **Type 2 Dimension(Enabled for Last Modified Comparison)**|CDC is based on timestamp/ID column chosen above.Change tracking columns are not enabled for this scenario|
 | **Change tracking** | Required column for Type 2 Dimension |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
@@ -547,6 +563,9 @@ You can create the node as:
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
 | **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_`{{tablename}}`** |
 | **Business key** | Required column for Type 1 and Type 2 Dimensions .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
+| **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done |
+| **Last Modified Column(Enabled for Last Modified Comparison)** | Timestamp/Incremental ID column can be chosen.Based on which CDC is done |
+| **Treat Null as Current timestamp(Enabled for Last Modified Comparison)**| Records with NULL timestamp are updated in target|
 | **Unmatched Record Strategy** | Available for single source nodes and only when business key is chosen<br/>- **NO DELETE**: An option introduced to ensure existing data flows remain intact and unchanged, preventing any delete operation on the target table.<br/>- **HARD DELETE**: Permanent removal of records from the target table. |
 | **Exclude Columns from Merge** | Available only when business key is chosen. Allows you to specify one or more columns that are excluded during both the **comparison** (matching) and **updating** phases of the MERGE statement. |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
@@ -566,6 +585,9 @@ You can create the node as:
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
 | **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_`{{tablename}}`** |
 | **Business key** | Required column for Type 1 and Type 2 Dimensions |
+| **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done |
+| **Last Modified Column(Enabled for Last Modified Comparison)** | Timestamp/Incremental ID column can be chosen.Based on which CDC is done |
+| **Treat Null as Current timestamp(Enabled for Last Modified Comparison)**| Records with NULL timestamp are updated in target|
 | **Unmatched Record Strategy** | Available for single source nodes and only when business key is chosen<br/>- **NO DELETE**: An option introduced to ensure existing data flows remain intact and unchanged, preventing any delete operation on the target table.<br/>- **HARD DELETE**: Permanent removal of records from the target table. |
 | **Exclude Columns from Merge** | Available only when business key is chosen. Allows you to specify one or more columns that are excluded during both the **comparison** (matching) and **updating** phases of the MERGE statement. |
 | **Truncate Before** | Toggle: True/False<br/>This determines whether a table will be overwritten each time a task executes. **True**: Uses INSERT OVERWRITE<br/>**False**: Uses INSERT to append data |
