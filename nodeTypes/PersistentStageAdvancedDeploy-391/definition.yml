@@ -81,6 +81,9 @@ metadata:
         isRequired: false
         enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
         
+      - type: businessKeyColumns
+        isRequired: false
+      
       - type: toggleButton
         attributeName: lastModifiedComparison
         displayName: Last Modified Comparison
@@ -115,8 +118,6 @@ metadata:
         default: false
         enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
 
-      - type: businessKeyColumns
-        isRequired: false
 
       - type: changeTrackingColumns
         isRequired: false

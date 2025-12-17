@@ -135,6 +135,9 @@ metadata:
         enableIf: "{% if node.materializationType != 'view' and config.updateStrategy == 'MERGE' and node.isMultisource == false %} true {% else %} false {% endif %}"
       
       
+      - type: businessKeyColumns
+        isRequired: true
+      
       - type: toggleButton
         attributeName: lastModifiedComparison
         displayName: Last Modified Comparison
@@ -149,7 +152,7 @@ metadata:
 
       - type: columnDropdownSelector
         attributeName: lastModifiedColumn
-        displayName: Last Modified Column(Only Timestamp and Numeric Columns can be chosen)
+        displayName: Last Modified Column
         enableIf: "{% if node.materializationType != 'view' and config.lastModifiedComparison and config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
 
       - type: label
@@ -170,8 +173,6 @@ metadata:
         default: false
         enableIf: "{% if config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
 
-      - type: businessKeyColumns
-        isRequired: true
 
       - type: changeTrackingColumns
         isRequired: false

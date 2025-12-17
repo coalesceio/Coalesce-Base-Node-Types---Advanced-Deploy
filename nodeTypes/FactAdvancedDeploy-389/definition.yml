@@ -62,6 +62,9 @@ metadata:
         isRequired: false
         enableIf: "{% if node.materializationType != 'view' and config.primary %} true {% else %} false {% endif %}"
 
+      - type: businessKeyColumns
+        isRequired: true
+      
       - type: toggleButton
         attributeName: lastModifiedComparison
         displayName: Last Modified Comparison
@@ -89,9 +92,6 @@ metadata:
         default: false
         enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
 
-      - type: businessKeyColumns
-        isRequired: true
-      
       - displayName: Unmatched Record Strategy
         attributeName: deleteStrategy
         type: dropdownSelector
