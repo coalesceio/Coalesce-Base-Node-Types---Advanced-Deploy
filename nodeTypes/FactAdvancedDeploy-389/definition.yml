@@ -63,7 +63,7 @@ metadata:
         enableIf: "{% if node.materializationType != 'view' and config.primary %} true {% else %} false {% endif %}"
 
       - type: businessKeyColumns
-        isRequired: true
+        isRequired: false
       
       - type: toggleButton
         attributeName: lastModifiedComparison
