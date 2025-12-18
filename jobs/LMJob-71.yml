@@ -1,0 +1,6 @@
+excludeSelector: ""
+fileVersion: 1
+id: "71"
+includeSelector: "{ location: SOURCE_DATA name: CUSTOMER }"
+name: LMJob
+type: Job
