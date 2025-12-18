@@ -700,7 +700,7 @@ does not permit copying or modification for any other purpose.
                         "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
             {% endfor %}
         {%elif config.lastModifiedComparison%}
-             WHEN MATCHED AND SRC.DML_OPERATION = 'update_expired_version_rows'  
+            WHEN MATCHED AND SRC.DML_OPERATION = 'update_expired_version_rows'  
             THEN UPDATE SET 
             {% for col in columns if (col.isSystemCurrentFlag
                                                 or col.isSystemEndDate) %}

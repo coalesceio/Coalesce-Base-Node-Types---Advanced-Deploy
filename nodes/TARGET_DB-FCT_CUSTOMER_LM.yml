@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 152117b1-e959-430f-80a3-438b33fb62a2
-name: FCT_CUSTOMER
+name: FCT_CUSTOMER_LM
 operation:
   config:
     clusterKey: false
@@ -216,9 +216,9 @@ operation:
             nodeName: CUSTOMER
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
-        name: FCT_CUSTOMER
+        name: FCT_CUSTOMER_LM
         noLinkRefs: []
-  name: FCT_CUSTOMER
+  name: FCT_CUSTOMER_LM
   overrideSQL: false
   schema: ""
   sqlType: "389"
