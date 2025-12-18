@@ -1,0 +1,6 @@
+excludeSelector: ""
+fileVersion: 1
+id: "72"
+includeSelector: "{ location: SOURCE_DATA name: CUSTOMER } OR { location: TARGET_DB name: DIM_CUSTOMER_LM_11 }"
+name: LMJob1
+type: Job
