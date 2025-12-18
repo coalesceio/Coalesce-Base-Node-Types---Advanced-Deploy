@@ -14,7 +14,7 @@ operation:
     customZeroKeyValues:
       items:
         - {}
-    deleteStrategy: SOFT DELETE
+    deleteStrategy: HARD DELETE
     excludeMergeList:
       items:
         - {}
@@ -50,7 +50,7 @@ operation:
     type2Dimension: true
     updateStrategy: MERGE
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: false
   locationName: TARGET_DB

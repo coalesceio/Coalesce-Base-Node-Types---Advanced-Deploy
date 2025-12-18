@@ -49,7 +49,7 @@ operation:
     type2Dimension: false
     updateStrategy: MERGE
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   isMultisource: false
   locationName: TARGET_DB

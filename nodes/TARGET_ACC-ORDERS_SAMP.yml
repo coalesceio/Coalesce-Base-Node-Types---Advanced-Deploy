@@ -3,7 +3,7 @@ id: 7bc48d69-7fce-4c75-9336-004be1c5b651
 name: ORDERS_SAMP
 operation:
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   locationName: TARGET_ACC
   metadata:

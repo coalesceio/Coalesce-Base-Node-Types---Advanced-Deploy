@@ -3,7 +3,7 @@ id: d31273f7-3881-4daa-9321-7a4a5c90fd78
 name: LINEITEM
 operation:
   database: ""
-  deployEnabled: true
+  deployEnabled: false
   description: ""
   locationName: SOURCE_DATA
   metadata:
