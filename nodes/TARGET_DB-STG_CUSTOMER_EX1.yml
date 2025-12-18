@@ -160,7 +160,7 @@ operation:
   name: STG_CUSTOMER_EX1
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: "179"
   type: sql
   version: 1
 type: Node

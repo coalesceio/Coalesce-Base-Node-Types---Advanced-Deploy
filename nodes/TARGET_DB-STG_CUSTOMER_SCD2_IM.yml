@@ -180,7 +180,7 @@ operation:
   name: STG_CUSTOMER_SCD2_IM
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: "179"
   type: sql
   version: 1
 type: Node
