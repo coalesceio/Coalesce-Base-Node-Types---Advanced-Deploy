@@ -28,7 +28,10 @@ operation:
     insertZeroKeyStr: UNKNOWN
     insertZeroKeySurrogateKey: "0"
     insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
-    lastModifiedComparison: false
+    lastModifiedColumn:
+      columnCounter: 98c21e04-6dcd-4e19-b706-acb6ac866ba6
+      stepCounter: fa53cc3d-baa4-49b7-8840-78fc86353597
+    lastModifiedComparison: true
     orderby: false
     orderbycolumn:
       items:
