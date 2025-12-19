@@ -3,7 +3,7 @@ id: 54ea4e3d-1917-4b9f-acb5-a6678c982792
 name: CUSTOMER
 operation:
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   locationName: SOURCE_DATA
   metadata:
