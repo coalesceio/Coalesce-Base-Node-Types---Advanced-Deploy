@@ -1173,7 +1173,10 @@ END
                                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
                             {% endfor %}
                   {%endif%}
-                   {{ get_clause(joinclause) }}
+                   {% set clause = get_clause(joinclause) %}
+                   {% if clause %}
+                      {{ ("WHERE " ~ clause.strip()[3:].strip()) if clause.strip().upper().startswith('AND') else clause }}
+                   {% endif %}
                    {% if config.groupByAll or config.lastModifiedComparison %}
                      GROUP BY ALL
                     {% endif %}
