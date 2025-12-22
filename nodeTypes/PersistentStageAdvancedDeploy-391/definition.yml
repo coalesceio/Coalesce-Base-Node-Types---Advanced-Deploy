@@ -88,7 +88,10 @@ metadata:
         attributeName: lastModifiedComparison
         displayName: Last Modified Comparison
         default: false
-        enableIf: "{% if node.materializationType != 'view'%} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' and (columns 
+                      | selectattr('isBusinessKey')
+                      | list
+                      | length > 0) %} true {% else %} false {% endif %}"
 
       - type: label
         attributeName: note1
