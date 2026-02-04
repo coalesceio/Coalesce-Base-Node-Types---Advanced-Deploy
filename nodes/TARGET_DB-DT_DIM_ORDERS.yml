@@ -41,6 +41,8 @@ operation:
         - partColName:
             columnCounter: 2287890e-3403-47dd-8f92-20e9825c8158
             stepCounter: ff87c947-ada8-496b-819d-e359ec2233d6
+    postSQL: ""
+    preSQL: ""
     recordVersioning: Datetime Column
     recordorderBy:
       items:
@@ -303,7 +305,7 @@ operation:
   name: DT_DIM_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Dynamic-Tables:::350
+  sqlType: "390"
   type: sql
   version: 1
 type: Node

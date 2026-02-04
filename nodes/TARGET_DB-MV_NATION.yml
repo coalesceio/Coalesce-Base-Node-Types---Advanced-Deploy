@@ -95,7 +95,7 @@ operation:
   name: MV_NATION
   overrideSQL: false
   schema: ""
-  sqlType: Materialized-View:::178
+  sqlType: "179"
   type: sql
   version: 1
 type: Node

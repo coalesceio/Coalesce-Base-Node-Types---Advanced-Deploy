@@ -31,12 +31,14 @@ operation:
       items:
         - {}
     outlineconst: false
+    postSQL: ""
+    preSQL: ""
     primary: false
     primarykeycon:
       items:
         - {}
     primarykeyname: ""
-    selectDistinct: false
+    selectDistinct: true
     testsEnabled: false
     truncateBefore: true
   database: ""
@@ -44,7 +46,7 @@ operation:
   description: Nation data as defined by TPC-H
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: view
   metadata:
     appliedNodeTests: []
     columns:
@@ -121,7 +123,7 @@ operation:
   name: CT_NATION
   overrideSQL: false
   schema: ""
-  sqlType: Create-Or-Alter:::345
+  sqlType: "389"
   type: sql
   version: 1
 type: Node

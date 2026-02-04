@@ -27,6 +27,7 @@ operation:
     treatNullAsCurrentTimestamp: false
     truncateBefore: false
     type2Dimension: false
+    updateStrategy: MERGE
   database: ""
   deployEnabled: true
   description: Nation data as defined by TPC-H
@@ -229,7 +230,7 @@ operation:
   name: DIM_NATION
   overrideSQL: false
   schema: ""
-  sqlType: Base-Nodes:::194
+  sqlType: "388"
   type: sql
   version: 1
 type: Node

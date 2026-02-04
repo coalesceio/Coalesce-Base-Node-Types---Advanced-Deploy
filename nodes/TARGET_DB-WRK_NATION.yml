@@ -114,7 +114,7 @@ operation:
   name: WRK_NATION
   overrideSQL: false
   schema: ""
-  sqlType: "388"
+  sqlType: "391"
   type: sql
   version: 1
 type: Node
