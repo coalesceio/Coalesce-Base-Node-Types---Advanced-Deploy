@@ -1,0 +1,101 @@
+fileVersion: 1
+id: a3ce69be-bdf9-4ada-8eaf-ca4f06c4913e
+name: MV_NATION
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - columnName: null
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    secureOption: true
+    selectDistinct: true
+  database: ""
+  deployEnabled: true
+  description: Nation data as defined by TPC-H
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: Materialized View
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 86a28654-64d3-44e2-8afe-711a650e75d4
+          stepCounter: a3ce69be-bdf9-4ada-8eaf-ca4f06c4913e
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_NATIONKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2faabd8b-b4ab-4ef3-a6c3-b264d3daf7c3
+                stepCounter: b097919f-d8dd-471c-bc8b-36a0e98fbbaf
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ab952767-e5aa-4798-839f-7877aa01d757
+          stepCounter: a3ce69be-bdf9-4ada-8eaf-ca4f06c4913e
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: N_NAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2bb23b4c-082a-45f6-ab7d-87a32dc58fa7
+                stepCounter: b097919f-d8dd-471c-bc8b-36a0e98fbbaf
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8f9cc40a-8bea-4e8a-9d1f-0a8a8998fad2
+          stepCounter: a3ce69be-bdf9-4ada-8eaf-ca4f06c4913e
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_REGIONKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 767bd009-0605-4d83-9279-0e038256cb16
+                stepCounter: b097919f-d8dd-471c-bc8b-36a0e98fbbaf
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: af82b535-edcf-44db-9a59-3a6db5bbad9a
+          stepCounter: a3ce69be-bdf9-4ada-8eaf-ca4f06c4913e
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 594de705-c2fa-49c5-bf8c-1c43007d52ee
+                stepCounter: b097919f-d8dd-471c-bc8b-36a0e98fbbaf
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          NATION: b097919f-d8dd-471c-bc8b-36a0e98fbbaf
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: NATION
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+        name: MV_NATION
+        noLinkRefs: []
+  name: MV_NATION
+  overrideSQL: false
+  schema: ""
+  sqlType: Materialized-View:::178
+  type: sql
+  version: 1
+type: Node

@@ -2,17 +2,11 @@
     Copyright (c) 2023 Coalesce. All rights reserved.
 This script and its associated documentation are confidential and proprietary to Coalesce.
 Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
-Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+Coalesce permits you to copy and modify this script for the purposes of using with Coalesce but
 does not permit copying or modification for any other purpose.  
 #}
-{# == Node Type Version        : 1  == #}
 {# == Node Type Name           : Work Advanced Deploy == #}
-{# == Node Type Description    : This node creates work table,view and also override create sql for view with advanced deployment strategy == #}www
-{#Release date:20240516 Version:1.0.0#}
-{#Release date:20240731  Version:1.1.1 Released By:AS  Description: Fix for missing current state storage location #}
-{#Release date:20240812  Version:1.1.3 Released By:AS  Description: Cluster key formatting modified  #}
-{#Release date:20241014  Version:1.1.4 Released By:AS  Description: Typo error and single namespace variable initialization #}
-{#Release date:20241114  Version:1.1.5 Released By:AS  Description: Node Description / Comments #}
+{# == Node Type Description    : This node creates work table,view and also override create sql for view with advanced deployment strategy == #}
 
 {% if desiredState %}
 
@@ -21,7 +15,8 @@ does not permit copying or modification for any other purpose.
          {% if currentState != undefined %}
             {% if currentState.node.materializationType != 'view' %}
                 {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
-                DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                {%- set materialization = dropMaterialization(currentState.node.materializationType) -%}
+                DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
             {% endif %}
         {% endif %}
 
@@ -45,13 +40,15 @@ does not permit copying or modification for any other purpose.
             {# Desired target node mappings #}
             {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='database') | first %}
             {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='schema') | first %}
-            {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}  		
-            {% if currentState.node.materializationType != 'view' %}
+            {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}
+            		
+            {% if currentState.node.materializationType != 'view' 
+                or desiredState.node.name != currentState.node.name 
+                or desiredDatabaseSchema != currentDatabaseSchema %}
+
                 {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name),true, "sql", "drop") }}
-                DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-            {% elif  desiredState.node.name != currentState.node.name or desiredDatabaseSchema != currentDatabaseSchema  %}
-                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name),true, "sql", "drop") }}
-                DROP VIEW IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}                    
+                {%- set materialization = dropMaterialization(currentState.node.materializationType) -%}
+                DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
             {% endif %}
         {% endif %}
        
@@ -133,13 +130,9 @@ does not permit copying or modification for any other purpose.
                 {# Change in materialization type #}
 
                 {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+                {%- set materialization = dropMaterialization(currentState.node.materializationType) -%}
+                DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
-                 {% if currentState.node.materializationType == 'view' %} 
-                      DROP {{currentState.node.materializationType}} IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                {% else %}
-                      DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                {% endif %}
-                 
                 {{ stage('Create Work '+ ' {{desiredState.node.materializationType}}' ) }}
                CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                 (
@@ -809,16 +802,10 @@ does not permit copying or modification for any other purpose.
     {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
     
-    {% if currentState.node.materializationType == 'view' %}
 
-     {{ stage('Drop Table or View') }}
-     DROP {{ currentState.node.materializationType }} IF EXISTS {{ fullyQualifiedTargetObjectName }}
+    {{ stage('Drop ' + currentState.node.materializationType ) }}
+    {%- set materialization = dropMaterialization(currentState.node.materializationType) -%}
+    DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
-    {% else %}
-     
-       {{ stage('Drop ' + currentState.node.materializationType ) }}
-       DROP TABLE IF EXISTS {{ fullyQualifiedTargetObjectName }}
-
-    {% endif %}
 
 {% endif %}
