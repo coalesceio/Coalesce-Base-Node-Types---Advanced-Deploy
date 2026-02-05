@@ -233,6 +233,8 @@ macroString: |-
           EXTERNAL TABLE IF EXISTS
       {%- elif materialization in ['iceberg table', 'dynamic iceberg table'] -%}
           ICEBERG TABLE IF EXISTS
+      {%- else -%}
+          TABLE IF EXISTS
       {%- endif %}
   {% endmacro %}
 name: macro
