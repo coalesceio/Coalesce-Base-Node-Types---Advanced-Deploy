@@ -1,6 +1,8 @@
 fileVersion: 1
 id: "1"
 macroString: |-
+  {% set ns = namespace(nodeName='task') %}
+
   {# ----------------------------------------------------------------------
     Macro: buildcoldict
     Purpose: Builds a dictionary (ns.column_dict) of columns for all sources
