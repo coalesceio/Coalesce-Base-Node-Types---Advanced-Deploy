@@ -420,11 +420,11 @@ macroString: |-
           VIEW IF EXISTS
       {%- elif materialization | lower == 'materialized view' -%}
           MATERIALIZED VIEW IF EXISTS
-      {%- elif materialization | lower in ['dynamic table','transient dynamic table'] -%}
+      {%- elif materialization | lower in ['dynamic table','transient dynamic table', 'dynamic iceberg table'] -%}
           DYNAMIC TABLE IF EXISTS
       {%- elif materialization | lower == 'external table' -%}
           EXTERNAL TABLE IF EXISTS
-      {%- elif materialization | lower in ['iceberg table', 'dynamic iceberg table'] -%}
+      {%- elif materialization | lower in ['iceberg table'] -%}
           ICEBERG TABLE IF EXISTS
       {%- else -%}
           TABLE IF EXISTS
