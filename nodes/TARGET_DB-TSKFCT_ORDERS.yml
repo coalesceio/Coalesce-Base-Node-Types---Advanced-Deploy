@@ -3,41 +3,52 @@ id: 471c83ef-e48c-409e-9d8c-2b01720ea705
 name: TSKFCT_ORDERS
 operation:
   config:
-    clusterKey: false
-    clusterKeyConfig:
+    customZeroKeyValues:
       items:
         - {}
-    clusterKeyConfigExpressions:
-      items:
-        - {}
-    clusterKeyExpressions: false
-    devMode: false
-    flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION
-    multiStreamBehavior: AND
+    insertZeroKey: false
+    insertZeroKeyAdvanced: false
+    insertZeroKeyBol: "TRUE"
+    insertZeroKeyDate: 01-01-1900
+    insertZeroKeyStr: UNKNOWN
+    insertZeroKeySurrogateKey: "0"
+    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
+    lastModifiedComparison: false
     orderby: false
     orderbycolumn:
       items:
         - {}
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
+    postSQL: ""
+    preSQL: ""
     selectDistinct: true
-    serverlessSize: MEDIUM
-    whName: COMPUTE_WH
+    testsEnabled: false
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: false
+    type2Dimension: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: task
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 83298963-1cbd-4074-81c5-ee942d9383c6
+          stepCounter: 471c83ef-e48c-409e-9d8c-2b01720ea705
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: TSKFCT_ORDERS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: bf62c43a-8dfe-4484-a96c-347914215224
@@ -213,6 +224,58 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 954b80b6-4fa9-4316-b9c9-58db3dcd5c2b
+          stepCounter: 471c83ef-e48c-409e-9d8c-2b01720ea705
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 12278192-7d98-491f-9317-6d592a285bbf
+          stepCounter: 471c83ef-e48c-409e-9d8c-2b01720ea705
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a943605a-1560-4d0c-8c42-a41a394df16c
+          stepCounter: 471c83ef-e48c-409e-9d8c-2b01720ea705
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 17487401-1685-45a9-9c70-5da613dd768c
+          stepCounter: 471c83ef-e48c-409e-9d8c-2b01720ea705
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -230,7 +293,7 @@ operation:
   name: TSKFCT_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Streams-and-Tasks:::150
+  sqlType: Base-Nodes:::194
   type: sql
   version: 1
 type: Node
