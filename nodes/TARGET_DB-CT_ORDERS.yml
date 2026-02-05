@@ -3,7 +3,6 @@ id: 3c533eba-7df6-47b8-8e75-d78d387b3a04
 name: CT_ORDERS
 operation:
   config:
-    changetracking: false
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -14,30 +13,14 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    constraintsspec:
-      items:
-        - {}
-    datretention: ""
-    defaultcoallation: ""
-    eschemaevol: false
-    foreignk: false
-    foreignkeycon:
-      items:
-        - {}
     groupByAll: false
-    inlineconst: false
-    insertStrategy: INSERT
-    maxdataretention: ""
+    insertStrategy: UNION ALL
     orderby: false
     orderbycolumn:
       items:
         - {}
-    outlineconst: false
-    primary: false
-    primarykeycon:
-      items:
-        - {}
-    primarykeyname: ""
+    postSQL: ""
+    preSQL: ""
     selectDistinct: true
     testsEnabled: false
     truncateBefore: true
@@ -190,6 +173,32 @@ operation:
               - columnCounter: e89c0890-bf97-4295-9a05-9905d5bb1227
                 stepCounter: 484bab39-2bbe-4929-868e-c186e3c61307
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bcd7c48e-fac9-4ea9-9fd2-bf47c46f2a5a
+          stepCounter: 3c533eba-7df6-47b8-8e75-d78d387b3a04
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8020443d-f4d4-4143-bea6-0be49f673d69
+          stepCounter: 3c533eba-7df6-47b8-8e75-d78d387b3a04
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -207,7 +216,7 @@ operation:
   name: CT_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Create-Or-Alter:::345
+  sqlType: "390"
   type: sql
   version: 1
 type: Node
