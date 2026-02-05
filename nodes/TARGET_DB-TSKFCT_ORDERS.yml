@@ -3,9 +3,22 @@ id: 471c83ef-e48c-409e-9d8c-2b01720ea705
 name: TSKFCT_ORDERS
 operation:
   config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
     customZeroKeyValues:
       items:
         - {}
+    deleteStrategy: NO DELETE
+    excludeMergeList:
+      items:
+        - {}
+    excludeMergeToggle: false
     groupByAll: false
     insertStrategy: UNION
     insertZeroKey: false
@@ -22,11 +35,17 @@ operation:
         - {}
     postSQL: ""
     preSQL: ""
+    primary: false
+    primaryKeyCol:
+      items:
+        - {}
+    primaryKeyName: ""
     selectDistinct: true
     testsEnabled: false
     treatNullAsCurrentTimestamp: false
     truncateBefore: false
     type2Dimension: false
+    updateStrategy: MERGE
   database: ""
   deployEnabled: true
   description: ""
@@ -293,7 +312,7 @@ operation:
   name: TSKFCT_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Base-Nodes:::194
+  sqlType: "388"
   type: sql
   version: 1
 type: Node
