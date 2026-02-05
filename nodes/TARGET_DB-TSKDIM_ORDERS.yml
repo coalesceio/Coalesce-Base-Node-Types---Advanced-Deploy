@@ -3,6 +3,13 @@ id: f5c72168-393a-4a5c-bf51-c5037adb7969
 name: TSKDIM_ORDERS
 operation:
   config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -13,50 +20,26 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    devMode: false
-    flagSrcStream: false
     groupByAll: false
     insertStrategy: UNION
-    multiStreamBehavior: AND
     orderby: false
     orderbycolumn:
       items:
         - {}
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
+    postSQL: ""
+    preSQL: ""
     selectDistinct: true
-    serverlessSize: MEDIUM
-    whName: COMPUTE_WH
+    testsEnabled: false
+    truncateBefore: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: task
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: bd70f6c2-5232-41cc-8b0e-052f7f2b4aa0
-          stepCounter: f5c72168-393a-4a5c-bf51-c5037adb7969
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSurrogateKey: true
-        name: TSKDIM_ORDERS_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 6adb08eb-4af9-4b15-aae2-228b6b4e3efc
@@ -199,108 +182,6 @@ operation:
               - columnCounter: e89c0890-bf97-4295-9a05-9905d5bb1227
                 stepCounter: 484bab39-2bbe-4929-868e-c186e3c61307
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: b584afc9-0444-4caa-a33d-523d5d9b856d
-          stepCounter: f5c72168-393a-4a5c-bf51-c5037adb7969
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSystemVersion: true
-        name: SYSTEM_VERSION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 8335f766-b5e5-4b10-b9f5-f4d2e1a593ad
-          stepCounter: f5c72168-393a-4a5c-bf51-c5037adb7969
-        config: {}
-        dataType: VARCHAR
-        defaultValue: ""
-        description: ""
-        isSystemCurrentFlag: true
-        name: SYSTEM_CURRENT_FLAG
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 6de7b534-08e6-4c24-8eac-f5a69725b22f
-          stepCounter: f5c72168-393a-4a5c-bf51-c5037adb7969
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemStartDate: true
-        name: SYSTEM_START_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 6137f4c9-c1bf-4662-8ba8-004a24483e9b
-          stepCounter: f5c72168-393a-4a5c-bf51-c5037adb7969
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemEndDate: true
-        name: SYSTEM_END_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 76c248d4-0c9d-49f5-9c90-cd1432fc420f
-          stepCounter: f5c72168-393a-4a5c-bf51-c5037adb7969
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemCreateDate: true
-        name: SYSTEM_CREATE_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: ee4871ec-3432-4fb4-ba03-99b89ef6b662
-          stepCounter: f5c72168-393a-4a5c-bf51-c5037adb7969
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemUpdateDate: true
-        name: SYSTEM_UPDATE_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -318,7 +199,7 @@ operation:
   name: TSKDIM_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Streams-and-Tasks:::149
+  sqlType: "179"
   type: sql
   version: 1
 type: Node
