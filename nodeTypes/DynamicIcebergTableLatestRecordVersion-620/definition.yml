@@ -21,7 +21,8 @@ metadata:
           default: dynamic iceberg table
           options:
           - dynamic iceberg table
-          isRequired: false
+          isRequired: true
+          enableIf: "false"
 
         - type: label
           attributeName: note2
