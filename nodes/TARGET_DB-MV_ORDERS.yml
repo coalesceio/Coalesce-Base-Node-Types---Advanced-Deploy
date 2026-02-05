@@ -13,17 +13,63 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    secureOption: true
+    customZeroKeyValues:
+      items:
+        - {}
+    deleteStrategy: NO DELETE
+    excludeMergeList:
+      items:
+        - {}
+    excludeMergeToggle: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    insertZeroKey: false
+    insertZeroKeyAdvanced: false
+    insertZeroKeyBol: "TRUE"
+    insertZeroKeyDate: 01-01-1900
+    insertZeroKeyStr: UNKNOWN
+    insertZeroKeySurrogateKey: "0"
+    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
+    lastModifiedComparison: false
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    primary: false
+    primaryKeyCol:
+      items:
+        - {}
+    primaryKeyName: ""
     selectDistinct: true
+    testsEnabled: false
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: false
+    type2Dimension: false
+    updateStrategy: MERGE
   database: ""
   deployEnabled: true
   description: Orders data as defined by TPC-H
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: Materialized View
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7cf7660b-fce1-4879-a96b-1806ae725714
+          stepCounter: bea84911-98ea-453b-9fb1-2bc84721f817
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: MV_ORDERS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 18842002-c13f-4faa-8fbd-bcf582601f9b
@@ -31,6 +77,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: O_ORDERKEY
         nullable: false
         sourceColumnReferences:
@@ -45,6 +92,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isChangeTracking: true
         name: O_CUSTKEY
         nullable: false
         sourceColumnReferences:
@@ -150,6 +198,84 @@ operation:
               - columnCounter: ad5f39a3-3701-4721-8694-dc21dc01496e
                 stepCounter: a875cf23-9d4f-4bb8-ae0c-944219f680a8
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d207f464-2f67-4742-912b-23aeb08ed40c
+          stepCounter: bea84911-98ea-453b-9fb1-2bc84721f817
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 49ecb369-4111-4794-b57b-32be218b7748
+          stepCounter: bea84911-98ea-453b-9fb1-2bc84721f817
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b0e1c58a-e0c2-402a-8f0f-a9927f11e6f9
+          stepCounter: bea84911-98ea-453b-9fb1-2bc84721f817
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 48d9a54d-2da1-4671-b628-4a07fb66a3fa
+          stepCounter: bea84911-98ea-453b-9fb1-2bc84721f817
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 95d59623-5d54-4697-9e00-55ce2b0b4cd6
+          stepCounter: bea84911-98ea-453b-9fb1-2bc84721f817
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1c0c951c-e49d-4ef8-8368-8df3655300d9
+          stepCounter: bea84911-98ea-453b-9fb1-2bc84721f817
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -167,7 +293,7 @@ operation:
   name: MV_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Materialized-View:::178
+  sqlType: "388"
   type: sql
   version: 1
 type: Node
