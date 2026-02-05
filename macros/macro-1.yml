@@ -221,17 +221,17 @@ macroString: |-
     (e.g., 'table IF EXISTS', 'view IF EXISTS', 'materialized view IF EXISTS').
   #############################################################################################}
   {% macro dropMaterialization(materialization) %}
-      {%- if materialization in ['table', 'transient table','temporary table', 'hybrid table'] -%}
+      {%- if materialization | lower in ['table', 'transient table','temporary table', 'hybrid table'] -%}
           TABLE IF EXISTS
-      {%- elif materialization in ['view', 'secure view'] -%}
+      {%- elif materialization | lower in ['view', 'secure view'] -%}
           VIEW IF EXISTS
-      {%- elif materialization == 'materialized view' -%}
+      {%- elif materialization | lower == 'materialized view' -%}
           MATERIALIZED VIEW IF EXISTS
-      {%- elif materialization in ['dynamic table','transient dynamic table'] -%}
+      {%- elif materialization | lower in ['dynamic table','transient dynamic table'] -%}
           DYNAMIC TABLE IF EXISTS
-      {%- elif materialization == 'external table' -%}
+      {%- elif materialization | lower == 'external table' -%}
           EXTERNAL TABLE IF EXISTS
-      {%- elif materialization in ['iceberg table', 'dynamic iceberg table'] -%}
+      {%- elif materialization | lower in ['iceberg table', 'dynamic iceberg table'] -%}
           ICEBERG TABLE IF EXISTS
       {%- else -%}
           TABLE IF EXISTS
