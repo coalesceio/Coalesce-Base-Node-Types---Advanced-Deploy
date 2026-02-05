@@ -3,51 +3,52 @@ id: c67b0579-c290-434a-a0b9-a68606c09277
 name: ICDT_LRV_ORDERS
 operation:
   config:
-    baseLocation: DIM
     clusterKey: true
     clusterKeyConfig:
       items:
         - columnName:
             columnCounter: 1cd3838f-cbc7-46be-b4b2-2d21404e6cae
             stepCounter: c67b0579-c290-434a-a0b9-a68606c09277
-    cpygrants: true
-    externalVolume: SFICEBERGEXTVOL1
-    initialize: ON_CREATE
-    lagSpecification:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    orderBy:
-      items:
-        - colName:
-            columnCounter: 574dc6cc-96a4-4af9-a118-2db4b1434eb4
-            stepCounter: c67b0579-c290-434a-a0b9-a68606c09277
-    orderByDateTime:
-      items:
-        - {}
-    orderseq:
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    lastModifiedComparison: false
+    orderby: false
+    orderbycolumn:
       items:
         - {}
-    partitionBy:
-      items:
-        - partColName:
-            columnCounter: 6e7b212b-5fac-4b88-91f2-83505103a090
-            stepCounter: c67b0579-c290-434a-a0b9-a68606c09277
-    recordVersioning: Datetime Column
-    recordorderBy:
-      items:
-        - {}
-    refresh_mode: AUTO
-    tgtLagSpecification: DOWNSTREAM
-    warehouseName: dev_wh_xs
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: true
+    testsEnabled: false
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: true
+    type2Dimension: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: dynamic iceberg table
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0f1bf137-f25b-4103-aac3-d16b6332bf40
+          stepCounter: c67b0579-c290-434a-a0b9-a68606c09277
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: ICDT_LRV_ORDERS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 6e7b212b-5fac-4b88-91f2-83505103a090
@@ -206,6 +207,84 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: FIRST_VALUE ( {% if config.recordVersioning not in ('Integer Column') %} {{ order_by_col().split(',')[0] }} {% else %} {{ order_by_col_int().split(',')[0] }} {% endif %} ) OVER (PARTITION BY {{ partition_by() }} ORDER BY {{ order_by_col() }} asc)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1b2fdd67-0652-48be-b641-d5c87a5211f9
+          stepCounter: c67b0579-c290-434a-a0b9-a68606c09277
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: eb2159ec-e0cc-4228-b571-16dfc01c9eb2
+          stepCounter: c67b0579-c290-434a-a0b9-a68606c09277
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8d4fd93f-f4d5-41ad-ba56-e193882299a0
+          stepCounter: c67b0579-c290-434a-a0b9-a68606c09277
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 788a6629-c48a-44bf-90fe-bf2d8f33ad85
+          stepCounter: c67b0579-c290-434a-a0b9-a68606c09277
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 41f131ab-5878-44db-a622-a8852fc9a22f
+          stepCounter: c67b0579-c290-434a-a0b9-a68606c09277
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 31fa9649-ce4d-4507-9812-214fdbae123d
+          stepCounter: c67b0579-c290-434a-a0b9-a68606c09277
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -223,7 +302,7 @@ operation:
   name: ICDT_LRV_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: "620"
+  sqlType: "391"
   type: sql
   version: 1
 type: Node
