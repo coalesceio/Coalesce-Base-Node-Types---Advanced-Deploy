@@ -17,7 +17,7 @@ metadata:
       items:
       - type: materializationSelector
         isRequired: true
-        default: table
+        
         options:
         - table
         - transient table

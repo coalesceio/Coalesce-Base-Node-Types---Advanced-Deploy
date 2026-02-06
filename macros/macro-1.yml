@@ -1,8 +1,6 @@
 fileVersion: 1
 id: "1"
 macroString: |-
-  {% set ns = namespace(nodeName='task') %}
-
   {# ----------------------------------------------------------------------
     Macro: buildcoldict
     Purpose: Builds a dictionary (ns.column_dict) of columns for all sources
@@ -418,7 +416,7 @@ macroString: |-
   {% macro dropMaterialization(materialization) %}
       {%- if materialization | lower in ['table', 'transient table','temporary table', 'hybrid table'] -%}
           TABLE IF EXISTS
-      {%- elif materialization | lower in ['view', 'secure view'] -%}
+      {%- elif materialization | lower in ['view', 'secure view', 'run view'] -%}
           VIEW IF EXISTS
       {%- elif materialization | lower == 'materialized view' -%}
           MATERIALIZED VIEW IF EXISTS
@@ -428,6 +426,8 @@ macroString: |-
           EXTERNAL TABLE IF EXISTS
       {%- elif materialization | lower in ['iceberg table'] -%}
           ICEBERG TABLE IF EXISTS
+      {% elif materialization | lower == 'interactive table' %}
+          INTERACTIVE TABLE IF EXISTS
       {%- else -%}
           TABLE IF EXISTS
       {%- endif %}

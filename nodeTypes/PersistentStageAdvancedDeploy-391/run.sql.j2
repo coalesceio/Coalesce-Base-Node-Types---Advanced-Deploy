@@ -22,7 +22,6 @@ does not permit copying or modification for any other purpose.
  {% set last_modified_col = config.lastModifiedColumn.name | default('') %}
 {%endif%}
 
-
    {%if config.treatNullAsCurrentTimestamp  and 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper)  %}
      {%set useCurrentTimeStamp = true %}
    {%else%}
@@ -38,7 +37,6 @@ does not permit copying or modification for any other purpose.
             {{ test.templateString }}
         {% endif %}
     {% endfor %}
-
 
 {% if node.materializationType == 'table' or node.materializationType == 'transient table'  %}
 
@@ -147,7 +145,7 @@ does not permit copying or modification for any other purpose.
             {% endfor %}  
             {%endif%}
             {%if not config.lastModifiedComparison %}
-            {% for col in source.columns if (col.isChangeTracking == true) %}
+                {% for col in source.columns if (col.isChangeTracking == true) %}
                 {% if loop.first %}
                     AND (
                 {% else %}
@@ -242,7 +240,7 @@ does not permit copying or modification for any other purpose.
             {% endfor %}  
             {%endif%}
             {%if not config.lastModifiedComparison %}
-            {% for col in source.columns if (col.isChangeTracking == true) %}
+                {% for col in source.columns if (col.isChangeTracking == true) %}
                 {% if loop.first %}
                     AND (
                 {% else %}

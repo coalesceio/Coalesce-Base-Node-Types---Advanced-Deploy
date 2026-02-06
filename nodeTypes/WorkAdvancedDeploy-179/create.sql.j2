@@ -2,7 +2,7 @@
     Copyright (c) 2023 Coalesce. All rights reserved.
 This script and its associated documentation are confidential and proprietary to Coalesce.
 Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
-Coalesce permits you to copy and modify this script for the purposes of using with Coalesce but
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
 does not permit copying or modification for any other purpose.  
 #}
 {# == Node Type Name           : Work Advanced Deploy == #}
@@ -10,12 +10,37 @@ does not permit copying or modification for any other purpose.
 
 {% if desiredState %}
 
+    {%- if currentState.node.nodeType != desiredState.node.nodeType %}
+        {%- if currentState.node.nodeType.split(':::')[-1] in ['300', '301'] -%}
+            {# Current Node Type: Deferred Merge Nodes #}
+            {{ stage('Warning! Node Type Switching Detected', true, "sql", "create") }}
+            -- ⚠️ Warning: This table may be linked to hybrid views. Any required updates/drops must be handled manually.
+        {%- elif currentState.node.nodeType.split(':::')[-1] in ['549', '550', '154', '155'] -%}
+            {# Current Node Type: Root and Resume Tasks Nodes #}
+            {{ stage('Warning! Incompatible Node Type Switching', false, "sql", "create") }}
+            -- ⚠️ Warning: These node types are not ideal for switching, as they may act as root or resume tasks. Changing them may disrupt related tasks, cause inconsistencies, or result in data loss.
+        {%- elif currentState.node.materializationType in ['task'] or currentState.node.nodeType.split(':::')[-1] in ['429', '567'] -%}
+            {# Current Node Type: Tasks Related, Insert or Merge with Task, Document AI Nodes#}
+            {{ stage('Warning! Node Type Switching Detected', true, "sql", "create") }}
+            -- ⚠️ Warning: Tasks or streams are attached to this node. Changing its type may cause task failures, stream inconsistencies, or data loss.
+        {%- elif currentState.node.materializationType in ['stream'] -%}
+            {# Current Node Type: Stream Nodes #}
+            {{ stage('Warning! Incompatible Node Type Switching', false, "sql", "create") }}
+            -- ⚠️ Warning: This is a stream node. Changing its type may cause task failures, stream inconsistencies, or data loss.
+        {%- elif currentState.node.materializationType in ['cortex search service'] -%}
+            {# Current Node Type: Cortex Nodes #}
+            {{ stage('Warning! Incompatible Node Type Switching', false, "sql", "create") }}
+            -- ⚠️ Warning: Cortex search service is attached to this node. Changing its type may cause service failures, inconsistencies, or data loss.
+        {%- endif %}
+        select 1=0
+    {%- endif -%}
+
     {% if  desiredState.node.override.create.enabled and desiredState.node.materializationType == 'view' %}
 
          {% if currentState != undefined %}
             {% if currentState.node.materializationType != 'view' %}
                 {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
-                {%- set materialization = dropMaterialization(currentState.node.materializationType) -%}
+                {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
                 DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
             {% endif %}
         {% endif %}
@@ -41,14 +66,14 @@ does not permit copying or modification for any other purpose.
             {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='database') | first %}
             {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='schema') | first %}
             {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}
-            		
-            {% if currentState.node.materializationType != 'view' 
-                or desiredState.node.name != currentState.node.name 
+             		
+            {% if currentState.node.materializationType != 'view'
+                or desiredState.node.name != currentState.node.name
                 or desiredDatabaseSchema != currentDatabaseSchema %}
 
                 {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name),true, "sql", "drop") }}
-                {%- set materialization = dropMaterialization(currentState.node.materializationType) -%}
-                DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+                DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}                   
             {% endif %}
         {% endif %}
        
@@ -130,7 +155,7 @@ does not permit copying or modification for any other purpose.
                 {# Change in materialization type #}
 
                 {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
-                {%- set materialization = dropMaterialization(currentState.node.materializationType) -%}
+                {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
                 DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
                 {{ stage('Create Work '+ ' {{desiredState.node.materializationType}}' ) }}
@@ -802,10 +827,16 @@ does not permit copying or modification for any other purpose.
     {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
     
+    {% if currentState.node.materializationType == 'view' %}
 
-    {{ stage('Drop ' + currentState.node.materializationType ) }}
-    {%- set materialization = dropMaterialization(currentState.node.materializationType) -%}
-    DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+     {{ stage('Drop Table or View') }}
+     DROP {{ currentState.node.materializationType }} IF EXISTS {{ fullyQualifiedTargetObjectName }}
 
+    {% else %}
+     
+       {{ stage('Drop ' + currentState.node.materializationType ) }}
+       DROP TABLE IF EXISTS {{ fullyQualifiedTargetObjectName }}
+
+    {% endif %}
 
 {% endif %}

@@ -23,10 +23,6 @@ metadata:
         - transient table
         isRequired: true
 
-      - type: label
-        displayName: materilaization
-        enableIf: "{% if node.materializationType != ns.nodeName %} true {% else %} false {% endif %}"
-
       - type: overrideSQLToggle
         enableIf: "{% if node.materializationType == 'view' %} true {% else %} false {% endif %}"
         
