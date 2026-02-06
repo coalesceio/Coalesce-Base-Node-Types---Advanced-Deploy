@@ -10,7 +10,7 @@ does not permit copying or modification for any other purpose.
 
 {% if desiredState %}
 
-    {%- if currentState.node.nodeType != desiredState.node.nodeType %}
+    {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
         {%- if currentState.node.nodeType.split(':::')[-1] in ['300', '301'] -%}
             {# Current Node Type: Deferred Merge Nodes #}
             {{ stage('Warning! Node Type Switching Detected', true) }}

@@ -3,21 +3,38 @@ id: 75bbc1fc-f315-4875-bfff-878ac437d898
 name: TGCR_NODE
 operation:
   config:
-    mflagSrcStream: false
-    multiStreamBehavior: AND
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
-    serverlessSize: MEDIUM
-    tskSql: select current_timestamp()
-    whName: <WAREHOUSE_NAME>
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: task
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns: []
@@ -35,7 +52,7 @@ operation:
   name: TGCR_NODE
   overrideSQL: false
   schema: ""
-  sqlType: Streams-and-Tasks:::154
+  sqlType: "179"
   type: sql
   version: 1
 type: Node
