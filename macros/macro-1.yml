@@ -416,7 +416,7 @@ macroString: |-
   {% macro dropMaterialization(materialization) %}
       {%- if materialization | lower in ['table', 'transient table','temporary table', 'hybrid table'] -%}
           TABLE IF EXISTS
-      {%- elif materialization | lower in ['view', 'secure view', 'run view'] -%}
+      {%- elif materialization | lower in ['view', 'secure view', 'run view', 'cortex search service'] -%}
           VIEW IF EXISTS
       {%- elif materialization | lower == 'materialized view' -%}
           MATERIALIZED VIEW IF EXISTS
