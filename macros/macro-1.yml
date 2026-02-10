@@ -426,8 +426,10 @@ macroString: |-
           EXTERNAL TABLE IF EXISTS
       {%- elif materialization | lower in ['iceberg table'] -%}
           ICEBERG TABLE IF EXISTS
-      {% elif materialization | lower == 'interactive table' %}
+      {%- elif materialization | lower == 'interactive table' -%}
           INTERACTIVE TABLE IF EXISTS
+      {%- elif materialization | lower == 'stream' -%}
+          STREAM IF EXISTS
       {%- else -%}
           TABLE IF EXISTS
       {%- endif %}
@@ -450,16 +452,16 @@ macroString: |-
           -- ⚠️ Warning: This table may be linked to hybrid views. Any required updates/drops must be handled manually.
       {%- elif currentState.node.nodeType.split(':::')[-1] in ['549', '550', '154', '155'] -%}
           {# Current Node Type: Root and Resume Tasks Nodes #}
-          -- ⚠️ Warning: These node types are not ideal for switching, as they may act as root or resume tasks. Changing them may disrupt related tasks, cause inconsistencies, or result in data loss.
+          -- ⚠️ Warning: These node types are not ideal for switching, as they may act as root or resume tasks. Changing them may disrupt related tasks, cause inconsistencies, or result in data loss. Any required updates/drops must be handled manually.
       {%- elif currentState.node.materializationType | lower in ['task'] or currentState.node.nodeType.split(':::')[-1] in ['429', '567'] -%}
           {# Current Node Type: Tasks Related, Insert or Merge with Task, Document AI Nodes#}
-          -- ⚠️ Warning: Tasks or streams are attached to this node. Changing its type may cause task failures, stream inconsistencies, or data loss.
+          -- ⚠️ Warning: Tasks or streams are attached to this node. Changing its type may cause task failures, stream inconsistencies, or data loss. Any required updates/drops must be handled manually.
       {%- elif currentState.node.materializationType | lower in ['stream'] -%}
           {# Current Node Type: Stream Nodes #}
-          -- ⚠️ Warning: This is a stream node. Changing its type may cause task failures, stream inconsistencies, or data loss.
+          -- ⚠️ Warning: This is a stream node. Changing its type may cause task failures, stream inconsistencies, or data loss. Any required updates/drops must be handled manually.
       {%- elif currentState.node.materializationType | lower in ['cortex search service'] -%}
           {# Current Node Type: Cortex Nodes #}
-          -- ⚠️ Warning: Cortex search service is attached to this node. Changing its type may cause service failures, inconsistencies, or data loss.
+          -- ⚠️ Warning: Cortex search service is attached to this node. Changing its type may cause service failures, inconsistencies, or data loss. Any required updates/drops must be handled manually.
       {%- endif %}
   {% endmacro %}
 name: macro
