@@ -418,13 +418,13 @@ macroString: |-
           TABLE IF EXISTS
       {%- elif materialization | lower in ['view', 'secure view', 'run view', 'cortex search service'] -%}
           VIEW IF EXISTS
-      {%- elif materialization | lower == 'materialized view' -%}
-          MATERIALIZED VIEW IF EXISTS
       {%- elif materialization | lower in ['dynamic table','transient dynamic table', 'dynamic iceberg table'] -%}
           DYNAMIC TABLE IF EXISTS
+      {%- elif materialization | lower == 'materialized view' -%}
+          MATERIALIZED VIEW IF EXISTS
       {%- elif materialization | lower == 'external table' -%}
           EXTERNAL TABLE IF EXISTS
-      {%- elif materialization | lower in ['iceberg table'] -%}
+      {%- elif materialization | lower == 'iceberg table' -%}
           ICEBERG TABLE IF EXISTS
       {%- elif materialization | lower == 'interactive table' -%}
           INTERACTIVE TABLE IF EXISTS
