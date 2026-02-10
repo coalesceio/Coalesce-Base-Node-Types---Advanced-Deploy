@@ -10,13 +10,14 @@ does not permit copying or modification for any other purpose.
 
 {% if desiredState %}
 
-    {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
-    {%- if currentState != undefined 
-            and currentState.node.nodeType != desiredState.node.nodeType
-            and warningMsg | trim | length > 0 %}
-        {{ test_stage('Warning! Node Type Switching Detected', false) }}
-        -- {{ warningMsg }}
-        select 1=0
+    {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
+        {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
+
+        {% if warningMsg | trim | length > 0 %}
+            {{ test_stage('Warning! Node Type Switching Detected', false) }}
+            -- {{ warningMsg }}
+            select 1=0
+        {%- endif -%}
     {%- endif -%}
 
     {% if  desiredState.node.override.create.enabled and desiredState.node.materializationType == 'view' %}
