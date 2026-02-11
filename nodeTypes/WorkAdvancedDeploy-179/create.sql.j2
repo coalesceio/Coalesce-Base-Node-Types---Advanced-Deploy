@@ -8,9 +8,12 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Work Advanced Deploy == #}
 {# == Node Type Description    : This node creates work table,view and also override create sql for view with advanced deployment strategy == #}
 
+{%- set nodeTypeNotChanged = true -%}
+
 {% if desiredState %}
 
     {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
+        {%- set nodeTypeNotChanged = false -%}
         {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
 
         {# Warning display - Node type changes can impact related tasks, streams, or services. #}
@@ -19,12 +22,16 @@ does not permit copying or modification for any other purpose.
             {{ warningMsg }}
             select 1=0
         {%- endif -%}
+
+        {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+        {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+        DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
     {%- endif -%}
 
     {% if  desiredState.node.override.create.enabled and desiredState.node.materializationType == 'view' %}
 
          {% if currentState != undefined %}
-            {% if currentState.node.materializationType != 'view' %}
+            {% if currentState.node.materializationType != 'view' and nodeTypeNotChanged %}
                 {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
                 {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
                 DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
@@ -53,9 +60,10 @@ does not permit copying or modification for any other purpose.
             {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='schema') | first %}
             {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}
              		
-            {% if currentState.node.materializationType != 'view'
+            {% if nodeTypeNotChanged
+                and (currentState.node.materializationType != 'view'
                 or desiredState.node.name != currentState.node.name
-                or desiredDatabaseSchema != currentDatabaseSchema %}
+                or desiredDatabaseSchema != currentDatabaseSchema) %}
 
                 {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name),true, "sql", "drop") }}
                 {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
@@ -136,7 +144,7 @@ does not permit copying or modification for any other purpose.
         {% endif %}
 
 
-        {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
+        {% if nodeTypeNotChanged and currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
 
                 {# Change in materialization type #}
 
@@ -169,7 +177,7 @@ does not permit copying or modification for any other purpose.
                 
         {% endif %}
 
-        {% if currentState == undefined or currentState.storageLocations | length == 0  %}
+        {% if currentState == undefined or currentState.storageLocations | length == 0  or nodeTypeNotChanged == false %}
             {{ stage('Create Work '+ ' {{desiredState.node.materializationType}}' ) }}
             CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
@@ -192,7 +200,7 @@ does not permit copying or modification for any other purpose.
             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
         {% endif %}
 
-        {% elif currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
+        {% elif nodeTypeNotChanged and currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
 
             {# Change Node Name or Change Storage Location #}
             {# Storage Location Tests #}
@@ -813,6 +821,7 @@ does not permit copying or modification for any other purpose.
     {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
     
+    {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
     {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
     DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
