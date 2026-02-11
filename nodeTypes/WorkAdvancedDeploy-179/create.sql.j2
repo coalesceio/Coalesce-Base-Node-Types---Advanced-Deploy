@@ -13,6 +13,7 @@ does not permit copying or modification for any other purpose.
     {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
         {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
 
+        {# Warning display - Node type changes can impact related tasks, streams, or services. #}
         {%- if warningMsg | trim | length > 0 -%}
             {{ stage('Warning! Node Type Switching Detected', false) }}
             {{ warningMsg }}

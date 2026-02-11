@@ -2,19 +2,24 @@
     Copyright (c) 2023 Coalesce. All rights reserved.
 This script and its associated documentation are confidential and proprietary to Coalesce.
 Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
-Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+Coalesce permits you to copy and modify this script for the purposes of using with Coalesce but
 does not permit copying or modification for any other purpose.  
 #}
-{# == Node Type Version        : 1  == #}
 {# == Node Type Name           : Factless Fact Advanced Deploy == #}
 {# == Node Type Description    : This node creates fact table,view and also override create sql for view with Advanced Deploy Strategy == #}
-{#Release date:20240516 Version:1.0.0#}
-{#Release date:20240731  Version:1.1.1 Released By:AS  Description: Fix for missing current state storage location #}
-{#Release date:20240812  Version:1.1.3 Released By:AS  Description: Cluster key formatting modified  #}
-{#Release date:20241014  Version:1.1.4 Released By:AS  Description: Typo error and single namespace variable initialization #}
-{#Release date:20241114  Version:1.1.5 Released By:AS  Description: Node Description / Comments #}
 
 {% if desiredState %}
+
+    {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
+        {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
+
+        {# Warning display - Node type changes can impact related tasks, streams, or services. #}
+        {%- if warningMsg | trim | length > 0 -%}
+            {{ stage('Warning! Node Type Switching Detected', false) }}
+            {{ warningMsg }}
+            select 1=0
+        {%- endif -%}
+    {%- endif -%}
 
 {%if desiredState.node.materializationType == 'table' or desiredState.node.materializationType == 'transient table' %}
     
@@ -53,11 +58,12 @@ does not permit copying or modification for any other purpose.
 
         {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
 
-                {# Change in materialization type #}
-                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
-                DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+            {# Change in materialization type #}
+            {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+            {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+            DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
-                {{ stage('Create Fact '+ desiredState.node.materializationType) }}
+            {{ stage('Create Fact '+ desiredState.node.materializationType) }}
 			CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
                 {% for col in desiredState.columns %}
@@ -397,7 +403,7 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             PRE-SQL comparison
             ========================================================= #}
-            {% if currentState.config.preSQL != desiredState.config.preSQL %}
+            {% if currentState.config.preSQL | trim != desiredState.config.preSQL | trim %}
                 {% set nsMetaVariables.preSQLTest = false %}
                 {% set _ = nsMetaVariables.preSQLDiff.append({
                     "is": desiredState.config.preSQL | replace('/*', '/ *') | replace('*/', '* /'),
@@ -411,7 +417,7 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             POST-SQL comparison
             ========================================================= #}
-            {% if currentState.config.postSQL != desiredState.config.postSQL %}
+            {% if currentState.config.postSQL | trim != desiredState.config.postSQL | trim %}
                 {% set nsMetaVariables.postSQLTest = false %}
                 {% set _ = nsMetaVariables.postSQLDiff.append({
                     "is": desiredState.config.postSQL | replace('/*', '/ *') | replace('*/', '* /'),
@@ -753,15 +759,8 @@ does not permit copying or modification for any other purpose.
     {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
 
-    {% if currentState.node.materializationType == 'view' %}
+    {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+    {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+    DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
-     {{ stage('Drop Table or View') }}
-     DROP {{ currentState.node.materializationType }} IF EXISTS {{ fullyQualifiedTargetObjectName }}
-
-    {% else %}
-     
-       {{ stage('Drop ' + currentState.node.materializationType ) }}
-       DROP TABLE IF EXISTS {{ fullyQualifiedTargetObjectName }}
-
-    {% endif %}
 {% endif %}

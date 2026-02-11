@@ -449,7 +449,7 @@ macroString: |-
   {% macro getNodeTypeSwitchWarning() %}
       {%- if currentState.node.nodeType.split(':::')[-1] in ['300', '301'] -%}
           {# Current Node Type: Deferred Merge Nodes #}
-          -- ⚠️ Warning: This table may be linked to hybrid views. Any required updates/drops must be handled manually.
+          -- ⚠️ Warning: This table may be linked to streams and hybrid views. Any required updates/drops must be handled manually.
       {%- elif currentState.node.nodeType.split(':::')[-1] in ['549', '550', '154', '155'] -%}
           {# Current Node Type: Root and Resume Tasks Nodes #}
           -- ⚠️ Warning: These node types are not ideal for switching, as they may act as root or resume tasks. Changing them may disrupt related tasks, cause inconsistencies, or result in data loss. Any required updates/drops must be handled manually.
