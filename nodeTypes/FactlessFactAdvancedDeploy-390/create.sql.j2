@@ -8,12 +8,9 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Factless Fact Advanced Deploy == #}
 {# == Node Type Description    : This node creates fact table,view and also override create sql for view with Advanced Deploy Strategy == #}
 
-{%- set nodeTypeChanged = false -%}
-
 {% if desiredState %}
 
     {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
-        {%- set nodeTypeChanged = true -%}
         {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
 
         {# Warning display - Node type changes can impact related tasks, streams, or services. #}
@@ -59,7 +56,7 @@ does not permit copying or modification for any other purpose.
             {% endif %}
         {% endif %}
 
-        {% if nodeTypeChanged or (currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType) %}
+        {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
 
             {# Change in materialization type #}
             {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
@@ -89,7 +86,7 @@ does not permit copying or modification for any other purpose.
             {% endif %}
         {% endif %}   
 
-        {% if nodeTypeChanged == false and (currentState == undefined or currentState.storageLocations | length == 0) %}
+        {% if currentState == undefined or currentState.storageLocations | length == 0 %}
             {{ stage('Create Fact '+ desiredState.node.materializationType) }}
 			CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
@@ -112,7 +109,7 @@ does not permit copying or modification for any other purpose.
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
             {% endif %}
 
-        {% elif nodeTypeChanged == false and currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
+        {% elif currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
 
             {# Change Node Name or Change Storage Location #}
             {# Storage Location Tests #}          

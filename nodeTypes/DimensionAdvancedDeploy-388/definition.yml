@@ -122,6 +122,7 @@ metadata:
         - "MERGE"
         - "INSERT/UPDATE"
         isRequired: false
+        enableIf: "{% if node.materializationType != 'view' %} true {% else %} false {% endif %}"
 
       - displayName: Unmatched Record Strategy
         attributeName: deleteStrategy
@@ -134,7 +135,6 @@ metadata:
         isRequired: false
         enableIf: "{% if node.materializationType != 'view' and config.updateStrategy == 'MERGE' and node.isMultisource == false %} true {% else %} false {% endif %}"
       
-      
       - type: businessKeyColumns
         isRequired: true
       
@@ -142,7 +142,7 @@ metadata:
         attributeName: lastModifiedComparison
         displayName: Last Modified Comparison
         default: false
-        enableIf: "{% if config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' and config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
 
       - type: label
         attributeName: l1
@@ -165,13 +165,13 @@ metadata:
         attributeName: treatNullAsCurrentTimestamp
         displayName: Treat NULL as Current Timestamp
         default: false
-        enableIf: "{% if config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' and config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: type2Dimension
         displayName: Type 2 Dimension
         default: false
-        enableIf: "{% if config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' and config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
 
 
       - type: changeTrackingColumns
@@ -228,7 +228,7 @@ metadata:
         displayName: Allow Expressions in Cluster Key
         default: false
         isRequired: false
-        enableIf: "{% if config.clusterKey %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' and config.clusterKey %} true {% else %} false {% endif %}"
 
       - type: tabular
         displayName: 'Cluster Key'
@@ -241,7 +241,7 @@ metadata:
            isRequired: false
       
         isRequired: false
-        enableIf: "{% if (config.clusterKey and not config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' and (config.clusterKey and not config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
 
       - type: tabular
         displayName: 'Cluster Key'
@@ -260,7 +260,7 @@ metadata:
            isRequired: false
       
         isRequired: false
-        enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' and (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: insertZeroKey
@@ -268,7 +268,7 @@ metadata:
         default: false
         enableIf: "{% if node.materializationType == 'table' or node.materializationType == 'transient table'%} true {% else %} false {% endif %}"
 
-      enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
+      enableIf: "true"
 
     - groupName: Zero Key Record Options
       items:
