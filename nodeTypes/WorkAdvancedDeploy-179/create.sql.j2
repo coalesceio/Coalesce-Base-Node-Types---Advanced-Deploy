@@ -334,11 +334,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             ASOF Toggle comparison
             ========================================================= #}
-            {% if currentState.config.asofJoinMain != desiredState.config.asofJoinMain %}
+            {% if currentState.config.asofJoinMain | default(false) != desiredState.config.asofJoinMain %}
                 {% set nsMetaVariables.ASOFTest = false %}
                 {% set _ = nsMetaVariables.ASOFDiff.append({
                     "is": desiredState.config.asofJoinMain,
-                    "was": currentState.config.asofJoinMain
+                    "was": currentState.config.asofJoinMain | default(false)
                 }) %}
 
                 {{ update_metadata("ASOF", nsMetaVariables.ASOFDiff, "ASOF") }}
@@ -348,11 +348,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Truncate Table comparison
             ========================================================= #}
-            {% if currentState.config.truncateBefore != desiredState.config.truncateBefore %}
+            {% if currentState.config.truncateBefore | default(false) != desiredState.config.truncateBefore %}
                 {% set nsMetaVariables.truncateBeforeTest = false %}
                 {% set _ = nsMetaVariables.truncateBeforeDiff.append({
                     "is": desiredState.config.truncateBefore,
-                    "was": currentState.config.truncateBefore
+                    "was": currentState.config.truncateBefore | default(false)
                 }) %}
 
                 {{ update_metadata("Truncate Before", nsMetaVariables.truncateBeforeDiff, "Truncate Before") }}
@@ -362,15 +362,15 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Test Enabled comparison (per column)
             ========================================================= #}
-            {% if desiredState.config.testsEnabled != currentState.config.testsEnabled %}
+            {% if desiredState.config.testsEnabled != currentState.config.testsEnabled | default(false) %}
 
                     {% set nsMetaVariables.testsEnabledTest = false %}
                     {% set _ = nsMetaVariables.testsEnabledDiff.append({
                         "is": desiredState.config.testsEnabled,
-                        "was": currentState.config.testsEnabled
+                        "was": currentState.config.testsEnabled | default(false)
                     }) %}
 
-            {% elif desiredState.config.testsEnabled and currentState.config.testsEnabled %}
+            {% elif desiredState.config.testsEnabled and currentState.config.testsEnabled | default(false) %}
 
                 {# Changes in Node Tests #}
                 {% if currentState.node.tests | length != desiredState.node.tests | length %}
@@ -430,11 +430,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Distinct Toggle comparison
             ========================================================= #}
-            {% if currentState.config.selectDistinct != desiredState.config.selectDistinct %}
+            {% if currentState.config.selectDistinct | default(false) != desiredState.config.selectDistinct %}
                 {% set nsMetaVariables.distinctTest = false %}
                 {% set _ = nsMetaVariables.distinctDiff.append({
                     "is": desiredState.config.selectDistinct,
-                    "was": currentState.config.selectDistinct
+                    "was": currentState.config.selectDistinct | default(false)
                 }) %}
 
                 {{ update_metadata("Distinct", nsMetaVariables.distinctDiff, "Distinct") }}
@@ -444,11 +444,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             GroupByAll Toggle comparison
             ========================================================= #}
-            {% if currentState.config.groupByAll != desiredState.config.groupByAll %}
+            {% if currentState.config.groupByAll | default(false) != desiredState.config.groupByAll %}
                 {% set nsMetaVariables.groupByAllTest = false %}
                 {% set _ = nsMetaVariables.groupByAllDiff.append({
                     "is": desiredState.config.groupByAll,
-                    "was": currentState.config.groupByAll
+                    "was": currentState.config.groupByAll | default(false)
                 }) %}
                 
                 {{ update_metadata("GroupByAll", nsMetaVariables.groupByAllDiff, "GroupByAll") }}
@@ -458,11 +458,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             PRE-SQL comparison
             ========================================================= #}
-            {% if currentState.config.preSQL | trim != desiredState.config.preSQL | trim %}
+            {% if currentState.config.preSQL | default('') != desiredState.config.preSQL | default('') %}
                 {% set nsMetaVariables.preSQLTest = false %}
                 {% set _ = nsMetaVariables.preSQLDiff.append({
                     "is": desiredState.config.preSQL | replace('/*', '/ *') | replace('*/', '* /'),
-                    "was": currentState.config.preSQL | replace('/*', '/ *') | replace('*/', '* /')
+                    "was": currentState.config.preSQL | default('') | replace('/*', '/ *') | replace('*/', '* /')
                 }) %}
                 
                 {{ update_metadata("pre SQL", nsMetaVariables.preSQLDiff, "pre SQL") }}
@@ -472,11 +472,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             POST-SQL comparison
             ========================================================= #}
-            {% if currentState.config.postSQL | trim != desiredState.config.postSQL | trim %}
+            {% if currentState.config.postSQL| default('') != desiredState.config.postSQL | default('') %}
                 {% set nsMetaVariables.postSQLTest = false %}
                 {% set _ = nsMetaVariables.postSQLDiff.append({
                     "is": desiredState.config.postSQL | replace('/*', '/ *') | replace('*/', '* /'),
-                    "was": currentState.config.postSQL | replace('/*', '/ *') | replace('*/', '* /')
+                    "was": currentState.config.postSQL | default('') | replace('/*', '/ *') | replace('*/', '* /')
                 }) %}
                 
                 {{ update_metadata("post SQL", nsMetaVariables.postSQLDiff, "post SQL") }}
@@ -486,15 +486,15 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Order By comparison (per column)
             ========================================================= #}
-            {% if currentState.config.orderby != desiredState.config.orderby %}
+            {% if currentState.config.orderby | default(false) != desiredState.config.orderby %}
 
                 {% set nsMetaVariables.orderByTest = false %}
                 {% set _ = nsMetaVariables.orderByDiff.append({
                      "is": desiredState.config.orderby,
-                    "was": currentState.config.orderby
+                    "was": currentState.config.orderby | default(false)
                 }) %}
     
-            {% elif currentState.config.orderby and desiredState.config.orderby %}
+            {% elif currentState.config.orderby | default(false) and desiredState.config.orderby %}
 
                 {% set desiredSortColList = [] %}
                 {% set currentSortColList = [] %}
@@ -574,10 +574,10 @@ does not permit copying or modification for any other purpose.
              {% endif %}
 
             {# Clustering Test #}
-            {% set clusterKeyTest = currentState.config.clusterKey == desiredState.config.clusterKey %}
-            {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions == desiredState.config.clusterKeyExpressions %}
-            {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig == desiredState.config.clusterKeyConfig %}
-            {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions == desiredState.config.clusterKeyConfigExpressions %}
+            {% set clusterKeyTest = currentState.config.clusterKey | default(false) == desiredState.config.clusterKey %}
+            {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions | default(false) == desiredState.config.clusterKeyExpressions %}
+            {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig | default({'items': [{}]}) == desiredState.config.clusterKeyConfig %}
+            {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions | default({'items': [{}]}) == desiredState.config.clusterKeyConfigExpressions %}
 
             {% if 
                 clusterKeyTest == false or

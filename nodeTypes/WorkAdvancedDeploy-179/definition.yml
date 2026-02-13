@@ -148,6 +148,7 @@ metadata:
         attributeName: preSQL
         type: textBox
         syntax: sql
+        default: ""
         isRequired: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 
@@ -155,6 +156,7 @@ metadata:
         attributeName: postSQL
         type: textBox
         syntax: sql
+        default: ""
         isRequired: false
         enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 

@@ -48,6 +48,7 @@ metadata:
       - type: textBox
         displayName: Primary Key Name
         attributeName: primaryKeyName
+        default: ''
         enableIf: "{% if node.materializationType != 'view' and config.primary %} true {% else %} false {% endif %}"
 
       - type: tabular   
