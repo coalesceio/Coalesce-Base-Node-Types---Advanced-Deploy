@@ -13,5 +13,5 @@ mappingDefinitions:
   TARGET_DEV:
     database: TANVI_DEV
     schema: QA_PHASE2
-name: Test_NM220
+name: Test_NM220_1
 type: Environment
