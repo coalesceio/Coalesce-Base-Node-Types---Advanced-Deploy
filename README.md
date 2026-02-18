@@ -20,6 +20,37 @@ Together, these node types ensure data is accurate, reusable, scalable, and alig
 
 ----
 
+## Nodetypes Config Matrix
+
+| Category | Feature                         | Dim | Fact | Factless | Work | PStage |
+|----------|----------------------------------|-----|------|----------|------|--------|
+| Create   | Create As Table                  | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Create   | Create As Transient Table        | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Create   | Create As View                   | ✅  | ✅   | ⬜       | ✅   | ⬜     |
+| Create   | Create with Override SQL         | ✅  | ✅   | ⬜       | ✅   | ⬜     |
+| Create   | Primary Key                      | ✅  | ✅   | ⬜       | ⬜   | ⬜     |
+| Create   | Cluster Key                      | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Load     | MultiSource                      | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Load     | Insert Strategy                  | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Load     | Update Strategy                  | ✅  | ⬜   | ⬜       | ⬜   | ⬜     |
+| Load     | Unmatched Record Strategy        | ✅  | ✅   | ⬜       | ⬜   | ⬜     |
+| Load     | Business Key                     | ✅  | ✅   | ⬜       | ⬜   | ✅     |
+| Load     | Last Modified Comparison         | ✅  | ✅   | ⬜       | ⬜   | ✅     |
+| Load     | Change Tracking                  | ✅  | ⬜   | ⬜       | ⬜   | ✅     |
+| Load     | Exclude Columns from Merge       | ✅  | ✅   | ⬜       | ⬜   | ✅     |
+| Load     | Truncate Before                  | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Load     | Distinct                         | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Load     | Group By All                     | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Load     | Order By                         | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Load     | Insert Zero Key Record           | ✅  | ⬜   | ⬜       | ⬜   | ⬜     |
+| Load     | ASOF Join Options                | ⬜  | ⬜   | ⬜       | ✅   | ⬜     |
+| Load     | Methods                          | MERGE<br/>INSERT/UPDATE | MERGE<br/>INSERT | MERGE |INSERT | MERGE<br/>INSERT |
+| Others   | Enable Tests                     | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Others   | Pre-SQL                          | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Others   | Post-SQL                         | ✅  | ✅   | ✅       | ✅   | ✅     |
+
+---
+
 ## Base Node Types Advanced Deploy
 
 The Coalesce Base Node Types Package includes:
