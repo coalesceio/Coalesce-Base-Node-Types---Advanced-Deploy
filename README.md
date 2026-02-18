@@ -934,6 +934,7 @@ Please review the documented limitations before performing a node type switch to
 | 4 | External Packages | Any | Not supported as they typically act as first nodes in the pipeline. |
 | 5 | Functional Packages | Any | Not supported due to column re-sync behavior which may cause schema inconsistencies. |
 | 6 | Dynamic Dimension / LRV | Any | System columns must be manually dropped before redeployment. |
+| 7 | Any | Any Other | After performing node switching, the `Create/Run` in Workspace browser may not work as expected due to changes in the node’s materialization type. |
 
 --------------
 
