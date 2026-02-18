@@ -189,7 +189,7 @@ Node Type switching is supported starting from Coalesce version **7.29+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Switching Logic and Limitations](#node-switching-logic)
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Work Advanced Deploy Undeployment
 
@@ -346,7 +346,7 @@ Node Type switching is supported starting from Coalesce version **7.29+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Switching Logic and Limitations](#node-switching-logic)
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Persistent Stage Advanced Deploy Undeployment
 
@@ -539,7 +539,7 @@ Node Type switching is supported starting from Coalesce version **7.29+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Switching Logic and Limitations](#node-switching-logic)
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Dimension Advanced Deploy Undeployment
 
@@ -705,7 +705,7 @@ Node Type switching is supported starting from Coalesce version **7.29+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Switching Logic and Limitations](#node-switching-logic)
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Fact Advanced Deploy Undeployment
 
@@ -841,7 +841,7 @@ Node Type switching is supported starting from Coalesce version **7.29+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Switching Logic and Limitations](#node-switching-logic)
+For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Factless Fact Advanced Deploy Undeployment
 
