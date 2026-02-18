@@ -416,11 +416,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Insert Strategy comparison
             ========================================================= #}
-            {% if currentState.config.insertStrategy | default('UNION ALL') != desiredState.config.insertStrategy %}
+            {% if currentState.config.insertStrategy | default('') != desiredState.config.insertStrategy %}
                 {% set nsMetaVariables.insertStrategyTest = false %}
                 {% set _ = nsMetaVariables.insertStrategyDiff.append({
                     "is": desiredState.config.insertStrategy,
-                    "was": currentState.config.insertStrategy | default('UNION ALL')
+                    "was": currentState.config.insertStrategy | default('')
                 }) %}
 
                 {{ update_metadata("Insert Strategy", nsMetaVariables.insertStrategyDiff, "Insert Strategy") }}
@@ -430,11 +430,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Delete Strategy comparison
             ========================================================= #}
-            {% if currentState.config.deleteStrategy | default('NO DELETE') != desiredState.config.deleteStrategy %}
+            {% if currentState.config.deleteStrategy | default('') != desiredState.config.deleteStrategy %}
                 {% set nsMetaVariables.deleteStrategyTest = false %}
                 {% set _ = nsMetaVariables.deleteStrategyDiff.append({
                     "is": desiredState.config.deleteStrategy,
-                    "was": currentState.config.deleteStrategy | default('NO DELETE')
+                    "was": currentState.config.deleteStrategy | default('')
                 }) %}
 
                 {{ update_metadata("Delete Strategy", nsMetaVariables.deleteStrategyDiff, "Delete Strategy") }}
