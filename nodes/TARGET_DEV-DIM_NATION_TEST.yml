@@ -91,6 +91,7 @@ operation:
         config: {}
         dataType: VARCHAR(25)
         description: ""
+        isChangeTracking: true
         name: N_NAME
         nullable: true
         sourceColumnReferences:

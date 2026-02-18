@@ -10,14 +10,26 @@ does not permit copying or modification for any other purpose.
 
 {% if desiredState %}
 
-{# Override CreateSQL for view #}
+    {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
+        {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
+
+        {# Warning display - Node type changes can impact related tasks, streams, or services. #}
+        {%- if warningMsg | trim | length > 0 -%}
+            {{ stage('Warning! Node Type Switching Detected', false) }}
+            {{ warningMsg }}
+            select 1=0
+        {%- endif -%}
+    {%- endif -%}
+
+    {# Override CreateSQL for view #}
 
     {% if  desiredState.node.override.create.enabled and desiredState.node.materializationType == 'view' %}
 	
          {% if currentState != undefined %}
             {% if currentState.node.materializationType != 'view' %}
-                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
-                DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+                {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+                {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+                DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
             {% endif %}
         {% endif %}
 
@@ -43,12 +55,12 @@ does not permit copying or modification for any other purpose.
             {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='database') | first %}
             {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', desiredState.node.location.name) | map(attribute='schema') | first %}
             {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}  		
-            {% if currentState.node.materializationType != 'view' %}
-                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name),true,"sql","drop") }}
-                DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-            {% elif  desiredState.node.name != currentState.node.name or desiredDatabaseSchema != currentDatabaseSchema  %}
-                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name),true,"sql","drop") }}
-                DROP VIEW IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}                    
+            {% if currentState.node.materializationType != 'view'
+                or desiredState.node.name != currentState.node.name
+                or desiredDatabaseSchema != currentDatabaseSchema %}
+                {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+                {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+                DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}                   
             {% endif %}
         {% endif %}
 
@@ -130,12 +142,9 @@ does not permit copying or modification for any other purpose.
 
         {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType%}
         
-                {{ stage('Drop ' + currentState.node.materializationType + ' ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
-                 {% if currentState.node.materializationType == 'view' %} 
-                      DROP {{currentState.node.materializationType}} IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                {% else %}
-                      DROP TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-                {% endif %}
+            {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+            {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+            DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
             {# CreateSQL for Table #}
         
@@ -452,11 +461,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Insert Strategy comparison
             ========================================================= #}
-            {% if currentState.config.insertStrategy != desiredState.config.insertStrategy %}
+            {% if currentState.config.insertStrategy | default('') != desiredState.config.insertStrategy %}
                 {% set nsMetaVariables.insertStrategyTest = false %}
                 {% set _ = nsMetaVariables.insertStrategyDiff.append({
                     "is": desiredState.config.insertStrategy,
-                    "was": currentState.config.insertStrategy
+                    "was": currentState.config.insertStrategy | default('')
                 }) %}
 
                 {{ update_metadata("Insert Strategy", nsMetaVariables.insertStrategyDiff, "Insert Strategy") }}
@@ -466,11 +475,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Update Strategy comparison
             ========================================================= #}
-            {% if currentState.config.updateStrategy != desiredState.config.updateStrategy %}
+            {% if currentState.config.updateStrategy | default('') != desiredState.config.updateStrategy %}
                 {% set nsMetaVariables.updateStrategyTest = false %}
                 {% set _ = nsMetaVariables.updateStrategyDiff.append({
                     "is": desiredState.config.updateStrategy,
-                    "was": currentState.config.updateStrategy
+                    "was": currentState.config.updateStrategy | default('')
                 }) %}
 
                 {{ update_metadata("Update Strategy", nsMetaVariables.updateStrategyDiff, "Update Strategy") }}
@@ -480,11 +489,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Delete Strategy comparison
             ========================================================= #}
-            {% if currentState.config.deleteStrategy != desiredState.config.deleteStrategy %}
+            {% if currentState.config.deleteStrategy | default('') != desiredState.config.deleteStrategy %}
                 {% set nsMetaVariables.deleteStrategyTest = false %}
                 {% set _ = nsMetaVariables.deleteStrategyDiff.append({
                     "is": desiredState.config.deleteStrategy,
-                    "was": currentState.config.deleteStrategy
+                    "was": currentState.config.deleteStrategy | default('')
                 }) %}
 
                 {{ update_metadata("Delete Strategy", nsMetaVariables.deleteStrategyDiff, "Delete Strategy") }}
@@ -494,11 +503,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Truncate Table comparison
             ========================================================= #}
-            {% if currentState.config.truncateBefore != desiredState.config.truncateBefore %}
+            {% if currentState.config.truncateBefore | default(false) != desiredState.config.truncateBefore %}
                 {% set nsMetaVariables.truncateBeforeTest = false %}
                 {% set _ = nsMetaVariables.truncateBeforeDiff.append({
                     "is": desiredState.config.truncateBefore,
-                    "was": currentState.config.truncateBefore
+                    "was": currentState.config.truncateBefore | default(false)
                 }) %}
 
                 {{ update_metadata("Truncate Before", nsMetaVariables.truncateBeforeDiff, "Truncate Before") }}
@@ -508,15 +517,15 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Test Enabled comparison (per column)
             ========================================================= #}
-            {% if desiredState.config.testsEnabled != currentState.config.testsEnabled %}
+            {% if desiredState.config.testsEnabled != currentState.config.testsEnabled | default(false) %}
 
                     {% set nsMetaVariables.testsEnabledTest = false %}
                     {% set _ = nsMetaVariables.testsEnabledDiff.append({
                         "is": desiredState.config.testsEnabled,
-                        "was": currentState.config.testsEnabled
+                        "was": currentState.config.testsEnabled | default(false)
                     }) %}
 
-            {% elif desiredState.config.testsEnabled and currentState.config.testsEnabled %}
+            {% elif desiredState.config.testsEnabled and currentState.config.testsEnabled | default(false) %}
 
                 {# Changes in Node Tests #}
                 {% if currentState.node.tests | length != desiredState.node.tests | length %}
@@ -576,11 +585,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Distinct Toggle comparison
             ========================================================= #}
-            {% if currentState.config.selectDistinct != desiredState.config.selectDistinct %}
+            {% if currentState.config.selectDistinct | default(false) != desiredState.config.selectDistinct %}
                 {% set nsMetaVariables.distinctTest = false %}
                 {% set _ = nsMetaVariables.distinctDiff.append({
                     "is": desiredState.config.selectDistinct,
-                    "was": currentState.config.selectDistinct
+                    "was": currentState.config.selectDistinct | default(false)
                 }) %}
 
                 {{ update_metadata("Distinct", nsMetaVariables.distinctDiff, "Distinct") }}
@@ -590,11 +599,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             GroupByAll Toggle comparison
             ========================================================= #}
-            {% if currentState.config.groupByAll != desiredState.config.groupByAll %}
+            {% if currentState.config.groupByAll | default(false) != desiredState.config.groupByAll %}
                 {% set nsMetaVariables.groupByAllTest = false %}
                 {% set _ = nsMetaVariables.groupByAllDiff.append({
                     "is": desiredState.config.groupByAll,
-                    "was": currentState.config.groupByAll
+                    "was": currentState.config.groupByAll | default(false)
                 }) %}
                 
                 {{ update_metadata("GroupByAll", nsMetaVariables.groupByAllDiff, "GroupByAll") }}
@@ -604,11 +613,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             PRE-SQL comparison
             ========================================================= #}
-            {% if currentState.config.preSQL != desiredState.config.preSQL %}
+            {% if currentState.config.preSQL | default('') != desiredState.config.preSQL | trim %}
                 {% set nsMetaVariables.preSQLTest = false %}
                 {% set _ = nsMetaVariables.preSQLDiff.append({
                     "is": desiredState.config.preSQL | replace('/*', '/ *') | replace('*/', '* /'),
-                    "was": currentState.config.preSQL | replace('/*', '/ *') | replace('*/', '* /')
+                    "was": currentState.config.preSQL | default('') | replace('/*', '/ *') | replace('*/', '* /')
                 }) %}
                 
                 {{ update_metadata("pre SQL", nsMetaVariables.preSQLDiff, "pre SQL") }}
@@ -618,11 +627,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             POST-SQL comparison
             ========================================================= #}
-            {% if currentState.config.postSQL != desiredState.config.postSQL %}
+            {% if currentState.config.postSQL  | default('') != desiredState.config.postSQL | trim %}
                 {% set nsMetaVariables.postSQLTest = false %}
                 {% set _ = nsMetaVariables.postSQLDiff.append({
                     "is": desiredState.config.postSQL | replace('/*', '/ *') | replace('*/', '* /'),
-                    "was": currentState.config.postSQL | replace('/*', '/ *') | replace('*/', '* /')
+                    "was": currentState.config.postSQL | default('') | replace('/*', '/ *') | replace('*/', '* /')
                 }) %}
                 
                 {{ update_metadata("post SQL", nsMetaVariables.postSQLDiff, "post SQL") }}
@@ -632,15 +641,15 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Order By comparison (per column)
             ========================================================= #}
-            {% if currentState.config.orderby != desiredState.config.orderby %}
+            {% if currentState.config.orderby | default(false) != desiredState.config.orderby %}
 
                 {% set nsMetaVariables.orderByTest = false %}
                 {% set _ = nsMetaVariables.orderByDiff.append({
                      "is": desiredState.config.orderby,
-                    "was": currentState.config.orderby
+                    "was": currentState.config.orderby | default(false)
                 }) %}
     
-            {% elif currentState.config.orderby and desiredState.config.orderby %}
+            {% elif currentState.config.orderby | default(false) and desiredState.config.orderby %}
 
                 {% set desiredSortColList = [] %}
                 {% set currentSortColList = [] %}
@@ -676,15 +685,15 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Merge Exclude Column List (per column)
             ========================================================= #}
-            {% if currentState.config.excludeMergeToggle != desiredState.config.excludeMergeToggle %}
+            {% if currentState.config.excludeMergeToggle | default(false) != desiredState.config.excludeMergeToggle %}
 
                 {% set nsMetaVariables.excludeMergeTest = false %}
                 {% set _ = nsMetaVariables.excludeMergeDiff.append({
                      "is": desiredState.config.excludeMergeToggle,
-                    "was": currentState.config.excludeMergeToggle
+                    "was": currentState.config.excludeMergeToggle | default(false)
                 }) %}
     
-            {% elif currentState.config.excludeMergeToggle and desiredState.config.excludeMergeToggle %}
+            {% elif currentState.config.excludeMergeToggle | default(false) and desiredState.config.excludeMergeToggle %}
 
                 {%- set desiredExcludeColList = desiredState.config.excludeMergeList.get('items', [])
                                         | map(attribute='excludeColName.name')
@@ -709,72 +718,72 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Zero Key Insert comparison
             ========================================================= #}
-            {% if currentState.config.insertZeroKey != desiredState.config.insertZeroKey %}
+            {% if currentState.config.insertZeroKey | default(false) != desiredState.config.insertZeroKey %}
 
                 {% set nsMetaVariables.insertZeroKeyTest = false %}
                 {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                      "is": desiredState.config.insertZeroKey,
-                    "was": currentState.config.insertZeroKey
+                    "was": currentState.config.insertZeroKey | default(false)
                 }) %}
     
-            {% elif currentState.config.insertZeroKey and desiredState.config.insertZeroKey %}
+            {% elif currentState.config.insertZeroKey | default(false) and desiredState.config.insertZeroKey %}
 
                 {# Zero Key Record Option Changes tracking #}
-                {% if currentState.config.insertZeroKeySurrogateKey != desiredState.config.insertZeroKeySurrogateKey %}
+                {% if currentState.config.insertZeroKeySurrogateKey | default('0') != desiredState.config.insertZeroKeySurrogateKey %}
                     {% set nsMetaVariables.insertZeroKeyTest = false %}
                     {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                         "Config": "Default Surrogate Key Value",
                         "is": desiredState.config.insertZeroKeySurrogateKey | replace('/*', '/ *') | replace('*/', '* /'),
-                        "was": currentState.config.insertZeroKeySurrogateKey | replace('/*', '/ *') | replace('*/', '* /')
+                        "was": currentState.config.insertZeroKeySurrogateKey | default('0') | replace('/*', '/ *') | replace('*/', '* /')
                     }) %}
                  {% endif %}
 
-                {% if currentState.config.insertZeroKeyStr != desiredState.config.insertZeroKeyStr %}
+                {% if currentState.config.insertZeroKeyStr | default('UNKNOWN') != desiredState.config.insertZeroKeyStr %}
                     {% set nsMetaVariables.insertZeroKeyTest = false %}
                     {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                         "Config": "Default String Value",
                         "is": desiredState.config.insertZeroKeyStr | replace('/*', '/ *') | replace('*/', '* /'),
-                        "was": currentState.config.insertZeroKeyStr | replace('/*', '/ *') | replace('*/', '* /')
+                        "was": currentState.config.insertZeroKeyStr | default('UNKNOWN') | replace('/*', '/ *') | replace('*/', '* /')
                     }) %}
                 {% endif %}
 
-                {% if currentState.config.insertZeroKeyDate != desiredState.config.insertZeroKeyDate %}
+                {% if currentState.config.insertZeroKeyDate | default('01-01-1900') != desiredState.config.insertZeroKeyDate %}
                     {% set nsMetaVariables.insertZeroKeyTest = false %}
                     {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                         "Config": "Default Date Value",
                         "is": desiredState.config.insertZeroKeyDate | replace('/*', '/ *') | replace('*/', '* /'),
-                        "was": currentState.config.insertZeroKeyDate | replace('/*', '/ *') | replace('*/', '* /')
+                        "was": currentState.config.insertZeroKeyDate | default('01-01-1900') | replace('/*', '/ *') | replace('*/', '* /')
                     }) %}
                 {% endif %}
 
-                {% if currentState.config.insertZeroKeyTimestamp != desiredState.config.insertZeroKeyTimestamp %}
+                {% if currentState.config.insertZeroKeyTimestamp | default('1900-01-01 00:00:00.000') != desiredState.config.insertZeroKeyTimestamp %}
                     {% set nsMetaVariables.insertZeroKeyTest = false %}
                     {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                         "Config": "Default Timestamp Value",
                         "is": desiredState.config.insertZeroKeyTimestamp | replace('/*', '/ *') | replace('*/', '* /'),
-                        "was": currentState.config.insertZeroKeyTimestamp | replace('/*', '/ *') | replace('*/', '* /')
+                        "was": currentState.config.insertZeroKeyTimestamp | default('1900-01-01 00:00:00.000') | replace('/*', '/ *') | replace('*/', '* /')
                     }) %}
                 {% endif %}
 
-                {% if currentState.config.insertZeroKeyBol != desiredState.config.insertZeroKeyBol %}
+                {% if currentState.config.insertZeroKeyBol | default('TRUE') != desiredState.config.insertZeroKeyBol %}
                     {% set nsMetaVariables.insertZeroKeyTest = false %}
                     {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                         "Config": "Default Boolean Value",
                         "is": desiredState.config.insertZeroKeyBol,
-                        "was": currentState.config.insertZeroKeyBol
+                        "was": currentState.config.insertZeroKeyBol | default('TRUE')
                     }) %}
                 {% endif %}
 
-                {% if currentState.config.insertZeroKeyAdvanced != desiredState.config.insertZeroKeyAdvanced %}
+                {% if currentState.config.insertZeroKeyAdvanced | default(false) != desiredState.config.insertZeroKeyAdvanced %}
 
                     {% set nsMetaVariables.insertZeroKeyTest = false %}
                     {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                         "Config": "Insert Zero Key Advanced",
                         "is": desiredState.config.insertZeroKeyAdvanced,
-                        "was": currentState.config.insertZeroKeyAdvanced
+                        "was": currentState.config.insertZeroKeyAdvanced | default(false)
                     }) %}
         
-                {% elif currentState.config.insertZeroKeyAdvanced and desiredState.config.insertZeroKeyAdvanced %}
+                {% elif currentState.config.insertZeroKeyAdvanced | default(false) and desiredState.config.insertZeroKeyAdvanced %}
 
                     {% set currentColDefault = currentState.config.customZeroKeyValues.get('items')
                                                     | map(attribute='columnNameDefault.name')
@@ -869,10 +878,10 @@ does not permit copying or modification for any other purpose.
 
             
             {# Clustering Test #}
-            {% set clusterKeyTest = currentState.config.clusterKey == desiredState.config.clusterKey %}
-            {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions == desiredState.config.clusterKeyExpressions %}
-            {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig == desiredState.config.clusterKeyConfig %}
-            {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions == desiredState.config.clusterKeyConfigExpressions %}
+            {% set clusterKeyTest = currentState.config.clusterKey | default(false) == desiredState.config.clusterKey %}
+            {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions | default(false) == desiredState.config.clusterKeyExpressions %}
+            {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig | default({'items': [{}]}) == desiredState.config.clusterKeyConfig %}
+            {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions | default({'items': [{}]}) == desiredState.config.clusterKeyConfigExpressions %}
 
             {% if 
                 clusterKeyTest == false or
@@ -1046,10 +1055,10 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Primary Key Name and Column List Test
             ========================================================= #}
-            {% set primaryKeyTest = currentState.config.primary == desiredState.config.primary %}
-            {% set primaryKeyNameTest = currentState.config.primaryKeyName == desiredState.config.primaryKeyName %}
-            {% set primaryKeyColList = currentState.config.primaryKeyCol == desiredState.config.primaryKeyCol %}
-            
+            {% set primaryKeyTest = currentState.config.primary | default(false) == desiredState.config.primary %}
+            {% set primaryKeyNameTest = currentState.config.primaryKeyName | default('') == desiredState.config.primaryKeyName %}
+            {% set primaryKeyColList = currentState.config.primaryKeyCol | default({'items': [{}]}) == desiredState.config.primaryKeyCol %}
+
             {% if primaryKeyTest == false or primaryKeyNameTest == false or primaryKeyColList == false %}
                 {% if not desiredState.config.primary %}
                     {{ stage('Drop Primary Key Constraint') }}
@@ -1143,15 +1152,8 @@ does not permit copying or modification for any other purpose.
     {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
 
-    {% if currentState.node.materializationType == 'view' %}
+    {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+    {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+    DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
-     {{ stage('Drop Table or View') }}
-     DROP {{ currentState.node.materializationType }} IF EXISTS {{ fullyQualifiedTargetObjectName }}
-
-    {% else %}
-     
-       {{ stage('Drop ' + currentState.node.materializationType ) }}
-       DROP TABLE IF EXISTS {{ fullyQualifiedTargetObjectName }}
-
-    {% endif %}
 {% endif %}

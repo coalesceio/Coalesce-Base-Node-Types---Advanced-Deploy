@@ -18,6 +18,7 @@ operation:
     excludeMergeToggle: false
     groupByAll: false
     insertStrategy: UNION ALL
+    lastModifiedColumn: ""
     lastModifiedComparison: true
     orderby: false
     orderbycolumn:

@@ -1,6 +1,6 @@
 fileVersion: 1
 id: b9681014-51c2-45bb-b4f5-53e93ea37113
-name: DIM_LINEITEM3
+name: DIM_LINEITEM3_SCD1
 operation:
   config:
     clusterKey: false
@@ -14,6 +14,7 @@ operation:
     customZeroKeyValues:
       items:
         - {}
+    deleteStrategy: NO DELETE
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: true
@@ -23,6 +24,10 @@ operation:
     insertZeroKeyStr: UNKNOWN
     insertZeroKeySurrogateKey: "0"
     insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
+    lastModifiedColumn:
+      columnCounter: 64e63ae5-4fc2-41f9-a67b-8687591e5701
+      stepCounter: b9681014-51c2-45bb-b4f5-53e93ea37113
+    lastModifiedComparison: true
     orderby: false
     orderbycolumn:
       items:
@@ -32,7 +37,7 @@ operation:
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
-    updateStrategy: INSERT/UPDATE
+    updateStrategy: MERGE
   database: ""
   deployEnabled: true
   description: ""
@@ -81,7 +86,6 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        isChangeTracking: true
         name: L_PARTKEY
         nullable: true
         sourceColumnReferences:
@@ -96,7 +100,6 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        isChangeTracking: true
         name: L_SUPPKEY
         nullable: true
         sourceColumnReferences:
@@ -111,7 +114,6 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        isChangeTracking: true
         name: L_LINENUMBER
         nullable: true
         sourceColumnReferences:
@@ -126,7 +128,6 @@ operation:
         config: {}
         dataType: NUMBER(12,2)
         description: ""
-        isChangeTracking: true
         name: L_QUANTITY
         nullable: true
         sourceColumnReferences:
@@ -141,7 +142,6 @@ operation:
         config: {}
         dataType: NUMBER(12,2)
         description: ""
-        isChangeTracking: true
         name: L_EXTENDEDPRICE
         nullable: true
         sourceColumnReferences:
@@ -156,7 +156,6 @@ operation:
         config: {}
         dataType: NUMBER(12,2)
         description: ""
-        isChangeTracking: true
         name: L_DISCOUNT
         nullable: true
         sourceColumnReferences:
@@ -171,7 +170,6 @@ operation:
         config: {}
         dataType: NUMBER(12,2)
         description: ""
-        isChangeTracking: true
         name: L_TAX
         nullable: true
         sourceColumnReferences:
@@ -186,7 +184,6 @@ operation:
         config: {}
         dataType: VARCHAR(1)
         description: ""
-        isChangeTracking: true
         name: L_RETURNFLAG
         nullable: true
         sourceColumnReferences:
@@ -201,7 +198,6 @@ operation:
         config: {}
         dataType: VARCHAR(1)
         description: ""
-        isChangeTracking: true
         name: L_LINESTATUS
         nullable: true
         sourceColumnReferences:
@@ -216,7 +212,6 @@ operation:
         config: {}
         dataType: DATE
         description: ""
-        isChangeTracking: true
         name: L_SHIPDATE
         nullable: true
         sourceColumnReferences:
@@ -231,7 +226,6 @@ operation:
         config: {}
         dataType: DATE
         description: ""
-        isChangeTracking: true
         name: L_COMMITDATE
         nullable: true
         sourceColumnReferences:
@@ -246,7 +240,6 @@ operation:
         config: {}
         dataType: DATE
         description: ""
-        isChangeTracking: true
         name: L_RECEIPTDATE
         nullable: true
         sourceColumnReferences:
@@ -261,7 +254,6 @@ operation:
         config: {}
         dataType: VARCHAR(25)
         description: ""
-        isChangeTracking: true
         name: L_SHIPINSTRUCT
         nullable: true
         sourceColumnReferences:
@@ -276,7 +268,6 @@ operation:
         config: {}
         dataType: VARCHAR(10)
         description: ""
-        isChangeTracking: true
         name: L_SHIPMODE
         nullable: true
         sourceColumnReferences:
@@ -291,7 +282,6 @@ operation:
         config: {}
         dataType: VARCHAR(44)
         description: ""
-        isChangeTracking: true
         name: L_COMMENT
         nullable: true
         sourceColumnReferences:
@@ -306,7 +296,6 @@ operation:
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
-        isChangeTracking: true
         name: L_LOAD_TIMESTAMP
         nullable: true
         sourceColumnReferences:
@@ -419,17 +408,20 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          LINEITEM: 076f54d9-31b3-4e47-995d-647123874f9f
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: LINEITEM
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'LINEITEM') }} "LINEITEM"
-        name: DIM_LINEITEM3
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'LINEITEM') }} "LINEITEM"
+            where "LINEITEM"."L_ORDERKEY" >5 
+        name: DIM_LINEITEM3_SCD1
         noLinkRefs: []
-  name: DIM_LINEITEM3
+  name: DIM_LINEITEM3_SCD1
   overrideSQL: false
   schema: ""
   sqlType: "388"

@@ -48,7 +48,7 @@ operation:
   description: Supplier data as defined by TPC-H
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: view
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:

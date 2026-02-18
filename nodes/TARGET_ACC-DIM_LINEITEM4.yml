@@ -17,6 +17,7 @@ operation:
             columnCounter: 008cfbfc-9cdb-46fc-9df5-1eac303f2a2e
             stepCounter: b59b3629-40b8-4ead-850c-00c29c031ea0
           columnValueDefault: u
+    deleteStrategy: NO DELETE
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: true

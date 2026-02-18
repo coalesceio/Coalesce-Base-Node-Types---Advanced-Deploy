@@ -8,11 +8,16 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Dimension Advanced Deploy == #}
 {# == Node Type Description    : This node loads data into dimension table using config options distinct,groupby all,order by ,multi-source  == #}
 
+{%- if config.updateStrategy == 'INSERT/UPDATE' -%}
+    {%- set varUpdateStrategy = 'INSERT/UPDATE' -%}
+{%- else -%}
+    {%- set varUpdateStrategy = 'MERGE' -%}
+{%- endif -%}
 
 {# == Check if last modified comparison toggle is enabled  #}
 
 {% set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
-{% set use_last_modified = config.lastModifiedComparison | default(false) %}
+{% set use_last_modified = config.lastModifiedComparison and varUpdateStrategy == 'MERGE' | default(false) %}
 
 {# == Variable check to identify type of dimension == #}
 
@@ -56,12 +61,6 @@ does not permit copying or modification for any other purpose.
         {{ stage('Truncate Dimension Table') }}
         TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
     {% endif %}
-	
-	{%- if config.updateStrategy == 'INSERT/UPDATE' -%}
-		{%- set varUpdateStrategy = 'INSERT/UPDATE' -%}
-	{%- else -%}
-		{%- set varUpdateStrategy = 'MERGE' -%}
-	{%- endif -%}
 	
 			{% if config.insertZeroKey %}
 				{% if config.insertZeroKeyAdvanced == true %}
@@ -1124,7 +1123,7 @@ END
        {%- if varUpdateStrategy == 'MERGE' -%}
 
             {# Create a list of column names to exclude from the merge update, if the feature is enabled #}
-            {% if config.excludeMergeToggle %}
+            {% if config.excludeMergeToggle and config.lastModifiedCompToggle == false %}
                 {%- set excludeColList = config.excludeMergeList.get('items', [])
                                         | map(attribute='excludeColName.name')
                                         | list %}
