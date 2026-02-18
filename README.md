@@ -183,9 +183,9 @@ The following stages are executed:
 
 ![CreateSQL](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/assets/7216836/0296abf8-0747-4ae8-8478-0782e5e2e545)
 
-#### Node Switching
+#### Node Type Switching
 
-Node switching is supported starting from Coalesce version **7.29+**.
+Node Type switching is supported starting from Coalesce version **7.29+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
@@ -340,9 +340,9 @@ When the materialization type of Persistent stage node is changed from table to 
 | **Drop table/transient table** | Removes existing table |
 | **Create or Replace Persistent stage table/transient table** | Creates new table with updated configuration |
 
-#### Node Switching
+#### Node Type Switching
 
-Node switching is supported starting from Coalesce version **7.29+**.
+Node Type switching is supported starting from Coalesce version **7.29+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
@@ -533,9 +533,9 @@ The subsequent deployment of Dimension node of materialization type view with ch
 
 ![CreateSQL](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/assets/7216836/07bba9e6-802f-45d0-9a39-5f6bd619d53d)
 
-#### Node Switching
+#### Node Type Switching
 
-Node switching is supported starting from Coalesce version **7.29+**.
+Node Type switching is supported starting from Coalesce version **7.29+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
@@ -699,9 +699,9 @@ The following stages are executed:
 |-----------|----------------|
 | **Create View** | Creates a new view with updated definition |
 
-#### Node Switching
+#### Node Type Switching
 
-Node switching is supported starting from Coalesce version **7.29+**.
+Node Type switching is supported starting from Coalesce version **7.29+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
@@ -833,9 +833,11 @@ When the materialization type of Factless Fact node is changed from table to tra
 | **Drop table/transient table** | Removes existing table |
 | **Create Factless Fact table/transient table** | Creates new table with updated configuration |
 
-#### Node Switching
+-----------------
 
-Node switching is supported starting from Coalesce version **7.29+**.
+## Node Type Switching
+
+Node Type switching is supported starting from Coalesce version **7.29+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
@@ -857,7 +859,7 @@ If the nodes are redeployed with no changes compared to previous deployment, the
 
 -----------------
 
-#### Node Switching Logic
+#### Node Type Switching Logic
 | Current MaterializationType | Desired MaterializationType | Stage |
 |------------|--------|-------|
 | Table | Table | 1. Warning (if applicable)<br/>2. Metadata Update(if applicable)<br/>3. Alter |
@@ -867,14 +869,14 @@ If the nodes are redeployed with no changes compared to previous deployment, the
 | Any Other | View | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
 | Any Other | Transient Table | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
 
-Please review the documented limitations before performing a node switch to ensure compatibility and avoid unintended deployment issues.
+Please review the documented limitations before performing a node type switch to ensure compatibility and avoid unintended deployment issues.
 
-#### ⚠ Limitations of Node Switching (Current)
+#### ⚠ Limitations of Node Type Switching (Current)
 
 | # | Current Materialization | Desired Materialization | Limitation |
 |---|--------------------------|--------------------------|------------|
 | 1 | Older Version Iceberg Table | Table | Results in `ALTER` failure. Iceberg tables require `ALTER ICEBERG TABLE`. Works only if latest package (with switching support) is already used. |
-| 2 | Older Version Create or Alter View | Any | Switch fails unless current node uses latest package supporting node switching. |
+| 2 | Older Version Create or Alter View | Any | Switch fails unless current node uses latest package supporting node type switching. |
 | 3 | First Node in Pipeline | Any | Not supported. First node is foundational and switching may disrupt the pipeline. |
 | 4 | External Packages | Any | Not supported as they typically act as first nodes in the pipeline. |
 | 5 | Functional Packages | Any | Not supported due to column re-sync behavior which may cause schema inconsistencies. |
