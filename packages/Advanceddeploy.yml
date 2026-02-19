@@ -1,0 +1,25 @@
+config:
+  entities:
+    nodeTypes:
+      "162":
+        defaultStorageLocation: null
+        isDisabled: false
+      "179":
+        defaultStorageLocation: null
+        isDisabled: false
+      "180":
+        defaultStorageLocation: null
+        isDisabled: false
+      "183":
+        defaultStorageLocation: null
+        isDisabled: false
+      "264":
+        defaultStorageLocation: null
+        isDisabled: false
+  packageVariables: ""
+fileVersion: 1
+id: "@coalesce/base-node-types-advanced-deploy"
+name: Advanceddeploy
+packageID: "@coalesce/base-node-types-advanced-deploy"
+releaseID: d0960ad4-a51d-45bf-b667-91ead6314464
+type: Package
