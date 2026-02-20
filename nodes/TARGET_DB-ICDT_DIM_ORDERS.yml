@@ -57,22 +57,6 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: e7f85a3f-610f-4929-8278-b2ee573e5e89
-          stepCounter: 1021883a-7975-4ceb-89bc-98636452ad36
-        config: {}
-        dataType: NUMBER
-        description: ""
-        isSurrogateKey: true
-        name: ICDT_DIM_ORDERS_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 3059f920-6332-4ed4-b32a-014d721da714
