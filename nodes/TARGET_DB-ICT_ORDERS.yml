@@ -3,8 +3,6 @@ id: 2e5bce1d-cf09-453c-9550-56291dae5f07
 name: ICT_ORDERS
 operation:
   config:
-    basename: ICT
-    catint: ""
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -15,8 +13,41 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    extvolume: SFICEBERGEXTVOL1
-    tcatalog: Snowflake
+    customZeroKeyValues:
+      items:
+        - {}
+    deleteStrategy: NO DELETE
+    excludeMergeList:
+      items:
+        - {}
+    excludeMergeToggle: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    insertZeroKey: false
+    insertZeroKeyAdvanced: false
+    insertZeroKeyBol: "TRUE"
+    insertZeroKeyDate: 01-01-1900
+    insertZeroKeyStr: UNKNOWN
+    insertZeroKeySurrogateKey: "0"
+    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
+    lastModifiedComparison: false
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    primary: false
+    primaryKeyCol:
+      items:
+        - {}
+    primaryKeyName: ""
+    selectDistinct: false
+    testsEnabled: false
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: false
+    type2Dimension: false
+    updateStrategy: MERGE
   database: ""
   deployEnabled: true
   description: ""
@@ -28,11 +59,25 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
+          columnCounter: 3072d166-6bc9-4c1f-85c8-9ef01a2a75c4
+          stepCounter: 2e5bce1d-cf09-453c-9550-56291dae5f07
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: ICT_ORDERS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
           columnCounter: 6e14f1a0-de94-4c7b-9410-5e3837c91798
           stepCounter: 2e5bce1d-cf09-453c-9550-56291dae5f07
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -166,6 +211,84 @@ operation:
               - columnCounter: e89c0890-bf97-4295-9a05-9905d5bb1227
                 stepCounter: 484bab39-2bbe-4929-868e-c186e3c61307
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ee4d929-9817-4d6b-866e-d04fed32fb8f
+          stepCounter: 2e5bce1d-cf09-453c-9550-56291dae5f07
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a2cb2ab5-698e-4acf-870d-3bbe240ac0c5
+          stepCounter: 2e5bce1d-cf09-453c-9550-56291dae5f07
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8f4a4473-30fe-4ef1-ad96-753c6d0376de
+          stepCounter: 2e5bce1d-cf09-453c-9550-56291dae5f07
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 517d3a9f-237d-4f98-aa28-8f842309f5a8
+          stepCounter: 2e5bce1d-cf09-453c-9550-56291dae5f07
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e46ec212-7fce-43ee-b0fd-8a5bbea2f35f
+          stepCounter: 2e5bce1d-cf09-453c-9550-56291dae5f07
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6556b127-67fe-4a24-be8f-58cf7657df8c
+          stepCounter: 2e5bce1d-cf09-453c-9550-56291dae5f07
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -183,7 +306,7 @@ operation:
   name: ICT_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Iceberg-Tables:::305
+  sqlType: "388"
   type: sql
   version: 1
 type: Node

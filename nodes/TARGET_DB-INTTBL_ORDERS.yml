@@ -3,7 +3,6 @@ id: 5ed9326a-da0c-435d-ba77-fa7e9df2ac80
 name: INTTBL_ORDERS
 operation:
   config:
-    autoRefresh: true
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -16,22 +15,40 @@ operation:
     clusterKeyExpressions: false
     groupByAll: false
     insertStrategy: UNION ALL
-    lagSpecification:
+    lastModifiedComparison: false
+    orderby: false
+    orderbycolumn:
       items:
-        - lagPeriod: Minutes
-          lagValue: "60"
+        - {}
+    postSQL: ""
+    preSQL: ""
     selectDistinct: false
     testsEnabled: false
-    warehouseName: dev_wh_xs
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: false
+    type2Dimension: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: interactive table
+  materializationType: transient table
   metadata:
     appliedNodeTests: []
     columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 03fc6019-1a6d-4064-9581-c7debfd00290
+          stepCounter: 5ed9326a-da0c-435d-ba77-fa7e9df2ac80
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: INTTBL_ORDERS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 736e0024-31e8-485d-a0f7-c282de7f4aa6
@@ -172,6 +189,84 @@ operation:
               - columnCounter: e89c0890-bf97-4295-9a05-9905d5bb1227
                 stepCounter: 484bab39-2bbe-4929-868e-c186e3c61307
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f7316198-94cf-41de-bd07-e4a140930af7
+          stepCounter: 5ed9326a-da0c-435d-ba77-fa7e9df2ac80
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 196a51f9-fb48-4d8e-82e4-962bb88f0cd2
+          stepCounter: 5ed9326a-da0c-435d-ba77-fa7e9df2ac80
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5d43fa43-dd67-4158-9805-41f30e7b1092
+          stepCounter: 5ed9326a-da0c-435d-ba77-fa7e9df2ac80
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 85d3f1e2-ccfe-4d5a-9ff6-15cc28e8864d
+          stepCounter: 5ed9326a-da0c-435d-ba77-fa7e9df2ac80
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6666ec88-8c68-4f36-8a0f-11b5c857af52
+          stepCounter: 5ed9326a-da0c-435d-ba77-fa7e9df2ac80
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ac0dd05f-f202-40fc-96c3-504e1ebf5b6d
+          stepCounter: 5ed9326a-da0c-435d-ba77-fa7e9df2ac80
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -189,7 +284,7 @@ operation:
   name: INTTBL_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Interactive-tables:::602
+  sqlType: "391"
   type: sql
   version: 1
 type: Node

@@ -3,42 +3,51 @@ id: 1021883a-7975-4ceb-89bc-98636452ad36
 name: ICDT_DIM_ORDERS
 operation:
   config:
-    baseLocation: DIM
     clusterKey: true
     clusterKeyConfig:
       items:
         - columnName:
             columnCounter: c3462c9e-1a4f-4bdb-b1db-fd55ded3e3a4
             stepCounter: 1021883a-7975-4ceb-89bc-98636452ad36
-    cpygrants: false
-    externalVolume: SFICEBERGEXTVOL1
-    initialize: ON_CREATE
-    lagSpecification:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    orderBy:
-      items:
-        - colName:
-            columnCounter: 3b4f20fd-412b-49d4-8d1e-eb783e4ae52c
-            stepCounter: 1021883a-7975-4ceb-89bc-98636452ad36
-    orderByDateTime:
+    clusterKeyExpressions: false
+    customZeroKeyValues:
       items:
         - {}
-    orderseq:
+    deleteStrategy: NO DELETE
+    excludeMergeList:
       items:
         - {}
-    partitionBy:
-      items:
-        - partColName:
-            columnCounter: 3059f920-6332-4ed4-b32a-014d721da714
-            stepCounter: 1021883a-7975-4ceb-89bc-98636452ad36
-    recordVersioning: Datetime Column
-    recordorderBy:
+    excludeMergeToggle: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    insertZeroKey: false
+    insertZeroKeyAdvanced: false
+    insertZeroKeyBol: "TRUE"
+    insertZeroKeyDate: 01-01-1900
+    insertZeroKeyStr: UNKNOWN
+    insertZeroKeySurrogateKey: "0"
+    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
+    lastModifiedComparison: false
+    orderby: false
+    orderbycolumn:
       items:
         - {}
-    refresh_mode: AUTO
-    tgtLagSpecification: DOWNSTREAM
-    warehouseName: dev_wh_xs
+    postSQL: ""
+    preSQL: ""
+    primary: false
+    primaryKeyCol:
+      items:
+        - {}
+    primaryKeyName: ""
+    selectDistinct: false
+    testsEnabled: false
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: false
+    type2Dimension: false
+    updateStrategy: MERGE
   database: ""
   deployEnabled: true
   description: ""
@@ -56,15 +65,14 @@ operation:
           columnCounter: e7f85a3f-610f-4929-8278-b2ee573e5e89
           stepCounter: 1021883a-7975-4ceb-89bc-98636452ad36
         config: {}
-        dataType: STRING
-        defaultValue: ""
+        dataType: NUMBER
         description: ""
         isSurrogateKey: true
         name: ICDT_DIM_ORDERS_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: "{{ dimensionHistoryPk() }}"
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 3059f920-6332-4ed4-b32a-014d721da714
@@ -72,6 +80,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -273,6 +282,58 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: FIRST_VALUE ( {% if config.recordVersioning not in ('Integer Column') %} {{ order_by_col().split(',')[0] }} {% else %} {{ order_by_col_int().split(',')[0] }} {% endif %} ) OVER (PARTITION BY {{ partition_by() }} ORDER BY {{ order_by_col() }} asc)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dfc639ac-02ec-400b-86be-c9f7f31ae326
+          stepCounter: 1021883a-7975-4ceb-89bc-98636452ad36
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0c7bf978-3b0e-4922-b7f9-404b9c7bf82c
+          stepCounter: 1021883a-7975-4ceb-89bc-98636452ad36
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3b5aeec4-4f3d-40bc-b708-a6284723ec6e
+          stepCounter: 1021883a-7975-4ceb-89bc-98636452ad36
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5d07ff40-8d0c-4030-823f-ed19bb720210
+          stepCounter: 1021883a-7975-4ceb-89bc-98636452ad36
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -290,7 +351,7 @@ operation:
   name: ICDT_DIM_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Iceberg-Tables:::566
+  sqlType: "388"
   type: sql
   version: 1
 type: Node

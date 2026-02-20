@@ -3,21 +3,50 @@ id: 798d2f3e-16b9-4a7c-a453-2b7cad8c1bc2
 name: V_ORDERS_base
 operation:
   config:
-    OverrideSQLCreate: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
     groupByAll: false
     insertStrategy: UNION
-    secureoption: false
+    lastModifiedComparison: false
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
     selectDistinct: false
     testsEnabled: false
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: false
+    type2Dimension: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: view
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 180b65ec-f3ac-431f-9c2e-f544b6c87467
+          stepCounter: 798d2f3e-16b9-4a7c-a453-2b7cad8c1bc2
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: V_ORDERS_base_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 6792483c-a2d8-46f4-b6af-e3d3e9c21a96
@@ -158,6 +187,84 @@ operation:
               - columnCounter: e89c0890-bf97-4295-9a05-9905d5bb1227
                 stepCounter: 484bab39-2bbe-4929-868e-c186e3c61307
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f01600c8-93e9-42c9-9a7b-f797cee18962
+          stepCounter: 798d2f3e-16b9-4a7c-a453-2b7cad8c1bc2
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fddd8ff6-d903-4b71-8776-78d3860ba69d
+          stepCounter: 798d2f3e-16b9-4a7c-a453-2b7cad8c1bc2
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 99dca711-6995-4c34-98a0-fa9e15fd4fc5
+          stepCounter: 798d2f3e-16b9-4a7c-a453-2b7cad8c1bc2
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f2d061cb-ac7f-4cad-9819-c80ee37f6d8b
+          stepCounter: 798d2f3e-16b9-4a7c-a453-2b7cad8c1bc2
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 325ec500-6afb-4525-bcef-6284552a6931
+          stepCounter: 798d2f3e-16b9-4a7c-a453-2b7cad8c1bc2
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ebc68efe-9d8b-49f9-8ea8-4a925610ccf6
+          stepCounter: 798d2f3e-16b9-4a7c-a453-2b7cad8c1bc2
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -175,7 +282,7 @@ operation:
   name: V_ORDERS_base
   overrideSQL: false
   schema: ""
-  sqlType: Base-Nodes:::188
+  sqlType: "391"
   type: sql
   version: 1
 type: Node

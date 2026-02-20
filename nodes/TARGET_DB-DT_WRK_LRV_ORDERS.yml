@@ -3,10 +3,6 @@ id: 4ad1a8a3-b997-4524-a7f6-3539d04d1d7f
 name: DT_WRK_LRV_ORDERS
 operation:
   config:
-    advanceWarehouse: false
-    backfill: false
-    backfillSource: ""
-    backfillSourceSchema: ""
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -15,49 +11,35 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    cpygrants: false
-    downstreamOption: false
-    immutabilityConstraint: false
-    immutableExpression: ""
-    initialize: ON_CREATE
-    initializeWarehouseSize: ""
-    lagSpecification:
-      items:
-        - lagPeriod: Minutes
-          lagValue: "60"
-    orderBy:
-      items:
-        - colName:
-            columnCounter: 80dd5bf6-59d4-4fab-8db0-de1ecd0ffa3e
-            stepCounter: 4ad1a8a3-b997-4524-a7f6-3539d04d1d7f
-    orderByDateTime:
+    deleteStrategy: NO DELETE
+    excludeMergeList:
       items:
         - {}
-    orderseq:
+    excludeMergeToggle: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    lastModifiedComparison: false
+    orderby: false
+    orderbycolumn:
       items:
         - {}
-    partitionBy:
-      items:
-        - partColName:
-            columnCounter: 3da20ed3-f7e7-4eda-9556-ff11a0e1c5a1
-            stepCounter: 4ad1a8a3-b997-4524-a7f6-3539d04d1d7f
-    recordVersioning: Datetime Column
-    recordorderBy:
+    postSQL: ""
+    preSQL: ""
+    primary: false
+    primaryKeyCol:
       items:
         - {}
-    refreshWarehouseSize: ""
-    refresh_mode: AUTO
-    timeTravel: false
-    timeTravelreference: ""
-    timeTraveltype: ""
-    timeTravelvalue: ""
-    warehouseName: dev_wh_xs
+    primaryKeyName: ""
+    selectDistinct: false
+    testsEnabled: false
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: transient dynamic table
+  materializationType: view
   metadata:
     appliedNodeTests: []
     columns:
@@ -218,6 +200,32 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: FIRST_VALUE({%if config.recordVersioning not in ('Integer Column')%}{{order_by_col()}}{%else%} {{order_by_col_int()}}{%endif%}) OVER (PARTITION BY {{ partition_by() }} ORDER BY {{ order_by_col() }} asc)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e3b23f39-25d1-42c2-ac5c-6064ac1016f8
+          stepCounter: 4ad1a8a3-b997-4524-a7f6-3539d04d1d7f
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4e3d3225-203e-4c9f-aa60-287ab4e1f5b7
+          stepCounter: 4ad1a8a3-b997-4524-a7f6-3539d04d1d7f
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -235,7 +243,7 @@ operation:
   name: DT_WRK_LRV_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Dynamic-Tables:::351
+  sqlType: "389"
   type: sql
   version: 1
 type: Node

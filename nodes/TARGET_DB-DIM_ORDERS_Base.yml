@@ -3,18 +3,16 @@ id: 6efb6393-6ba0-4994-a318-84457276bbcd
 name: DIM_ORDERS_Base
 operation:
   config:
-    customZeroKeyValues:
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
     groupByAll: false
     insertStrategy: UNION ALL
-    insertZeroKey: false
-    insertZeroKeyAdvanced: false
-    insertZeroKeyBol: "TRUE"
-    insertZeroKeyDate: 01-01-1900
-    insertZeroKeyStr: UNKNOWN
-    insertZeroKeySurrogateKey: "0"
-    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
     lastModifiedComparison: false
     orderby: false
     orderbycolumn:
@@ -313,7 +311,7 @@ operation:
   name: DIM_ORDERS_Base
   overrideSQL: false
   schema: ""
-  sqlType: Base-Nodes:::194
+  sqlType: "391"
   type: sql
   version: 1
 type: Node

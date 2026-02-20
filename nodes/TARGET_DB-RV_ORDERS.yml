@@ -3,19 +3,31 @@ id: cddd800b-3a33-46d8-af76-895043897e87
 name: RV_ORDERS
 operation:
   config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
     insertStrategy: UNION ALL
-    persistTableLocation: "ex: TARGET"
-    persistTableName: "ex: DIM_ORDERS"
-    refTable: false
-    srcTable: false
-    suffixlength: ex:1
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
     testsEnabled: true
+    truncateBefore: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: run view
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
@@ -159,6 +171,32 @@ operation:
               - columnCounter: e89c0890-bf97-4295-9a05-9905d5bb1227
                 stepCounter: 484bab39-2bbe-4929-868e-c186e3c61307
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c553f54c-e85e-4f89-907b-4ebde46a92d3
+          stepCounter: cddd800b-3a33-46d8-af76-895043897e87
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8118aab3-6bf8-4e65-bd70-6c6acec42f11
+          stepCounter: cddd800b-3a33-46d8-af76-895043897e87
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -176,7 +214,7 @@ operation:
   name: RV_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Incremental-Loading:::281
+  sqlType: "390"
   type: sql
   version: 1
 type: Node

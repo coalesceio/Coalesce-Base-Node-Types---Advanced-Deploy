@@ -3,15 +3,17 @@ id: 9bde2f88-3c81-4907-b2b0-a64d5ec338bf
 name: WRK_ORDERS_Base
 operation:
   config:
-    asofColumn:
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    asofJoin: true
-    asofJoinMain: false
-    asofJoinON: false
-    asofJoinUSING: false
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
     groupByAll: false
-    insertStrategy: INSERT
+    insertStrategy: UNION ALL
+    lastModifiedComparison: false
     orderby: false
     orderbycolumn:
       items:
@@ -20,7 +22,9 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
+    treatNullAsCurrentTimestamp: false
     truncateBefore: true
+    type2Dimension: false
   database: ""
   deployEnabled: true
   description: ""
@@ -30,6 +34,19 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5fc7a2b3-bbac-4db9-bc68-4ba2ee46b0d2
+          stepCounter: 9bde2f88-3c81-4907-b2b0-a64d5ec338bf
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: WRK_ORDERS_Base_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: ebbdbb04-be8d-4b4c-a8e0-d9f2d575cf59
@@ -170,6 +187,84 @@ operation:
               - columnCounter: e89c0890-bf97-4295-9a05-9905d5bb1227
                 stepCounter: 484bab39-2bbe-4929-868e-c186e3c61307
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8d06ca62-bd0e-4e11-8375-673f0a83cf0f
+          stepCounter: 9bde2f88-3c81-4907-b2b0-a64d5ec338bf
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6796ab96-ea53-4cbc-b4c4-21d1c5de3033
+          stepCounter: 9bde2f88-3c81-4907-b2b0-a64d5ec338bf
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dde4b9c2-2de5-4bc8-8264-fc6b0ae16a10
+          stepCounter: 9bde2f88-3c81-4907-b2b0-a64d5ec338bf
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c138e878-9fd5-45cc-a6f7-818c2d2604e0
+          stepCounter: 9bde2f88-3c81-4907-b2b0-a64d5ec338bf
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ac4012e1-e497-478e-beae-a805675f6d30
+          stepCounter: 9bde2f88-3c81-4907-b2b0-a64d5ec338bf
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2b6f2fbf-4318-4da7-8815-8e52fd6a1aee
+          stepCounter: 9bde2f88-3c81-4907-b2b0-a64d5ec338bf
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -187,7 +282,7 @@ operation:
   name: WRK_ORDERS_Base
   overrideSQL: false
   schema: ""
-  sqlType: Base-Nodes:::204
+  sqlType: "391"
   type: sql
   version: 1
 type: Node

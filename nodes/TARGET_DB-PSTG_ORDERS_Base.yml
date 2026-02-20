@@ -3,6 +3,14 @@ id: a03145bd-8927-4140-971e-323aa3cfd4c9
 name: PSTG_ORDERS_Base
 operation:
   config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
     groupByAll: false
     insertStrategy: UNION ALL
     lastModifiedComparison: false
@@ -303,7 +311,7 @@ operation:
   name: PSTG_ORDERS_Base
   overrideSQL: false
   schema: ""
-  sqlType: Base-Nodes:::173
+  sqlType: "391"
   type: sql
   version: 1
 type: Node

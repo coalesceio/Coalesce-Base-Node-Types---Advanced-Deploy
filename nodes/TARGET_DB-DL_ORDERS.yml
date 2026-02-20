@@ -3,7 +3,6 @@ id: df9014a6-f685-4313-8320-9c180541941d
 name: DL_ORDERS
 operation:
   config:
-    capUpdate: false
     clusterKey: true
     clusterKeyConfig:
       items:
@@ -14,50 +13,23 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    createas: transient table
-    devMode: true
-    dmlCol:
-      columnCounter: 7fdc8a12-04e6-4dec-b092-960a96b09a47
-      stepCounter: df9014a6-f685-4313-8320-9c180541941d
-    dmlDelete: D
-    dmlInsert: I
-    dmlUpdate: U
-    flagSrcStream: false
-    initialRows: true
-    insertOnly: false
-    orderBy:
-      items:
-        - colName:
-            columnCounter: e30df19e-3361-4450-a11d-2a0991400784
-            stepCounter: df9014a6-f685-4313-8320-9c180541941d
-          sortOrd: desc
-    orderByDateTime:
+    groupByAll: false
+    insertStrategy: UNION ALL
+    orderby: false
+    orderbycolumn:
       items:
         - {}
-    partitionBy:
-      items:
-        - partColName:
-            columnCounter: 0f0b7062-a231-4ff3-bf90-868cdc3464b7
-            stepCounter: df9014a6-f685-4313-8320-9c180541941d
-    predTask: ""
-    recordVersioning: Datetime Column
-    redeploymentBehavior: Create At Existing Stream
-    retainLastNonDeleteFlag: false
-    rootTask: ""
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
-    serverlessSize: MEDIUM
-    softDeleteFlag: true
-    sourceType: Table
-    whName: <WAREHOUSE_NAME>
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: table
+  materializationType: transient table
   metadata:
     appliedNodeTests: []
     columns:
@@ -218,6 +190,32 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: current_timestamp::timestamp_ntz
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ffd6607f-7b8b-4a59-a2cf-50558d8e72cf
+          stepCounter: df9014a6-f685-4313-8320-9c180541941d
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8c82601f-04ef-45ca-abca-12899b2bf1fa
+          stepCounter: df9014a6-f685-4313-8320-9c180541941d
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -235,7 +233,7 @@ operation:
   name: DL_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Deferred-Merge:::301
+  sqlType: "390"
   type: sql
   version: 1
 type: Node

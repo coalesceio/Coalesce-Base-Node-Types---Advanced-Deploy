@@ -3,9 +3,23 @@ id: f3e9a002-87e4-433b-8f31-6d8782c1556f
 name: FCT_ORDERS_Base
 operation:
   config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
     groupByAll: false
     insertStrategy: UNION ALL
-    lastModifiedComparison: false
     orderby: false
     orderbycolumn:
       items:
@@ -14,7 +28,6 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
-    treatNullAsCurrentTimestamp: false
     truncateBefore: false
   database: ""
   deployEnabled: true
@@ -165,40 +178,6 @@ operation:
               - columnCounter: e89c0890-bf97-4295-9a05-9905d5bb1227
                 stepCounter: 484bab39-2bbe-4929-868e-c186e3c61307
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: aec58835-97c5-49c6-aac7-9f3fdec5eb82
-          stepCounter: f3e9a002-87e4-433b-8f31-6d8782c1556f
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemCreateDate: true
-        name: SYSTEM_CREATE_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 2b5c37c7-724f-44cc-9893-a56d248bf1b7
-          stepCounter: f3e9a002-87e4-433b-8f31-6d8782c1556f
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemUpdateDate: true
-        name: SYSTEM_UPDATE_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -216,7 +195,7 @@ operation:
   name: FCT_ORDERS_Base
   overrideSQL: false
   schema: ""
-  sqlType: Base-Nodes:::205
+  sqlType: "179"
   type: sql
   version: 1
 type: Node

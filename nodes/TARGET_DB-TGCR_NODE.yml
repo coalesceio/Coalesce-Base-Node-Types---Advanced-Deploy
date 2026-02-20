@@ -3,24 +3,60 @@ id: b5d938b5-6aed-4f06-9899-7e80e12ff021
 name: TGCR_NODE
 operation:
   config:
-    mflagSrcStream: false
-    multiStreamBehavior: AND
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
-    serverlessSize: MEDIUM
-    tskSql: select current_timestamp()
-    whName: <WAREHOUSE_NAME>
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: task
+  materializationType: table
   metadata:
     appliedNodeTests: []
-    columns: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 08991bc2-fe30-4199-83fc-3f0e159e20f7
+          stepCounter: b5d938b5-6aed-4f06-9899-7e80e12ff021
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: be227949-c772-491a-a7f9-aa18051e44d9
+          stepCounter: b5d938b5-6aed-4f06-9899-7e80e12ff021
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -35,7 +71,7 @@ operation:
   name: TGCR_NODE
   overrideSQL: false
   schema: ""
-  sqlType: Streams-and-Tasks:::154
+  sqlType: "390"
   type: sql
   version: 1
 type: Node

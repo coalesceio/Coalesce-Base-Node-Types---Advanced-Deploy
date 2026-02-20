@@ -3,16 +3,38 @@ id: e73bdb3a-7805-4526-9930-352b74b5c87b
 name: STREAM_ORDERS
 operation:
   config:
-    appendOnly: false
-    initialRows: true
-    redeploymentBehavior: Create or Replace
-    sourceType: Table
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: stream
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
@@ -224,7 +246,7 @@ operation:
   name: STREAM_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Streams-and-Tasks:::153
+  sqlType: "179"
   type: sql
   version: 1
 type: Node

@@ -13,50 +13,38 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    devMode: false
-    flagSrcStream: false
+    deleteStrategy: NO DELETE
+    excludeMergeList:
+      items:
+        - {}
+    excludeMergeToggle: false
     groupByAll: true
     insertStrategy: UNION
-    multiStreamBehavior: AND
+    lastModifiedComparison: false
     orderby: false
     orderbycolumn:
       items:
         - {}
-    predTask: DATA_TRANSFORMATION_ROOT_TASK
-    rootTask: DATA_TRANSFORMATION_ROOT_TASK
-    scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "60"
-    schedulePeriodOption: Minutes
-    schedulingMode: Warehouse Task
+    postSQL: ""
+    preSQL: ""
+    primary: false
+    primaryKeyCol:
+      items:
+        - {}
+    primaryKeyName: ""
     selectDistinct: false
-    serverlessSize: MEDIUM
-    whName: COMPUTE_WH
+    testsEnabled: false
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: task
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: e3c8bfbe-c5e7-48ae-b91e-646dc73dd08b
-          stepCounter: 3215680b-faa2-4590-8188-5bcc6ae97073
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSurrogateKey: true
-        name: TSKDIM_ORDERS_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 285a04d2-4d33-4e12-889b-c0eac0b410e0
@@ -204,74 +192,6 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 8128042a-7e7a-49d0-929c-3f65bcf68a01
-          stepCounter: 3215680b-faa2-4590-8188-5bcc6ae97073
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSystemVersion: true
-        name: SYSTEM_VERSION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: ab46adf9-67ef-455b-9f24-ad1e4710cd3c
-          stepCounter: 3215680b-faa2-4590-8188-5bcc6ae97073
-        config: {}
-        dataType: VARCHAR
-        defaultValue: ""
-        description: ""
-        isSystemCurrentFlag: true
-        name: SYSTEM_CURRENT_FLAG
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 43681ac4-c275-408c-b2eb-3858d4f8c090
-          stepCounter: 3215680b-faa2-4590-8188-5bcc6ae97073
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemStartDate: true
-        name: SYSTEM_START_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 35a2b2c7-fa06-4b14-b033-eb0f5e6d1f1b
-          stepCounter: 3215680b-faa2-4590-8188-5bcc6ae97073
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        isSystemEndDate: true
-        name: SYSTEM_END_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
           columnCounter: b30f5e53-44a0-4859-aced-302af5a2f244
           stepCounter: 3215680b-faa2-4590-8188-5bcc6ae97073
         config: {}
@@ -318,7 +238,7 @@ operation:
   name: TSKDIM_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Streams-and-Tasks:::149
+  sqlType: "389"
   type: sql
   version: 1
 type: Node

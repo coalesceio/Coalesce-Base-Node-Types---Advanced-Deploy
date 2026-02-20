@@ -3,51 +3,38 @@ id: f6607918-896d-4766-96ad-5357f1bc3757
 name: CSS_ORDERS
 operation:
   config:
-    allcol: false
-    attrcol:
-      items:
-        - acolname:
-            columnCounter: 23a87172-6640-4d9c-ae6e-9f1501385fc6
-            stepCounter: f6607918-896d-4766-96ad-5357f1bc3757
-    colpreview:
+    asofColumn:
       items:
         - {}
-    createcortex: true
-    embmodel: snowflake-arctic-embed-m-v1.5
-    excss: false
-    filcrit:
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
       items:
         - {}
-    filtoggle: false
-    initialize: ON_CREATE
-    lagSpecification:
-      items:
-        - lagPeriod: Minutes
-          lagValue: "60"
-    locCSS: ""
-    lopt: and
-    mulfilcon: false
-    namCSS: ""
-    numboost: false
-    numericboost:
+    clusterKeyConfigExpressions:
       items:
         - {}
-    query1: ""
-    querycortex: false
-    searchcol:
-      columnCounter: 0d0ecbba-eb07-4bc5-a1fc-17010c6636bb
-      stepCounter: f6607918-896d-4766-96ad-5357f1bc3757
-    timdec: false
-    timedecay:
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
       items:
         - {}
-    warehouseName: dev_wh_xs
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
-  materializationType: cortex search service
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
@@ -208,7 +195,7 @@ operation:
   name: CSS_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Cortex-Search:::499
+  sqlType: "179"
   type: sql
   version: 1
 type: Node

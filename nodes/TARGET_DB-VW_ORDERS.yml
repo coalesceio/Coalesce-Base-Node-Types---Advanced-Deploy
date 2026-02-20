@@ -3,9 +3,32 @@ id: 1463078c-5225-42a4-987b-cbbb7721e480
 name: VW_ORDERS
 operation:
   config:
-    compcol: false
-    ntileval: ""
-    oprt: "="
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    customZeroKeyValues:
+      items:
+        - {}
+    deleteStrategy: NO DELETE
+    excludeMergeList:
+      items:
+        - {}
+    excludeMergeToggle: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    insertZeroKey: false
+    insertZeroKeyAdvanced: false
+    insertZeroKeyBol: "TRUE"
+    insertZeroKeyDate: 01-01-1900
+    insertZeroKeyStr: UNKNOWN
+    insertZeroKeySurrogateKey: "0"
+    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
+    lastModifiedComparison: false
     orderby: true
     orderbycolumn:
       items:
@@ -13,15 +36,19 @@ operation:
             columnCounter: 6afe4304-cfcb-43b8-b715-b6957b0c3fe5
             stepCounter: 1463078c-5225-42a4-987b-cbbb7721e480
           sortOrder: desc
-    partitionBy:
+    postSQL: ""
+    preSQL: ""
+    primary: false
+    primaryKeyCol:
       items:
-        - partColName:
-            columnCounter: 2972a88f-d063-4c0b-bb0f-66ceb467883d
-            stepCounter: 1463078c-5225-42a4-987b-cbbb7721e480
-    partitionby: true
-    qualify: true
-    val: "1"
-    winfunc: ROW_NUMBER
+        - {}
+    primaryKeyName: ""
+    selectDistinct: false
+    testsEnabled: false
+    treatNullAsCurrentTimestamp: false
+    truncateBefore: false
+    type2Dimension: false
+    updateStrategy: MERGE
   database: ""
   deployEnabled: true
   description: ""
@@ -33,11 +60,25 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
+          columnCounter: 83022a6c-b948-41ee-8ac9-c20a53d39cb8
+          stepCounter: 1463078c-5225-42a4-987b-cbbb7721e480
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: VW_ORDERS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
           columnCounter: 6f159c39-df09-4778-99db-17c65821469e
           stepCounter: 1463078c-5225-42a4-987b-cbbb7721e480
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: O_ORDERKEY
         nullable: true
         sourceColumnReferences:
@@ -171,6 +212,84 @@ operation:
               - columnCounter: e89c0890-bf97-4295-9a05-9905d5bb1227
                 stepCounter: 484bab39-2bbe-4929-868e-c186e3c61307
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 649c0be8-fd93-4881-ad2d-e5d79245143f
+          stepCounter: 1463078c-5225-42a4-987b-cbbb7721e480
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 16ed1c32-429f-497e-8407-13f802c2cb14
+          stepCounter: 1463078c-5225-42a4-987b-cbbb7721e480
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fba0a083-f803-4a74-a6d2-aac1a7c7838e
+          stepCounter: 1463078c-5225-42a4-987b-cbbb7721e480
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7a055c42-8116-49f4-a426-c748a508ce87
+          stepCounter: 1463078c-5225-42a4-987b-cbbb7721e480
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 183d0e33-44e0-4514-a9a0-68e21fc4fd12
+          stepCounter: 1463078c-5225-42a4-987b-cbbb7721e480
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 015b2878-3867-44a3-9fff-3fef8fc053e7
+          stepCounter: 1463078c-5225-42a4-987b-cbbb7721e480
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -188,7 +307,7 @@ operation:
   name: VW_ORDERS
   overrideSQL: false
   schema: ""
-  sqlType: Functional-Nodes:::459
+  sqlType: "388"
   type: sql
   version: 1
 type: Node
