@@ -238,7 +238,7 @@ The following stages are executed:
 
 #### Node Type Switching
 
-Node Type switching is supported starting from Coalesce version **7.29+**.
+Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
@@ -395,7 +395,7 @@ When the materialization type of Persistent stage node is changed from table to 
 
 #### Node Type Switching
 
-Node Type switching is supported starting from Coalesce version **7.29+**.
+Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
@@ -588,7 +588,7 @@ The subsequent deployment of Dimension node of materialization type view with ch
 
 #### Node Type Switching
 
-Node Type switching is supported starting from Coalesce version **7.29+**.
+Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
@@ -754,7 +754,7 @@ The following stages are executed:
 
 #### Node Type Switching
 
-Node Type switching is supported starting from Coalesce version **7.29+**.
+Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
@@ -890,7 +890,7 @@ When the materialization type of Factless Fact node is changed from table to tra
 
 ## Node Type Switching
 
-Node Type switching is supported starting from Coalesce version **7.29+**.
+Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
@@ -935,6 +935,7 @@ Please review the documented limitations before performing a node type switch to
 | 5 | Functional Packages | Any | Not supported due to column re-sync behavior which may cause schema inconsistencies. |
 | 6 | Dynamic Dimension / LRV | Any | System columns must be manually dropped before redeployment. |
 | 7 | Any | Any Other | After performing node switching, the `Create/Run` in Workspace browser may not work as expected due to changes in the node’s materialization type. |
+| 8 | Table(Data Profiling) | Table | This may result in ALTER failure unless latest package is used(with system column removal support)(Pending Release) |
 
 --------------
 
