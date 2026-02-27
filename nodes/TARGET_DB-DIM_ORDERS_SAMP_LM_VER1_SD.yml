@@ -17,7 +17,7 @@ operation:
     deleteStrategy: SOFT DELETE
     excludeMergeList:
       items:
-        - {}
+        - excludeColName: null
     excludeMergeToggle: false
     groupByAll: false
     insertStrategy: UNION ALL
