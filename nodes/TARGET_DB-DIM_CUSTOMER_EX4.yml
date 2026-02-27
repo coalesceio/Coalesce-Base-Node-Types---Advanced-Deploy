@@ -362,7 +362,12 @@ operation:
           - locationName: TARGET_DB
             nodeName: STG_CUSTOMER_EX2
         join:
-          joinCondition: FROM {{ ref('TARGET_DB', 'STG_CUSTOMER_EX2') }} "STG_CUSTOMER_EX2"
+          joinCondition: |-
+            FROM {{ ref('TARGET_DB', 'STG_CUSTOMER_EX2') }} "STG_CUSTOMER_EX2"
+
+            QUALIFY ROW_NUMBER() OVER
+            (PARTITION  BY "STG_CUSTOMER_EX2"."C_CUSTKEY"
+            ORDER BY "STG_CUSTOMER_EX2"."C_LOAD_TIMESTAMP") = 1
         name: DIM_CUSTOMER_EX3
         noLinkRefs: []
       - aliases:

@@ -368,7 +368,7 @@ operation:
         join:
           joinCondition: |-
             FROM {{ ref('TARGET_DB', 'STG_CUSTOMER_EX1') }} "STG_CUSTOMER_EX1"
-            WHERE "STG_CUSTOMER_EX1"."C_CUSTKEY" > 6
+            WHERE "STG_CUSTOMER_EX1"."C_CUSTKEY" > 6 -- WHERE
         name: DIM_CUSTOMER_LM_MS
         noLinkRefs: []
       - aliases:
