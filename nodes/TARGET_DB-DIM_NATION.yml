@@ -33,15 +33,33 @@ operation:
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
-    preSQL: ""
+    postSQL: |-
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
+    preSQL: |-
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
     primary: false
     primaryKeyCol:
       items:
         - {}
     primaryKeyName: ""
     selectDistinct: false
-    testsEnabled: false
+    testsEnabled: true
     treatNullAsCurrentTimestamp: false
     truncateBefore: false
     type2Dimension: false
@@ -53,7 +71,21 @@ operation:
   locationName: TARGET_DB
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: |-
+          /* example 1*/
+          {# example 1#}
+          --example 1
+          -- example 1
+          {% if n == 2 %}
+          "{{ execute }}"
+          {%- else -%}
+          '{{- leveit}}'
+          {%endif%}
     columns:
       - acceptedValues:
           strictMatch: true
@@ -86,7 +118,16 @@ operation:
           - columnReferences:
               - columnCounter: f0abb41e-c3b5-4974-9889-fca2d1e2d7ef
                 stepCounter: 3d19ce7b-4594-422e-af60-f866321d4178
-            transform: ""
+            transform: |-
+              /* example 1*/
+              {# example 1#}
+              --example 1
+              -- example 1
+              {% if n == 2 %}
+              "{{ execute }}"
+              {%- else -%}
+              '{{- leveit}}'
+              {%endif%}
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 1e3f4a89-6ec7-43d9-a11f-666849370027
@@ -257,7 +298,18 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: NATION
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'NATION') }} "NATION"
+
+            /* example 1*/
+            {# example 1#}
+            --example 1
+            -- example 1
+            {% if n == 2 %}
+            "{{ execute }}"
+            {%- else -%}
+            '{{- leveit}}'
+            {%endif%}
         name: DIM_NATION
         noLinkRefs: []
   name: DIM_NATION
