@@ -244,9 +244,9 @@ does not permit copying or modification for any other purpose.
                         {# =========================================================
                         Join comparison
                         ========================================================= #}
-                        {% set desiredStateSources = src.join | replace("{{", '"{{"') | replace("}}", '"}}"') | replace('/*', '/ *') | replace('*/', '* /') %}
-                        {% set currentStateSources = matchingSource.join | replace("{{", '"{{"') | replace("}}", '"}}"') | replace('/*', '/ *') | replace('*/', '* /') %}
-
+                        
+                        {% set desiredStateSources = safe_metadata(src.join) %}
+						{% set currentStateSources = safe_metadata(matchingSource.join) %}
                         {# Same number of sources — compare join transformations #}
                         {% if desiredStateSources != currentStateSources %}
                             {% set nsMetaVariables.joinTest = false %}
@@ -282,8 +282,8 @@ does not permit copying or modification for any other purpose.
                                     {% set _ = nsMetaVariables.transformDiff.append({
                                         "Source Name": src.name,
                                         "Column Name": col.name,
-                                        "is": col.transform | replace('/*', '/ *') | replace('*/', '* /'),
-                                        "was": currentTransform | replace('/*', '/ *') | replace('*/', '* /')
+                                        "is": safe_metadata(col.transform),
+                                        "was": safe_metadata(currentTransform)
                                     }) %}
                                 {% endif %}
 
@@ -387,8 +387,8 @@ does not permit copying or modification for any other purpose.
                         {% if ctest != dtest %}
                             {% set nsMetaVariables.testsEnabledTest = false %}
                             {% set _ = nsMetaVariables.testsEnabledDiff.append({
-                                "is": dtest | replace('/*', '/ *') | replace('*/', '* /'),
-                                "was": ctest | replace('/*', '/ *') | replace('*/', '* /')
+                                "is": safe_metadata(dtest),
+                                "was": safe_metadata(ctest)
                             }) %}
                         {% endif %}
                     {% endfor %}
@@ -461,8 +461,8 @@ does not permit copying or modification for any other purpose.
             {% if currentState.config.preSQL | default('') != desiredState.config.preSQL | default('') %}
                 {% set nsMetaVariables.preSQLTest = false %}
                 {% set _ = nsMetaVariables.preSQLDiff.append({
-                    "is": desiredState.config.preSQL | replace('/*', '/ *') | replace('*/', '* /'),
-                    "was": currentState.config.preSQL | default('') | replace('/*', '/ *') | replace('*/', '* /')
+                    "is": safe_metadata(desiredState.config.preSQL),
+                    "was": safe_metadata(currentState.config.preSQL | default(''))
                 }) %}
                 
                 {{ update_metadata("pre SQL", nsMetaVariables.preSQLDiff, "pre SQL") }}
@@ -475,8 +475,8 @@ does not permit copying or modification for any other purpose.
             {% if currentState.config.postSQL| default('') != desiredState.config.postSQL | default('') %}
                 {% set nsMetaVariables.postSQLTest = false %}
                 {% set _ = nsMetaVariables.postSQLDiff.append({
-                    "is": desiredState.config.postSQL | replace('/*', '/ *') | replace('*/', '* /'),
-                    "was": currentState.config.postSQL | default('') | replace('/*', '/ *') | replace('*/', '* /')
+                    "is": safe_metadata(desiredState.config.postSQL),
+                    "was": safe_metadata(currentState.config.postSQL | default(''))
                 }) %}
                 
                 {{ update_metadata("post SQL", nsMetaVariables.postSQLDiff, "post SQL") }}

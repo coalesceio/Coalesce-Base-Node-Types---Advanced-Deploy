@@ -240,5 +240,33 @@ macroString: |-
           -- ⚠️ Warning: Cortex search service is attached to this node. Changing its type may cause service failures, inconsistencies, or data loss. Any required updates/drops must be handled manually.
       {%- endif %}
   {% endmacro %}
+
+  {# ----------------------------------------------------------------------
+    Macro: safe_metadata
+
+    Purpose: Handles failures during Advanced Deploy metadata updates when dynamic
+    Jinja logic is present in node configurations.
+
+    Specifically addresses cases where:
+      - PreSQL or PostSQL contains embedded Jinja expressions (e.g., {{ ... }})
+      - Join clauses include conditional Jinja logic (e.g., {% if ... %})
+  ---------------------------------------------------------------------- #}
+  {% macro safe_metadata(value) %}
+      {% if value is not none %}
+          {{ value
+              | replace("{%", "{ %")
+              | replace("%}", "% }")
+              | replace("{{", "{ {")
+              | replace("}}", "} }")
+              | replace("{#", "{ #")
+              | replace("#}", "# }")
+              | replace("/*", "/ *")
+              | replace("*/", "* /")
+              | replace("--", "- -")
+          }}
+      {% else %}
+          {{ value }}
+      {% endif %}
+  {% endmacro %}
 name: macro
 type: Macro

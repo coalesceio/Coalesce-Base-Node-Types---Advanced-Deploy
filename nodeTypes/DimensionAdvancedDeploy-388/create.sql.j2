@@ -317,8 +317,8 @@ does not permit copying or modification for any other purpose.
                         {# =========================================================
                         Join comparison
                         ========================================================= #}
-                        {% set desiredStateSources = src.join | replace("{{", '"{{"') | replace("}}", '"}}"') | replace('/*', '/ *') | replace('*/', '* /') %}
-                        {% set currentStateSources = matchingSource.join | replace("{{", '"{{"') | replace("}}", '"}}"') | replace('/*', '/ *') | replace('*/', '* /') %}
+						{% set desiredStateSources = safe_metadata(src.join) %}
+						{% set currentStateSources = safe_metadata(matchingSource.join) %}
 
                         {# Same number of sources — compare join transformations #}
                         {% if desiredStateSources != currentStateSources %}
@@ -334,7 +334,7 @@ does not permit copying or modification for any other purpose.
                         ========================================================= #}
                         {% for col in src.columns %}
 
-                                                    {# Try to get matching column #}
+                            {# Try to get matching column #}
                             {% set matched_column = matchingSource.columns
                                 | selectattr('id', 'equalto', col.id)
                                 | first
@@ -349,14 +349,14 @@ does not permit copying or modification for any other purpose.
                                     | first
                                     | default('')
                                 %}
-
+							
                                 {% if currentTransform != col.transform %}
                                     {% set nsMetaVariables.transformTest = false %}
                                     {% set _ = nsMetaVariables.transformDiff.append({
                                         "Source Name": src.name,
                                         "Column Name": col.name,
-                                            "is": col.transform | replace('/*', '/ *') | replace('*/', '* /'),
-                                            "was": currentTransform | replace('/*', '/ *') | replace('*/', '* /')
+                                            "is": safe_metadata(col.transform),
+                                            "was": safe_metadata(currentTransform)
                                     }) %}
                                 {% endif %}
 
@@ -542,8 +542,8 @@ does not permit copying or modification for any other purpose.
                         {% if ctest != dtest %}
                             {% set nsMetaVariables.testsEnabledTest = false %}
                             {% set _ = nsMetaVariables.testsEnabledDiff.append({
-                                "is": dtest | replace('/*', '/ *') | replace('*/', '* /'),
-                                "was": ctest | replace('/*', '/ *') | replace('*/', '* /')
+                                "is": safe_metadata(dtest),
+                                "was": safe_metadata(ctest)
                             }) %}
                         {% endif %}
                     {% endfor %}
@@ -613,11 +613,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             PRE-SQL comparison
             ========================================================= #}
-            {% if currentState.config.preSQL | default('') != desiredState.config.preSQL | trim %}
+            {% if currentState.config.preSQL | default('') != desiredState.config.preSQL | trim %} 
                 {% set nsMetaVariables.preSQLTest = false %}
                 {% set _ = nsMetaVariables.preSQLDiff.append({
-                    "is": desiredState.config.preSQL | replace('/*', '/ *') | replace('*/', '* /'),
-                    "was": currentState.config.preSQL | default('') | replace('/*', '/ *') | replace('*/', '* /')
+                    "is": safe_metadata(desiredState.config.preSQL) ,
+                    "was": safe_metadata(currentState.config.preSQL | default(''))
                 }) %}
                 
                 {{ update_metadata("pre SQL", nsMetaVariables.preSQLDiff, "pre SQL") }}
@@ -630,8 +630,8 @@ does not permit copying or modification for any other purpose.
             {% if currentState.config.postSQL  | default('') != desiredState.config.postSQL | trim %}
                 {% set nsMetaVariables.postSQLTest = false %}
                 {% set _ = nsMetaVariables.postSQLDiff.append({
-                    "is": desiredState.config.postSQL | replace('/*', '/ *') | replace('*/', '* /'),
-                    "was": currentState.config.postSQL | default('') | replace('/*', '/ *') | replace('*/', '* /')
+                    "is": safe_metadata(desiredState.config.postSQL) ,
+                    "was": safe_metadata(currentState.config.postSQL | default(''))
                 }) %}
                 
                 {{ update_metadata("post SQL", nsMetaVariables.postSQLDiff, "post SQL") }}
@@ -733,8 +733,8 @@ does not permit copying or modification for any other purpose.
                     {% set nsMetaVariables.insertZeroKeyTest = false %}
                     {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                         "Config": "Default Surrogate Key Value",
-                        "is": desiredState.config.insertZeroKeySurrogateKey | replace('/*', '/ *') | replace('*/', '* /'),
-                        "was": currentState.config.insertZeroKeySurrogateKey | default('0') | replace('/*', '/ *') | replace('*/', '* /')
+                        "is": safe_metadata(desiredState.config.insertZeroKeySurrogateKey),
+                        "was": safe_metadata(currentState.config.insertZeroKeySurrogateKey | default('0'))
                     }) %}
                  {% endif %}
 
@@ -742,8 +742,8 @@ does not permit copying or modification for any other purpose.
                     {% set nsMetaVariables.insertZeroKeyTest = false %}
                     {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                         "Config": "Default String Value",
-                        "is": desiredState.config.insertZeroKeyStr | replace('/*', '/ *') | replace('*/', '* /'),
-                        "was": currentState.config.insertZeroKeyStr | default('UNKNOWN') | replace('/*', '/ *') | replace('*/', '* /')
+                        "is": safe_metadata(desiredState.config.insertZeroKeyStr),
+                        "was": safe_metadata(currentState.config.insertZeroKeyStr | default('UNKNOWN'))
                     }) %}
                 {% endif %}
 
@@ -751,8 +751,8 @@ does not permit copying or modification for any other purpose.
                     {% set nsMetaVariables.insertZeroKeyTest = false %}
                     {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                         "Config": "Default Date Value",
-                        "is": desiredState.config.insertZeroKeyDate | replace('/*', '/ *') | replace('*/', '* /'),
-                        "was": currentState.config.insertZeroKeyDate | default('01-01-1900') | replace('/*', '/ *') | replace('*/', '* /')
+                        "is": safe_metadata(desiredState.config.insertZeroKeyDate),
+                        "was": safe_metadata(currentState.config.insertZeroKeyDate | default('01-01-1900'))
                     }) %}
                 {% endif %}
 
@@ -760,8 +760,8 @@ does not permit copying or modification for any other purpose.
                     {% set nsMetaVariables.insertZeroKeyTest = false %}
                     {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                         "Config": "Default Timestamp Value",
-                        "is": desiredState.config.insertZeroKeyTimestamp | replace('/*', '/ *') | replace('*/', '* /'),
-                        "was": currentState.config.insertZeroKeyTimestamp | default('1900-01-01 00:00:00.000') | replace('/*', '/ *') | replace('*/', '* /')
+                        "is": safe_metadata(desiredState.config.insertZeroKeyTimestamp),
+                        "was": safe_metadata(currentState.config.insertZeroKeyTimestamp | default('1900-01-01 00:00:00.000'))
                     }) %}
                 {% endif %}
 
@@ -804,7 +804,7 @@ does not permit copying or modification for any other purpose.
                                                     | map(attribute='columnValueDefault')
                                                     | list %}
                                                     
-                    {% set desVal = [] %}
+                    {% set desVal = [] %}			
                     {% for col in desiredColDefault %}
                         {% set _ = desVal.append({col: desiredColValueDefault[loop.index0]}) %}
                     {% endfor %}
@@ -813,8 +813,8 @@ does not permit copying or modification for any other purpose.
                         {% set nsMetaVariables.insertZeroKeyTest = false %}
                         {% set _ = nsMetaVariables.insertZeroKeyDiff.append({
                             "Config": "Custom Zero Key Values",
-                            "is": desVal | replace('/*', '/ *') | replace('*/', '* /'),
-                            "was": currVal | replace('/*', '/ *') | replace('*/', '* /')
+                            "is": safe_metadata(desVal),
+                            "was": safe_metadata(currVal)
                         }) %}
                     {% endif %}
                 {% endif %}
