@@ -14,14 +14,14 @@ operation:
     customZeroKeyValues:
       items:
         - {}
-    deleteStrategy: NO DELETE
+    deleteStrategy: HARD DELETE
     excludeMergeList:
       items:
         - {}
     excludeMergeToggle: false
     groupByAll: false
     insertStrategy: UNION ALL
-    insertZeroKey: false
+    insertZeroKey: true
     insertZeroKeyAdvanced: false
     insertZeroKeyBol: "TRUE"
     insertZeroKeyDate: 01-01-1900
@@ -43,6 +43,9 @@ operation:
       {%- else -%}
       '{{- leveit}}'
       {%endif%}
+      {% if parameters.BACKLOAD == 'YES' %}
+          WHERE LOADTIME < {{ parameters.deployTimestamp }}::TIMESTAMP_NTZ
+      {% endif %}
     preSQL: |-
       /* example 1*/
       {# example 1#}
@@ -53,6 +56,10 @@ operation:
       {%- else -%}
       '{{- leveit}}'
       {%endif%}
+
+      {% if parameters.BACKLOAD == 'YES' %}
+          WHERE LOADTIME < {{ parameters.deployTimestamp }}::TIMESTAMP_NTZ
+      {% endif %}
     primary: false
     primaryKeyCol:
       items:
@@ -86,6 +93,10 @@ operation:
           {%- else -%}
           '{{- leveit}}'
           {%endif%}
+
+          {% if parameters.BACKLOAD == 'YES' %}
+              WHERE LOADTIME < {{ parameters.deployTimestamp }}::TIMESTAMP_NTZ
+          {% endif %}
     columns:
       - acceptedValues:
           strictMatch: true
@@ -142,7 +153,10 @@ operation:
           - columnReferences:
               - columnCounter: 78b86271-d4b5-4503-bdf3-24937981a3ff
                 stepCounter: 3d19ce7b-4594-422e-af60-f866321d4178
-            transform: ""
+            transform: |-
+              {% if parameters.BACKLOAD == 'YES' %}
+                  WHERE LOADTIME < {{ parameters.deployTimestamp }}::TIMESTAMP_NTZ
+              {% endif %}
       - appliedColumnTests: {}
         columnReference:
           columnCounter: bb4c98f6-fae9-41ac-ae41-9132f5e4596a
@@ -310,6 +324,10 @@ operation:
             {%- else -%}
             '{{- leveit}}'
             {%endif%}
+
+            {% if parameters.BACKLOAD == 'YES' %}
+                WHERE LOADTIME < {{ parameters.deployTimestamp }}::TIMESTAMP_NTZ
+            {% endif %}
         name: DIM_NATION
         noLinkRefs: []
   name: DIM_NATION
