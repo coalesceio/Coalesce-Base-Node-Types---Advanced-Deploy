@@ -11,6 +11,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
+    deleteStrategy: NO DELETE
     groupByAll: false
     insertStrategy: UNION ALL
     orderby: false

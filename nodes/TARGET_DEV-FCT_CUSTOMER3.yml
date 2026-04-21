@@ -3,14 +3,20 @@ id: 88ccc249-8fcb-4db8-8acf-c0d7b559987a
 name: FCT_CUSTOMER3
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 7952271a-d646-46c8-a4a1-6d9aedb4594c
+            stepCounter: 88ccc249-8fcb-4db8-8acf-c0d7b559987a
+        - columnName:
+            columnCounter: ea85aead-4b4d-4fb0-bcb8-afd3becee4c6
+            stepCounter: 88ccc249-8fcb-4db8-8acf-c0d7b559987a
     clusterKeyConfigExpressions:
       items:
         - {}
     clusterKeyExpressions: false
+    deleteStrategy: NO DELETE
     groupByAll: false
     insertStrategy: UNION ALL
     orderby: true
