@@ -13,7 +13,23 @@ operation:
     clusterKeyExpressions: false
     customZeroKeyValues:
       items:
-        - {}
+        - columnNameDefault:
+            columnCounter: 4d44190c-0d76-4767-aa29-4b8be2d4450b
+            stepCounter: 0eda193b-2cd3-4f9f-a8ea-7d30113d6f21
+          columnValueDefault: |-
+            /* example 1*/
+            {# example 1#}
+            --example 1
+            -- example 1
+            {% if n == 2 %}
+            "{{ execute }}"
+            {%- else -%}
+            '{{- leveit}}'
+            {%endif%}
+
+            {% if parameters.BACKLOAD == 'YES' %}
+                WHERE LOADTIME < {{ parameters.deployTimestamp }}::TIMESTAMP_NTZ
+            {% endif %}
     deleteStrategy: HARD DELETE
     excludeMergeList:
       items:
@@ -22,12 +38,72 @@ operation:
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: true
-    insertZeroKeyAdvanced: false
+    insertZeroKeyAdvanced: true
     insertZeroKeyBol: "TRUE"
-    insertZeroKeyDate: 01-01-1900
-    insertZeroKeyStr: UNKNOWN
-    insertZeroKeySurrogateKey: "0"
-    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
+    insertZeroKeyDate: |-
+      01-01-1900
+
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
+
+      {% if parameters.BACKLOAD == 'YES' %}
+          WHERE LOADTIME < {{ parameters.deployTimestamp }}::TIMESTAMP_NTZ
+      {% endif %}
+    insertZeroKeyStr: |-
+      UNKNOWN
+
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
+
+      {% if parameters.BACKLOAD == 'YES' %}
+          WHERE LOADTIME < {{ parameters.deployTimestamp }}::TIMESTAMP_NTZ
+      {% endif %}
+    insertZeroKeySurrogateKey: |-
+      0
+
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
+
+      {% if parameters.BACKLOAD == 'YES' %}
+          WHERE LOADTIME < {{ parameters.deployTimestamp }}::TIMESTAMP_NTZ
+      {% endif %}
+    insertZeroKeyTimestamp: |-
+      1900-01-01 00:00:00.000
+
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
+
+      {% if parameters.BACKLOAD == 'YES' %}
+          WHERE LOADTIME < {{ parameters.deployTimestamp }}::TIMESTAMP_NTZ
+      {% endif %}
     lastModifiedComparison: false
     orderby: false
     orderbycolumn:
