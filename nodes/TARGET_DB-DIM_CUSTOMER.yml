@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
-name: DIM_CUSTOMER_SCD2_SD
+id: 79977ac5-1262-4b7d-b39c-9b74c84898cb
+name: DIM_CUSTOMER
 operation:
   config:
     clusterKey: false
@@ -13,84 +13,139 @@ operation:
     clusterKeyExpressions: false
     customZeroKeyValues:
       items:
-        - {}
-    deleteStrategy: HARD DELETE
+        - columnNameDefault:
+            columnCounter: 7c6aa8b8-5aa6-42f2-9a9b-0441b2f45941
+            stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
+          columnValueDefault: |-
+            /* example 1*/
+            {# example 1#}
+            --example 1
+            -- example 1
+            {% if n == 2 %}
+            "{{ execute }}"
+            {%- else -%}
+            '{{- leveit}}'
+            {%endif%}
+    deleteStrategy: NO DELETE
     excludeMergeList:
       items:
         - {}
     excludeMergeToggle: false
     groupByAll: false
     insertStrategy: UNION ALL
-    insertZeroKey: false
-    insertZeroKeyAdvanced: false
+    insertZeroKey: true
+    insertZeroKeyAdvanced: true
     insertZeroKeyBol: "TRUE"
-    insertZeroKeyDate: 01-01-1900
-    insertZeroKeyStr: UNKNOWN
-    insertZeroKeySurrogateKey: "0"
-    insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
-    lastModifiedColumn:
-      columnCounter: fcb79413-ab9e-4399-ac41-90be53c77903
-      stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
-    lastModifiedComparison: true
+    insertZeroKeyDate: |-
+      01-01-1900
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
+    insertZeroKeyStr: |-
+      UNKNOWN
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
+    insertZeroKeySurrogateKey: |-
+      0
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
+    insertZeroKeyTimestamp: |-
+      1900-01-01 00:00:00.000
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
+    lastModifiedComparison: false
     orderby: false
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
+    postSQL: |-
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
     preSQL: |-
-      {# SCD-Type 2 Dimension == #}
-             {%- if varUpdateStrategy == 'MERGE' -%} 
-                  {{ stage('MERGE ' + ' Sources' | string) }}
-                  
-                  MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
-                  USING (
-            
-              {% for source in sources %}
-
-                 {% set joinclause = source.join %}
-                 
-                  /* New Rows That Don't Exist */
-                  (SELECT
-                  {% if config.selectDistinct %}
-                  DISTINCT
-                  {% endif %}
-                  {% for col in source.columns if not col.isSurrogateKey %}
-                      {% if col.isSystemVersion %}
-                          1
-                      {% elif col.isSystemCurrentFlag %}
-                          'Y'
-                      {% else %}
-                         {{ get_source_transform(col) }}
-                      {% endif %}
-                      AS "{{ col.name }}",
-                  {% endfor %}
+      /* example 1*/
+      {# example 1#}
+      --example 1
+      -- example 1
+      {% if n == 2 %}
+      "{{ execute }}"
+      {%- else -%}
+      '{{- leveit}}'
+      {%endif%}
     primary: false
     primaryKeyCol:
       items:
         - {}
     primaryKeyName: ""
     selectDistinct: false
-    testsEnabled: false
+    testsEnabled: true
     treatNullAsCurrentTimestamp: false
     truncateBefore: false
-    type2Dimension: true
+    type2Dimension: false
     updateStrategy: MERGE
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
   isMultisource: false
   locationName: TARGET_DB
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: |-
+          /* example 1*/
+          {# example 1#}
+          --example 1
+          -- example 1
+          {% if n == 2 %}
+          "{{ execute }}"
+          {%- else -%}
+          '{{- leveit}}'
+          {%endif%}
     columns:
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 25906ee4-a4fc-4a7d-8806-a7f595c544ce
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: 612c7694-103f-4707-9426-4f2cf9669a40
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: NUMBER
         defaultValue: ""
@@ -103,8 +158,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 01ed8eb0-af88-4c70-b9c1-11c33d6c33a8
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: 454bc8dd-5b97-4e8f-bfd1-c4ae576b6764
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -115,11 +170,20 @@ operation:
           - columnReferences:
               - columnCounter: 65c36b16-e73d-4edd-824c-5a21953d1595
                 stepCounter: 54ea4e3d-1917-4b9f-acb5-a6678c982792
-            transform: ""
+            transform: |-
+              /* example 1*/
+              {# example 1#}
+              --example 1
+              -- example 1
+              {% if n == 2 %}
+              "{{ execute }}"
+              {%- else -%}
+              '{{- leveit}}'
+              {%endif%}
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 941fff57-bdb8-43fe-a01d-7a1000bca429
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: cd0e6acd-6c38-4ca9-a37e-60afb7ccc739
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -132,8 +196,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0f750f1c-93d7-4dcf-b960-3b5d40c3904f
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: 7c6aa8b8-5aa6-42f2-9a9b-0441b2f45941
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: VARCHAR(40)
         description: ""
@@ -146,8 +210,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: fcb79413-ab9e-4399-ac41-90be53c77903
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: b5ac355f-5b80-419a-a894-a41d3d36a79a
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -160,8 +224,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2c804e36-e24d-49b4-87de-b38deb3ba730
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: f869653f-b053-4491-8de6-a37ce4fab700
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -174,8 +238,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f8bf6c29-acd1-4f45-9eff-283cdc92a48f
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: 7a7eda63-911f-4c86-8a84-9e0a17f6f9bb
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: NUMBER(12,2)
         description: ""
@@ -188,8 +252,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 15f9ef9a-a854-4a0a-b8ae-714904e74cd0
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: a897da7b-d2e8-40b4-a700-3a609296deb7
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: VARCHAR(10)
         description: ""
@@ -202,8 +266,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d4866e81-d5a6-4da9-aa3e-ea63868a1541
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: 7725d948-7a0b-4a09-a98d-8770ce10cdf0
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: VARCHAR(117)
         description: ""
@@ -216,8 +280,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 5688ef37-c35e-4a3a-8466-799d617e0c91
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: 75ba1afc-2541-424b-9638-19f415abc820
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -233,8 +297,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 0f4b98f4-41ef-457c-bc21-793de11008bd
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: 0dc3e257-6598-474b-8867-5446ec9c3554
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: NUMBER
         defaultValue: ""
@@ -250,8 +314,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 2415b3ef-ab83-4586-a3d0-ebe20d3109a6
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: 6d75247a-131e-405a-bbda-950e68b60587
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: VARCHAR
         defaultValue: ""
@@ -267,8 +331,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: e1bbde2b-9e91-4131-95b9-b28e6c05cde0
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: 77bcf310-899f-4c49-9dff-bdc30789c6e3
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -284,8 +348,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 71ad881c-1f68-476f-8b44-b7a0dfe6be6a
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: d79d0dc1-827a-4f2b-b5f7-5fac0c074841
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -301,8 +365,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 68994264-efa1-49c5-8e9c-4332133ca1a7
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: 9497d23e-e25f-43c9-925c-a1ef965fca1c
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -318,8 +382,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 7693ab91-180c-4d2c-bd98-e492b4c950fa
-          stepCounter: 19e4f14e-7768-4e0d-9cdd-c6fae366a260
+          columnCounter: 9273e711-5984-425a-94b7-f8e0f59b65b3
+          stepCounter: 79977ac5-1262-4b7d-b39c-9b74c84898cb
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -341,10 +405,20 @@ operation:
           - locationName: SOURCE_DATA
             nodeName: CUSTOMER
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
-        name: DIM_CUSTOMER_SCD2_SD
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'CUSTOMER') }} "CUSTOMER"
+            /* example 1*/
+            {# example 1#}
+            --example 1
+            -- example 1
+            {% if n == 2 %}
+            "{{ execute }}"
+            {%- else -%}
+            '{{- leveit}}'
+            {%endif%}
+        name: DIM_CUSTOMER
         noLinkRefs: []
-  name: DIM_CUSTOMER_SCD2_SD
+  name: DIM_CUSTOMER
   overrideSQL: false
   schema: ""
   sqlType: "388"

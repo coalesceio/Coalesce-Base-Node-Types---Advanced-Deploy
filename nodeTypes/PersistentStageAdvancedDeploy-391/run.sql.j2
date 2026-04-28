@@ -27,9 +27,14 @@ does not permit copying or modification for any other purpose.
      {%set useCurrentTimeStamp = false %}
    {%endif%}
 
+{%- if config.dmlCol %}
+    {%- set dmlCol = config.dmlCol.name -%}
+    {%- set dmlDelete = "'" + config.dmlDelete + "'" if config.dmlDelete else "'D'" -%}
+{%- endif %}
+
+{%- set deleteStrategy = config.deleteStrategy | default('NO DELETE') | upper | trim -%}
 
 {# == To run data quality tests before data insertion == #}
-
     {% for test in node.tests if config.testsEnabled %}
         {% if test.runOrder == 'Before' %}
             {{ test_stage(test.name, test.continueOnFailure) }}
@@ -39,23 +44,21 @@ does not permit copying or modification for any other purpose.
 
 {% if node.materializationType == 'table' or node.materializationType == 'transient table'  %}
 
-{# == Queries to be excuted before data insertion  == #}
-
+{# == Queries to be executed before data insertion  == #}
 	{% if config.preSQL %}
 		{{ stage('Pre-SQL') }}
 		{{ config.preSQL }}
 	{% endif %}
 
  {# == Truncate data before data insertion  == #}
-
     {% if config.truncateBefore %}
         {{ stage('Truncate Persistent Stage Table') }}
         TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
     {% endif %}
-	
+
     {% if has_business_key and is_type_2 %}
 
-         {# SCD-Type 2 Dimension == #}   
+        {# SCD-Type 2 Dimension == #}
 
             {{ stage('MERGE ' + 'SOURCES' | string) }}
             MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
@@ -87,13 +90,16 @@ does not permit copying or modification for any other purpose.
                 {% endif %}
                     {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
             {% endfor %}
-            WHERE
+            AND "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
+            WHERE (
             {% for col in source.columns if col.isBusinessKey -%}
-                {% if not loop.first %}
-                    AND
-                {% endif %}
+                {% if not loop.first %} AND {% endif %}
                 "DIM"."{{ col.name }}" IS NULL
             {% endfor %}
+            )
+            {% if config.dmlCol and deleteStrategy != 'NO DELETE' %}
+                AND NVL(CAST({{ get_source_transform(source.columns | selectattr("name", "equalto", dmlCol) | first) }} AS STRING), '') <> {{ dmlDelete }}
+            {% endif %}
             {{ get_clause(source.join) }}
             {% if config.groupByAll %}
             GROUP BY ALL
@@ -117,7 +123,7 @@ does not permit copying or modification for any other purpose.
                 {% elif col.isSystemCurrentFlag %}
                     'Y'
                 {% elif col.name == last_modified_col and useCurrentTimeStamp %}
-					     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP())
+				     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP())
                 {% else %}
                    {{ get_source_transform(col) }}
                 {% endif %}
@@ -182,18 +188,21 @@ does not permit copying or modification for any other purpose.
                         NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
                     )
                 {% endif %}
-
                 {% if loop.last %}
                     )
                 {% endif %}
             {% endfor %}
             {%endif%}
+            {% if config.dmlCol and deleteStrategy != 'NO DELETE' %}
+                AND NVL(CAST({{ get_source_transform(source.columns | selectattr("name", "equalto", dmlCol) | first) }} AS STRING), '') <> {{ dmlDelete }}
+            {% endif %}
             {{  get_clause(source.join)  }}
             {% if config.groupByAll %}
             GROUP BY ALL
             {% endif %}
             {{ sortorder_by_colv() }}
             )
+
             UNION ALL
             {%if config.lastModifiedComparison %}
                    /* Rows Needing To Be Expired 
@@ -212,7 +221,7 @@ does not permit copying or modification for any other purpose.
                 {% elif col.isSystemCurrentFlag %}
                     'N'
                 {% elif col.name == last_modified_col and useCurrentTimeStamp %}
-					     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP())
+				     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP())
                 {% else %}
                     "DIM"."{{ col.name }}"
                 {% endif %}
@@ -228,7 +237,7 @@ does not permit copying or modification for any other purpose.
                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
             {% endfor %}
             WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
-             {%if config.lastModifiedComparison %} 
+            {%if config.lastModifiedComparison %} 
             {% for col in source.columns if col.name == last_modified_col -%}
                     AND
                 {%if useCurrentTimeStamp %}
@@ -245,7 +254,6 @@ does not permit copying or modification for any other purpose.
                 {% else %}
                     OR
                 {% endif %}
-				
                 {% if col.dataType == 'GEOGRAPHY' %}
                     (
                         ST_DISTANCE(
@@ -278,18 +286,59 @@ does not permit copying or modification for any other purpose.
                         NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
                     )
                 {% endif %}
-
                 {% if loop.last %}
                     )
                 {% endif %}
             {% endfor %}
             {%endif%}
+            {% if config.dmlCol and deleteStrategy != 'NO DELETE' %}
+                AND NVL(CAST({{ get_source_transform(source.columns | selectattr("name", "equalto", dmlCol) | first) }} AS STRING), '') <> {{ dmlDelete }}
+            {% endif %}
             {{  get_clause(source.join)  }}
             {% if config.groupByAll %}
             GROUP BY ALL
             {% endif %}
             {{ sortorder_by_colv() }}
             )
+
+            {# == DELETE branch  == #}
+            {% if config.dmlCol and deleteStrategy != 'NO DELETE' %}
+            UNION ALL
+            /* Deleted Rows - feeds one row per version into MERGE for delete handling */
+            (SELECT
+            {% if config.selectDistinct %}
+            DISTINCT
+            {% endif %}
+            {%- for col in source.columns if not col.isSurrogateKey %}
+                {% if col.isSystemCurrentFlag %}
+                    "DIM"."{{ col.name }}"
+                {% elif col.isSystemVersion %}
+                    "DIM"."{{ col.name }}"
+                {% else %}
+                    {{ get_source_transform(col) }}
+                {% endif %}
+                AS "{{ col.name }}",
+            {% endfor -%}
+                'DELETE_ROWS' AS "DML_OPERATION"
+            {{  get_clause(source.join,'from')  }}
+            INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
+            {% for col in source.columns if col.isBusinessKey -%}
+                {% if not loop.first %}
+                    AND
+                {% endif %}
+                {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+            {% endfor %}
+            WHERE
+            NVL(CAST({{ get_source_transform(source.columns | selectattr("name", "equalto", dmlCol) | first) }} AS STRING), '') = {{ dmlDelete }}
+            AND "DIM"."{{ get_value_by_column_attribute("isSystemVersion") }}" != 0
+            {{  get_clause(source.join)  }}
+            {% if config.groupByAll %}
+            GROUP BY ALL
+            {% endif %}
+            {{ sortorder_by_colv() }}
+            )
+            {% endif %}
+
             {# The if-block below avoids unnecessary updates when no type 2 column changes are present #}
             {% if source.columns 
                 | rejectattr('isSurrogateKey')
@@ -309,7 +358,6 @@ does not permit copying or modification for any other purpose.
               UNION ALL
               /* Rows Needing To Be Updated Due To Changes To Non-Type-2 columns
               This case merges only when there are changes in non-type-2 column updates, but no changes in type-2 columns*/
-
               (SELECT
               {% if config.selectDistinct %}
               DISTINCT
@@ -368,8 +416,7 @@ does not permit copying or modification for any other purpose.
                   {%else%}                      
                   {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
                   {%endif%}
-              {% endfor %} )	
-              
+              {% endfor %} )
               {% for col in source.columns if not (   col.isBusinessKey or
                                                       col.isChangeTracking or
                                                       col.isSurrogateKey or
@@ -417,16 +464,18 @@ does not permit copying or modification for any other purpose.
                             NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
                         )
                     {% endif %}
-
                     {% if loop.last %}
                         )
                     {% endif %}
-                          {% endfor %}                         
+              {% endfor %}
+              {% if config.dmlCol and deleteStrategy != 'NO DELETE' %}
+                  AND NVL(CAST({{ get_source_transform(source.columns | selectattr("name", "equalto", dmlCol) | first) }} AS STRING), '') <> {{ dmlDelete }}
+              {% endif %}
             {{  get_clause(source.join)  }}
             {% if config.groupByAll %}
                 GROUP BY ALL
             {% endif %}
-            {{ sortorder_by_colv() }} )    
+            {{ sortorder_by_colv() }} )
             {% endif %}             
             {%endif%}  
             {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
@@ -443,6 +492,31 @@ does not permit copying or modification for any other purpose.
             "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
         {% endfor %}
         AND "TGT"."{{ get_value_by_column_attribute("isSystemVersion") }}" = "SRC"."{{ get_value_by_column_attribute("isSystemVersion") }}"
+
+        {% if config.dmlCol and deleteStrategy == 'SOFT DELETE' %}
+            /* Soft Delete - current row: stamp end date and expire flag */
+            WHEN MATCHED
+            AND "SRC"."DML_OPERATION" = 'DELETE_ROWS'
+            AND "TGT"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
+            THEN UPDATE SET
+                "TGT"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'N',
+                 "TGT"."{{ get_value_by_column_attribute("isSystemVersion") }}" = 0,
+                "TGT"."{{ dmlCol }}" = "SRC"."{{ dmlCol }}",
+                "TGT"."{{ get_value_by_column_attribute("isSystemEndDate") }}" = DATEADD(MILLISECONDS, -1, CAST(CURRENT_TIMESTAMP AS TIMESTAMP))
+            /* Soft Delete - historical rows: expire flag and update system version */
+            WHEN MATCHED
+            AND "SRC"."DML_OPERATION" = 'DELETE_ROWS'
+            AND "TGT"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'N'
+            THEN UPDATE SET
+                "TGT"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'N',
+                "TGT"."{{ get_value_by_column_attribute("isSystemVersion") }}" = 0
+        {% elif config.dmlCol and deleteStrategy == 'HARD DELETE' %}
+            /* Hard Delete - remove all version rows */
+            WHEN MATCHED
+            AND "SRC"."DML_OPERATION" = 'DELETE_ROWS'
+            THEN DELETE
+        {% endif %}
+
         WHEN MATCHED THEN UPDATE SET
         {%- for col in columns if not (col.isBusinessKey or col.isSurrogateKey or col.isSystemCreateDate) %}
             "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
@@ -460,7 +534,7 @@ does not permit copying or modification for any other purpose.
             {% if not loop.last %}, {% endif %}
         {% endfor -%}
         )
-
+        
     {% elif has_business_key and not is_type_2 %}
 
            {# SCD-Type 1 Dimension == #}
@@ -524,6 +598,29 @@ does not permit copying or modification for any other purpose.
                 {% endif %}
                 "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
             {% endfor %}
+
+            {% if config.dmlCol %}
+
+                {% if deleteStrategy == 'SOFT DELETE' %}
+
+                    /* Soft Delete */
+                    WHEN MATCHED
+                    AND "SRC"."{{ dmlCol }}" = {{ dmlDelete }}
+                    THEN UPDATE SET
+                        "TGT"."SYSTEM_VERSION" = 0,
+                        "TGT"."SYSTEM_CURRENT_FLAG" = 'N',
+                        "TGT"."{{ dmlCol }}" = "SRC". "{{ dmlCol }}"
+
+                {% elif deleteStrategy == 'HARD DELETE' %}
+
+                    /* Hard Delete */
+                    WHEN MATCHED
+                    AND "SRC"."{{ dmlCol }}" = {{ dmlDelete }}
+                    THEN DELETE
+
+                {% endif %}
+
+            {% endif %}
             WHEN MATCHED
              {%if not config.lastModifiedComparison%}
                 {% for col in columns if not (   col.isBusinessKey or
@@ -556,7 +653,6 @@ does not permit copying or modification for any other purpose.
                     {% elif col.dataType == 'GEOMETRY' %}
                         (
                             ST_DISTANCE(
-                                
                                     (CASE 
                                         WHEN "SRC"."{{ col.name }}" IS NULL THEN TO_GEOMETRY('POINT(0 0)') 
                                         ELSE "SRC"."{{ col.name }}" 
@@ -569,7 +665,6 @@ does not permit copying or modification for any other purpose.
                         )
                     {% else %}
                             (
-                            
                                 NVL(CAST("SRC"."{{ col.name }}" AS STRING), '**NULL**') <> 
                                 NVL(CAST("TGT"."{{ col.name }}" AS STRING), '**NULL**')
                             )
@@ -612,7 +707,6 @@ does not permit copying or modification for any other purpose.
 
         {# == Executed if neither business key or change tracking is not specified  == #}
 
-
             {{ stage('Insert ' + 'Sources' | string ) }}
             INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
             (
@@ -622,9 +716,7 @@ does not permit copying or modification for any other purpose.
                 {% endfor %}
             )
 
-
         {% for source in sources %}
-
 
             (SELECT
             {% if config.selectDistinct %}

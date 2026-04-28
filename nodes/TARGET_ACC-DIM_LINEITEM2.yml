@@ -14,6 +14,7 @@ operation:
     customZeroKeyValues:
       items:
         - {}
+    deleteStrategy: NO DELETE
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: true
@@ -419,14 +420,17 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          LINEITEM: 076f54d9-31b3-4e47-995d-647123874f9f
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: LINEITEM
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'LINEITEM') }} "LINEITEM"
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'LINEITEM') }} "LINEITEM"
+            QUALIFY ROW_NUMBER() OVER (PARTITION BY "L_ORDERKEY" ORDER BY L_LOAD_TIMESTAMP ASC) = 1
         name: DIM_LINEITEM2
         noLinkRefs: []
   name: DIM_LINEITEM2
