@@ -15,7 +15,7 @@ config:
         isDisabled: false
       "391":
         defaultStorageLocation: null
-        isDisabled: true
+        isDisabled: false
   packageVariables: ""
 fileVersion: 1
 id: "@coalesce/snowflake/base-node-types-advanced-deploy"
