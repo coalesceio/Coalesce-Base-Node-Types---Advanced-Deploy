@@ -300,6 +300,9 @@ You can create the node as:
 | **Treat Null as Current timestamp(Enabled for Last Modified Comparison)**| Records with NULL timestamp are updated in target|
 | **Type 2 Dimension(Enabled for Last Modified Comparison)**|CDC is based on timestamp/ID column chosen above.Change tracking columns are not enabled for this scenario|
 | **Change tracking** | Required column for Type 2 |
+| **Delete Strategy** | Visible only when a Business Key is configured.<br/> **NO DELETE**: Deleted records are not processed.<br/>**SOFT DELETE**:  Deleted records are kept in the target but marked as inactive.<br/>**HARD DELETE**: Deleted records and all their version history are permanently removed from the target. |
+| **Column that Identifies DML Operations** | The column in the source table that tells whether a record is an Insert, Update or Delete. |
+| **Delete Value** | The value in the DML column that signals a record should be deleted. |
 | **Truncate Before** | Toggle: True/False<br/>Determines whether the table is truncated before execution.<br/>**True**: Table is truncated before the DML operation runs.<br/>**False**: The DML operation runs without truncation. |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
 | **Distinct** | Toggle: True/False<br/>**True**: Group by All is invisible. DISTINCT data is chosen for processing.<br/>**False**: Group by All is visible. |
@@ -321,6 +324,9 @@ You can create the node as:
 | **Treat Null as Current timestamp(Enabled for Last Modified Comparison)**| Records with NULL timestamp are updated in target|
 | **Type 2 Dimension(Enabled for Last Modified Comparison)**|CDC is based on timestamp/ID column chosen above.Change tracking columns are not enabled for this scenario|
 | **Change tracking** | Required column for Type 2 |
+| **Delete Strategy** | Visible only when a Business Key is configured.<br/> **NO DELETE**: Deleted records are not processed.<br/>**SOFT DELETE**:  Deleted records are kept in the target but marked as inactive.<br/>**HARD DELETE**: Deleted records and all their version history are permanently removed from the target. |
+| **Column that Identifies DML Operations** | The column in the source table that tells whether a record is an Insert, Update or Delete. |
+| **Delete Value** | The value in the DML column that signals a record should be deleted. |
 | **Truncate Before** | Toggle: True/False<br/>Determines whether the table is truncated before execution.<br/>**True**: Table is truncated before the DML operation runs.<br/>**False**: The DML operation runs without truncation. |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
 | **Distinct** | Toggle: True/False<br/>**True**: Group by All is invisible. DISTINCT data is chosen for processing.<br/>**False**: Group by All is visible. |
