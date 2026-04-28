@@ -1,11 +1,11 @@
 fileVersion: 1
-id: "391"
+id: "639"
 isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
   nodeMetadataSpec: |
-    capitalized: Persistent Stage Advanced Deploy
+    capitalized: Copy of Persistent Stage Advanced Deploy
     short: PSTG
     plural: Persistent Stages
     tagColor: '#29B2DB'
@@ -268,5 +268,5 @@ metadata:
       dataType: TIMESTAMP
       placement: end
       attributeName: isSystemUpdateDate
-name: Persistent Stage Advanced Deploy
+name: Copy of Persistent Stage Advanced Deploy
 type: NodeType

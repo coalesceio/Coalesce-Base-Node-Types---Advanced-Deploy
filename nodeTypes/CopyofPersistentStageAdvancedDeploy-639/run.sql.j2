@@ -90,21 +90,11 @@ does not permit copying or modification for any other purpose.
                 {% endif %}
                     {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
             {% endfor %}
+            AND "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
             WHERE (
             {% for col in source.columns if col.isBusinessKey -%}
                 {% if not loop.first %} AND {% endif %}
                 "DIM"."{{ col.name }}" IS NULL
-                OR (
-                    "DIM"."{{ col.name }}" IS NOT NULL
-                    AND "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'N'
-                    AND "DIM".{{ dmlCol }} = 'D'
-                    AND NOT EXISTS (
-                        SELECT 1
-                        FROM {{ ref_no_link(node.location.name, node.name) }} "DIM2"
-                        WHERE "DIM2"."{{ col.name }}" = "DIM"."{{ col.name }}"
-                        AND "DIM2"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
-                    )
-                )
             {% endfor %}
             )
             {% if config.dmlCol and deleteStrategy != 'NO DELETE' %}
@@ -338,9 +328,10 @@ does not permit copying or modification for any other purpose.
                 {% endif %}
                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
             {% endfor %}
+            AND "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
             WHERE
             NVL(CAST({{ get_source_transform(source.columns | selectattr("name", "equalto", dmlCol) | first) }} AS STRING), '') = {{ dmlDelete }}
-            AND "DIM"."{{ get_value_by_column_attribute("isSystemVersion") }}" != 0
+            --AND "DIM"."{{ get_value_by_column_attribute("isSystemVersion") }}" != 0
             {{  get_clause(source.join)  }}
             {% if config.groupByAll %}
             GROUP BY ALL

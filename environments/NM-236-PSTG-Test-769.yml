@@ -1,0 +1,17 @@
+fileVersion: 1
+id: "769"
+mappingDefinitions:
+  SOURCE_DATA:
+    database: PRANJAL_DEV
+    schema: SOURCE_DB
+  TARGET_ACC:
+    database: PRANJAL_DEV
+    schema: PUBLIC
+  TARGET_DB:
+    database: PRANJAL_DEV
+    schema: TEST_DB
+  TARGET_DEV:
+    database: PRANJAL_DEV
+    schema: TARGET_DB
+name: "[NM-236]-PSTG-Test"
+type: Environment

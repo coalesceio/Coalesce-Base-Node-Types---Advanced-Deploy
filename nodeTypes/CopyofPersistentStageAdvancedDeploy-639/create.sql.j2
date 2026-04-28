@@ -171,9 +171,9 @@ does not permit copying or modification for any other purpose.
 
                         {# =========================================================
                         Join comparison
-                        ========================================================= #}   
-						{% set desiredStateSources = safe_metadata(src.join) %}
-						{% set currentStateSources = safe_metadata(matchingSource.join) %}
+                        ========================================================= #}
+                        {% set desiredStateSources = src.join | replace("{{", '"{{"') | replace("}}", '"}}"') | replace('/*', '/ *') | replace('*/', '* /') %}
+                        {% set currentStateSources = matchingSource.join | replace("{{", '"{{"') | replace("}}", '"}}"') | replace('/*', '/ *') | replace('*/', '* /') %}
 
                         {# Same number of sources — compare join transformations #}
                         {% if desiredStateSources != currentStateSources %}
@@ -210,8 +210,8 @@ does not permit copying or modification for any other purpose.
                                     {% set _ = nsMetaVariables.transformDiff.append({
                                         "Source Name": src.name,
                                         "Column Name": col.name,
-                                        "is": safe_metadata(col.transform),
-                                            "was": safe_metadata(currentTransform)
+                                        "is": col.transform | replace('/*', '/ *') | replace('*/', '* /'),
+                                            "was": currentTransform | replace('/*', '/ *') | replace('*/', '* /')
                                     }) %}
                                 {% endif %}
 
@@ -369,8 +369,8 @@ does not permit copying or modification for any other purpose.
                         {% if ctest != dtest %}
                             {% set nsMetaVariables.testsEnabledTest = false %}
                             {% set _ = nsMetaVariables.testsEnabledDiff.append({
-                                "is": safe_metadata(dtest),
-                                "was": safe_metadata(ctest)
+                                "is": dtest | replace('/*', '/ *') | replace('*/', '* /'),
+                                "was": ctest | replace('/*', '/ *') | replace('*/', '* /')
                             }) %}
                         {% endif %}
                     {% endfor %}
@@ -443,8 +443,8 @@ does not permit copying or modification for any other purpose.
             {% if currentState.config.preSQL | default('') != desiredState.config.preSQL %}
                 {% set nsMetaVariables.preSQLTest = false %}
                 {% set _ = nsMetaVariables.preSQLDiff.append({
-                    "is": safe_metadata(desiredState.config.preSQL),
-                    "was": safe_metadata(currentState.config.preSQL | default(''))
+                    "is": desiredState.config.preSQL | replace('/*', '/ *') | replace('*/', '* /'),
+                    "was": currentState.config.preSQL | default('') | replace('/*', '/ *') | replace('*/', '* /')
                 }) %}
                 
                 {{ update_metadata("pre SQL", nsMetaVariables.preSQLDiff, "pre SQL") }}
@@ -457,8 +457,8 @@ does not permit copying or modification for any other purpose.
             {% if currentState.config.postSQL | default('') != desiredState.config.postSQL %}
                 {% set nsMetaVariables.postSQLTest = false %}
                 {% set _ = nsMetaVariables.postSQLDiff.append({
-                    "is": safe_metadata(desiredState.config.postSQL),
-                    "was": safe_metadata(currentState.config.postSQL | default(''))
+                    "is": desiredState.config.postSQL | replace('/*', '/ *') | replace('*/', '* /'),
+                    "was": currentState.config.postSQL | default('') | replace('/*', '/ *') | replace('*/', '* /')
                 }) %}
                 
                 {{ update_metadata("post SQL", nsMetaVariables.postSQLDiff, "post SQL") }}
