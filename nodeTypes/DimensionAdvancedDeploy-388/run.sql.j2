@@ -511,17 +511,22 @@ does not permit copying or modification for any other purpose.
                     {% endfor %}
 
                     WHERE
-                    {% for col in source.columns if col.isBusinessKey -%}
-                        {% if not loop.first %}
-                            AND
+                    {% for col in source.columns if col.isBusinessKey or col.isSurrogateKey -%}
+                        {%if not loop.first%}
+                          AND
+                        {%endif%}
+                        {% if col.isBusinessKey %}
+                            {{ get_source_transform(col) }} IS NULL
                         {% endif %}
-                        {{ get_source_transform(col) }} IS NULL
-
-                        {% if config.deleteStrategy == "SOFT DELETE" %}
-                            AND "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" != '0'
+                        {% if col.isSurrogateKey and config.insertZeroKey %}
+                           `DIM`.`{{ col.name }}` <> {{config.insertZeroKeySurrogateKey}}
                         {% endif %}
+                       
                     {% endfor %}
-                
+                    {% if config.deleteStrategy == "SOFT DELETE" %}
+                          AND `DIM`.`{{ get_value_by_column_attribute("isSystemCurrentFlag") }}` != '0'
+                    {% endif %}
+                   
                     {{ get_clause(joinclause) }}
 
                     {% if config.groupByAll %}

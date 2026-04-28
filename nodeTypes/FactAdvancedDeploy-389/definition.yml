@@ -72,28 +72,46 @@ metadata:
         enableIf: "{% if node.materializationType != 'view' and (columns 
                       | selectattr('isBusinessKey')
                       | list
-                      | length > 0) %} true {% else %} false {% endif %}"
+                      | length > 0) and not config.incrementalload %} true {% else %} false {% endif %}"
+
 
       - type: label
         attributeName: l1
         displayName: Column chosen can either be a timestamp or incremental id column
-        enableIf: "{% if config.lastModifiedComparison  %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.lastModifiedComparison and not config.incrementalload %} true {% else %} false {% endif %}"
       
       - type: columnDropdownSelector
         attributeName: lastModifiedColumn
         displayName: Last Modified Column
-        enableIf: "{% if config.lastModifiedComparison  %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.lastModifiedComparison and not config.incrementalload %} true {% else %} false {% endif %}"
       
       - type: label
         attributeName: l2
         displayName: The below toggle is applicable only for timestamp column
-        enableIf: "{% if config.lastModifiedComparison  %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.lastModifiedComparison and not config.incrementalload %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: treatNullAsCurrentTimestamp
         displayName: Treat NULL as Current Timestamp
         default: false
-        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.lastModifiedComparison and not config.incrementalload %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        attributeName: incrementalload
+        displayName: Incremental Load based on timestamp column
+        default: false
+        enableIf: "{% if node.materializationType != 'view' and not config.lastModifiedComparison %} true {% else %} false {% endif %}"
+
+      - type: columnDropdownSelector
+        attributeName: loaddataColumn
+        displayName: Load Data Column-Timestamp
+        enableIf: "{% if config.incrementalload and not config.lastModifiedComparison %} true {% else %} false {% endif %}"
+
+      - type: textBox
+        displayName: lookbackdays
+        attributeName: Lookback days
+        default : 3
+        enableIf: "{% if node.materializationType != 'view' and config.incrementalload and not config.lastModifiedComparison%} true {% else %} false {% endif %}"
 
       - displayName: Unmatched Record Strategy
         attributeName: deleteStrategy

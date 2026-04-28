@@ -15,6 +15,10 @@ does not permit copying or modification for any other purpose.
  {% set last_modified_col = config.lastModifiedColumn.name | default('') %}
 {%endif%}
 
+{%if config.incrementalload %}
+  {% set load_col = config.loaddataColumn.name | default('') %}
+{%endif%}
+
 {%if config.treatNullAsCurrentTimestamp  and 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper)  %}
      {%set useCurrentTimeStamp = true %}
    {%else%}
@@ -79,7 +83,7 @@ does not permit copying or modification for any other purpose.
 					     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) AS "{{ col.name }}",
 						 COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) as COMPARISON_VALUE,
 						 MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE		    
-                       {% elif col.name == last_modified_col and not useCurrentTimeStamp%}
+                       {% elif (col.name == last_modified_col) and not useCurrentTimeStamp and config.incrementalload%}
 					     {{ get_source_transform(col) }} AS "{{ col.name }}",
 						 {{ get_source_transform(col) }} AS COMPARISON_VALUE,
 					     MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
@@ -98,8 +102,8 @@ does not permit copying or modification for any other purpose.
                                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
                             {% endfor %}
                   {%endif%}
-                  {% set clause = get_clause(joinclause) %}
-                   {% if clause %}
+                    {% set clause = get_clause(joinclause) %}
+                    {% if clause %}
                       {{ ("WHERE " ~ clause.strip()[3:].strip()) if clause.strip().upper().startswith('AND') else clause }}
                    {% endif %}
                   {% if config.groupByAll or config.lastModifiedComparison %}
@@ -182,7 +186,7 @@ does not permit copying or modification for any other purpose.
                 THEN DELETE
         {% endif %}
 				WHEN MATCHED
-                {%if not config.lastModifiedComparison%}
+                {%if not (config.lastModifiedComparison or config.incrementalload)%}
 					{% for col in includeColList if not (col.isBusinessKey or col.isSystemUpdateDate or col.isSystemCreateDate) %}
 								  
 						{% if loop.first %}
@@ -226,9 +230,15 @@ does not permit copying or modification for any other purpose.
 							)
 						{% endif %}
 					{% endfor %}  
-                {%else%} 
+                {%elif config.lastModifiedComparison%} 
                     AND ("SRC".COMPARISON_VALUE > "SRC".MAX_TARGET_VALUE 
                     OR "SRC".MAX_TARGET_VALUE IS NULL)
+                {%elif config.incrementalload%}
+                    AND ("SRC".COMPARISON_VALUE >= DATEADD(
+                       day, 
+                        -3, -- <Lookback Days Configurable Field>
+                      NVL("SRC".MAX_TARGET_VALUE), CAST('1900-01-01' AS TIMESTAMP))
+                     )
                 {%endif%}
                 THEN UPDATE SET
                 {%- for col in includeColList if not (col.isBusinessKey or col.isSystemCreateDate) %}

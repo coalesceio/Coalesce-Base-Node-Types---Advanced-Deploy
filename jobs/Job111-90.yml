@@ -1,0 +1,6 @@
+excludeSelector: ""
+fileVersion: 1
+id: "90"
+includeSelector: "{ subgraph: \"View-Qualify\" } OR { location: \"TARGET_DB\" name: \"DIM_CUSTOMER_EX1\" } OR { location: \"TARGET_DB\" name: \"DIM_CUSTOMER_EX2\" } OR { location: \"SOURCE_DATA\" name: \"CHAMP_SCORE\" } OR { location: \"SOURCE_DATA\" name: \"HEAVY_WEATHER\" } OR { location: \"SOURCE_DATA\" name: \"ORDERS\" } OR { location: \"SOURCE_DATA\" name: \"POPULATION\" } OR { location: \"SOURCE_DATA\" name: \"QUARTERLY_SALES\" } OR { location: \"SOURCE_DATA\" name: \"STORE_SALES\" } OR { location: \"SOURCE_DATA\" name: \"STUDENTS_SAMP\" }"
+name: Job 111
+type: Job

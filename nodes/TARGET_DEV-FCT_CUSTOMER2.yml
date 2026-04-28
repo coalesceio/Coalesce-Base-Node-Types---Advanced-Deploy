@@ -3,6 +3,7 @@ id: ed692e2e-4cfa-465f-b1ca-3b5bc07e4c24
 name: FCT_CUSTOMER2
 operation:
   config:
+    Lookback days: "3"
     clusterKey: false
     clusterKeyConfig:
       items:
@@ -11,8 +12,13 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
+    deleteStrategy: NO DELETE
     groupByAll: false
+    incrementalload: true
     insertStrategy: UNION ALL
+    loaddataColumn:
+      columnCounter: 5dbff8b4-629a-423f-963e-8d6fd98066ed
+      stepCounter: ed692e2e-4cfa-465f-b1ca-3b5bc07e4c24
     orderby: false
     orderbycolumn:
       items:
