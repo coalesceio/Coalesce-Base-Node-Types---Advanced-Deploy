@@ -457,7 +457,7 @@ You can create the node as:
 | **Create As**| Table|
 | **Insert Zero Key Record** | Toggle: True/False<br/>Insert Zero Key Record to Dimention<br/>**True**:  Zero Key Record Options enabled.<br/>**False**: Zero Key Record not added|
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
-| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_`{{tablename}}`** |
+| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_TABLENAME** |
 | **Update Strategy**| Options : MERGE,INSERT/UPDATE <br/>- **MERGE**: Uses a single MERGE statement to handle both insert and update operations based on matching keys.<br/>- **INSERT/UPDATE**: Separately executes UPDATE for existing records and INSERT for new ones using custom logic.For preferred choice,refer [Preferences](#preferences)|
 | **Business key** | Required column for Type 1 and Type 2 Dimensions .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
 | **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done |
@@ -484,7 +484,7 @@ You can create the node as:
 |---------|-------------|
 | **Create As**| Transient Table |
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
-| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_`{{tablename}}`** |
+| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_TABLENAME** |
 | **Update Strategy**| Options : MERGE,INSERT/UPDATE <br/>- **MERGE**: Uses a single MERGE statement to handle both insert and update operations based on matching keys.<br/>- **INSERT/UPDATE**: Separately executes UPDATE for existing records and INSERT for new ones using custom logic.For preferred choice,refer [Preferences](#preferences)|
 | **Unmatched Record Strategy** | Available for single source nodes with Merge as update strategy<br/>- **NO DELETE**: An option introduced to ensure existing data flows remain intact and unchanged, preventing any delete operation on the target table.<br/>- **SOFT DELETE**: Marks records as logically deleted (isSystemCurrentFlag = 0) while retaining the history.<br/>- **HARD DELETE**: Permanent removal of records from the target table. |
 | **Exclude Columns from Merge** | Available only for SCD type 1 Merges. Allows you to specify one or more columns that are excluded during both the **comparison** (matching) and **updating** phases of the MERGE statement. |
@@ -647,7 +647,7 @@ You can create the node as:
 |---------|-------------|
 | **Create As**| Table |
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
-| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_`{{tablename}}`** |
+| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_TABLENAME** |
 | **Business key** | Required column for Type 1 and Type 2 Dimensions .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
 | **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done |
 | **Last Modified Column(Enabled for Last Modified Comparison)** | Timestamp/Incremental ID column can be chosen.Based on which CDC is done |
@@ -669,7 +669,7 @@ You can create the node as:
 |---------|-------------|
 | **Create As**| Transient Table |
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
-| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_`{{tablename}}`** |
+| **Primary key** | Allows you to specify one or more columns based on which primary constraint is set on the table.<br/> **Primary Key Name**: Primary key constraint name. If not specified defaults to **pk_TABLENAME** |
 | **Business key** | Required column for Type 1 and Type 2 Dimensions |
 | **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done |
 | **Last Modified Column(Enabled for Last Modified Comparison)** | Timestamp/Incremental ID column can be chosen.Based on which CDC is done |
