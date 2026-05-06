@@ -142,7 +142,7 @@ metadata:
                       | list
                       | length > 0) %} true {% else %} false {% endif %}"
 
-      - displayName: Column that Identifies DML Operations*(INSERT/UPDATE/DELETE)
+      - displayName: Column that Identifies DML Operations*(DELETE)
         attributeName: dmlCol
         type: columnDropdownSelector
         enableIf: "{% if config.deleteStrategy != 'NO DELETE' and (columns 

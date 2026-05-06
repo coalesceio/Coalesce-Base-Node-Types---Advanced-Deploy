@@ -240,7 +240,6 @@ macroString: |-
           -- ⚠️ Warning: Cortex search service is attached to this node. Changing its type may cause service failures, inconsistencies, or data loss. Any required updates/drops must be handled manually.
       {%- endif %}
   {% endmacro %}
-
   {# ----------------------------------------------------------------------
     Macro: safe_metadata
 

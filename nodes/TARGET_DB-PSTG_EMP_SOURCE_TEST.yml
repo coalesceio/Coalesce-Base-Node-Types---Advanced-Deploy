@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 5306d475-9559-434e-9ee7-7d8522ae3078
-name: PSTG_COURSES_SC
+id: e76a5d75-972c-4f19-962a-205ad708bf18
+name: PSTG_EMP_SOURCE_TEST
 operation:
   config:
     clusterKey: false
@@ -13,11 +13,15 @@ operation:
     clusterKeyExpressions: false
     deleteStrategy: SOFT DELETE
     dmlCol:
-      columnCounter: 2a09102e-92b0-4db3-8214-fa5fab4b5fb0
-      stepCounter: 5306d475-9559-434e-9ee7-7d8522ae3078
+      columnCounter: d2f8d0a7-dd14-4dd9-8a35-461f982c6368
+      stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
     dmlDelete: D
     groupByAll: false
     insertStrategy: UNION ALL
+    lastModifiedColumn:
+      columnCounter: c188b436-0458-4ac2-b89e-90e6a0cbf1e1
+      stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
+    lastModifiedComparison: true
     orderby: false
     orderbycolumn:
       items:
@@ -26,12 +30,14 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
+    treatNullAsCurrentTimestamp: false
     truncateBefore: false
+    type2Dimension: true
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
-  isMultisource: true
-  locationName: TARGET_ACC
+  isMultisource: false
+  locationName: TARGET_DB
   materializationType: table
   metadata:
     appliedNodeTests: []
@@ -41,82 +47,97 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 8cc13f4b-f436-4efb-ba01-4b838920ed83
-          stepCounter: 5306d475-9559-434e-9ee7-7d8522ae3078
+          columnCounter: fb221a7d-af8e-44d5-97ed-aee1d8705f42
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
         config: {}
         dataType: NUMBER
         defaultValue: ""
         description: ""
         isSurrogateKey: true
-        name: PSTG_COURSES_SC_KEY
+        name: PSTG_EMP_SOURCE_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
-          - columnReferences: []
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 647a7aad-92ed-45c1-9898-0df7a7e35a16
-          stepCounter: 5306d475-9559-434e-9ee7-7d8522ae3078
+          columnCounter: f7efc98f-1fc6-485c-ae01-0bbed4b9c774
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
         config: {}
         dataType: NUMBER(38,0)
         description: ""
         isBusinessKey: true
-        name: COURSE_ID
+        name: EMP_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 1f3d84ab-ddcf-4693-b7f6-1fcca4b460cd
-                stepCounter: 34be8ad1-3ef7-4685-997d-0156eb8cfaf9
-            transform: ""
-          - columnReferences:
-              - columnCounter: cef8c1ab-2e03-444a-889c-e34c2527403f
-                stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+              - columnCounter: ea1ef3b4-9dd6-4fb0-bea9-c8ff5e946dda
+                stepCounter: 8bc0803c-42f4-449e-b261-f443eb2bd48c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2a09102e-92b0-4db3-8214-fa5fab4b5fb0
-          stepCounter: 5306d475-9559-434e-9ee7-7d8522ae3078
+          columnCounter: 9dc2977b-51c1-44d0-b008-cd74278ca891
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
-        name: COURSE_NAME
+        isChangeTracking: true
+        name: EMP_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 4034931f-20aa-456f-b31a-573a4649dd88
-                stepCounter: 34be8ad1-3ef7-4685-997d-0156eb8cfaf9
-            transform: ""
-          - columnReferences:
-              - columnCounter: 90c893c6-168b-4b9b-a2af-25244449bcdd
-                stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+              - columnCounter: 7e41658d-1e66-46f7-86d1-65351910aa44
+                stepCounter: 8bc0803c-42f4-449e-b261-f443eb2bd48c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 3330de54-bf7f-4ac2-a5ba-4b307def094d
-          stepCounter: 5306d475-9559-434e-9ee7-7d8522ae3078
+          columnCounter: c173a8de-6709-4db1-98e0-9422423e8bda
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
-        name: INSTRUCTOR
+        name: EMP_CITY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 6a3a19f2-0473-4c9c-8e60-3719b48e8a31
-                stepCounter: 34be8ad1-3ef7-4685-997d-0156eb8cfaf9
+              - columnCounter: eba337f3-1a31-4a6c-8fdb-2edce947ea86
+                stepCounter: 8bc0803c-42f4-449e-b261-f443eb2bd48c
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d2f8d0a7-dd14-4dd9-8a35-461f982c6368
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: DML_FLAG
+        nullable: true
+        sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 00dfe3e7-c8d5-4db7-a2b0-64db76c3b0d0
-                stepCounter: b8a20ef4-84e8-47d0-8b99-edb891107257
+              - columnCounter: 31a31ba5-7d2b-4090-8613-ccaa5af5f773
+                stepCounter: 8bc0803c-42f4-449e-b261-f443eb2bd48c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c188b436-0458-4ac2-b89e-90e6a0cbf1e1
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a838fd3c-fa21-4b1f-ad58-8161b605048b
+                stepCounter: 8bc0803c-42f4-449e-b261-f443eb2bd48c
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: dccc37e4-92a9-49be-b63c-de2d243d7930
-          stepCounter: 5306d475-9559-434e-9ee7-7d8522ae3078
+          columnCounter: 105138bc-18fb-413d-b489-a32159dd4b48
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
         config: {}
         dataType: NUMBER
         defaultValue: ""
@@ -127,15 +148,13 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
-          - columnReferences: []
-            transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 6c6a7a39-69ac-4dc3-8c3f-58e069c725c0
-          stepCounter: 5306d475-9559-434e-9ee7-7d8522ae3078
+          columnCounter: 6a30f370-8192-45e5-ac67-e01c4dfe3b44
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
         config: {}
         dataType: VARCHAR
         defaultValue: ""
@@ -146,15 +165,13 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
-          - columnReferences: []
-            transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: c657c1fb-0909-4696-aad0-0d70df2daa6b
-          stepCounter: 5306d475-9559-434e-9ee7-7d8522ae3078
+          columnCounter: 2f4a2694-6e57-4a94-93d5-fa2ad999f38a
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -165,15 +182,13 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 3c68533a-522a-4a41-be89-c1ad092ffa5b
-          stepCounter: 5306d475-9559-434e-9ee7-7d8522ae3078
+          columnCounter: a6070ffe-07a9-4efd-bd6f-52ca2653888d
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -184,15 +199,13 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
-          - columnReferences: []
-            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 26b918e8-46be-47e0-abea-4a4a08adcb58
-          stepCounter: 5306d475-9559-434e-9ee7-7d8522ae3078
+          columnCounter: 3c2af265-84b0-4dc6-b2c7-6f4cd38bcd2b
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -203,15 +216,13 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: ed2f9dc6-6da3-45a6-9884-804119257d7c
-          stepCounter: 5306d475-9559-434e-9ee7-7d8522ae3078
+          columnCounter: ad8e7952-18e2-4f9f-a59f-a616ef3d2533
+          stepCounter: e76a5d75-972c-4f19-962a-205ad708bf18
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -222,33 +233,21 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
-        customSQL:
-          customSQL: ""
-        dependencies:
-          - locationName: SOURCE_DATA
-            nodeName: COURSES_SC
-        join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'COURSES_SC') }} "COURSES_SC"
-        name: PSTG_COURSES_SC
-        noLinkRefs: []
       - aliases:
-          COURSES_IT: b8a20ef4-84e8-47d0-8b99-edb891107257
+          EMP_SOURCE: 8bc0803c-42f4-449e-b261-f443eb2bd48c
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
-            nodeName: COURSES_IT
+            nodeName: EMP_SOURCE
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'COURSES_IT') }} "COURSES_IT"
-        name: NEW_SOURCE
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'EMP_SOURCE') }} "EMP_SOURCE"
+        name: PSTG_EMP_SOURCE_TEST
         noLinkRefs: []
-  name: PSTG_COURSES_SC
+  name: PSTG_EMP_SOURCE_TEST
   overrideSQL: false
   schema: ""
   sqlType: "391"

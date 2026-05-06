@@ -34,13 +34,23 @@ operation:
       {% if true %}
       select count(*) FROM {{ ref('SOURCE_DATA', 'REGION') }} "REGION" 
       {% endif %}
+    primary: true
+    primaryKeyCol:
+      items:
+        - primaryKey:
+            columnCounter: 3f42c759-92da-48c5-8963-23116b11ef09
+            stepCounter: 8d3e06ae-ef1c-471b-8f40-825beec985f6
+        - primaryKey:
+            columnCounter: 23cb495b-a789-451e-b2f8-3e322c2f3a1d
+            stepCounter: 8d3e06ae-ef1c-471b-8f40-825beec985f6
+    primaryKeyName: pk_name
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
     updateStrategy: MERGE
   database: ""
   deployEnabled: true
-  description: ""
+  description: test
   isMultisource: false
   locationName: TARGET_DB
   materializationType: table
