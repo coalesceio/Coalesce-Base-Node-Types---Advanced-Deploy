@@ -37,8 +37,8 @@ Together, these node types ensure data is accurate, reusable, scalable, and alig
 | Load     | Business Key                     | ✅  | ✅   | ⬜       | ⬜   | ✅     |
 | Load     | Last Modified Comparison         | ✅  | ✅   | ⬜       | ⬜   | ✅     |
 | Load     | Change Tracking                  | ✅  | ⬜   | ⬜       | ⬜   | ✅     |
-| Load     | Delete Strategy                  | ⬜  | ⬜   | ⬜       | ⬜   | ✅     |
-| Load     | Column that Identifies DML Operations | ⬜  | ⬜   | ⬜       | ⬜   | ✅     |
+| Load     | Delete Strategy(source DML-flag based)                  | ⬜  | ⬜   | ⬜       | ⬜   | ✅     |
+| Load     | Column that Identifies DML Operations(DELETE) | ⬜  | ⬜   | ⬜       | ⬜   | ✅     |
 | Load     | Delete Value | ⬜  | ⬜   | ⬜       | ⬜   | ✅     |
 | Load     | Exclude Columns from Merge       | ✅  | ✅   | ⬜       | ⬜   | ✅     |
 | Load     | Truncate Before                  | ✅  | ✅   | ✅       | ✅   | ✅     |
