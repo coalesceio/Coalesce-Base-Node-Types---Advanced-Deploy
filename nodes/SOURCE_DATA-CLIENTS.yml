@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 80960d14-84e5-49ce-8ed9-acf5833365e6
-name: REGION
+id: 8ef65862-d288-4452-9415-0552d4a063ff
+name: CLIENTS
 operation:
   database: ""
   deployEnabled: true
@@ -13,13 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: bb2822ca-676d-48ff-a31a-e543be5db830
-          stepCounter: 80960d14-84e5-49ce-8ed9-acf5833365e6
+          columnCounter: ab6d2f79-5bb6-428d-bcd7-81f871352b38
+          stepCounter: 8ef65862-d288-4452-9415-0552d4a063ff
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: R_REGIONKEY
+        name: CLIENT_ID
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -32,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 35edb398-e1f3-4ff9-acf5-5d78ac4ee437
-          stepCounter: 80960d14-84e5-49ce-8ed9-acf5833365e6
+          columnCounter: faf62b03-921e-4e21-a2e4-c374a21d7621
+          stepCounter: 8ef65862-d288-4452-9415-0552d4a063ff
         config: {}
-        dataType: VARCHAR(25)
+        dataType: VARCHAR(16777216)
         defaultValue: ""
         description: ""
-        name: R_NAME
+        name: CLIENT_NAME
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: caa8703b-91c3-4434-8ae5-c9ab1cee2c12
-          stepCounter: 80960d14-84e5-49ce-8ed9-acf5833365e6
+          columnCounter: a995859f-95d7-4c3e-a3a0-b70d1d0ff89c
+          stepCounter: 8ef65862-d288-4452-9415-0552d4a063ff
         config: {}
-        dataType: VARCHAR(152)
+        dataType: VARCHAR(16777216)
         defaultValue: ""
         description: ""
-        name: R_COMMENT
+        name: EMAIL
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -70,13 +70,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 23da474a-45a9-44e4-b0dc-ccdcdaf9715a
-          stepCounter: 80960d14-84e5-49ce-8ed9-acf5833365e6
+          columnCounter: 4b9b6bcb-f8db-4341-a3f3-4ac9680217b3
+          stepCounter: 8ef65862-d288-4452-9415-0552d4a063ff
         config: {}
-        dataType: TIMESTAMP_LTZ(9)
+        dataType: VARCHAR(16777216)
         defaultValue: ""
         description: ""
-        name: R_LOAD_TIMESTAMP
+        name: REGION
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -84,7 +84,26 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-  name: REGION
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 739e9639-963a-447c-8bc0-16234a40e33c
+          stepCounter: 8ef65862-d288-4452-9415-0552d4a063ff
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: UPDATE_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: CLIENTS
   schema: ""
   sqlType: Source
   type: sourceInput
