@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 21dfebb1-b65a-4af9-9be1-ab1444dc0355
-name: DIM_CUSTOMER
+name: DIM_CUSTOMER_TEST
 operation:
   config:
     clusterKey: false
@@ -313,9 +313,9 @@ operation:
           joinCondition: |-
             FROM {{ ref('TARGET_DEV', 'V_CUSTOMER') }} "V_CUSTOMER"
             where "V_CUSTOMER"."C_CUSTKEY">2
-        name: DIM_CUSTOMER
+        name: DIM_CUSTOMER_TEST
         noLinkRefs: []
-  name: DIM_CUSTOMER
+  name: DIM_CUSTOMER_TEST
   overrideSQL: false
   schema: ""
   sqlType: "388"

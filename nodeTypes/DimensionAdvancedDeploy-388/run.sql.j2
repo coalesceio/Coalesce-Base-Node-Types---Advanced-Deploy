@@ -33,7 +33,6 @@ does not permit copying or modification for any other purpose.
 {%endif%}
 
 
-
 {# == Fetch source info #}
 
 {# == To run data quality tests before data insertion == #}
@@ -108,25 +107,25 @@ does not permit copying or modification for any other purpose.
 			     )AS SOURCE_ZERO
 			     ON
 			     {%- for col in columns if col.isSurrogateKey %}
-			     	{{ node.name}}.{{ col.name}} ={{config.insertZeroKeySurrogateKey}}
-			     {% endfor -%}			
+			     	"{{ node.name}}"."{{ col.name}}" = {{config.insertZeroKeySurrogateKey}}
+                 {% endfor -%}			
 			     WHEN MATCHED THEN UPDATE
 			     SET
                  {%- for col in columns if (not col.isSurrogateKey and not col.isBusinessKey) %}
-			     	{{ node.name}}.{{ col.name}} =SOURCE_ZERO.{{ col.name}}
+			     	"{{ node.name}}"."{{ col.name}}" = SOURCE_ZERO."{{ col.name}}"
 			     	{% if not loop.last %}, {% endif %}			
 			     {% endfor -%}
                  WHEN NOT MATCHED THEN INSERT
 			     (
                  {%- for col in columns %}
-			     	{{ col.name}}
+			     	"{{ col.name}}"
 			     	{% if not loop.last %}, {% endif %}			
 			     {% endfor -%}
 			     )
 			     VALUES
 			     (
                  {%- for col in columns %}
-			      SOURCE_ZERO.{{ col.name}}			
+			      SOURCE_ZERO."{{ col.name}}"			
 			     	{% if not loop.last %}, {% endif %}			
 			     {% endfor -%}
 			     )
@@ -137,7 +136,7 @@ does not permit copying or modification for any other purpose.
               UPDATE {{ ref_no_link(node.location.name, node.name) }}
               SET
                   {%- for col in columns if not col.isSurrogateKey and not col.isBusinessKey %}
-                      {{ col.name }} = SOURCE_ZERO.{{ col.name }}
+                      "{{ col.name }}" = SOURCE_ZERO."{{ col.name }}"
                       {%- if not loop.last %}, {% endif %}
                   {%- endfor %}
               FROM (
@@ -174,13 +173,13 @@ does not permit copying or modification for any other purpose.
               ) AS SOURCE_ZERO
 			     {%- for col in columns if col.isSurrogateKey %}
 				 {% if loop.first %} WHERE {% else %} AND {% endif %}
-			     	{{ node.name}}.{{ col.name}} ={{config.insertZeroKeySurrogateKey}}
+			     	"{{ node.name}}"."{{ col.name}}" ={{config.insertZeroKeySurrogateKey}}
 			     {% endfor %}
 				;
               -- Insert Zero Key Record if it does not exist
               INSERT INTO {{ ref_no_link(node.location.name, node.name) }} (
                   {%- for col in columns %}
-                      {{ col.name }}
+                      "{{ col.name }}"
                       {%- if not loop.last %}, {% endif %}
                   {%- endfor %}
               )
@@ -222,7 +221,7 @@ does not permit copying or modification for any other purpose.
                   SELECT 1 FROM {{ ref_no_link(node.location.name, node.name) }} 			     
 				 {%- for col in columns if col.isSurrogateKey %}
 				 {% if loop.first %} WHERE {% else %} AND {% endif %}
-			     	{{ node.name}}.{{ col.name}} ={{config.insertZeroKeySurrogateKey}}
+			     	"{{ node.name}}"."{{ col.name}}" = {{config.insertZeroKeySurrogateKey}}
 			     {% endfor %}
               )
             ;
@@ -511,18 +510,18 @@ does not permit copying or modification for any other purpose.
                     {% endfor %}
 
                     WHERE
-                    {% for col in source.columns if col.isBusinessKey or col.isSurrogateKey -%}
+                    {% for col in source.columns if col.isBusinessKey -%}
                         {% if not loop.first %}
                           AND
                         {% endif%}
                         {% if col.isBusinessKey %}
                             {{ get_source_transform(col) }} IS NULL
                         {% endif %}
-                        {% if col.isSurrogateKey and config.insertZeroKey %}
-                           "DIM"."{{ col.name }}" <> {{config.insertZeroKeySurrogateKey}}
-																	   										 
-                        {% endif %}
                     {% endfor %}
+
+                       {% if config.insertZeroKey %}
+                        AND "DIM"."{{ get_value_by_column_attribute("isSurrogateKey") }}" <> {{config.insertZeroKeySurrogateKey}}							 
+                        {% endif %}
 
                         {% if config.deleteStrategy == "SOFT DELETE" %}
                             AND "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" != '0'
@@ -778,7 +777,7 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                 "DIM"."{{ col.name }}" IS NULL
             {% endfor %}
             {{ get_clause(joinclause) }}
-            {% if config.groupByAll or config.lastModifiedComparison%}
+            {% if config.groupByAll %}
             GROUP BY ALL
             {% endif %}
             {{ sortorder_by_colv() }}
@@ -855,7 +854,7 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                     {% endif %}
                 {% endfor %}
             {{  get_clause(joinclause)  }}
-            {% if config.groupByAll or config.lastModifiedComparison %}
+            {% if config.groupByAll %}
             GROUP BY ALL
             {% endif %}
             {{ sortorder_by_colv() }}
@@ -931,7 +930,7 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                     {% endif %}
                 {% endfor %}
             {{  get_clause(joinclause)  }}
-            {% if config.groupByAll or config.lastModifiedComparison%}
+            {% if config.groupByAll %}
             GROUP BY ALL
             {% endif %}
             {{ sortorder_by_colv() }}
@@ -1065,7 +1064,7 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                 {% endfor %}
             
             {{  get_clause(joinclause)  }}
-            {% if config.groupByAll or config.lastModifiedComparison%}
+            {% if config.groupByAll %}
                 GROUP BY ALL
             {% endif %}
             {{ sortorder_by_colv() }}) 
@@ -1224,17 +1223,17 @@ END
                                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
                             {% endfor %}
                             WHERE
-                            {% for col in source.columns if col.isBusinessKey or col.isSurrogateKey -%}
+                            {% for col in source.columns if col.isBusinessKey -%}
                                 {% if not loop.first %}
                                     AND
                                 {% endif%}
                                 {% if col.isBusinessKey %}
                                     {{ get_source_transform(col) }} IS NULL
                                 {% endif %}
-                                {% if col.isSurrogateKey and config.insertZeroKey %}
-                                    "DIM"."{{ col.name }}" <> {{config.insertZeroKeySurrogateKey}}
-                                {% endif %}
                             {% endfor %} 
+                            {% if config.insertZeroKey %}
+                              AND "DIM"."{{ get_value_by_column_attribute("isSurrogateKey") }}" <> {{config.insertZeroKeySurrogateKey}}																	   										 
+                            {% endif %}
                             {% if config.deleteStrategy == "SOFT DELETE" %}
                                     AND "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" != '0'
                             {% endif %}     
