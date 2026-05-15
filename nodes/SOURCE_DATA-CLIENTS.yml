@@ -103,6 +103,25 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 40766f55-5bcb-4f15-90f9-caaa62e115a3
+          stepCounter: 07b873b0-9bd3-44be-84d8-d02c9cdbcbda
+        config: {}
+        dataType: BOOLEAN
+        defaultValue: ""
+        description: ""
+        name: SOFT_DELETE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
   name: CLIENTS
   schema: ""
   sqlType: Source

@@ -10,6 +10,7 @@ does not permit copying or modification for any other purpose.
 
 {% if desiredState %}
 
+
     {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
         {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
 
@@ -63,12 +64,18 @@ does not permit copying or modification for any other purpose.
 
 
         {% if currentState == undefined or currentState != desiredState %}
+
         
+        {# Soft delete logic #}
+        {%if desiredState.config.deleteStrategy == 'SOFT DELETE' %}
+          {% set sofdelcolumn = desiredState.config.softdelcolumn |default('')%}
+        {%endif%}
+
 		{{ stage('Create Fact View',true,"sql","create") }}
 
 		CREATE OR REPLACE VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
 		(
-			{% for col in desiredState.columns %}
+			{% for col in desiredState.columns if col.name != sofdelcolumn  %}
 				"{{ col.name }}"
 				{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
 				{%- if not loop.last -%},{% endif %}

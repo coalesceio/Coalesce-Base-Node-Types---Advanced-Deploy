@@ -15,8 +15,14 @@ does not permit copying or modification for any other purpose.
  {% set last_modified_col = config.lastModifiedColumn.name | default('') %}
 {%endif%}
 
+{# Incremental load logic-Lookbackdays  #}
 {%if config.incrementalload %}
   {% set load_col = config.loaddataColumn.name | default('') %}
+{%endif%}
+
+{# Soft delete logic #}
+{%if config.deleteStrategy == 'SOFT DELETE' %}
+  {% set sofdelcolumn = config.softdelcolumn.name |default('')%}
 {%endif%}
 
 {%if config.treatNullAsCurrentTimestamp  and 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper)  %}
@@ -72,104 +78,107 @@ does not permit copying or modification for any other purpose.
                 MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
                 USING (
                 
-                {% for source in sources %}
+                {%- for source in sources %}
                     {%set joinclause= source.join%}
                     (SELECT
-                    {% if config.selectDistinct %}
+                    {%- if config.selectDistinct %}
                     DISTINCT
-                    {% endif %}
-                    {% for col in source.columns %}
-                        {% if col.name == last_modified_col and useCurrentTimeStamp %}
-					     COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) AS "{{ col.name }}",
-						 COALESCE({{ get_source_transform(col) }},CURRENT_TIMESTAMP()) as COMPARISON_VALUE,
-						 MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE		    
-                       {% elif (col.name == last_modified_col) and not useCurrentTimeStamp and config.incrementalload%}
-					     {{ get_source_transform(col) }} AS "{{ col.name }}",
-						 {{ get_source_transform(col) }} AS COMPARISON_VALUE,
+                    {%- endif %}
+                    {%- for col in source.columns if col != (sofdelcolumn)%}		    
+                       {%- if (col.name == last_modified_col )%}
+					     {{- get_source_transform(col) }} AS "{{ col.name }}",
+						 {{- get_source_transform(col) }} AS COMPARISON_VALUE,
 					     MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
-                       {%else%}
+                       {%- else%}
                         {{ get_source_transform(col) }} AS "{{ col.name }}"
-                       {%endif%}
+                       {%- endif%}
                       {%- if not loop.last %}, {% endif %}
-                    {% endfor %}
-                    {{ get_clause(joinclause,'from')}}
-                    {%if config.lastModifiedComparison%}	        
+                    {%- endfor %}
+                    {{- get_clause(joinclause,'from')}}
+                    {%- if config.lastModifiedComparison %}	        
                         LEFT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-                             {% for col in source.columns if col.isBusinessKey -%}
-                                {% if not loop.first %}
+                             {%- for col in source.columns if col.isBusinessKey -%}
+                                {%- if not loop.first %}
                                     AND
-                                {% endif %}
-                                {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                            {% endfor %}
-                  {%endif%}
-                    {% set clause = get_clause(joinclause) %}
-                    {% if clause %}
+                                {%- endif %}
+                                {{- get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                            {%- endfor %}
+                  {%- endif%}
+                  {% if not config.incrementalload %}
+                     {%- set clause = get_clause(joinclause) %}
+                     {%- if clause %}
                       {{ ("WHERE " ~ clause.strip()[3:].strip()) if clause.strip().upper().startswith('AND') else clause }}
-                   {% endif %}
-                  {% if config.groupByAll or config.lastModifiedComparison %}
+                     {% endif %}
+                   {%else%}
+                   {%- for col in source.columns if col.name == load_col -%}
+                         WHERE({{get_source_transform(col)}} >= DATEADD(day, 
+                            {%- if config.lookbackdays| int > 0 %} -{{config.lookbackdays}},{%elif config.lookbackdays | int == 0%} {{config.lookbackdays}}{%endif%}-- <Lookback Days Configurable Field>
+                            (SELECT NVL(MAX("{{col.name}}"), CAST('1900-01-01' AS TIMESTAMP)) FROM {{ ref_no_link(node.location.name, node.name) }})
+                            ))
+                            {{ get_clause(joinclause) }}
+                    {%endfor%}
+                   {%endif%}
+                  {%- if config.groupByAll or config.lastModifiedComparison  %}
                         GROUP BY ALL
-                  {% endif %}
-                    {{ sortorder_by_colv() }}
-                  )
-                    
+                  {%- endif %}
+                    {{- sortorder_by_colv() }}
+                  )                   
                     {% if config.deleteStrategy == "HARD DELETE" and node.isMultisource == false %}
                     /* Rows To Be Deleted As They No Longer Exist In Source */
                     UNION ALL
                         (
                             SELECT
-                            {% if config.selectDistinct %}
+                            {%- if config.selectDistinct %}
                                 DISTINCT
-                            {% endif %}
-                            {%- for col in source.columns %}
-                                {% if col.isSystemUpdateDate %}
-                                    NULL
-                                {% elif col.name == last_modified_col and useCurrentTimeStamp %}
-					                "DIM"."{{col.name}}" AS "{{ col.name }}",
-						            COALESCE("DIM"."{{last_modified_col}}",CURRENT_TIMESTAMP()) as COMPARISON_VALUE,
-						            MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE		    
-                                {% elif col.name == last_modified_col and not useCurrentTimeStamp%}
+                            {%- endif %}
+                            {%- for col in source.columns if col != (sofdelcolumn) %}
+                                {%- if col.isSystemUpdateDate %}
+                                    NULL	    
+                                {%- elif col.name == last_modified_col %}
 					                 "DIM"."{{col.name}}" AS "{{ col.name }}",
 						             "DIM"."{{last_modified_col}}" AS COMPARISON_VALUE,
 					                 MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
-                                {% else %}
+                                {%- else %}
                                     "DIM"."{{ col.name }}"
-                                {% endif %}
-                                {%if col.name != last_modified_col %} AS "{{ col.name }}" {%endif%}
-                                {%- if not loop.last %}, {% endif %}
+                                {%- endif %}
+                                {%- if col.name != last_modified_col %} AS "{{ col.name }}" {%endif%}
+                                {%- if not loop.last %}, {%- endif %}
                             {% endfor -%}
-
-                            {{ get_clause(joinclause,'from') }}
-
+                            {{- get_clause(joinclause,'from') }}
                             RIGHT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-                            {% for col in source.columns if col.isBusinessKey -%}
-                                {% if not loop.first %}
+                            {%- for col in source.columns if col.isBusinessKey -%}
+                                {%- if not loop.first %}
                                     AND
-                                {% endif %}
-                                    {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                            {% endfor %}
-
+                                {%- endif %}
+                                    {{- get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                            {%- endfor %}
                             WHERE
-                            {% for col in source.columns if col.isBusinessKey -%}
-                                {% if not loop.first %}
+                            {%- for col in source.columns if col.isBusinessKey -%}
+                                {%- if not loop.first %}
                                     AND
-                                {% endif %}
-                                {{ get_source_transform(col) }} IS NULL
-                            {% endfor %}
-                        
-                            {{ get_clause(joinclause) }}
-
-                            {% if config.groupByAll or config.lastModifiedComparison %}
+                                {%- endif %}
+                                {{- get_source_transform(col) }} IS NULL
+                            {%- endfor %}    
+                            {%if config.incrementalload%}
+                              {%- for col in source.columns if col.name == load_col -%}
+                               WHERE ({{get_source_transform(col)}} >= DATEADD(
+                                   day, 
+                                {%- if config.lookbackdays| int > 0 %} -{{config.lookbackdays}},{%elif config.lookbackdays | int == 0%} {{config.lookbackdays}}{%endif%}-- <Lookback Days Configurable Field>
+                                (SELECT NVL(MAX("{{col.name}}"), CAST('1900-01-01' AS TIMESTAMP)) FROM {{ ref_no_link(node.location.name, node.name) }}))
+                                 ))
+                               {%endfor%}
+                            {%endif%}            
+                            {{- get_clause(joinclause) }}
+                            {%- if config.groupByAll or config.lastModifiedComparison %}
                                 GROUP BY ALL
-                            {% endif %}
-
-                            {{ sortorder_by_colv() }}
+                            {%- endif %}
+                            {{- sortorder_by_colv() }}
                         )
-                    {% endif %}
-
-                    {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+                    {%- endif %}
+                    {%- if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
                         {{config.insertStrategy}}
-                    {% endif %}
-                {% endfor %}  
+                    {%- endif %}
+                {%- endfor %}  
                     )
                     AS "SRC"
                 ON
@@ -185,7 +194,14 @@ does not permit copying or modification for any other purpose.
             WHEN MATCHED AND "SRC"."{{ get_value_by_column_attribute("isSystemUpdateDate") }}" IS NULL
                 THEN DELETE
         {% endif %}
-				WHEN MATCHED
+        {%- if config.deleteStrategy == 'SOFT DELETE'%}
+             WHEN MATCHED AND "SRC"."{{sofdelcolumn}}" = TRUE
+                THEN DELETE
+        {%-endif%}
+				WHEN MATCHED                 
+                  {%- if config.deleteStrategy == 'SOFT DELETE'%}
+                      AND COALESCE("SRC"."{{sofdelcolumn}}", FALSE) = FALSE
+                  {%-endif%}
                 {%if not (config.lastModifiedComparison or config.incrementalload)%}
 					{% for col in includeColList if not (col.isBusinessKey or col.isSystemUpdateDate or col.isSystemCreateDate) %}
 								  
@@ -233,27 +249,24 @@ does not permit copying or modification for any other purpose.
                 {%elif config.lastModifiedComparison%} 
                     AND ("SRC".COMPARISON_VALUE > "SRC".MAX_TARGET_VALUE 
                     OR "SRC".MAX_TARGET_VALUE IS NULL)
-                {%elif config.incrementalload%}
-                    AND ("SRC".COMPARISON_VALUE >= DATEADD(
-                       day, 
-                        -3, -- <Lookback Days Configurable Field>
-                      NVL("SRC".MAX_TARGET_VALUE), CAST('1900-01-01' AS TIMESTAMP))
-                     )
                 {%endif%}
                 THEN UPDATE SET
-                {%- for col in includeColList if not (col.isBusinessKey or col.isSystemCreateDate) %}
+                {%- for col in includeColList if not (col.isBusinessKey or col.isSystemCreateDate) and col.name != sofdelcolumn %}
                         "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
                     {% if not loop.last %}, {% endif %}
                 {% endfor %}
-                WHEN NOT MATCHED THEN
+                WHEN NOT MATCHED         
+                {%- if config.deleteStrategy == 'SOFT DELETE'%}
+                      AND COALESCE({{sofdelcolumn}}, FALSE) = FALSE
+                  {%-endif%} THEN
                 INSERT (
-                {%- for col in columns if not col.isSurrogateKey %}
+                {%- for col in columns if not col.isSurrogateKey and col.name != sofdelcolumn %}
                     "{{ col.name }}"
                     {% if not loop.last %}, {% endif %}
                 {% endfor -%}
                 )
                 VALUES (
-                {%- for col in columns if not col.isSurrogateKey %}
+                {%- for col in columns if not col.isSurrogateKey and col.name != sofdelcolumn  %}
                     "SRC"."{{ col.name }}"
                     {% if not loop.last %}, {% endif %}
                 {% endfor -%}

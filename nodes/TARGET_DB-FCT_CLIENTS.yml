@@ -12,7 +12,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    deleteStrategy: NO DELETE
+    deleteStrategy: SOFT DELETE
     excludeMergeList:
       items:
         - {}
@@ -24,6 +24,7 @@ operation:
     loaddataColumn:
       columnCounter: 748f845c-e900-4141-965a-2ece4d82310e
       stepCounter: 0ebd049d-0b4d-44e9-8ddf-82d255e3a48c
+    lookbackdays: "3"
     orderby: false
     orderbycolumn:
       items:
@@ -36,6 +37,9 @@ operation:
         - {}
     primaryKeyName: ""
     selectDistinct: false
+    softdelcolumn:
+      columnCounter: f1172bc8-b0a7-4520-82c7-b8cdc23bba32
+      stepCounter: 0ebd049d-0b4d-44e9-8ddf-82d255e3a48c
     testsEnabled: false
     treatNullAsCurrentTimestamp: false
     truncateBefore: false
@@ -55,6 +59,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        isBusinessKey: true
         name: CLIENT_ID
         nullable: true
         sourceColumnReferences:
@@ -152,6 +157,23 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f1172bc8-b0a7-4520-82c7-b8cdc23bba32
+          stepCounter: 0ebd049d-0b4d-44e9-8ddf-82d255e3a48c
+        config: {}
+        dataType: BOOLEAN
+        description: ""
+        name: FIVETRAN_DELETE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 40766f55-5bcb-4f15-90f9-caaa62e115a3
+                stepCounter: 07b873b0-9bd3-44be-84d8-d02c9cdbcbda
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:

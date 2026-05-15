@@ -95,6 +95,27 @@ metadata:
         displayName: Treat NULL as Current Timestamp
         default: false
         enableIf: "{% if config.lastModifiedComparison and not config.incrementalload %} true {% else %} false {% endif %}"
+      
+      - displayName: Unmatched Record Strategy
+        attributeName: deleteStrategy
+        type: dropdownSelector
+        default: "NO DELETE"
+        options:
+        - "NO DELETE"
+        - "HARD DELETE"
+        - "SOFT DELETE"
+        isRequired: false
+        enableIf: "{% if node.materializationType != 'view' 
+                      and node.isMultisource == false
+                      and (columns 
+                          | selectattr('isBusinessKey')
+                          | list
+                          | length > 0) %} true {% else %} false {% endif %}"
+      
+      - type: columnDropdownSelector
+        attributeName: softdelcolumn
+        displayName: Soft delete Column
+        enableIf: "{% if config.deleteStrategy == 'SOFT DELETE' %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: incrementalload
@@ -108,25 +129,10 @@ metadata:
         enableIf: "{% if config.incrementalload and not config.lastModifiedComparison %} true {% else %} false {% endif %}"
 
       - type: textBox
-        displayName: lookbackdays
-        attributeName: Lookback days
+        displayName: Lookback days
+        attributeName: lookbackdays
         default : 3
         enableIf: "{% if node.materializationType != 'view' and config.incrementalload and not config.lastModifiedComparison%} true {% else %} false {% endif %}"
-
-      - displayName: Unmatched Record Strategy
-        attributeName: deleteStrategy
-        type: dropdownSelector
-        default: "NO DELETE"
-        options:
-        - "NO DELETE"
-        - "HARD DELETE"
-        isRequired: false
-        enableIf: "{% if node.materializationType != 'view' 
-                      and node.isMultisource == false
-                      and (columns 
-                          | selectattr('isBusinessKey')
-                          | list
-                          | length > 0) %} true {% else %} false {% endif %}"
 
       - displayName: Exclude Columns from Merge (For SCD Type I)
         attributeName: excludeMergeToggle
