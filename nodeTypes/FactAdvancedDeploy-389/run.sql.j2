@@ -8,122 +8,121 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Fact Advance Deploy == #}
 {# == Node Type Description    : This node loads data into  fact table using config options distinct,groupby all,order by ,multi-source  == #}
 
-{# == Check if last modified comparison toggle is enabled  #}
+{%- set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
+{%- set lastModifiedComparison = config.lastModifiedComparison | default(false) %}
+{%- set softDeleteStrategy = config.softDeleteStrategy | default(false) if (not(has_business_key) or (node.isMultisource and has_business_key)) %}
 
-{% set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
-{%if config.lastModifiedComparison%}
- {% set last_modified_col = config.lastModifiedColumn.name | default('') %}
-{%endif%}
+{# == mergeDelete - Single source #}
+{# == softDelete - multi source, no business key #}
+{%- if has_business_key %}
+    {%- if node.isMultisource == false %}
+        {%- set mergeDeleteStrategy = config.mergeDeleteStrategy | default('NO DELETES') %}
+    {%- else %}
+        {%- set mergeDeleteStrategy = 'SOFT DELETED' if config.softDeleteStrategy | default(false) else 'NO DELETES' %}
+    {%- endif %}
+{%- else %}
+    {%- set softDeleteStrategy = config.softDeleteStrategy | default(false) %}
+{%- endif %}
 
-{# Incremental load logic-Lookbackdays  #}
-{%if config.incrementalload %}
-  {% set load_col = config.loaddataColumn.name | default('') %}
-{%endif%}
+{# == Check if last modified comparison toggle is enabled #}
+{%- if lastModifiedComparison %}
+    {%- set last_modified_col = config.lastModifiedColumn.name | default('') %}
+    {%- if config.treatNullAsCurrentTimestamp and 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper) %}
+        {%- set useCurrentTimeStamp = true %}
+    {%- else %}
+        {%- set useCurrentTimeStamp = false %}
+    {%- endif %}
+    {%- set lookbackdays = config.lookbackdays | default(0) %}
+{%- endif %}
 
-{# Soft delete logic #}
-{%if config.deleteStrategy == 'SOFT DELETE' %}
-  {% set sofdelcolumn = config.softdelcolumn.name |default('')%}
-{%endif%}
-
-{%if config.treatNullAsCurrentTimestamp  and 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper)  %}
-     {%set useCurrentTimeStamp = true %}
-   {%else%}
-     {%set useCurrentTimeStamp = false %}
-   {%endif%}
+{# Soft deleted logic #}
+{%- if mergeDeleteStrategy  == 'SOFT DELETED' or softDeleteStrategy %}
+    {%- set soft_deleted_col = config.softdelcolumn.name | default('') %}
+{%- endif %}
 
 {# == To run data quality tests before data insertion == #}
 
-{% for test in node.tests if config.testsEnabled %}
-        {% if test.runOrder == 'Before' %}
+{%- for test in node.tests if config.testsEnabled %}
+        {%- if test.runOrder == 'Before' %}
             {{ test_stage(test.name, test.continueOnFailure) }}
             {{ test.templateString }}
-        {% endif %}
-    {% endfor %}
+        {%- endif %}
+    {%- endfor %}
 
-    {% if node.materializationType == 'table' or node.materializationType == 'transient table' %}
+    {%- if node.materializationType == 'table' or node.materializationType == 'transient table' %}
 
     {# == Queries to be excuted before data insertion  == #}
 
-        {% if config.preSQL %}
+        {%- if config.preSQL %}
             {{ stage('Pre-SQL') }}
             {{ config.preSQL }}
-        {% endif %}
+        {%- endif %}
     
     {# == Truncate data before data insertion  == #}
 
-        {% if config.truncateBefore %}
+        {%- if config.truncateBefore %}
             {{ stage('Truncate Fact Table') }}
             TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
-        {% endif %}
+        {%- endif %}
         
     {# == Check if business key is specified  == #}
 
-        {% set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}    
+        {%- set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}    
         
-            {% if has_business_key %}
+            {%- if has_business_key %}
 
             {# == Executed if business key is specified  == #}
 
                 {# Create a list of column names to exclude from the merge update, if the feature is enabled #}
-                {% if config.excludeMergeToggle %}
+                {%- if config.excludeMergeToggle %}
                     {%- set excludeColList = config.excludeMergeList.get('items', [])
                                             | map(attribute='excludeColName.name')
                                             | list %}
                     {%- set includeColList = columns | rejectattr('name', 'in', excludeColList) | list %}
-                {% else %}
+                {%- else %}
                     {%- set includeColList = columns | list %}
-                {% endif %}
+                {%- endif %}
 
                 {{ stage('MERGE ' + ' Sources' | string ) }}
                 MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
                 USING (
                 
                 {%- for source in sources %}
-                    {%set joinclause= source.join%}
+                    {%- set joinclause= source.join %}
                     (SELECT
                     {%- if config.selectDistinct %}
                     DISTINCT
                     {%- endif %}
-                    {%- for col in source.columns if col != (sofdelcolumn)%}		    
+                    {%- for col in source.columns %}		    
                        {%- if (col.name == last_modified_col )%}
-					     {{- get_source_transform(col) }} AS "{{ col.name }}",
-						 {{- get_source_transform(col) }} AS COMPARISON_VALUE,
+					     {{ get_source_transform(col) }} AS "{{ col.name }}",
+						 {{ get_source_transform(col) }} AS COMPARISON_VALUE,
 					     MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
                        {%- else%}
                         {{ get_source_transform(col) }} AS "{{ col.name }}"
                        {%- endif%}
-                      {%- if not loop.last %}, {% endif %}
+                      {%- if not loop.last %}, {%- endif %}
                     {%- endfor %}
-                    {{- get_clause(joinclause,'from')}}
-                    {%- if config.lastModifiedComparison %}	        
+                    {{ get_clause(joinclause, 'from')}}
+                    {%- if lastModifiedComparison %}	        
                         LEFT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-                             {%- for col in source.columns if col.isBusinessKey -%}
-                                {%- if not loop.first %}
-                                    AND
-                                {%- endif %}
-                                {{- get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                            {%- endfor %}
-                  {%- endif%}
-                  {% if not config.incrementalload %}
-                     {%- set clause = get_clause(joinclause) %}
-                     {%- if clause %}
-                      {{ ("WHERE " ~ clause.strip()[3:].strip()) if clause.strip().upper().startswith('AND') else clause }}
-                     {% endif %}
-                   {%else%}
-                   {%- for col in source.columns if col.name == load_col -%}
-                         WHERE({{get_source_transform(col)}} >= DATEADD(day, 
-                            {%- if config.lookbackdays| int > 0 %} -{{config.lookbackdays}},{%elif config.lookbackdays | int == 0%} {{config.lookbackdays}}{%endif%}-- <Lookback Days Configurable Field>
-                            (SELECT NVL(MAX("{{col.name}}"), CAST('1900-01-01' AS TIMESTAMP)) FROM {{ ref_no_link(node.location.name, node.name) }})
-                            ))
-                            {{ get_clause(joinclause) }}
-                    {%endfor%}
-                   {%endif%}
-                  {%- if config.groupByAll or config.lastModifiedComparison  %}
+                        {%- for col in source.columns if col.isBusinessKey -%}
+                            {%- if not loop.first %}
+                                AND
+                            {%- endif %}
+                            {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                        {%- endfor %}
+                    {%- endif %}
+                    {%- set clause = get_clause(joinclause) %}
+                    {%- if clause %}
+                        {{ ("WHERE " ~ clause.strip()[3:].strip()) if clause.strip().upper().startswith('AND') else clause }}
+                    {% endif %}
+                  {%- if config.groupByAll or lastModifiedComparison  %}
                         GROUP BY ALL
                   {%- endif %}
-                    {{- sortorder_by_colv() }}
+                    {{ sortorder_by_colv() }}
                   )                   
-                    {% if config.deleteStrategy == "HARD DELETE" and node.isMultisource == false %}
+                    {%- if mergeDeleteStrategy == "HARD DELETED" %}
                     /* Rows To Be Deleted As They No Longer Exist In Source */
                     UNION ALL
                         (
@@ -131,7 +130,7 @@ does not permit copying or modification for any other purpose.
                             {%- if config.selectDistinct %}
                                 DISTINCT
                             {%- endif %}
-                            {%- for col in source.columns if col != (sofdelcolumn) %}
+                            {%- for col in source.columns %}
                                 {%- if col.isSystemUpdateDate %}
                                     NULL	    
                                 {%- elif col.name == last_modified_col %}
@@ -143,36 +142,27 @@ does not permit copying or modification for any other purpose.
                                 {%- endif %}
                                 {%- if col.name != last_modified_col %} AS "{{ col.name }}" {%endif%}
                                 {%- if not loop.last %}, {%- endif %}
-                            {% endfor -%}
-                            {{- get_clause(joinclause,'from') }}
+                            {%- endfor -%}
+                            {{ get_clause(joinclause, 'from') }}
                             RIGHT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
                             {%- for col in source.columns if col.isBusinessKey -%}
                                 {%- if not loop.first %}
                                     AND
                                 {%- endif %}
-                                    {{- get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                                    {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
                             {%- endfor %}
                             WHERE
                             {%- for col in source.columns if col.isBusinessKey -%}
                                 {%- if not loop.first %}
                                     AND
                                 {%- endif %}
-                                {{- get_source_transform(col) }} IS NULL
-                            {%- endfor %}    
-                            {%if config.incrementalload%}
-                              {%- for col in source.columns if col.name == load_col -%}
-                               WHERE ({{get_source_transform(col)}} >= DATEADD(
-                                   day, 
-                                {%- if config.lookbackdays| int > 0 %} -{{config.lookbackdays}},{%elif config.lookbackdays | int == 0%} {{config.lookbackdays}}{%endif%}-- <Lookback Days Configurable Field>
-                                (SELECT NVL(MAX("{{col.name}}"), CAST('1900-01-01' AS TIMESTAMP)) FROM {{ ref_no_link(node.location.name, node.name) }}))
-                                 ))
-                               {%endfor%}
-                            {%endif%}            
-                            {{- get_clause(joinclause) }}
-                            {%- if config.groupByAll or config.lastModifiedComparison %}
+                                {{ get_source_transform(col) }} IS NULL
+                            {%- endfor %}          
+                            {{ get_clause(joinclause) }}
+                            {%- if config.groupByAll or lastModifiedComparison %}
                                 GROUP BY ALL
                             {%- endif %}
-                            {{- sortorder_by_colv() }}
+                            {{ sortorder_by_colv() }}
                         )
                     {%- endif %}
                     {%- if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
@@ -182,35 +172,35 @@ does not permit copying or modification for any other purpose.
                     )
                     AS "SRC"
                 ON
-                {% for col in columns if col.isBusinessKey -%}
-                    {% if not loop.first %}
+                {%- for col in columns if col.isBusinessKey -%}
+                    {%- if not loop.first %}
                         AND
-                    {% endif %}
+                    {%- endif %}
                     "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
-                {% endfor %}
+                {%- endfor %}
 
-        {% if config.deleteStrategy == "HARD DELETE" and node.isMultisource == false %}
-            /* Hard delete rows */
+        {%- if mergeDeleteStrategy == "HARD DELETED" %}
+            /* Hard deleted rows */
             WHEN MATCHED AND "SRC"."{{ get_value_by_column_attribute("isSystemUpdateDate") }}" IS NULL
                 THEN DELETE
-        {% endif %}
-        {%- if config.deleteStrategy == 'SOFT DELETE'%}
-             WHEN MATCHED AND "SRC"."{{sofdelcolumn}}" = TRUE
+        {%- endif %}
+        {%- if mergeDeleteStrategy == 'SOFT DELETED'%}
+             WHEN MATCHED AND COALESCE("SRC"."{{ soft_deleted_col }}", FALSE) = TRUE
                 THEN DELETE
-        {%-endif%}
+        {%- endif %}
 				WHEN MATCHED                 
-                  {%- if config.deleteStrategy == 'SOFT DELETE'%}
-                      AND COALESCE("SRC"."{{sofdelcolumn}}", FALSE) = FALSE
-                  {%-endif%}
-                {%if not (config.lastModifiedComparison or config.incrementalload)%}
-					{% for col in includeColList if not (col.isBusinessKey or col.isSystemUpdateDate or col.isSystemCreateDate) %}
+                    {%- if mergeDeleteStrategy == 'SOFT DELETED' %}
+                        AND COALESCE("SRC"."{{ soft_deleted_col }}", FALSE) = FALSE
+                    {%- endif %}
+                    {%- if not (lastModifiedComparison) %}
+					{%- for col in includeColList if not (col.isBusinessKey or col.isSystemUpdateDate or col.isSystemCreateDate) %}
 								  
-						{% if loop.first %}
+						{%- if loop.first %}
 							AND (
-						{% else %}
+						{%- else %}
 							OR
-						{% endif %}
-						{% if col.dataType == 'GEOGRAPHY' %}
+						{%- endif %}
+						{%- if col.dataType == 'GEOGRAPHY' %}
 							(
 								ST_DISTANCE(
 									(CASE 
@@ -223,7 +213,7 @@ does not permit copying or modification for any other purpose.
 									END)
 								) > 0
 							)
-						{% elif col.dataType == 'GEOMETRY' %}
+						{%- elif col.dataType == 'GEOMETRY' %}
 							(
 								ST_DISTANCE(
 									(CASE 
@@ -236,43 +226,48 @@ does not permit copying or modification for any other purpose.
 									END)
 								) > 0
 							)
-						{% else %}
+						{%- else %}
 							(
 								NVL(CAST("SRC"."{{ col.name }}" AS STRING), '**NULL**') <> 
 								NVL(CAST("TGT"."{{ col.name }}" AS STRING), '**NULL**')
 							)
-						{% endif %}
-						{% if loop.last %}
+						{%- endif %}
+						{%- if loop.last %}
 							)
-						{% endif %}
-					{% endfor %}  
-                {%elif config.lastModifiedComparison%} 
-                    AND ("SRC".COMPARISON_VALUE > "SRC".MAX_TARGET_VALUE 
-                    OR "SRC".MAX_TARGET_VALUE IS NULL)
-                {%endif%}
+						{%- endif %}
+					{%- endfor %}  
+                {%- elif lastModifiedComparison%}
+                    AND 
+                    {%- if lookbackdays| int == 0 %}
+                        ("SRC".COMPARISON_VALUE > "SRC".MAX_TARGET_VALUE
+                        OR "SRC".MAX_TARGET_VALUE IS NULL)
+                    {%- else %}
+                        "SRC".COMPARISON_VALUE > DATEADD(day, -{{ lookbackdays }}, NVL("SRC".MAX_TARGET_VALUE, CAST('1900-01-01' AS TIMESTAMP)))
+                    {%- endif %}
+                {%- endif %}
                 THEN UPDATE SET
-                {%- for col in includeColList if not (col.isBusinessKey or col.isSystemCreateDate) and col.name != sofdelcolumn %}
+                {%- for col in includeColList if not (col.isBusinessKey or col.isSystemCreateDate) %}
                         "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
-                    {% if not loop.last %}, {% endif %}
-                {% endfor %}
+                    {%- if not loop.last %}, {%- endif %}
+                {%- endfor %}
                 WHEN NOT MATCHED         
-                {%- if config.deleteStrategy == 'SOFT DELETE'%}
-                      AND COALESCE({{sofdelcolumn}}, FALSE) = FALSE
-                  {%-endif%} THEN
+                {%- if mergeDeleteStrategy == 'SOFT DELETED'%}
+                      AND COALESCE("SRC"."{{ soft_deleted_col }}", FALSE) = FALSE
+                {%- endif %} THEN
                 INSERT (
-                {%- for col in columns if not col.isSurrogateKey and col.name != sofdelcolumn %}
+                {%- for col in columns if not col.isSurrogateKey %}
                     "{{ col.name }}"
-                    {% if not loop.last %}, {% endif %}
-                {% endfor -%}
+                    {%- if not loop.last %}, {%- endif %}
+                {%- endfor -%}
                 )
                 VALUES (
-                {%- for col in columns if not col.isSurrogateKey and col.name != sofdelcolumn  %}
+                {%- for col in columns if not col.isSurrogateKey  %}
                     "SRC"."{{ col.name }}"
-                    {% if not loop.last %}, {% endif %}
-                {% endfor -%}
+                    {%- if not loop.last %}, {%- endif %}
+                {%- endfor -%}
                 )
         
-            {% else %}
+            {%- else %}
 
                {# == Executed if business key is not specified  == #}
 
@@ -280,57 +275,78 @@ does not permit copying or modification for any other purpose.
         
                     INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
                     (
-                        {% for col in columns %}
+                        {%- for col in columns %}
                             "{{ col.name }}"
-                            {%- if not loop.last -%},{% endif %}
-                        {% endfor %}
+                            {%- if not loop.last -%},{%- endif %}
+                        {%- endfor %}
                     )
-                {% for source in sources %}
+                {%- for source in sources %}
                     (SELECT
-                    {% if config.selectDistinct %}
+                    {%- if config.selectDistinct %}
                     DISTINCT
-                    {% endif %}
-                    {% for col in source.columns %}
+                    {%- endif %}
+                    {%- for col in source.columns %}
                         {{ get_source_transform(col) }} AS "{{ col.name }}"
-                        {%- if not loop.last -%}, {% endif %}
-                    {% endfor %}
-                    {{ source.join }}
-                 {% if config.groupByAll %}
+                        {%- if not loop.last -%}, {%- endif %}
+                    {%- endfor %}
+
+                    {%- if lastModifiedComparison %}
+                        {{ get_clause(source.join, 'from') }}
+                        {%- for col in source.columns if col.name == last_modified_col -%}
+                            WHERE 
+                            ( {{ get_source_transform(col) }} > DATEADD(day, -{{ lookbackdays }}, (SELECT NVL(MAX("{{col.name}}"), CAST('1900-01-01' AS TIMESTAMP)) FROM {{ ref_no_link(node.location.name, node.name) }})))
+                            {{ get_clause(source.join) }}
+                            {%- if softDeleteStrategy %}
+                                AND COALESCE("{{ soft_deleted_col }}", FALSE) = FALSE
+                            {%- endif %}
+                        {%- endfor %}
+                    {%- else %}
+                        {{ get_clause(source.join, 'from') }}
+                        {%- set clause = get_clause(source.join) %}
+                        {%- set normalized = clause.strip()[3:].strip() if clause and clause.strip().upper().startswith('AND') else clause %}
+                        {%- set parts = [normalized, ('COALESCE("' ~ soft_deleted_col ~ '", FALSE) = FALSE' if softDeleteStrategy else '')] | select %}
+
+                        {%- if parts %}
+                            WHERE {{ parts | join(' AND ') }}
+                        {%- endif %}
+                    {%- endif %}
+
+                 {%- if config.groupByAll %}
                      GROUP BY ALL
-                 {% endif %}
+                 {%- endif %}
                  {{ sortorder_by_colv() }})
-                 {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+                 {%- if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
                      {{config.insertStrategy}}
-                 {% endif %}
-                {% endfor %} 
-            {% endif %}
+                 {%- endif %}
+                {%- endfor %} 
+            {%- endif %}
 
  {# == Queries to be excuted post data insertion  == #}
 
-        {% if config.postSQL %}
+        {%- if config.postSQL %}
             {{ stage('Post-SQL') }}
             {{ config.postSQL }}
-        {% endif %}
-    {% else %}
+        {%- endif %}
+    {%- else %}
 	{{ stage('Load Skipped for View') }}
 	-- The node {{node.name}} is materialized as View. Therefore, a Load operation is not supported.
 	SELECT 1 AS INFO_MESSAGE WHERE FALSE
-    {% endif %}
+    {%- endif %}
 
 {# == To run data quality tests after data insertion == #}
 
-    {% if config.testsEnabled %}
-        {% for test in node.tests %}
-            {% if test.runOrder == 'After' %}
+    {%- if config.testsEnabled %}
+        {%- for test in node.tests %}
+            {%- if test.runOrder == 'After' %}
                 {{ test_stage(test.name, test.continueOnFailure) }}
                 {{ test.templateString }}
-            {% endif %}
-        {% endfor %}
+            {%- endif %}
+        {%- endfor %}
 
-        {% for column in columns %}
-            {% for test in column.tests %}
+        {%- for column in columns %}
+            {%- for test in column.tests %}
                 {{ test_stage(column.name + ": " + test.name) }}
                 {{ test.templateString }}
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
+            {%- endfor %}
+        {%- endfor %}
+    {%- endif %}
