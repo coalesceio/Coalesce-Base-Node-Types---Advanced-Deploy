@@ -19,12 +19,13 @@ operation:
     excludeMergeToggle: false
     groupByAll: false
     incrementalload: true
-    insertStrategy: UNION ALL
+    insertStrategy: INSERT
     lastModifiedComparison: false
     loaddataColumn:
       columnCounter: 748f845c-e900-4141-965a-2ece4d82310e
       stepCounter: 0ebd049d-0b4d-44e9-8ddf-82d255e3a48c
     lookbackdays: "3"
+    mergeDeleteStrategy: SOFT DELETED
     orderby: false
     orderbycolumn:
       items:
@@ -37,6 +38,7 @@ operation:
         - {}
     primaryKeyName: ""
     selectDistinct: false
+    softDeleteStrategy: true
     softdelcolumn:
       columnCounter: f1172bc8-b0a7-4520-82c7-b8cdc23bba32
       stepCounter: 0ebd049d-0b4d-44e9-8ddf-82d255e3a48c
@@ -46,7 +48,7 @@ operation:
   database: ""
   deployEnabled: true
   description: ""
-  isMultisource: false
+  isMultisource: true
   locationName: TARGET_DB
   materializationType: table
   metadata:

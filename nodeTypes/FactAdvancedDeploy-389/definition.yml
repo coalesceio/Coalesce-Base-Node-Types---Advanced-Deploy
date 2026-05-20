@@ -98,16 +98,6 @@ metadata:
         enableIf: "{% if config.lastModifiedComparison
                       and node.materializationType != 'view' %} true {% else %} false {% endif %}"
 
-      - type: label
-        attributeName: l_delete
-        displayName: ⚠️ Source deleted records (hard or soft delete) will be hard deleted from target.
-        enableIf: "{% if node.materializationType != 'view'
-                    and config.mergeDeleteStrategy in ['SOFT DELETED', 'HARD DELETED']
-                    and (columns 
-                      | selectattr('isBusinessKey')
-                      | list
-                      | length > 0) %} true {% else %} false {% endif %}"
-
       - type: toggleButton
         attributeName: softDeleteStrategy
         displayName: Enable Source Soft Delete Handling
@@ -118,6 +108,16 @@ metadata:
                       | list
                       | length == 0)
                       or node.isMultisource) %} true {% else %} false {% endif %}"
+
+      - type: label
+        attributeName: l_delete
+        displayName: ⚠️ Source deleted records (hard or soft delete) will be hard deleted from target.
+        enableIf: "{% if node.materializationType != 'view'
+                    and config.mergeDeleteStrategy in ['SOFT DELETED', 'HARD DELETED']
+                    and (columns 
+                      | selectattr('isBusinessKey')
+                      | list
+                      | length > 0) %} true {% else %} false {% endif %}"
       
       - displayName: Source Delete Strategy
         attributeName: mergeDeleteStrategy
@@ -139,17 +139,14 @@ metadata:
         attributeName: softdelcolumn
         displayName: Source Deleted Record Indicator
         enableIf: "{% if node.materializationType != 'view'
-                    and ((((columns 
-                            | selectattr('isBusinessKey')
-                            | list
-                            | length > 0)
-                    and config.mergeDeleteStrategy == 'SOFT DELETED'))
-                    or (config.softDeleteStrategy 
-                    and (((columns 
-                            | selectattr('isBusinessKey')
-                            | list
-                            | length == 0)) 
-                    or (node.isMultisource)))) %} true {% else %} false {% endif %}"
+                    and (
+                        (node.isMultisource and config.softDeleteStrategy)
+                        or (not node.isMultisource and (
+                            (config.mergeDeleteStrategy == 'SOFT DELETED' and columns | selectattr('isBusinessKey') | list | length > 0)
+                            or (config.softDeleteStrategy and columns | selectattr('isBusinessKey') | list | length == 0)
+                        ))
+                    )
+                    %} true {% else %} false {% endif %}"
 
       - displayName: Exclude Columns from Merge (For SCD Type I)
         attributeName: excludeMergeToggle
