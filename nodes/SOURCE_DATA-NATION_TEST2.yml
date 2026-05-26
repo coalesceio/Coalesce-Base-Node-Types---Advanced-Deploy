@@ -1,6 +1,6 @@
 fileVersion: 1
-id: f0d79a7c-4ad1-4155-8209-d955849eb5f1
-name: PRODUCTS_GROCERY
+id: 90330b2e-561b-4196-bcaf-7ddcb47acffd
+name: NATION_TEST2
 operation:
   database: ""
   deployEnabled: true
@@ -13,32 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: ea42f8a8-bae9-4f03-abd4-875bbd10b286
-          stepCounter: f0d79a7c-4ad1-4155-8209-d955849eb5f1
+          columnCounter: 1971349b-d486-4afe-9683-2bdada8f606c
+          stepCounter: 90330b2e-561b-4196-bcaf-7ddcb47acffd
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: PRODUCT_ID
-        nullable: false
-        primaryKey: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-        transform: ""
-        uniqueKey: false
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 9a950bfb-77c0-4a36-a5a4-129e48363bbb
-          stepCounter: f0d79a7c-4ad1-4155-8209-d955849eb5f1
-        config: {}
-        dataType: VARCHAR(255)
-        defaultValue: ""
-        description: ""
-        name: PRODUCT_NAME
+        name: N_NATIONKEY
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: eb886dcf-352a-4a1b-889b-842271a643a1
-          stepCounter: f0d79a7c-4ad1-4155-8209-d955849eb5f1
+          columnCounter: fe09201b-debb-41a9-ad09-942615ce0e5d
+          stepCounter: 90330b2e-561b-4196-bcaf-7ddcb47acffd
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(25)
         defaultValue: ""
         description: ""
-        name: BRAND
+        name: N_NAME
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -70,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a52689fd-dcce-4f7d-8b89-bb3d97270993
-          stepCounter: f0d79a7c-4ad1-4155-8209-d955849eb5f1
+          columnCounter: 64805d92-3571-4d2c-8616-6288108e5028
+          stepCounter: 90330b2e-561b-4196-bcaf-7ddcb47acffd
         config: {}
-        dataType: VARCHAR(50)
+        dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: COLOUR
+        name: N_REGIONKEY
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -84,7 +65,45 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-  name: PRODUCTS_GROCERY
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c77afe85-57d9-4dcf-ba65-f427b44d92e1
+          stepCounter: 90330b2e-561b-4196-bcaf-7ddcb47acffd
+        config: {}
+        dataType: VARCHAR(152)
+        defaultValue: ""
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 330d4efc-5ebe-4743-aba6-1e064caf00d5
+          stepCounter: 90330b2e-561b-4196-bcaf-7ddcb47acffd
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: CREATED_TIME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: NATION_TEST2
   schema: ""
   sqlType: Source
   type: sourceInput

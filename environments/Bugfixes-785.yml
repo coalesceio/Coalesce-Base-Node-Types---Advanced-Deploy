@@ -1,5 +1,5 @@
 fileVersion: 1
-id: "769"
+id: "785"
 mappingDefinitions:
   SOURCE_DATA:
     database: TANVI_DEV
@@ -13,5 +13,5 @@ mappingDefinitions:
   TARGET_DEV:
     database: PRANJAL_DEV
     schema: SOURCE_DB
-name: "[NM-236]-PSTG-Test"
+name: "[Bug fixes]"
 type: Environment

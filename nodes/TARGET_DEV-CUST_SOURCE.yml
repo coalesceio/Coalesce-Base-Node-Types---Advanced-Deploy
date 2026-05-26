@@ -1,11 +1,11 @@
 fileVersion: 1
-id: f58ea1b1-cf12-434f-9a01-3bc0711df80c
-name: STORE_SALES
+id: b0c1b3c6-ac98-48ab-98ba-83793d6a3573
+name: CUST_SOURCE
 operation:
   database: ""
-  deployEnabled: false
+  deployEnabled: true
   description: ""
-  locationName: SOURCE_DATA
+  locationName: TARGET_DEV
   metadata:
     columns:
       - acceptedValues:
@@ -13,13 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 081ba6bd-1fac-47ea-b3bf-99aa39d7e769
-          stepCounter: f58ea1b1-cf12-434f-9a01-3bc0711df80c
+          columnCounter: b63416b5-c797-46c5-8c23-87de1faa972c
+          stepCounter: b0c1b3c6-ac98-48ab-98ba-83793d6a3573
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: STORE_ID
+        name: CUST_ID
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -32,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 3863c198-b196-4a7d-bf57-e7874ae147fd
-          stepCounter: f58ea1b1-cf12-434f-9a01-3bc0711df80c
+          columnCounter: c113a50a-7ac4-4307-9e1f-92e86980899b
+          stepCounter: b0c1b3c6-ac98-48ab-98ba-83793d6a3573
         config: {}
-        dataType: DATE
+        dataType: VARCHAR(16777216)
         defaultValue: ""
         description: ""
-        name: SALES_DATE
+        name: CUST_NAME
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 23ae997c-08ac-45ad-a3bf-1e524b4abfdd
-          stepCounter: f58ea1b1-cf12-434f-9a01-3bc0711df80c
+          columnCounter: be022a52-9ed8-4ea0-a48b-0e9be4167219
+          stepCounter: b0c1b3c6-ac98-48ab-98ba-83793d6a3573
         config: {}
-        dataType: NUMBER(10,2)
+        dataType: VARCHAR(16777216)
         defaultValue: ""
         description: ""
-        name: TOTAL_SALES
+        name: DML_FLAG
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -65,7 +65,26 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-  name: STORE_SALES
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ca532a69-f522-4bc2-bf67-0c3273ec824b
+          stepCounter: b0c1b3c6-ac98-48ab-98ba-83793d6a3573
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        defaultValue: ""
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: CUST_SOURCE
   schema: ""
   sqlType: Source
   type: sourceInput

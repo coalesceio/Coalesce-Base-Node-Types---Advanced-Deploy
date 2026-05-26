@@ -5,7 +5,7 @@ metadata:
   defaultStorageLocation: null
   error: null
   nodeMetadataSpec: |-
-    capitalized: Dimension Advanced Deploy
+    capitalized: Copy of Dimension Advanced Deploy
     short: DIM
     tagColor: '#1E339A'
     plural: Dimensions
@@ -155,18 +155,6 @@ metadata:
         attributeName: lastModifiedColumn
         displayName: Last Modified Column
         enableIf: "{% if node.materializationType != 'view' and config.lastModifiedComparison and config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
-
-      - type: label
-        attributeName: l2
-        displayName: The below toggle is applicable only for timestamp column
-        enableIf: "{% if node.materializationType != 'view' and config.lastModifiedComparison and config.updateStrategy == 'MERGE'%} true {% else %} false {% endif %}"
-
-
-      - type: toggleButton
-        attributeName: treatNullAsCurrentTimestamp
-        displayName: Treat NULL as Current Timestamp
-        default: false
-        enableIf: "{% if node.materializationType != 'view' and config.lastModifiedComparison and config.updateStrategy == 'MERGE' %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: type2Dimension
