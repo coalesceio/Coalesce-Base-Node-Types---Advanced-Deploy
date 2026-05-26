@@ -27,7 +27,6 @@ operation:
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
-    treatNullAsCurrentTimestamp: false
     truncateBefore: false
     type2Dimension: false
   database: ""
@@ -39,16 +38,12 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 411d0588-7d30-4b11-8f62-b77ca45c88a8
+          columnCounter: bd1a84c4-a326-4e1a-8337-0c0aa935b41c
           stepCounter: 388c2f3c-99bc-4cdf-a3ee-41d91071713b
         config: {}
         dataType: NUMBER
-        defaultValue: ""
         description: ""
         isSurrogateKey: true
         name: PSTG_EMP_SOURCE_TEST_KEY
@@ -127,16 +122,12 @@ operation:
               - columnCounter: 51b1a44f-3df5-48ba-bf36-b3ed14847847
                 stepCounter: 14d28b0a-532d-4de8-8fac-b68300749dff
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: eaf79f08-ebe4-459b-9d5a-69e05159e89f
+          columnCounter: b3c5c6cf-1688-4012-a722-ecf66be3f09b
           stepCounter: 388c2f3c-99bc-4cdf-a3ee-41d91071713b
         config: {}
         dataType: NUMBER
-        defaultValue: ""
         description: ""
         isSystemVersion: true
         name: SYSTEM_VERSION
@@ -144,16 +135,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9c421797-4e14-4762-90eb-622e2bfb09bf
+          columnCounter: 714bc402-1a64-4910-8141-a7f63ffe77d1
           stepCounter: 388c2f3c-99bc-4cdf-a3ee-41d91071713b
         config: {}
         dataType: VARCHAR
-        defaultValue: ""
         description: ""
         isSystemCurrentFlag: true
         name: SYSTEM_CURRENT_FLAG
@@ -161,16 +148,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: d005f1b4-f758-4707-be7c-8d03ccc65866
+          columnCounter: f0c145be-13b3-46e8-9f92-925d81d95ecb
           stepCounter: 388c2f3c-99bc-4cdf-a3ee-41d91071713b
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemStartDate: true
         name: SYSTEM_START_DATE
@@ -178,16 +161,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 092920a0-19f0-47a0-8264-e573afbcf639
+          columnCounter: d8404005-34a0-468f-aafb-519a1564617e
           stepCounter: 388c2f3c-99bc-4cdf-a3ee-41d91071713b
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemEndDate: true
         name: SYSTEM_END_DATE
@@ -195,16 +174,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 3a9bed8f-0282-481f-a8a5-ad49e1909ef6
+          columnCounter: 3b05990f-ec35-4f52-911a-776745dfbfc6
           stepCounter: 388c2f3c-99bc-4cdf-a3ee-41d91071713b
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
@@ -212,16 +187,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0c3cbb23-36f3-41a7-9cf1-1c0d062a989c
+          columnCounter: 8262a065-adbd-4a84-9181-b11da161f386
           stepCounter: 388c2f3c-99bc-4cdf-a3ee-41d91071713b
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
@@ -246,7 +217,7 @@ operation:
   name: PSTG_EMP_SOURCE_TEST
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types-advanced-deploy:::391
+  sqlType: "391"
   type: sql
   version: 1
 type: Node
