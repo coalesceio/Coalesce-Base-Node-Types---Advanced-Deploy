@@ -35,7 +35,6 @@ operation:
     primaryKeyName: ""
     selectDistinct: false
     testsEnabled: false
-    treatNullAsCurrentTimestamp: false
     truncateBefore: false
   database: ""
   deployEnabled: true
@@ -117,16 +116,12 @@ operation:
               - columnCounter: 330d4efc-5ebe-4743-aba6-1e064caf00d5
                 stepCounter: 90330b2e-561b-4196-bcaf-7ddcb47acffd
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 60c83b9a-9345-4455-8a1f-ec4cca510f02
+          columnCounter: 4103d0ba-c6eb-40e5-b21f-25477ab2a672
           stepCounter: e5370a96-ea66-4368-8344-396e71a31046
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
@@ -134,16 +129,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: a035619b-cd26-435f-a0f5-c42cbd469f11
+          columnCounter: a68c5f8d-a8c9-48a8-a17d-dccaff87ae3f
           stepCounter: e5370a96-ea66-4368-8344-396e71a31046
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
@@ -168,7 +159,7 @@ operation:
   name: FCT_NATION_TEST_OLD-NEW
   overrideSQL: false
   schema: ""
-  sqlType: base-node-types-advanced-deploy:::389
+  sqlType: "389"
   type: sql
   version: 1
 type: Node

@@ -29,44 +29,45 @@ does not permit copying or modification for any other purpose.
             {{ test.templateString }}
         {% endif %}
     {% endfor %}
-{% if isTimestampComparison %}
+{% if use_last_modified and 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper) %}
 
-{{ test_stage(
-    'Checking NULL values for ' ~ last_modified_col ~ ' column',
-    false
-) }}
+    {{ test_stage(
+        'Checking NULL values for ' ~ last_modified_col ~ ' column',
+        false
+    ) }}
 
-{% set ns = namespace(first=true) %}
+    {% set ns = namespace(first=true) %}
 
-{% for source in sources %}
+    {% for source in sources %}
 
-    {% for col in source.columns if col.name == last_modified_col %}
+        {% for col in source.columns if col.name == last_modified_col %}
 
-        {% set col_transform = get_source_transform(col) %}
+            {% set col_transform = get_source_transform(col) %}
 
-        {% if col_transform is not none and col_transform != 'NULL' %}
+            {% if col_transform is not none and col_transform != 'NULL' %}
 
-            {% if not ns.first %}
-                UNION ALL
+                {% if not ns.first %}
+                    UNION ALL
+                {% endif %}
+
+                SELECT 1
+
+                {{ get_clause(source.join,'from') }}
+
+                WHERE {{ col_transform }} IS NULL
+
+                {{ get_clause(source.join) }}
+
+                {% set ns.first = false %}
+                /* If NULL values are detected, this stage will fail and execution will be terminated */
+
             {% endif %}
 
-            SELECT 1
-
-            {{ get_clause(source.join,'from') }}
-
-            WHERE {{ col_transform }} IS NULL
-            
-            {{ get_clause(source.join) }}
-
-            {% set ns.first = false %}
-
-        {% endif %}
+        {% endfor %}
 
     {% endfor %}
 
-{% endfor %}
-
-{% endif %}			
+{% endif %}	
     {% if node.materializationType == 'table' or node.materializationType == 'transient table' %}
 
     {# == Queries to be excuted before data insertion  == #}
