@@ -21,7 +21,9 @@ operation:
     insertZeroKeyStr: UNKNOWN
     insertZeroKeySurrogateKey: "0"
     insertZeroKeyTimestamp: "1900-01-01 00:00:00"
-    lastModifiedColumn: ""
+    lastModifiedColumn:
+      columnCounter: a43e654f-d3e0-42ba-8517-b5f3c6630e84
+      stepCounter: 6c88d0b4-3895-4457-bbec-318a6258664a
     lastModifiedComparison: true
     orderby: false
     orderbycolumn:
