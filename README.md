@@ -90,8 +90,8 @@ The Work node type has two configuration groups:
 |----------|-------------|
 | **Storage Location** | Storage Location where the WORK will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** | If TRUE the node will be deployed / redeployed when changes are detected<br/> If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/> If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Work Advanced Deploy Options
 
@@ -245,7 +245,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Work Advanced Deploy Undeployment
 
@@ -280,8 +280,8 @@ The Persistent node type has two configuration groups:
 |----------|-------------|
 | **Storage Location** | Storage Location where the WORK will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** |  If TRUE the node will be deployed / redeployed when changes are detected<br/> If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** |  If TRUE the node will be deployed or redeployed when changes are detected<br/> If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Persistent Stage Advanced Deploy Options
 
@@ -406,7 +406,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Persistent Stage Advanced Deploy Undeployment
 
@@ -437,8 +437,8 @@ A dimension table or dimension entity is a table or entity in a star, snowflake,
 |----------|-------------|
 | **Storage Location** | Storage Location where the WORK will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled** |  If TRUE the node will be deployed / redeployed when changes are detected<br/> If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled** |  If TRUE the node will be deployed or redeployed when changes are detected<br/> If FALSE the node will not be deployed or will be dropped during redeployment |
 
 #### Dimension Advanced Deploy Options
 
@@ -597,7 +597,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Dimension Advanced Deploy Undeployment
 
@@ -626,8 +626,8 @@ A fact table or a fact entity is a table or entity in a star or snowflake schema
 |----------|-------------|
 | **Storage Location**| Storage Location where the view will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled**| If **TRUE**: node will be deployed/redeployed when changes are detected<br/>If **FALSE**: node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled**| If **TRUE**: node will be deployed or redeployed when changes are detected<br/>If **FALSE**: node will not be deployed or will be dropped during redeployment |
 
 #### Fact Advanced Deploy Options
 
@@ -761,7 +761,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Fact Advanced Deploy Undeployment
 
@@ -806,8 +806,8 @@ A factless fact table is used to record events or situations that have no measur
 |----------|-------------|
 | **Storage Location**| Storage Location where the view will be created |
 | **Node Type** | Name of template used to create node objects |
-| **Description** | A description of the node's purpose |
-| **Deploy Enabled**| If **TRUE**: node will be deployed/redeployed when changes are detected<br/>If **FALSE**: node will not be deployed or will be dropped during redeployment |
+| **Description** | A description of the Node's purpose |
+| **Deploy Enabled**| If **TRUE**: node will be deployed or redeployed when changes are detected<br/>If **FALSE**: node will not be deployed or will be dropped during redeployment |
 
 #### Factless Fact Advanced Deploy Options
 
@@ -897,7 +897,7 @@ Node Type switching is supported starting from Coalesce version **7.28+**.
 
 From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
 ### Factless Fact Advanced Deploy Undeployment
 
@@ -925,7 +925,7 @@ If the nodes are redeployed with no changes compared to previous deployment, the
 | Any Other | View | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
 | Any Other | Transient Table | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
 
-Please review the documented limitations before performing a node type switch to ensure compatibility and avoid unintended deployment issues.
+Review the documented limitations before performing a node type switch to ensure compatibility and avoid unintended deployment issues.
 
 #### ⚠ Limitations of Node Type Switching (Current)
 
