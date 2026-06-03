@@ -909,7 +909,7 @@ This is executed in two stages:
 |-----------|----------------|
 | **Drop table/view** | Removes the table or view from the environment |
 
-### Redeployment with no changes
+### Redeployment With No Changes
  
 If the nodes are redeployed with no changes compared to previous deployment, then no stages are executed
 
