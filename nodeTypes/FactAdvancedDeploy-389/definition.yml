@@ -67,46 +67,89 @@ metadata:
       
       - type: toggleButton
         attributeName: lastModifiedComparison
-        displayName: Last Modified Comparison
+        displayName: Last Modified Based Incremental Load
         default: false
-        enableIf: "{% if node.materializationType != 'view' and (columns 
-                      | selectattr('isBusinessKey')
-                      | list
-                      | length > 0) %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view' %} true {% else %} false {% endif %}"
 
       - type: label
         attributeName: l1
-        displayName: Column chosen can either be a timestamp or incremental id column
-        enableIf: "{% if config.lastModifiedComparison  %} true {% else %} false {% endif %}"
+        displayName: ℹ️ Choose timestamp or incremental id column
+        enableIf: "{% if config.lastModifiedComparison
+                      and node.materializationType != 'view' %} true {% else %} false {% endif %}"
       
       - type: columnDropdownSelector
         attributeName: lastModifiedColumn
         displayName: Last Modified Column
-        enableIf: "{% if config.lastModifiedComparison  %} true {% else %} false {% endif %}"
+        enableIf: "{% if node.materializationType != 'view'
+                    and config.lastModifiedComparison %} true {% else %} false {% endif %}"
 
-      - displayName: Unmatched Record Strategy
-        attributeName: deleteStrategy
-        type: dropdownSelector
-        default: "NO DELETE"
-        options:
-        - "NO DELETE"
-        - "HARD DELETE"
-        isRequired: false
+      - type: textBox
+        displayName: Lookback Days
+        attributeName: lookbackdays
+        default : 0
         enableIf: "{% if node.materializationType != 'view' 
-                      and node.isMultisource == false
-                      and (columns 
-                          | selectattr('isBusinessKey')
-                          | list
-                          | length > 0) %} true {% else %} false {% endif %}"
+                        and (config.lastModifiedComparison and 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper)) %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        attributeName: softDeleteStrategy
+        displayName: Enable Source Soft Delete Handling
+        default: false
+        enableIf: "{% if node.materializationType != 'view'
+                    and ((columns 
+                      | selectattr('isBusinessKey')
+                      | list
+                      | length == 0)
+                      or node.isMultisource) %} true {% else %} false {% endif %}"
+
+      - type: label
+        attributeName: l_delete
+        displayName: ⚠️ Source deleted records (hard or soft delete) will be hard deleted from target.
+        enableIf: "{% if node.materializationType != 'view'
+                    and config.mergeDeleteStrategy in ['SOFT DELETED', 'HARD DELETED']
+                    and (columns 
+                      | selectattr('isBusinessKey')
+                      | list
+                      | length > 0) %} true {% else %} false {% endif %}"
+      
+      - displayName: Source Delete Strategy
+        attributeName: mergeDeleteStrategy
+        type: dropdownSelector
+        default: "NO DELETES"
+        options:
+        - "NO DELETES"
+        - "HARD DELETED"
+        - "SOFT DELETED"
+        isRequired: false
+        enableIf: "{% if node.materializationType != 'view'
+                  and (columns 
+                        | selectattr('isBusinessKey')
+                        | list
+                        | length > 0)
+                  and not(node.isMultisource) %} true {% else %} false {% endif %}"
+      
+      - type: columnDropdownSelector
+        attributeName: softdelcolumn
+        displayName: Source Deleted Record Indicator
+        enableIf: "{% if node.materializationType != 'view'
+                    and (
+                        (node.isMultisource and config.softDeleteStrategy)
+                        or (not node.isMultisource and (
+                            (config.mergeDeleteStrategy == 'SOFT DELETED' and columns | selectattr('isBusinessKey') | list | length > 0)
+                            or (config.softDeleteStrategy and columns | selectattr('isBusinessKey') | list | length == 0)
+                        ))
+                    )
+                    %} true {% else %} false {% endif %}"
 
       - displayName: Exclude Columns from Merge (For SCD Type I)
         attributeName: excludeMergeToggle
         type: toggleButton
         default: false
-        enableIf: "{% if node.materializationType != 'view' and (columns 
+        enableIf: "{% if node.materializationType != 'view'
+                    and (columns 
                       | selectattr('isBusinessKey')
                       | list
-                      | length > 0) and lastModifiedComparison == false%} true {% else %} false {% endif %}"
+                      | length > 0)
+                    and config.lastModifiedComparison == false %} true {% else %} false {% endif %}"
 
       - type: tabular
         displayName: 'Exclude Merge List'
@@ -119,13 +162,12 @@ metadata:
            
         isRequired: false
         enableIf: "{% if config.excludeMergeToggle
-                      and node.materializationType != 'view' 
-                      and node.isMultisource == false
+                      and node.materializationType != 'view'
                       and (columns 
                           | selectattr('isBusinessKey')
                           | list
                           | length > 0) 
-                      and lastModifiedComparison == false%} true {% else %} false {% endif %}"
+                      and config.lastModifiedComparison == false %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: clusterKey

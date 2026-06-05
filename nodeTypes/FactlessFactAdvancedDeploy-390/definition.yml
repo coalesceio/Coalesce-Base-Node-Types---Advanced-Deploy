@@ -22,9 +22,6 @@ metadata:
         - table
         - transient table
 
-      - type: overrideSQLToggle
-        enableIf: "{% if node.materializationType == 'view' %} true {% else %} false {% endif %}"
-
       - type: multisourceToggle
         enableIf: "{% if node.override.create.enabled %} false {% else %} true {% endif %}"
 
@@ -37,6 +34,60 @@ metadata:
         - "UNION ALL"
         isRequired: false
         enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        attributeName: lastModifiedComparison
+        displayName: Last Modified Based Incremental Load
+        default: false
+
+      - type: label
+        attributeName: l1
+        displayName: ℹ️ Choose timestamp or incremental id column
+        enableIf: "{% if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+      
+      - type: columnDropdownSelector
+        attributeName: lastModifiedColumn
+        displayName: Last Modified Column
+        enableIf: "{%if config.lastModifiedComparison %} true {% else %} false {% endif %}"
+
+      - type: textBox
+        displayName: Lookback Days
+        attributeName: lookbackdays
+        default : 0
+        enableIf: "{% if (config.lastModifiedComparison and 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper)) %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        attributeName: softDeleteStrategy 
+        displayName: Enable Delete Handling
+        default: false
+
+      - type: label
+        attributeName: l_delete
+        displayName: ⚠️ Source deleted records (hard or soft delete) will be hard deleted from target.
+        enableIf: "{% if config.mergeDeleteStrategy in ['SOFT DELETED', 'HARD DELETED']
+                    and config.softDeleteStrategy %} true {% else %} false {% endif %}"
+      
+      - displayName: Source Delete Strategy
+        attributeName: mergeDeleteStrategy
+        type: dropdownSelector
+        default: "NO DELETES"
+        options:
+        - "NO DELETES"
+        - "HARD DELETED"
+        - "SOFT DELETED"
+        isRequired: false
+        enableIf: "{% if config.softDeleteStrategy 
+                  and not(node.isMultisource) %} true {% else %} false {% endif %}"
+      
+      - type: columnDropdownSelector
+        attributeName: softdelcolumn
+        displayName: Source Deleted Record Indicator
+        enableIf: "{% if config.softDeleteStrategy
+                    and (
+                        node.isMultisource
+                        or config.mergeDeleteStrategy == 'SOFT DELETED'
+                    )
+                    %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: clusterKey
@@ -90,13 +141,11 @@ metadata:
         attributeName: truncateBefore
         type: toggleButton
         default: false
-        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 
       - displayName: Enable Tests
         attributeName: testsEnabled
         type: toggleButton
         default: false
-        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
         
       - displayName: Distinct
         attributeName: selectDistinct
@@ -114,7 +163,6 @@ metadata:
         attributeName: orderby
         type: toggleButton
         default: false
-        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 
       - type: tabular
         displayName: 'Sort column'
@@ -141,14 +189,12 @@ metadata:
         type: textBox
         syntax: sql
         isRequired: false
-        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 
       - displayName: Post-SQL
         attributeName: postSQL
         type: textBox
         syntax: sql
         isRequired: false
-        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
 
     systemColumns:
     - displayName: SYSTEM_CREATE_DATE

@@ -8,86 +8,280 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Factless fact  == #}
 {# == Node Type Description    : This node loads data into fact table using config options distinct,groupby all,order by ,multi-source  == #}
 
+
+{%- set lastModifiedComparison = config.lastModifiedComparison | default(false) %}
+{%- set softDeleteStrategy = config.softDeleteStrategy | default(false) %}
+
+{%- if node.isMultisource %}
+    {%- set mergeDeleteStrategy = 'SOFT DELETED' if softDeleteStrategy else 'NO DELETES' %}
+{%- else %}
+    {%- set mergeDeleteStrategy = config.mergeDeleteStrategy | default('NO DELETES') %}
+{%- endif %}
+
+{%- if lastModifiedComparison %}
+    {%- set last_modified_col = config.lastModifiedColumn.name | default('') %}
+    {%- set lookbackdays = config.lookbackdays | default(0) %}
+{%- endif %}
+
+{%- if mergeDeleteStrategy == 'SOFT DELETED' %}
+    {%- set soft_deleted_col = config.softdelcolumn.name | default('') %}
+{%- endif %}
+
+
 {# == To run data quality tests before data insertion == #}
 
 {% for test in node.tests if config.testsEnabled %}
-        {% if test.runOrder == 'Before' %}
-            {{ test_stage(test.name, test.continueOnFailure) }}
-            {{ test.templateString }}
-        {% endif %}
+    {% if test.runOrder == 'Before' %}
+        {{ test_stage(test.name, test.continueOnFailure) }}
+        {{ test.templateString }}
+    {% endif %}
+{% endfor %}
+
+{# == NULL check test stage for last modified column == #}
+{% if lastModifiedComparison and 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper) %}
+
+    {{ test_stage(
+        'Checking NULL values for ' ~ last_modified_col ~ ' column',
+        false
+    ) }}
+
+    {% set ns = namespace(first=true) %}
+
+    {% for source in sources %}
+
+        {% for col in source.columns if col.name == last_modified_col %}
+
+            {% set col_transform = get_source_transform(col) %}
+
+            {% if col_transform is not none and col_transform != 'NULL' %}
+
+                {% if not ns.first %}
+                    UNION ALL
+                {% endif %}
+
+                SELECT 1
+
+                {{ get_clause(source.join, 'from') }}
+
+                WHERE {{ col_transform }} IS NULL
+
+                {{ get_clause(source.join) }}
+
+                {% set ns.first = false %}
+                /* If NULL values are detected, this stage will fail and execution will be terminated */
+
+            {% endif %}
+
+        {% endfor %}
+
     {% endfor %}
 
-    {% if node.materializationType == 'table' or node.materializationType == 'transient table' %}
+{% endif %}
 
-    {# == Queries to be excuted before data insertion  == #}
+{% if node.materializationType == 'table' or node.materializationType == 'transient table' %}
 
-        {% if config.preSQL %}
-            {{ stage('Pre-SQL') }}
-            {{ config.preSQL }}
-        {% endif %}
-    
-    {# == Truncate data before data insertion  == #}
+    {# == Queries to be executed before data insertion == #}
 
-        {% if config.truncateBefore %}
-            {{ stage('Truncate Fact Table') }}
-            TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
-        {% endif %}
-        
+    {% if config.preSQL %}
+        {{ stage('Pre-SQL') }}
+        {{ config.preSQL }}
+    {% endif %}
+
+    {# == Truncate data before data insertion == #}
+
+    {% if config.truncateBefore %}
+        {{ stage('Truncate Fact Table') }}
+        TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
+    {% endif %}
+
     {# == Merge into the target fact table == #}
-    
 
+    {{ stage('MERGE ' + 'Sources' | string) }}
+    MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
+    USING (
+        {% for source in sources %}
+            (SELECT
+            {% if config.selectDistinct %}
+                DISTINCT
+            {% endif %}
+            {% for col in source.columns %}
+                {%- if lastModifiedComparison and col.name == last_modified_col %}
+                    {{ get_source_transform(col) }} AS "{{ col.name }}",
+                    {{ get_source_transform(col) }} AS COMPARISON_VALUE,
+                    MAX("DIM"."{{ last_modified_col }}") AS MAX_TARGET_VALUE
+                {%- else %}
+                    {{ get_source_transform(col) }} AS "{{ col.name }}"
+                {%- endif %}
+                {%- if not loop.last %}, {% endif %}
+            {% endfor %}
 
-      {{ stage('MERGE ' + 'Sources' | string ) }}
-      MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
-      USING (
-                {% for source in sources %}
-                    (SELECT
+            {{ get_clause(source.join, 'from') }}
+
+            {%- if lastModifiedComparison %}
+                LEFT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
+                {%- for col in source.columns if not (col.isSystemUpdateDate or col.isSystemCreateDate or (mergeDeleteStrategy == 'SOFT DELETED' and col.name == soft_deleted_col) or (lastModifiedComparison and col.name == last_modified_col)) -%}
+                    {%- if not loop.first %}
+                        AND
+                    {%- endif %}
+                    {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                {%- endfor %}
+            {%- endif %}
+
+            {%- set clause = get_clause(source.join) %}
+            {%- if clause %}
+                {%- set normalized = clause.strip()[3:].strip() if clause.strip().upper().startswith('AND') else clause %}
+                WHERE {{ normalized }}
+            {%- endif %}
+
+            {% if config.groupByAll or lastModifiedComparison %}
+                GROUP BY ALL
+            {% endif %}
+
+            {{ sortorder_by_colv() }})
+
+            {# == HARD DELETED: union in rows that exist in target but not in source == #}
+            {%- if mergeDeleteStrategy == 'HARD DELETED' %}
+                /* Rows To Be Deleted As They No Longer Exist In Source */
+                UNION ALL
+                (
+                    SELECT
                     {% if config.selectDistinct %}
-                    DISTINCT
+                        DISTINCT
                     {% endif %}
-                    {% for col in source.columns %}
-                        {{ get_source_transform(col) }} AS "{{ col.name }}"
+                    {%- for col in source.columns %}
+                        {% if col.isSystemUpdateDate %}
+                            NULL
+                        {%- elif lastModifiedComparison and col.name == last_modified_col %}
+                            "DIM"."{{ col.name }}" AS "{{ col.name }}",
+                            "DIM"."{{ last_modified_col }}" AS COMPARISON_VALUE,
+                            MAX("DIM"."{{ last_modified_col }}") AS MAX_TARGET_VALUE
+                        {%- else %}
+                            "DIM"."{{ col.name }}"
+                        {%- endif %}
                         {%- if not loop.last %}, {% endif %}
                     {% endfor %}
-                    {{ source.join }}
-                    {% if config.groupByAll %}
+
+                    {{ get_clause(source.join, 'from') }}
+
+                    RIGHT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
+                    {%- for col in source.columns if not (col.isSystemUpdateDate or col.isSystemCreateDate or (mergeDeleteStrategy == 'SOFT DELETED' and col.name == soft_deleted_col)) -%}
+                        {%- if not loop.first %}
+                            AND
+                        {%- endif %}
+                        {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                    {%- endfor %}
+
+                    WHERE
+                    {%- for col in source.columns if not (col.isSystemUpdateDate or col.isSystemCreateDate or (mergeDeleteStrategy == 'SOFT DELETED' and col.name == soft_deleted_col)) -%}
+                        {%- if not loop.first %}
+                            AND
+                        {%- endif %}
+                        {{ get_source_transform(col) }} IS NULL
+                    {%- endfor %}
+
+                    {{ get_clause(source.join) }}
+
+                    {% if config.groupByAll or lastModifiedComparison %}
                         GROUP BY ALL
                     {% endif %}
-                    {{ sortorder_by_colv() }})
-                    {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
-                        {{config.insertStrategy}}
-                    {% endif %}
-                {% endfor %}   
+
+                    {{ sortorder_by_colv() }}
+                )
+            {% endif %}
+
+            {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+                {{ config.insertStrategy }}
+            {% endif %}
+
+        {% endfor %}
+    )
+    AS "SRC"
+    ON
+    {% for col in columns if not (col.isSystemUpdateDate or col.isSystemCreateDate or (mergeDeleteStrategy == 'SOFT DELETED' and col.name == soft_deleted_col) or (lastModifiedComparison and col.name == last_modified_col)) -%}
+        {% if not loop.first %}
+            AND
+        {% endif %}
+        "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
+    {% endfor %}
+
+    {# == HARD DELETED: delete rows where system update date is NULL (flagged from the union) == #}
+    {%- if mergeDeleteStrategy == 'HARD DELETED' %}
+        WHEN MATCHED AND "SRC"."{{ get_value_by_column_attribute("isSystemUpdateDate") }}" IS NULL
+            THEN DELETE
+    {%- endif %}
+
+    {# == SOFT DELETED: delete matched rows where the soft delete flag is TRUE == #}
+    {%- if mergeDeleteStrategy == 'SOFT DELETED' %}
+        WHEN MATCHED AND COALESCE("SRC"."{{ soft_deleted_col }}", FALSE) = TRUE
+            THEN DELETE
+    {%- endif %}
+
+    WHEN MATCHED
+        {%- if mergeDeleteStrategy == 'SOFT DELETED' %}
+            AND COALESCE("SRC"."{{ soft_deleted_col }}", FALSE) = FALSE
+        {%- endif %}
+        {%- if not lastModifiedComparison %}
+            {% for col in columns if not (col.isSystemCreateDate or (mergeDeleteStrategy == 'SOFT DELETED' and col.name == soft_deleted_col)) %}
+                {% if loop.first %}
+                    AND (
+                {% else %}
+                    OR
+                {% endif %}
+                {% if col.dataType == 'GEOGRAPHY' %}
+                    (
+                        ST_DISTANCE(
+                            (CASE
+                                WHEN "SRC"."{{ col.name }}" IS NULL THEN TO_GEOGRAPHY('POINT(0 0)')
+                                ELSE "SRC"."{{ col.name }}"
+                            END),
+                            (CASE
+                                WHEN "TGT"."{{ col.name }}" IS NULL THEN TO_GEOGRAPHY('POINT(0 0)')
+                                ELSE "TGT"."{{ col.name }}"
+                            END)
+                        ) > 0
                     )
-                    AS "SRC"
-      ON
-                {% for col in columns if not ( col.isSystemUpdateDate or
-                                                     col.isSystemCreateDate) -%}
-                    {% if not loop.first %}
-                        AND
-                    {% endif %}
-                    "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
-                {% endfor %}
-				
-				WHEN MATCHED
-                    {% for col in columns if not (col.isSystemCreateDate) %}
-                        {% if loop.first %}
-                            AND (
-                        {% else %}
-                            OR
-                        {% endif %}
-                        NVL( CAST("SRC"."{{ col.name }}" as STRING), '**NULL**') <> NVL( CAST("TGT"."{{ col.name }}" as STRING), '**NULL**')
-                        {% if loop.last %}
-                            )
-                        {% endif %}
-                    {% endfor %}
-                    THEN UPDATE SET
-                    {%- for col in columns if not (col.isSystemCreateDate) %}
-                            "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
-                        {% if not loop.last %}, {% endif %}
-                    {% endfor %}
-      
-      WHEN NOT MATCHED THEN
+                {% elif col.dataType == 'GEOMETRY' %}
+                    (
+                        ST_DISTANCE(
+                            (CASE
+                                WHEN "SRC"."{{ col.name }}" IS NULL THEN TO_GEOMETRY('POINT(0 0)')
+                                ELSE "SRC"."{{ col.name }}"
+                            END),
+                            (CASE
+                                WHEN "TGT"."{{ col.name }}" IS NULL THEN TO_GEOMETRY('POINT(0 0)')
+                                ELSE "TGT"."{{ col.name }}"
+                            END)
+                        ) > 0
+                    )
+                {% else %}
+                    (
+                        NVL(CAST("SRC"."{{ col.name }}" AS STRING), '**NULL**') <>
+                        NVL(CAST("TGT"."{{ col.name }}" AS STRING), '**NULL**')
+                    )
+                {% endif %}
+                {% if loop.last %}
+                    )
+                {% endif %}
+            {% endfor %}
+        {%- elif lastModifiedComparison %}
+            AND
+            {%- if 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper) %}
+                "SRC".COMPARISON_VALUE > DATEADD(day, -{{ lookbackdays }}, NVL("SRC".MAX_TARGET_VALUE, CAST('1900-01-01' AS TIMESTAMP)))
+            {%- else %}
+                 "SRC".COMPARISON_VALUE > NVL("SRC".MAX_TARGET_VALUE, 0)
+            {%- endif %}
+        {%- endif %}
+        THEN UPDATE SET
+        {%- for col in columns if not (col.isSystemCreateDate or (mergeDeleteStrategy == 'SOFT DELETED' and col.name == soft_deleted_col)) %}
+            "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
+            {% if not loop.last %}, {% endif %}
+        {% endfor %}
+
+    WHEN NOT MATCHED
+        {%- if mergeDeleteStrategy == 'SOFT DELETED' %}
+            AND COALESCE("SRC"."{{ soft_deleted_col }}", FALSE) = FALSE
+        {%- endif %}
+        THEN
         INSERT (
         {%- for col in columns if not col.isSurrogateKey %}
             "{{ col.name }}"
@@ -100,6 +294,7 @@ does not permit copying or modification for any other purpose.
             {% if not loop.last %}, {% endif %}
         {% endfor -%}
         )
+
 
 
  {# == Queries to be excuted post data insertion  == #}

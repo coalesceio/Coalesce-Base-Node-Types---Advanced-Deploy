@@ -11,10 +11,32 @@ does not permit copying or modification for any other purpose.
 {# == Check if last modified comparison toggle is enabled  #}
 
 {% set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
+{%- set lastModifiedComparison = config.lastModifiedComparison | default(false) %}
+{%- set softDeleteStrategy = config.softDeleteStrategy | default(false) if (not(has_business_key) or (node.isMultisource and has_business_key)) %}
+
+{# == mergeDelete - Single source #}
+{# == softDelete - multi source, no business key #}
+{%- if has_business_key %}
+    {%- if node.isMultisource == false %}
+        {%- set mergeDeleteStrategy = config.mergeDeleteStrategy | default('NO DELETES') %}
+    {%- else %}
+        {%- set mergeDeleteStrategy = 'SOFT DELETED' if config.softDeleteStrategy | default(false) else 'NO DELETES' %}
+    {%- endif %}
+{%- else %}
+    {%- set softDeleteStrategy = config.softDeleteStrategy | default(false) %}
+{%- endif %}
+
 {%if config.lastModifiedComparison%}
  {% set last_modified_col = config.lastModifiedColumn.name | default('') %}
+ {%- set lookbackdays = config.lookbackdays | default(0) %}
 {%endif%}
 
+{% set use_last_modified = config.lastModifiedComparison %}
+
+{# Soft deleted logic #}
+{%- if mergeDeleteStrategy  == 'SOFT DELETED' or softDeleteStrategy %}
+    {%- set soft_deleted_col = config.softdelcolumn.name | default('') %}
+{%- endif %}
 
 {# == To run data quality tests before data insertion == #}
 
@@ -137,7 +159,7 @@ does not permit copying or modification for any other purpose.
                     {{ sortorder_by_colv() }}
                   )
                     
-                    {% if config.deleteStrategy == "HARD DELETE" and node.isMultisource == false %}
+                    {%- if mergeDeleteStrategy == "HARD DELETED" %}
                     /* Rows To Be Deleted As They No Longer Exist In Source */
                     UNION ALL
                         (
@@ -147,13 +169,13 @@ does not permit copying or modification for any other purpose.
                             {% endif %}
                             {%- for col in source.columns %}
                                 {% if col.isSystemUpdateDate %}
-                                    NULL	    
+                                    NULL AS "{{ col.name }}"
                                 {% elif col.name == last_modified_col%}
 					                 "DIM"."{{col.name}}" AS "{{ col.name }}",
 						             "DIM"."{{last_modified_col}}" AS COMPARISON_VALUE,
 					                 MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
                                 {% else %}
-                                    "DIM"."{{ col.name }}"
+                                    "DIM"."{{ col.name }}" AS "{{ col.name }}"
                                 {% endif %}
                                 {%- if not loop.last %}, {% endif %}
                             {% endfor -%}
@@ -200,14 +222,21 @@ does not permit copying or modification for any other purpose.
                     "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
                 {% endfor %}
 
-        {% if config.deleteStrategy == "HARD DELETE" and node.isMultisource == false %}
-            /* Hard delete rows */
+        {%- if mergeDeleteStrategy == "HARD DELETED" %}
+            /* Hard deleted rows */
             WHEN MATCHED AND "SRC"."{{ get_value_by_column_attribute("isSystemUpdateDate") }}" IS NULL
                 THEN DELETE
-        {% endif %}
-				WHEN MATCHED
-                {%if not config.lastModifiedComparison%}
-					{% for col in includeColList if not (col.isBusinessKey or col.isSystemUpdateDate or col.isSystemCreateDate) %}
+        {%- endif %}
+        {%- if mergeDeleteStrategy == 'SOFT DELETED'%}
+             WHEN MATCHED AND COALESCE("SRC"."{{ soft_deleted_col }}", FALSE) = TRUE
+                THEN DELETE
+        {%- endif %}
+				WHEN MATCHED                 
+                    {%- if mergeDeleteStrategy == 'SOFT DELETED' %}
+                        AND COALESCE("SRC"."{{ soft_deleted_col }}", FALSE) = FALSE
+                    {%- endif %}
+                    {%- if not (lastModifiedComparison) %}
+					{%- for col in includeColList if not (col.isBusinessKey or col.isSystemUpdateDate or col.isSystemCreateDate) %}
 								  
 						{% if loop.first %}
 							AND (
@@ -250,16 +279,24 @@ does not permit copying or modification for any other purpose.
 							)
 						{% endif %}
 					{% endfor %}  
-                {%else%} 
-                    AND ("SRC".COMPARISON_VALUE > "SRC".MAX_TARGET_VALUE 
-                    OR "SRC".MAX_TARGET_VALUE IS NULL)
-                {%endif%}
+                {%- elif lastModifiedComparison %}
+                    AND
+                    {%- if 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper) %}
+                        "SRC".COMPARISON_VALUE > DATEADD(day, -{{ lookbackdays }}, NVL("SRC".MAX_TARGET_VALUE, CAST('1900-01-01' AS TIMESTAMP)))
+                    {%- else %}
+                        "SRC".COMPARISON_VALUE > NVL("SRC".MAX_TARGET_VALUE, 0)
+                    {%- endif %}
+                {%- endif %}
                 THEN UPDATE SET
                 {%- for col in includeColList if not (col.isBusinessKey or col.isSystemCreateDate) %}
                         "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
                     {% if not loop.last %}, {% endif %}
                 {% endfor %}
-                WHEN NOT MATCHED THEN
+                WHEN NOT MATCHED
+				{%- if mergeDeleteStrategy == 'SOFT DELETED'%}
+                      AND COALESCE("SRC"."{{ soft_deleted_col }}", FALSE) = FALSE
+                {%- endif %}
+				THEN
                 INSERT (
                 {%- for col in columns if not col.isSurrogateKey %}
                     "{{ col.name }}"
@@ -295,10 +332,30 @@ does not permit copying or modification for any other purpose.
                         {{ get_source_transform(col) }} AS "{{ col.name }}"
                         {%- if not loop.last -%}, {% endif %}
                     {% endfor %}
-                    {{ source.join }}
-                 {% if config.groupByAll %}
+                    {%- if lastModifiedComparison %}
+                        {{ get_clause(source.join, 'from') }}
+                        {%- for col in source.columns if col.name == last_modified_col -%}
+                            WHERE 
+                            ( {{ get_source_transform(col) }} > DATEADD(day, -{{ lookbackdays }}, (SELECT NVL(MAX("{{col.name}}"), CAST('1900-01-01' AS TIMESTAMP)) FROM {{ ref_no_link(node.location.name, node.name) }})))
+                            {{ get_clause(source.join) }}
+                            {%- if softDeleteStrategy %}
+                                AND COALESCE("{{ soft_deleted_col }}", FALSE) = FALSE
+                            {%- endif %}
+                        {%- endfor %}
+                    {%- else %}
+                        {{ get_clause(source.join, 'from') }}
+                        {%- set clause = get_clause(source.join) %}
+                        {%- set normalized = clause.strip()[3:].strip() if clause and clause.strip().upper().startswith('AND') else clause %}
+                        {%- set parts = [normalized, ('COALESCE("' ~ soft_deleted_col ~ '", FALSE) = FALSE' if softDeleteStrategy else '')] | select %}
+
+                        {%- if parts %}
+                            WHERE {{ parts | join(' AND ') }}
+                        {%- endif %}
+                    {%- endif %}
+
+                 {%- if config.groupByAll %}
                      GROUP BY ALL
-                 {% endif %}
+                 {%- endif %}
                  {{ sortorder_by_colv() }})
                  {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
                      {{config.insertStrategy}}
