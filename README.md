@@ -647,7 +647,10 @@ You can create the node as:
 | **Business key** | Required column for Type 1 and Type 2 Dimensions .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
 | **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done. <br/> **Note:** When Last Modified is enabled, a validation stage is triggered to ensure the timestamp column contains no NULL values. Any NULL values detected will result in an error, immediately halting execution. |
 | **Last Modified Column(Enabled for Last Modified Comparison)** | Timestamp/Incremental ID column can be chosen.Based on which CDC is done |
-| **Unmatched Record Strategy** | Available for single source nodes and only when business key is chosen<br/>- **NO DELETE**: An option introduced to ensure existing data flows remain intact and unchanged, preventing any delete operation on the target table.<br/>- **HARD DELETE**: Permanent removal of records from the target table. |
+| **Lookback Days** | Number of days to look back from the latest target record for incremental load. Default is 3. Available only when Last Modified Based Incremental Load is enabled with a TIMESTAMP column. |
+| **Enable Source Soft Delete Handling** |Toggle: True/False <br/>**True:** Records flagged as deleted in source are hard deleted from target.<br/> **False:** No delete handling. <br/> Available when no business key is present or multisource is enabled. |
+| **Source Delete Strategy** | Available for single source nodes with a business key.<br/> **NO DELETES**: Deleted records in source are ignored.<br/> **HARD DELETED**: Records that no longer exist in source are deleted from target <br/> **SOFT DELETED**: Records flagged as deleted via a flag column are deleted from target. |
+| **Source Deleted Record Indicator** | The flag column in source that marks a record as deleted. Visible when Soft Delete is selected or multisource with soft delete handling is enabled. <br/>**Note:** Only BOOLEAN data type is supported for this column. |
 | **Exclude Columns from Merge** | Available only when business key is chosen. Allows you to specify one or more columns that are excluded during both the **comparison** (matching) and **updating** phases of the MERGE statement. |
 | **Truncate Before** | Toggle: True/False<br/>Determines whether the table is truncated before execution.<br/>**True**: Table is truncated before the DML operation runs.<br/>**False**: The DML operation runs without truncation. |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
@@ -668,7 +671,10 @@ You can create the node as:
 | **Business key** | Required column for Type 1 and Type 2 Dimensions |
 | **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done. <br/> **Note:** When Last Modified is enabled, a validation stage is triggered to ensure the timestamp column contains no NULL values. Any NULL values detected will result in an error, immediately halting execution. |
 | **Last Modified Column(Enabled for Last Modified Comparison)** | Timestamp/Incremental ID column can be chosen.Based on which CDC is done |
-| **Unmatched Record Strategy** | Available for single source nodes and only when business key is chosen<br/>- **NO DELETE**: An option introduced to ensure existing data flows remain intact and unchanged, preventing any delete operation on the target table.<br/>- **HARD DELETE**: Permanent removal of records from the target table. |
+| **Lookback Days** | Number of days to look back from the latest target record for incremental load. Default is 3. Available only when Last Modified Based Incremental Load is enabled with a TIMESTAMP column. |
+| **Enable Source Soft Delete Handling** |Toggle: True/False <br/>**True:** Records flagged as deleted in source are hard deleted from target.<br/> **False:** No delete handling. <br/> Available when no business key is present or multisource is enabled. |
+| **Source Delete Strategy** | Available for single source nodes with a business key.<br/> **NO DELETES**: Deleted records in source are ignored.<br/> **HARD DELETED**: Records that no longer exist in source are deleted from target <br/> **SOFT DELETED**: Records flagged as deleted via a flag column are deleted from target. |
+| **Source Deleted Record Indicator** | The flag column in source that marks a record as deleted. Visible when Soft Delete is selected or multisource with soft delete handling is enabled. <br/>**Note:** Only BOOLEAN data type is supported for this column. |
 | **Exclude Columns from Merge** | Available only when business key is chosen. Allows you to specify one or more columns that are excluded during both the **comparison** (matching) and **updating** phases of the MERGE statement. |
 | **Truncate Before** | Toggle: True/False<br/>Determines whether the table is truncated before execution.<br/>**True**: Table is truncated before the DML operation runs.<br/>**False**: The DML operation runs without truncation. |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
@@ -811,12 +817,19 @@ A factless fact table is used to record events or situations that have no measur
 
 #### Factless Fact Advanced Deploy Options
 
-![Factless_adv_deploy](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/assets/7216836/fd43869f-eba9-495a-b8c0-9f2c82c138e1)
+<img width="543" height="905" alt="image" src="https://github.com/user-attachments/assets/9e6ebcdc-197b-4158-b8a3-ab63b6752fee" />
+
 
 | **Setting** | **Description** |
 |---------|-------------|
 | **Create As**| Table or Transient Table |
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
+| **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done. <br/> **Note:** When Last Modified is enabled, a validation stage is triggered to ensure the timestamp column contains no NULL values. Any NULL values detected will result in an error, immediately halting execution. |
+| **Last Modified Column(Enabled for Last Modified Comparison)** | Timestamp/Incremental ID column can be chosen.Based on which CDC is done |
+| **Lookback Days** | Number of days to look back from the latest target record for incremental load. Default is 3. Available only when Last Modified Based Incremental Load is enabled with a TIMESTAMP column. |
+| **Enable Delete Handling** |Toggle: True/False <br/>**True:** Enables delete handling for source deleted records.<br/> **False:** No delete handling. |
+| **Source Delete Strategy** | Available for single source nodes with a business key.<br/> **NO DELETES**: Deleted records in source are ignored.<br/> **HARD DELETED**: Records that no longer exist in source are deleted from target <br/> **SOFT DELETED**: Records flagged as deleted via a flag column are deleted from target. |
+| **Source Deleted Record Indicator** | The flag column in source that marks a record as deleted. Visible when Soft Delete is selected or multisource with soft delete handling is enabled. <br/>**Note:** Only BOOLEAN data type is supported for this column. |
 | **Truncate Before** | Toggle: True/False<br/>Determines whether the table is truncated before execution.<br/>**True**: Table is truncated before the DML operation runs.<br/>**False**: The DML operation runs without truncation. |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
 | **Distinct** | Toggle: True/False<br/>**True**: Group by All is invisible. DISTINCT data is chosen for processing.<br/>**False**: Group by All is visible. |
