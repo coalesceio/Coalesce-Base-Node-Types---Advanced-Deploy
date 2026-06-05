@@ -33,9 +33,13 @@ Together, these node types ensure data is accurate, reusable, scalable, and alig
 | Load     | MultiSource                      | ✅  | ✅   | ✅       | ✅   | ✅     |
 | Load     | Insert Strategy                  | ✅  | ✅   | ✅       | ✅   | ✅     |
 | Load     | Update Strategy                  | ✅  | ⬜   | ⬜       | ⬜   | ⬜     |
-| Load     | Unmatched Record Strategy        | ✅  | ✅   | ⬜       | ⬜   | ⬜     |
+| Load     | Unmatched Record Strategy        | ✅  | ⬜   | ⬜       | ⬜   | ⬜     |
+| Load     | Enable Source Soft Delete Handling | ⬜  | ✅   | ✅       | ⬜   | ⬜     |
+| Load     | Source Delete Strategy           | ⬜  | ✅   | ✅       | ⬜   | ⬜     |
+| Load     | Source Deleted Record Indicator  | ⬜  | ✅   | ✅       | ⬜   | ⬜     |
 | Load     | Business Key                     | ✅  | ✅   | ⬜       | ⬜   | ✅     |
 | Load     | Last Modified Comparison         | ✅  | ✅   | ⬜       | ⬜   | ✅     |
+| Load     | Lookback Days                    | ⬜  | ✅   | ✅       | ⬜   | ⬜     |
 | Load     | Change Tracking                  | ✅  | ⬜   | ⬜       | ⬜   | ✅     |
 | Load     | Delete Strategy(source DML-flag based)                  | ⬜  | ⬜   | ⬜       | ⬜   | ✅     |
 | Load     | Column that Identifies DML Operations(DELETE) | ⬜  | ⬜   | ⬜       | ⬜   | ✅     |
