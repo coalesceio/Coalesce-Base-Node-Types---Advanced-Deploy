@@ -167,7 +167,7 @@ metadata:
         attributeName: asofJoin
         type: toggleButton
         default: true
-        enableIf: "{%- if node.materializationType == 'view' -%} false {%- else --%} true {%- endif -%}"
+        enableIf: "{%- if node.materializationType == 'view' -%} false {%- else %} true {%- endif -%}"
         
       - type: toggleButton
         displayName: On

@@ -19,7 +19,7 @@ operation:
     deleteStrategy: SOFT DELETE
     groupByAll: false
     insertStrategy: UNION ALL
-    insertZeroKey: true
+    insertZeroKey: false
     insertZeroKeyAdvanced: false
     insertZeroKeyBol: "TRUE"
     insertZeroKeyDate: 01-01-1900
@@ -94,9 +94,7 @@ operation:
         name: C_NAME
         nullable: true
         sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: d41ee22c-f27e-4ee6-9928-3648fa57b77f
-                stepCounter: 5e42ff72-a097-4754-95b4-25cf0e091072
+          - columnReferences: []
             transform: ""
       - appliedColumnTests: {}
         columnReference:

@@ -190,9 +190,7 @@ operation:
         name: C_NAME
         nullable: true
         sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: f37e3efd-3b43-48ff-a37f-975701d546e6
-                stepCounter: 54ea4e3d-1917-4b9f-acb5-a6678c982792
+          - columnReferences: []
             transform: ""
       - appliedColumnTests: {}
         columnReference:

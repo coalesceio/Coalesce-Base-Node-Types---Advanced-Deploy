@@ -36,6 +36,8 @@ does not permit copying or modification for any other purpose.
             {{ test.templateString }}
         {% endif %}
     {% endfor %}
+	
+	
 {% if use_last_modified and 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper) %}
 
     {{ test_stage(
@@ -500,14 +502,14 @@ does not permit copying or modification for any other purpose.
                     {% endif %}
                     {%- for col in source.columns if not col.isSurrogateKey %}
                         {% if col.isSystemVersion or col.isSystemCreateDate or col.isSystemStartDate %}
-                            "DIM"."{{ col.name }}"
+                            "DIM"."{{ col.name }}" AS "{{ col.name }}"
                         {% elif col.isSystemCurrentFlag %}
                             '0'
                         {% elif col.isSystemEndDate %}
                             DATEADD(MILLISECONDS, -1, CAST(CURRENT_TIMESTAMP AS TIMESTAMP))
                         {% else %}
-                            "DIM"."{{ col.name }}"
-                        {% endif %}                  
+                            "DIM"."{{ col.name }}"  AS "{{ col.name }}"
+                        {% endif %}   ,               
                     {% endfor -%}
 
                     {% if config.deleteStrategy == "HARD DELETE" %}
@@ -1220,7 +1222,7 @@ END
                                     {{ get_source_transform(col) }} AS COMPARISON_VALUE,
                                     MAX("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
                                 {% else %}
-                                    "DIM"."{{ col.name }}"
+                                    "DIM"."{{ col.name }}"	AS "{{ col.name }}"
                                 {% endif %}
                                 {%- if not loop.last %}, {% endif %}
                             {% endfor -%}
