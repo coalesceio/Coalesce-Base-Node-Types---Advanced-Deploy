@@ -5,7 +5,9 @@ operation:
   config:
     asofColumn:
       items:
-        - {}
+        - matchCondition: WRK_EMP_SOURCE_001.EMP_ID >= EMP_SOURCE.EMP_ID
+          rightTable: EMP_SOURCE
+          rightTableSL: SOURCE_DB
     asofJoin: true
     asofJoinMain: false
     asofJoinON: false
@@ -121,7 +123,9 @@ operation:
           - locationName: TARGET_DB
             nodeName: WRK_EMP_SOURCE_001
         join:
-          joinCondition: FROM  {{ ref('TARGET_DB', 'WRK_EMP_SOURCE_001') }} WRK_EMP_SOURCE_001
+          joinCondition: |2-
+
+               FROM  {{ ref('TARGET_DB', 'WRK_EMP_SOURCE_001') }} "WRK_EMP_SOURCE_001"
         name: ES_EMP_SOURCE_001
         noLinkRefs: []
   name: ES_EMP_SOURCE_001
