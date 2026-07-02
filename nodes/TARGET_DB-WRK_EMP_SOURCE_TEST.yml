@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 9098aa95-3164-4507-b677-a1ed08e454f7
-name: WRK_EMP_SOURCE_02
+id: b925ff54-cf33-482d-904c-e4fa93548b03
+name: WRK_EMP_SOURCE_TEST
 operation:
   config:
     asofColumn:
@@ -18,7 +18,6 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    deployExecute: true
     groupByAll: false
     insertStrategy: INSERT
     orderby: false
@@ -41,8 +40,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 46d2d7c9-737e-47ff-9f9b-44298e8ab6fd
-          stepCounter: 9098aa95-3164-4507-b677-a1ed08e454f7
+          columnCounter: 22666dfe-8412-43bf-8eeb-4dd003eed405
+          stepCounter: b925ff54-cf33-482d-904c-e4fa93548b03
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -55,8 +54,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 00fa9f8a-ed75-4b92-8503-310d732f5b77
-          stepCounter: 9098aa95-3164-4507-b677-a1ed08e454f7
+          columnCounter: 883ce1c7-fa4a-4242-bc7d-ec53b6e7d141
+          stepCounter: b925ff54-cf33-482d-904c-e4fa93548b03
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -69,8 +68,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1018f118-77d1-4a1a-ab37-97f70862585f
-          stepCounter: 9098aa95-3164-4507-b677-a1ed08e454f7
+          columnCounter: db60a30e-53be-4126-ba61-faf8d2fa55ec
+          stepCounter: b925ff54-cf33-482d-904c-e4fa93548b03
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -83,8 +82,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7e7cc6f4-3f65-43b3-b711-56e98e579d7a
-          stepCounter: 9098aa95-3164-4507-b677-a1ed08e454f7
+          columnCounter: 9a1d087b-1b68-4d77-a878-12265f3194e2
+          stepCounter: b925ff54-cf33-482d-904c-e4fa93548b03
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -97,8 +96,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 34a23d7b-545a-4447-82d7-891967d02fff
-          stepCounter: 9098aa95-3164-4507-b677-a1ed08e454f7
+          columnCounter: f84def7e-cc8c-4045-87ff-d175669830af
+          stepCounter: b925ff54-cf33-482d-904c-e4fa93548b03
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -109,26 +108,6 @@ operation:
               - columnCounter: eb7bf9f5-912e-4328-85d4-6d8daf924bb3
                 stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 9f7059ed-bc9e-428b-bab8-493385dddbc3
-          stepCounter: 9098aa95-3164-4507-b677-a1ed08e454f7
-        config: {}
-        dataType: NUMBER(38,0)
-        defaultValue: ""
-        description: ""
-        keyColumnType: None
-        name: DEMO_COL
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: "0"
-                stepCounter: "0"
-            transform: ""
-        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -141,12 +120,12 @@ operation:
             nodeName: EMP_SOURCE
         join:
           joinCondition: FROM  {{ ref('SOURCE_DATA', 'EMP_SOURCE') }} EMP_SOURCE
-        name: WRK_EMP_SOURCE_02
+        name: WRK_EMP_SOURCE_TEST
         noLinkRefs: []
-  name: WRK_EMP_SOURCE_02
+  name: WRK_EMP_SOURCE_TEST
   overrideSQL: false
   schema: ""
-  sqlType: "678"
+  sqlType: "179"
   type: sql
   version: 1
 type: Node
