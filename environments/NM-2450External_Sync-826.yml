@@ -1,5 +1,5 @@
 fileVersion: 1
-id: "825"
+id: "826"
 mappingDefinitions:
   SOURCE_DATA:
     database: PRANJAL_DEV
@@ -13,5 +13,5 @@ mappingDefinitions:
   TARGET_DEV:
     database: PRANJAL_DEV
     schema: TARGET_DB
-name: "[NM-245]External_Sync"
+name: "[NM-2450] External_Sync"
 type: Environment
