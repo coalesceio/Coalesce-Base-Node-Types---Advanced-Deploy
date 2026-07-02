@@ -1,0 +1,131 @@
+fileVersion: 1
+id: 93939302-1dd1-4f8a-99d6-4c349c203479
+name: WRK_EMP_SOURCE_002
+operation:
+  config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 38480b36-940f-48ee-a80f-1703087f5d63
+          stepCounter: 93939302-1dd1-4f8a-99d6-4c349c203479
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: EMP_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 23cd9839-cc73-4a78-a67c-41412f8b0928
+                stepCounter: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 04da5c37-c710-45a4-8723-59a749ccf1de
+          stepCounter: 93939302-1dd1-4f8a-99d6-4c349c203479
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EMP_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 60d06026-9b8b-48f4-8b9b-6d9947087d15
+                stepCounter: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1a9d8fce-cc75-401b-94bd-087fc4a11a03
+          stepCounter: 93939302-1dd1-4f8a-99d6-4c349c203479
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EMP_CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f667654b-64ea-4c49-8f9f-51af272372db
+                stepCounter: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8dc3e5b2-c4e7-4f64-8800-bb1da7e76368
+          stepCounter: 93939302-1dd1-4f8a-99d6-4c349c203479
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: DML_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cee7a11a-2e0c-4592-a230-6e56dec2660a
+                stepCounter: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bad55b76-8974-46e9-a769-fbc212263c18
+          stepCounter: 93939302-1dd1-4f8a-99d6-4c349c203479
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3a54993b-8ec9-4cd6-ba3f-9b89db5e4dcb
+                stepCounter: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          ES_EMP_SOURCE_001: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET_DB
+            nodeName: ES_EMP_SOURCE_001
+        join:
+          joinCondition: FROM  {{ ref('TARGET_DB', 'ES_EMP_SOURCE_001') }} ES_EMP_SOURCE_001
+        name: WRK_EMP_SOURCE_002
+        noLinkRefs: []
+  name: WRK_EMP_SOURCE_002
+  overrideSQL: false
+  schema: ""
+  sqlType: "179"
+  type: sql
+  version: 1
+type: Node
