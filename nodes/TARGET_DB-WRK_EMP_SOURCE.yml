@@ -1,0 +1,154 @@
+fileVersion: 1
+id: 114a02e4-6a56-4cf6-82af-2ccc571d7005
+name: WRK_EMP_SOURCE
+operation:
+  config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: true
+    clusterKeyConfig:
+      items:
+        - columnName:
+            columnCounter: a8a59f96-0ba3-4135-854f-08025f19db2b
+            stepCounter: 114a02e4-6a56-4cf6-82af-2ccc571d7005
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    deployExecute: true
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    runExecute: false
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0d6c61ef-ddfd-4d4a-9fad-f4af5297ca68
+          stepCounter: 114a02e4-6a56-4cf6-82af-2ccc571d7005
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: EMP_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 01af1663-785d-4bd2-9c56-36e5306e5e95
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a8a59f96-0ba3-4135-854f-08025f19db2b
+          stepCounter: 114a02e4-6a56-4cf6-82af-2ccc571d7005
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EMP_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8ecc4304-16bd-4e73-9587-8d6a0512e1f7
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 072eb126-3d65-4b14-a194-c28e33818cb7
+          stepCounter: 114a02e4-6a56-4cf6-82af-2ccc571d7005
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EMP_CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 055a2da9-5ec5-4d41-b92a-03f649892ab4
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f32c3a2e-9734-44b4-b9c7-38ca0f192537
+          stepCounter: 114a02e4-6a56-4cf6-82af-2ccc571d7005
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: DML_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f979d66-2737-4939-ab14-2939e1fe56e1
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 48d353d9-d0dc-4535-b33f-1155af4fa24a
+          stepCounter: 114a02e4-6a56-4cf6-82af-2ccc571d7005
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: eb7bf9f5-912e-4328-85d4-6d8daf924bb3
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5bc20ec3-f9ea-4f83-b8a8-431e2b6e2c19
+          stepCounter: 114a02e4-6a56-4cf6-82af-2ccc571d7005
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: DEMO_COL
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          EMP_SOURCE: 35ffca0b-33be-4aff-8531-f88febff16ac
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: EMP_SOURCE
+        join:
+          joinCondition: FROM  {{ ref('SOURCE_DATA', 'EMP_SOURCE') }} EMP_SOURCE
+        name: WRK_EMP_SOURCE
+        noLinkRefs: []
+  name: WRK_EMP_SOURCE
+  overrideSQL: false
+  schema: ""
+  sqlType: "678"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,133 @@
+fileVersion: 1
+id: 839529f4-7452-4339-acf8-d77c01e44de9
+name: WRK_EMP_SOURCE_VIEW
+operation:
+  config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    deployExecute: true
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    runExecute: false
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 58f46556-63df-4ac1-ac55-45184f4a62e1
+          stepCounter: 839529f4-7452-4339-acf8-d77c01e44de9
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: EMP_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 01af1663-785d-4bd2-9c56-36e5306e5e95
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7ba63c7a-d1e7-4806-a66e-4da3d98e6196
+          stepCounter: 839529f4-7452-4339-acf8-d77c01e44de9
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EMP_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8ecc4304-16bd-4e73-9587-8d6a0512e1f7
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 61fd14da-9df0-46b7-a128-32f733d57456
+          stepCounter: 839529f4-7452-4339-acf8-d77c01e44de9
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EMP_CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 055a2da9-5ec5-4d41-b92a-03f649892ab4
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 281d11b7-65df-42cc-8575-54430011638b
+          stepCounter: 839529f4-7452-4339-acf8-d77c01e44de9
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: DML_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f979d66-2737-4939-ab14-2939e1fe56e1
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8f865365-4fc8-4818-bcbe-4372639b8992
+          stepCounter: 839529f4-7452-4339-acf8-d77c01e44de9
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: eb7bf9f5-912e-4328-85d4-6d8daf924bb3
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          EMP_SOURCE: 35ffca0b-33be-4aff-8531-f88febff16ac
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: EMP_SOURCE
+        join:
+          joinCondition: FROM  {{ ref('SOURCE_DATA', 'EMP_SOURCE') }} EMP_SOURCE
+        name: WRK_EMP_SOURCE_VIEW
+        noLinkRefs: []
+  name: WRK_EMP_SOURCE_VIEW
+  overrideSQL: false
+  schema: ""
+  sqlType: "678"
+  type: sql
+  version: 1
+type: Node
