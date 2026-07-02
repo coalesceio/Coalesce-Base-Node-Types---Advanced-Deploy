@@ -18,7 +18,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    deployExecute: true
+    deployExecute: false
     groupByAll: false
     insertStrategy: INSERT
     orderby: false
