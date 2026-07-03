@@ -18,7 +18,7 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    deployExecute: false
+    deployExecute: true
     groupByAll: false
     insertStrategy: INSERT
     orderby: false
@@ -27,7 +27,7 @@ operation:
         - {}
     postSQL: ""
     preSQL: ""
-    runExecute: false
+    runExecute: true
     selectDistinct: false
     testsEnabled: false
     truncateBefore: true
@@ -94,20 +94,6 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: b29f58bd-1188-4f53-b761-8815b6ae689d
-                stepCounter: 2eb561e6-1374-4b19-8ac4-3e4076d8a098
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: b31bc0bb-c2b5-4776-b654-e24e03c9f741
-          stepCounter: 391e4587-0410-45ed-9b52-251c45edb79a
-        config: {}
-        dataType: TIMESTAMP_NTZ(9)
-        description: ""
-        name: CREATED_AT
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 14e982e9-c890-4870-bd41-4585e1bba77a
                 stepCounter: 2eb561e6-1374-4b19-8ac4-3e4076d8a098
             transform: ""
     cteString: ""
