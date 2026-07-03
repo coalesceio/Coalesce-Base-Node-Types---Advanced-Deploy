@@ -847,7 +847,7 @@ does not permit copying or modification for any other purpose.
     {% set targetObjectDatabase = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[0] %} 
     {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
     {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
-    {% if desiredState.config.deployExecute %}
+    {% if currentState.config.deployExecute %}
         {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
         {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
         DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
