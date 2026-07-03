@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 93939302-1dd1-4f8a-99d6-4c349c203479
-name: WRK_EMP_SOURCE_002
+id: 80976bf4-bf7e-444b-b762-ab803b668ee2
+name: WRK_EMP_SOURCE
 operation:
   config:
     asofColumn:
@@ -40,8 +40,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 38480b36-940f-48ee-a80f-1703087f5d63
-          stepCounter: 93939302-1dd1-4f8a-99d6-4c349c203479
+          columnCounter: 883bf6e2-4af6-4531-8c7d-2de0bddc8ea8
+          stepCounter: 80976bf4-bf7e-444b-b762-ab803b668ee2
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -49,13 +49,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 23cd9839-cc73-4a78-a67c-41412f8b0928
-                stepCounter: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+              - columnCounter: 01af1663-785d-4bd2-9c56-36e5306e5e95
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 04da5c37-c710-45a4-8723-59a749ccf1de
-          stepCounter: 93939302-1dd1-4f8a-99d6-4c349c203479
+          columnCounter: 07123130-e734-4b72-90d2-b3e5fe912a25
+          stepCounter: 80976bf4-bf7e-444b-b762-ab803b668ee2
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -63,13 +63,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 60d06026-9b8b-48f4-8b9b-6d9947087d15
-                stepCounter: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+              - columnCounter: 8ecc4304-16bd-4e73-9587-8d6a0512e1f7
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1a9d8fce-cc75-401b-94bd-087fc4a11a03
-          stepCounter: 93939302-1dd1-4f8a-99d6-4c349c203479
+          columnCounter: ab768a87-1ece-4854-b7ec-ece0cd653fd0
+          stepCounter: 80976bf4-bf7e-444b-b762-ab803b668ee2
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -77,13 +77,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: f667654b-64ea-4c49-8f9f-51af272372db
-                stepCounter: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+              - columnCounter: 055a2da9-5ec5-4d41-b92a-03f649892ab4
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 8dc3e5b2-c4e7-4f64-8800-bb1da7e76368
-          stepCounter: 93939302-1dd1-4f8a-99d6-4c349c203479
+          columnCounter: c7c81b34-1827-4f92-abca-c70aba05a12e
+          stepCounter: 80976bf4-bf7e-444b-b762-ab803b668ee2
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
@@ -91,13 +91,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: cee7a11a-2e0c-4592-a230-6e56dec2660a
-                stepCounter: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+              - columnCounter: 1f979d66-2737-4939-ab14-2939e1fe56e1
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: bad55b76-8974-46e9-a769-fbc212263c18
-          stepCounter: 93939302-1dd1-4f8a-99d6-4c349c203479
+          columnCounter: f62ab520-29a0-45d4-a3e4-90083a05c770
+          stepCounter: 80976bf4-bf7e-444b-b762-ab803b668ee2
         config: {}
         dataType: TIMESTAMP_NTZ(9)
         description: ""
@@ -105,24 +105,24 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 3a54993b-8ec9-4cd6-ba3f-9b89db5e4dcb
-                stepCounter: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+              - columnCounter: eb7bf9f5-912e-4328-85d4-6d8daf924bb3
+                stepCounter: 35ffca0b-33be-4aff-8531-f88febff16ac
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          ES_EMP_SOURCE_001: e8aa2bc3-7e5d-4c91-878e-80a35b2d90c0
+          EMP_SOURCE: 35ffca0b-33be-4aff-8531-f88febff16ac
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: TARGET_DB
-            nodeName: ES_EMP_SOURCE_001
+          - locationName: SOURCE_DATA
+            nodeName: EMP_SOURCE
         join:
-          joinCondition: FROM  {{ ref('TARGET_DB', 'ES_EMP_SOURCE_001') }} ES_EMP_SOURCE_001
-        name: WRK_EMP_SOURCE_002
+          joinCondition: FROM  {{ ref('SOURCE_DATA', 'EMP_SOURCE') }} EMP_SOURCE
+        name: WRK_EMP_SOURCE
         noLinkRefs: []
-  name: WRK_EMP_SOURCE_002
+  name: WRK_EMP_SOURCE
   overrideSQL: false
   schema: ""
   sqlType: "179"
