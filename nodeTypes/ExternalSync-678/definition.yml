@@ -27,6 +27,11 @@ metadata:
         displayName: Run Execute
         defaulf: false
         enableIf: "{% if node.materializationType != 'view' %} true {% else %} false {% endif %}"
+
+      - displayName: Enable Tests
+        attributeName: testsEnabled
+        type: toggleButton
+        default: false
       
     - groupName: Create Options
       items:
@@ -39,6 +44,9 @@ metadata:
         - transient table
         isRequired: true
         enableIf: "{% if config.deployExecute == true %} true {% else %} false {% endif %} "
+
+      - type: overrideSQLToggle
+        enableIf: "{% if node.materializationType == 'view' and config.deployExecute == true %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: clusterKey
@@ -86,8 +94,6 @@ metadata:
         isRequired: false
         enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) and config.deployExecute == true %} true {% else %} false {% endif %}"
 
-      - type: overrideSQLToggle
-        enableIf: "{% if node.materializationType == 'view' and config.deployExecute == true %} true {% else %} false {% endif %}"
       enableIf: "{% if config.deployExecute == true %} true {% else %} false {% endif %}"
 
     - groupName: Load Options
@@ -112,11 +118,6 @@ metadata:
         type: toggleButton
         default: true
         enableIf: "{% if config.runExecute == true and (not node.materializationType == 'view') %} true {% else %} false {% endif %}"
-
-      - displayName: Enable Tests
-        attributeName: testsEnabled
-        type: toggleButton
-        default: false
 
 
       - displayName: Distinct

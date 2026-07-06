@@ -8,7 +8,7 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : Work Advanced deploy == #}
 {# == Node Type Description    : This node loads data into work table using config options distinct,groupby all,order by ,multi-source == #}
 
-{% if config.runExecute == true %}
+
 	{# == To run data quality tests before data insertion == #}
 
 	{% for test in node.tests if config.testsEnabled %}
@@ -17,7 +17,7 @@ does not permit copying or modification for any other purpose.
 				{{ test.templateString }}
 			{% endif %}
 		{% endfor %}
-
+{% if config.runExecute == true %}
 	{% if node.materializationType == 'table' or node.materializationType == 'transient table'%}
 
 	{# == Queries to be excuted before data insertion  == #}
@@ -101,7 +101,8 @@ does not permit copying or modification for any other purpose.
 		-- The node {{node.name}} is materialized as View. Therefore, a Load operation is not supported.
 		SELECT 1 AS INFO_MESSAGE WHERE FALSE
 	{% endif %}
-
+	
+{% endif %}
 	{# == To run data quality tests after data insertion == #}
 
 	{% if config.testsEnabled %}
@@ -120,4 +121,3 @@ does not permit copying or modification for any other purpose.
 		{% endfor %}
 		
 	{% endif %}
-{% endif %}

@@ -342,7 +342,6 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             ASOF Toggle comparison
             ========================================================= #}
-            {% if desiredState.config.deployExecute %}
                 {% if currentState.config.asofJoinMain | default(false) != desiredState.config.asofJoinMain %}
                     {% set nsMetaVariables.ASOFTest = false %}
                     {% set _ = nsMetaVariables.ASOFDiff.append({
@@ -353,7 +352,6 @@ does not permit copying or modification for any other purpose.
                     {{ update_metadata("ASOF", nsMetaVariables.ASOFDiff, "ASOF") }}
 
                 {% endif %}
-            {% endif %}
 
             {# =========================================================
             Truncate Table comparison
