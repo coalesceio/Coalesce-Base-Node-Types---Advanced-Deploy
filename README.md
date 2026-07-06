@@ -15,6 +15,9 @@
 - **Work nodes**  
   Temporary or intermediate processing layers used during transformations. They support complex logic and performance optimization but are not intended for direct business consumption.
 
+- **External Sync**
+    Integrate Snowflake objects managed by external pipelines into the Coalesce DAG for passive lineage and mapping. They allow you to reference and map data created outside of Coalesce without requiring the tool to own the DDL or DML.     
+
 **Summary:**  
 Together, these node types ensure data is accurate, reusable, scalable, and aligned with business reporting and decision-making needs.
 
@@ -22,39 +25,41 @@ Together, these node types ensure data is accurate, reusable, scalable, and alig
 
 ## Nodetypes Config Matrix
 
-| Category | Feature                         | Dim | Fact | Factless | Work | PStage |
-|----------|----------------------------------|-----|------|----------|------|--------|
-| Create   | Create As Table                  | ✅  | ✅   | ✅       | ✅   | ✅     |
-| Create   | Create As Transient Table        | ✅  | ✅   | ✅       | ✅   | ✅     |
-| Create   | Create As View                   | ✅  | ✅   | ⬜       | ✅   | ⬜     |
-| Create   | Create with Override SQL         | ✅  | ✅   | ⬜       | ✅   | ⬜     |
-| Create   | Primary Key                      | ✅  | ✅   | ⬜       | ⬜   | ⬜     |
-| Create   | Cluster Key                      | ✅  | ✅   | ✅       | ✅   | ✅     |
-| Load     | MultiSource                      | ✅  | ✅   | ✅       | ✅   | ✅     |
-| Load     | Insert Strategy                  | ✅  | ✅   | ✅       | ✅   | ✅     |
-| Load     | Update Strategy                  | ✅  | ⬜   | ⬜       | ⬜   | ⬜     |
-| Load     | Unmatched Record Strategy        | ✅  | ⬜   | ⬜       | ⬜   | ⬜     |
-| Load     | Enable Source Soft Delete Handling | ⬜  | ✅   | ✅       | ⬜   | ⬜     |
-| Load     | Source Delete Strategy           | ⬜  | ✅   | ✅       | ⬜   | ⬜     |
-| Load     | Source Deleted Record Indicator  | ⬜  | ✅   | ✅       | ⬜   | ⬜     |
-| Load     | Business Key                     | ✅  | ✅   | ⬜       | ⬜   | ✅     |
-| Load     | Last Modified Comparison         | ✅  | ✅   | ⬜       | ⬜   | ✅     |
-| Load     | Lookback Days                    | ⬜  | ✅   | ✅       | ⬜   | ⬜     |
-| Load     | Change Tracking                  | ✅  | ⬜   | ⬜       | ⬜   | ✅     |
-| Load     | Delete Strategy(source DML-flag based)                  | ⬜  | ⬜   | ⬜       | ⬜   | ✅     |
-| Load     | Column that Identifies DML Operations(DELETE) | ⬜  | ⬜   | ⬜       | ⬜   | ✅     |
-| Load     | Delete Value | ⬜  | ⬜   | ⬜       | ⬜   | ✅     |
-| Load     | Exclude Columns from Merge       | ✅  | ✅   | ⬜       | ⬜   | ✅     |
-| Load     | Truncate Before                  | ✅  | ✅   | ✅       | ✅   | ✅     |
-| Load     | Distinct                         | ✅  | ✅   | ✅       | ✅   | ✅     |
-| Load     | Group By All                     | ✅  | ✅   | ✅       | ✅   | ✅     |
-| Load     | Order By                         | ✅  | ✅   | ✅       | ✅   | ✅     |
-| Load     | Insert Zero Key Record           | ✅  | ⬜   | ⬜       | ⬜   | ⬜     |
-| Load     | ASOF Join Options                | ⬜  | ⬜   | ⬜       | ✅   | ⬜     |
-| Load     | Methods                          | MERGE<br/>INSERT/UPDATE | MERGE<br/>INSERT | MERGE |INSERT | MERGE<br/>INSERT |
-| Others   | Enable Tests                     | ✅  | ✅   | ✅       | ✅   | ✅     |
-| Others   | Pre-SQL                          | ✅  | ✅   | ✅       | ✅   | ✅     |
-| Others   | Post-SQL                         | ✅  | ✅   | ✅       | ✅   | ✅     |
+| Category | Feature                         | Dim | Fact | Factless | Work | PStage | External Sync |
+|----------|----------------------------------|-----|------|----------|------|--------|--------|
+| Create   | Create As Table                  | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
+| Create   | Create As Transient Table        | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
+| Create   | Create As View                   | ✅  | ✅   | ⬜       | ✅   | ⬜     | ✅     |
+| Create   | Create with Override SQL         | ✅  | ✅   | ⬜       | ✅   | ⬜     | ✅     |
+| Create   | Primary Key                      | ✅  | ✅   | ⬜       | ⬜   | ⬜     | ⬜     |
+| Create   | Cluster Key                      | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
+| Create   | Deploy Execute                   | ⬜  | ⬜   | ⬜       | ⬜   | ⬜     | ✅     |
+| Load     | MultiSource                      | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
+| Load     | Insert Strategy                  | ✅  | ✅   | ✅       | ✅   | ✅     | ⬜     |
+| Load     | Update Strategy                  | ✅  | ⬜   | ⬜       | ⬜   | ⬜     | ⬜     |
+| Load     | Unmatched Record Strategy        | ✅  | ⬜   | ⬜       | ⬜   | ⬜     | ⬜     |
+| Load     | Enable Source Soft Delete Handling | ⬜  | ✅   | ✅       | ⬜   | ⬜     | ⬜     |
+| Load     | Source Delete Strategy           | ⬜  | ✅   | ✅       | ⬜   | ⬜     | ⬜     |
+| Load     | Source Deleted Record Indicator  | ⬜  | ✅   | ✅       | ⬜   | ⬜     | ⬜     |
+| Load     | Business Key                     | ✅  | ✅   | ⬜       | ⬜   | ✅     | ⬜     |
+| Load     | Last Modified Comparison         | ✅  | ✅   | ⬜       | ⬜   | ✅     | ⬜     |
+| Load     | Lookback Days                    | ⬜  | ✅   | ✅       | ⬜   | ⬜     | ⬜     |
+| Load     | Change Tracking                  | ✅  | ⬜   | ⬜       | ⬜   | ✅     | ⬜     |
+| Load     | Delete Strategy(source DML-flag based)                  | ⬜  | ⬜   | ⬜       | ⬜   | ✅     | ⬜     |
+| Load     | Column that Identifies DML Operations(DELETE) | ⬜  | ⬜   | ⬜       | ⬜   | ✅     | ⬜     |
+| Load     | Delete Value | ⬜  | ⬜   | ⬜       | ⬜   | ✅     | ⬜     |
+| Load     | Exclude Columns from Merge       | ✅  | ✅   | ⬜       | ⬜   | ✅     | ⬜     |
+| Load     | Truncate Before                  | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
+| Load     | Distinct                         | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
+| Load     | Group By All                     | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
+| Load     | Order By                         | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
+| Load     | Insert Zero Key Record           | ✅  | ⬜   | ⬜       | ⬜   | ⬜     | ⬜     |
+| Load     | ASOF Join Options                | ⬜  | ⬜   | ⬜       | ✅   | ⬜     | ✅     |
+| Load     | Methods                          | MERGE<br/>INSERT/UPDATE | MERGE<br/>INSERT | MERGE |INSERT | MERGE<br/>INSERT |INSERT |
+| Load     | Run Execute                      | ⬜  | ⬜   | ⬜       | ⬜   | ⬜     | ✅     |
+| Others   | Enable Tests                     | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
+| Others   | Pre-SQL                          | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
+| Others   | Post-SQL                         | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
 
 ---
 
@@ -67,6 +72,7 @@ The Coalesce Base Node Types Package includes:
 * [Dimension Advanced Deploy](#dimension-advanced-deploy)
 * [Fact Advanced Deploy](#fact-advanced-deploy)
 * [Factless Fact Advanced Deploy](#factless-fact-advanced-deploy)
+* [External Sync](#external-sync)
 * [Code](#code)
 
 ---
@@ -929,6 +935,182 @@ This is executed in two stages:
 ### Redeployment With No Changes
  
 If the nodes are redeployed with no changes compared to previous deployment, then no stages are executed
+
+---
+## External Sync
+
+The External Sync node integrates externally managed Snowflake tables and views into your Coalesce DAG for lineage and mapping purposes.
+It allows you to synchronize metadata from objects created by external pipelines without requiring Coalesce to own the DDL. With independent toggles for deployment and execution, this node acts as a flexible reference point that can safely transition from a passive lineage object to a fully managed pipeline component.
+
+### External Sync Node Configuration
+
+The External Sync node type has two configuration groups:
+
+* [Node Properties](#external-sync-node-properties)
+* [Options](#external-sync-options)
+* [Create Options](#external-sync-create-options)
+* [Load Options](#external-sync-load-options)
+
+#### External Sync Node Properties
+
+| **Setting** | **Description** |
+|----------|-------------|
+| **Storage Location** | Storage Location where the node will be created |
+| **Node Type** | Name of template used to create node objects |
+| **Deploy Enabled** | If TRUE the node will be deployed or redeployed when changes are detected<br/> If FALSE the node will not be deployed or will be dropped during redeployment |
+
+#### External Sync Options
+
+You can create the node as:
+
+* Table
+* View
+* Transient Table
+
+#### External Sync Options.
+
+| **Setting** | **Description** |
+|---------|-------------|
+| **Deploy Execute** | Toggle: True/False<br/>**True**: Coalesce manages the DDL. Full creation, alteration, or dropping of the Snowflake object occurs during deployment.<br/>**False**: No DDL is executed. The node acts as a passive lineage reference in the DAG. |
+| **Run Execute** | Toggle: True/False<br/>**True**: Coalesce manages the DML. Data loading (Insert/Truncate) and tests are performed during pipeline runs.<br/>**False**: No DML is executed. No data processing or testing occurs during pipeline runs. | 
+
+#### External Sync Create Options.
+
+| **Setting** | **Description** |
+|---------|-------------|
+| **Create As**| Dropdown: Select the desired materialization. <br/> - Table <br/> - Transient Table <br/> - View.|
+| **Cluster key** | Toggle: True/False <br/> If the dimension is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
+| **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
+
+#### External Sync Load Options
+
+| **Setting** | **Description** |
+|---------|-------------|
+| **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
+| **Truncate Before** | Toggle: True/False<br/>Determines whether the table is truncated before execution.<br/>**True**: Table is truncated before the DML operation runs.<br/>**False**: The DML operation runs without truncation. |
+| **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
+| **Distinct** | Toggle: True/False<br/>**True**: Group by All is invisible. DISTINCT data is chosen for processing.<br/>**False**: Group by All is visible. |
+| **Group by All** | Toggle: True/False<br/>**True**: DISTINCT is invisible, data grouped by all columns<br/>**False**: DISTINCT is visible |
+| **Order By** | Toggle: True/False<br/>**True**: Sort column and sort order drop down are visible and are required to form order by clause. <br/>**False**: Sort options invisible |
+| **ASOF Join** | Toggle: True/False<br/>**True**: ASOF Join Options will be visible. <br/>**False**: ASOF Join Options will be invisible |
+| **Pre-SQL**| SQL to execute before data insert operation |
+| **Post-SQL** | SQL to execute after data insert operation |
+
+
+##### ASOF Join Options
+| **Setting** | **Description** |
+|---------|-------------|
+| **Match Condition** | Toggle: True/False <br/> Match Condition Clause from Snowflake ASOF join <br/> **True**: Allows you to specify the Match Condtion.<br/>- **Right Table Storage Location**: Add right table storage location<br/>- **Right Table Name**: Add name of the right table<br/>- **Match Condition**: Add a match condition in the format "Left Table Name"."Column Name" Condition Operator "Right Table Name"."Column Name"<br/> **False** : No Match Condition Added|
+| **On** | Toggle: True/False <br/>ON Clause with Match Condition from Snowflake ASOF join.Using will be invisible <br/> **True**: Allows you to add the ON Clause.<br/> **ON Condition**: Add a match condition in the format "Left Table Name"."Column Name" = "Right Table Name"."Column Name" <br/> **False**: No ON Clause Added.Using will be visible|
+| **Using** | Toggle: True/False <br/>Using Clause with Match Condition from Snowflake ASOF join.On will be invisible <br/> **True**: Allows you to add the Using Clause.<br/> **Using Column Name** : Add a Column Name for Using clause<br/> **False**: No Using Clause Added.On will be visible|
+
+
+#### Note
+If changes occur in the source column list, use the **Resync** option to update the node's structure from Snowflake.
+
+### External Sync Joins
+
+Join conditions and other clauses can be specified in the join space next to mapping of columns in the UI.
+
+![work_join](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/assets/7216836/7acff10b-8845-4c44-851a-b7a0bc7eaf41)
+
+> 📘 **Specify Group by and Order by Clauses**
+>
+> Best Practice is to specify group by and order by clauses in this space if you are not opting for the group by all and order by provided in OPTIONS config.
+
+### External Sync ASOF Join
+
+After selecting options for ASOF Join,Click on Generate join, use the 'Copy To Editor' to add the new ASOF join.
+<img width="294" alt="image" src="https://github.com/user-attachments/assets/4d885258-01c7-4ea2-babe-85ce6e10f838" />
+
+### External Sync Deployment
+
+#### External Sync Initial Deployment
+
+When deployed for the first time into an environment the External Sync node of materialization type table or view will execute the below stage:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create Table** | This will execute a CREATE OR REPLACE statement and create a table in the target environment |
+| **Create View** | This will execute a CREATE OR REPLACE statement and create a view in the target environment |
+
+#### External Sync Redeployment
+
+After the External Sync node with materialization type table/transient table/view has been deployed for the first time into a target environment, subsequent deployments may result in either altering the External Sync Table or recreating the External Sync table.
+
+#### Altering the External Sync Tables and Transient Tables
+
+A few types of column or table changes will result in an ALTER statement to modify the External Sync Table in the target environment, whether these changes are made individually or all together:
+
+1. Changing table names
+2. Dropping existing columns
+3. Altering column data types
+4. Adding new columns
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Rename Table\| Alter Column \| Delete Column \| Add Column \| Edit table description** | Alter table statement is executed to perform the alter operation|
+
+Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates. A few cases are listed below:
+
+1. Changes in business keys
+2. Changes to change tracking keys
+3. Changes in join clauses
+4. Transformations made at column level
+5. Changing DML options like DISTINCT, ORDER BY, GROUP BY ALL
+
+And many more. Most of the time, specific ‘is’ and ‘was’ values will be displayed to specifically show what changed.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
+
+#### External Sync Recreating Views
+
+The subsequent deployment of External Sync node of materialization type view with changes in view definition, adding table description or renaming view results in deleting the existing view and recreating the view.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create View** | Creates a new view with updated definition |
+
+#### External Sync Drop and Recreate View/Table/Transient Table
+
+| **Change** | **Stages Executed** |
+|------------|-------------------|
+| **View to table/transient table** |  Drop view <br/> Create or Replace table/transient table |
+| **Table/transient table to View** |  Drop table/transient table<br/> Create  view |
+| **Table to transient table or vice versa** |  Drop table/transient table<br/> Create or Replace table/transient table |
+
+> 📘 **Materialization External Sync Node**
+>
+> When the materialization type of External Sync node is changed from table/transient table to View and use Override Create SQL for view creation. This ensures that the following change is made in the stage function in Create SQL tab so that the order of deployment is maintained.
+
+![CreateSQL](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/assets/7216836/0296abf8-0747-4ae8-8478-0782e5e2e545)
+
+#### Node Type Switching
+
+Node Type switching is supported starting from Coalesce version **7.28+**.
+
+From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
+
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+
+### External Sync Undeployment
+
+If a External Sync Node of materialization type table/view/transient table are deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher level environment then the External Sync Table in the target environment will be dropped.
+
+This is executed in below stage:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop table/view** | Removes the table or view from the environment |
+
 
 -----------------
 
