@@ -19,7 +19,7 @@ operation:
     deleteStrategy: SOFT DELETE
     groupByAll: false
     insertStrategy: UNION ALL
-    insertZeroKey: true
+    insertZeroKey: false
     insertZeroKeyAdvanced: false
     insertZeroKeyBol: "TRUE"
     insertZeroKeyDate: 01-01-1900
@@ -31,10 +31,7 @@ operation:
       items:
         - {}
     postSQL: ""
-    preSQL: |-
-      {% if true %}
-      select count(*) FROM {{ ref('SOURCE_DATA', 'REGION') }} "REGION" 
-      {% endif %}
+    preSQL: ""
     primary: false
     primaryKeyCol:
       items:
@@ -111,6 +108,7 @@ operation:
         config: {}
         dataType: VARCHAR(152)
         description: ""
+        isBusinessKey: true
         name: R_COMMENT
         nullable: true
         sourceColumnReferences:
