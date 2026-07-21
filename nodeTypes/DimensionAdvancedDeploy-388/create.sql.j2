@@ -208,17 +208,16 @@ does not permit copying or modification for any other purpose.
             {{ stage('Create Dimension ' + desiredState.node.materializationType) }}
 			CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
 			(
-			{% for col in desiredState.columns %}
+			{%- for col in desiredState.columns %}
 				"{{ col.name }}" {{ col.dataType }}
-				{% if col.isSurrogateKey %}
-					identity
-				{% endif %}
+				{%- if col.isSurrogateKey %} identity {%- endif %}
+
 				{%- if not col.nullable %} NOT NULL
 					{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-				{% endif %}
+				{%- endif -%}
 				{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-				{%- if not loop.last -%}, {% endif %}
-			{% endfor %}
+				{%- if not loop.last -%}, {%- endif -%} 
+				{%- endfor -%}
 
             {# =========================================================
             Primary Key Name and Column List Addition
@@ -240,11 +239,8 @@ does not permit copying or modification for any other purpose.
                     {% endif %}
 
                     PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
-
                 {% endif %}
-            {% endif %}
-
-		    	)
+            {% endif %})
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 
             {% if desiredState.config.clusterKey == true %}
@@ -917,26 +913,23 @@ does not permit copying or modification for any other purpose.
                 {# Metadata changes detected #}
                 {% set nsMetaVariables.metaDataChanged = true %} 
             {% endif %}
-
-            {# Drop Columns #}
+			
+			{# Drop Columns #}
             {% set nsVariables = namespace(colchanges=0) %}
-            {% for dropCurCol in currentState.columns %}
-                {% if dropCurCol.id not in desiredState.columns | map(attribute="id") %}
-                {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+            {%- for dropCurCol in currentState.columns %}
+                {%- if dropCurCol.id not in desiredState.columns | map(attribute="id") %}
+                {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
-                    {% if nsVariables.colchanges == 1 %}
+                    {%- if nsVariables.colchanges == 1 %}
                         {{ stage('Drop Columns') }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                        DROP COLUMN 
-                    {% else %}
-                        , 
-                    {% endif %}
-                    "{{ dropCurCol.name }}"
-
-                    {# Metadata changes detected #}
-                    {% set nsMetaVariables.metaDataChanged = true %} 
-                {% endif %}
-            {% endfor %}
+                        DROP COLUMN
+                        {%- else %},
+                        {%- endif %}
+                        "{{ dropCurCol.name }}"
+                    {%- set nsMetaVariables.metaDataChanged = true %}
+                {%- endif %}
+            {%- endfor %}
 
             {# Add Columns #}
             {% set nsVariables = namespace(colchanges=0) %}
@@ -969,8 +962,7 @@ does not permit copying or modification for any other purpose.
                     {% if renameCurCol.name != desiredColumnName %}
                         {{ stage('Rename Column ' + renameCurCol.name) }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                        RENAME COLUMN "{{ renameCurCol.name }}"
-                        TO "{{ desiredColumnName }}"
+                        RENAME COLUMN "{{ renameCurCol.name }}" TO "{{ desiredColumnName }}"
 
                         {# Metadata changes detected #}
                         {% set nsMetaVariables.metaDataChanged = true %} 
