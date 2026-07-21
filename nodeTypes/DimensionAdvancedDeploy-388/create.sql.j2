@@ -933,27 +933,24 @@ does not permit copying or modification for any other purpose.
 
             {# Add Columns #}
             {% set nsVariables = namespace(colchanges=0) %}
-            {% for addDesCol in desiredState.columns %}
-                {% if addDesCol.id not in currentState.columns | map(attribute="id") %}
-                {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+            {%- for addDesCol in desiredState.columns %}
+                {%- if addDesCol.id not in currentState.columns | map(attribute="id") %}
+                {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
-                    {% if nsVariables.colchanges == 1 %}
+                    {%- if nsVariables.colchanges == 1 %}
                         {{ stage('Add Columns') }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                         ADD COLUMN
-                    {% else %}
-                        ,
-                    {% endif %}
-                        "{{ addDesCol.name }}" {{ addDesCol.dataType }}
-                        {%- if not addDesCol.nullable %} NOT NULL
-                            {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{% endif %}
-                        {% endif %}
+                        {%- else %},
+                        {%- endif %}
+                        "{{ addDesCol.name }}" {{ addDesCol.dataType }}{%- if not addDesCol.nullable %} NOT NULL {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{% endif %}
+                        {%- endif %}
                         {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDesCol.description | escape }}'{% endif %}
-
                     {# Metadata changes detected #}
-                    {% set nsMetaVariables.metaDataChanged = true %}
-                {% endif %}
-            {% endfor %}
+                    {%- set nsMetaVariables.metaDataChanged = true %}
+                {%- endif %}
+            {%- endfor %}
+			
 
             {# Rename Columns #}
             {% for renameCurCol in currentState.columns %}
@@ -1000,49 +997,49 @@ does not permit copying or modification for any other purpose.
                             {{ stage('Change Column Attributes') }}
                             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                             MODIFY
-                        {% endif %}
-                        {% if datatypeTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                        {%- endif %}
+                        {%- if datatypeTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{%- endif %}
                             COLUMN "{{ desiredColumnName }}"
                             SET DATA TYPE {{ desiredDatatype }}
                             {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
-                        {% if nullableTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                        {%- endif %}
+                        {%- if nullableTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
-                            {% if currentNullable == true %}
+                            {%- if currentNullable == true %}
                                 SET
-                            {% else %}
+                            {%- else %}
                                 DROP
-                            {% endif %}
+                            {%- endif %}
                             NOT NULL
                             {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
-                        {% if descriptionTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                        {%- endif %}
+                        {%- if descriptionTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
                             COMMENT '{{ desiredDescription |escape }}'
                             {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
-                        {% if defaultValueTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                        {%- endif %}
+                        {%- if defaultValueTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
-                            {% if desiredDefaultValue == '' %}
+                            {%- if desiredDefaultValue == '' %}
                                 DROP DEFAULT
-                            {% else %}
+                            {%- else %}
                                 SET DEFAULT {{ desiredDefaultValue }}
-                            {% endif %}
-                            {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
+                            {%- endif %}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- endif %}
 
                         {# Metadata changes detected #}
-                        {% set nsMetaVariables.metaDataChanged = true %} 
+                        {%- set nsMetaVariables.metaDataChanged = true %} 
                         
-                    {% else %}
+                    {%- else %}
                                             
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
+                    {%- endif %}
+                {%- endif %}
+            {%- endfor %}
 
             {# =========================================================
             Primary Key Name and Column List Test

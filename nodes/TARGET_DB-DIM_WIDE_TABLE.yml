@@ -3168,6 +3168,26 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9a2b8f87-7bf2-4fa5-9828-ff852f453645
+          stepCounter: e61cc512-7b84-44f9-a694-b1d912334773
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: dfsdgsrd
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 247dfaa0-812b-4305-82ef-2a671f0181d9
+                stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
+            transform: ""
+        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
