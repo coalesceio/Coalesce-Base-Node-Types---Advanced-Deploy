@@ -968,32 +968,29 @@ does not permit copying or modification for any other purpose.
             {% endfor %}
 
             {# Change data types etc #}
-            {% set nsVariables.colchanges = 0 %}
-            {% for alterCurCol in currentState.columns %}        
-                {% if alterCurCol.id in desiredState.columns | map(attribute="id") %}
-                    {% set currentDatatype = alterCurCol.dataType %}
-                    {% set currentNullable = alterCurCol.nullable %}
-                    {% set currentDefaultValue = alterCurCol.defaultValue %}
-                    {% set currentDescription = alterCurCol.description %}
-
-                    {% set desiredColumnName = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='name') | first %}
-                    {% set desiredDatatype = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='dataType') | first %}
-                    {% set desiredNullable = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='nullable') | first %}
-                    {% set desiredDefaultValue = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='defaultValue') | first %}
-                    {% set desiredDescription = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='description') | first %}
-
-                    {% set datatypeTest = currentDatatype == desiredDatatype %}
-                    {% set nullableTest = currentNullable == desiredNullable %}
-                    {% set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
-                    {% set descriptionTest = currentDescription == desiredDescription %}
-
-                    {% if (datatypeTest == false or 
+            {%- set nsVariables.colchanges = 0 %}
+            {%- for alterCurCol in currentState.columns %}        
+                {%- if alterCurCol.id in desiredState.columns | map(attribute="id") %}
+                    {%- set currentDatatype = alterCurCol.dataType %}
+                    {%- set currentNullable = alterCurCol.nullable %}
+                    {%- set currentDefaultValue = alterCurCol.defaultValue %}
+                    {%- set currentDescription = alterCurCol.description %}
+                    {%- set desiredColumnName = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='name') | first %}
+                    {%- set desiredDatatype = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='dataType') | first %}
+                    {%- set desiredNullable = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='nullable') | first %}
+                    {%- set desiredDefaultValue = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='defaultValue') | first %}
+                    {%- set desiredDescription = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='description') | first %}
+                    {%- set datatypeTest = currentDatatype == desiredDatatype %}
+                    {%- set nullableTest = currentNullable == desiredNullable %}
+                    {%- set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
+                    {%- set descriptionTest = currentDescription == desiredDescription %}
+                    {%- if (datatypeTest == false or 
                             nullableTest == false  or
                             defaultValueTest == false or
                             descriptionTest == false) %}
-                        {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
-                        {% if nsVariables.colchanges == 1 %}
+                        {%- if nsVariables.colchanges == 1 %}
                             {{ stage('Change Column Attributes') }}
                             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                             MODIFY
@@ -1001,11 +998,11 @@ does not permit copying or modification for any other purpose.
                         {%- if datatypeTest == false %}
                             {%- if nsVariables.colchanges > 1 %},{%- endif %}
                             COLUMN "{{ desiredColumnName }}"
-                            SET DATA TYPE {{ desiredDatatype }}
-                            {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+							SET DATA TYPE {{ desiredDatatype }}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
                         {%- endif %}
                         {%- if nullableTest == false %}
-                            {%- if nsVariables.colchanges > 1 %},{% endif %}
+                            {%- if nsVariables.colchanges > 1 %},{%- endif %}
                             COLUMN "{{ desiredColumnName }}"
                             {%- if currentNullable == true %}
                                 SET
@@ -1013,16 +1010,16 @@ does not permit copying or modification for any other purpose.
                                 DROP
                             {%- endif %}
                             NOT NULL
-                            {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
                         {%- endif %}
                         {%- if descriptionTest == false %}
-                            {%- if nsVariables.colchanges > 1 %},{% endif %}
-                            COLUMN "{{ desiredColumnName }}"
-                            COMMENT '{{ desiredDescription |escape }}'
-                            {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                            {%- if nsVariables.colchanges > 1 %},{%- endif %}
+                            COLUMN "{{ desiredColumnName }}" 
+							COMMENT '{{ desiredDescription |escape }}'
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
                         {%- endif %}
                         {%- if defaultValueTest == false %}
-                            {%- if nsVariables.colchanges > 1 %},{% endif %}
+                            {%- if nsVariables.colchanges > 1 %},{%- endif %}
                             COLUMN "{{ desiredColumnName }}"
                             {%- if desiredDefaultValue == '' %}
                                 DROP DEFAULT
@@ -1031,12 +1028,9 @@ does not permit copying or modification for any other purpose.
                             {%- endif %}
                             {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
                         {%- endif %}
-
                         {# Metadata changes detected #}
-                        {%- set nsMetaVariables.metaDataChanged = true %} 
-                        
-                    {%- else %}
-                                            
+                        {%- set nsMetaVariables.metaDataChanged = true %}                      
+                    {%- else %}                                            
                     {%- endif %}
                 {%- endif %}
             {%- endfor %}
