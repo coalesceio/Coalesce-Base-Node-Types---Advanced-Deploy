@@ -38,9 +38,7 @@ operation:
     primary: true
     primaryKeyCol:
       items:
-        - primaryKey:
-            columnCounter: 22d201cc-b221-49ee-a9a3-18192eeebd0a
-            stepCounter: e61cc512-7b84-44f9-a694-b1d912334773
+        - primaryKey: null
     primaryKeyName: COL_001
     selectDistinct: false
     testsEnabled: false
@@ -86,20 +84,6 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 394fde7b-027b-4804-bd0a-f7c7a8d1e9d9
-                stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 22d201cc-b221-49ee-a9a3-18192eeebd0a
-          stepCounter: e61cc512-7b84-44f9-a694-b1d912334773
-        config: {}
-        dataType: VARCHAR(16777216)
-        description: Attribute column containing specific data for the wide dimension. This column is sourced directly from an upstream system column without any transformations. It supports various analytical use cases, including segmentation, filtering, and grouping in business reports and dashboards. Data lineage traces directly to the source system's corresponding attribute. This column provides descriptive context for the dimension's business key. Its content contributes to detailed analysis and operational insights, enabling granular data exploration.
-        name: COL_001
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 07b88e88-fece-4cda-91db-5d78715c23d4
                 stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
             transform: ""
       - appliedColumnTests: {}
