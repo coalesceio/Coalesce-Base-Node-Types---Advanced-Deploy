@@ -7,5 +7,11 @@ mappingDefinitions:
   TARGET_ACC:
     database: VINITHA_DEV
     schema: DEP_DEV
+  TARGET_DB:
+    database: TANVI_DEV
+    schema: QA
+  TARGET_DEV:
+    database: TANVI_DEV
+    schema: SOURCE
 name: New Environment
 type: Environment
