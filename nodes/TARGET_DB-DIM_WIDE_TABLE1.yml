@@ -3023,7 +3023,7 @@ operation:
           columnCounter: 90de3198-8d44-4d9d-be29-c8af2d0baae6
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
-        dataType: VARCHAR(1)
+        dataType: VARCHAR
         defaultValue: ""
         description: FSDF
         isSystemCurrentFlag: true
