@@ -38,7 +38,9 @@ operation:
     primary: true
     primaryKeyCol:
       items:
-        - primaryKey: null
+        - primaryKey:
+            columnCounter: 22d201cc-b221-49ee-a9a3-18192eeebd0a
+            stepCounter: e61cc512-7b84-44f9-a694-b1d912334773
     primaryKeyName: COL_001
     selectDistinct: false
     testsEnabled: false
