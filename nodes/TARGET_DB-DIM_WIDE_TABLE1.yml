@@ -245,27 +245,13 @@ operation:
           columnCounter: f91172e7-62bc-4800-87cd-1b908542a87b
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: NUMBER
         description: ""
         name: COL_013
         nullable: true
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 12a13ddd-4ba6-4f42-8514-6d13d00db086
-                stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 164cc824-e941-4820-a585-4383eef3117f
-          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
-        config: {}
-        dataType: VARCHAR(16777216)
-        description: ""
-        name: COL_014
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 3b142525-b5d9-42de-9ea4-3914d6996376
                 stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
             transform: ""
       - appliedColumnTests: {}
