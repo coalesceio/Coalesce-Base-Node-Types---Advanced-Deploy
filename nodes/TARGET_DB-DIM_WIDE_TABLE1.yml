@@ -134,7 +134,7 @@ operation:
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
         dataType: VARCHAR(16777216)
-        description: ""
+        description: EAFEFS
         name: COL_004
         nullable: true
         sourceColumnReferences:
@@ -3025,7 +3025,7 @@ operation:
         config: {}
         dataType: VARCHAR(1)
         defaultValue: ""
-        description: ""
+        description: FSDF
         isSystemCurrentFlag: true
         name: SYSTEM_CURRENT_FLAG
         nullable: true
@@ -3042,7 +3042,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: ADFFFS
         isSystemStartDate: true
         name: SYSTEM_START_DATE
         nullable: true
