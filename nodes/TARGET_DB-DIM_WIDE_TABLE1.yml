@@ -107,7 +107,7 @@ operation:
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
-        name: COL_002
+        name: COL_002234
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -3127,6 +3127,26 @@ operation:
         description: WEWDWEF
         keyColumnType: None
         name: COL_211
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e0400223-a563-4b03-bcf7-720e980a995d
+          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: GYEGDG
+        keyColumnType: None
+        name: COL_212
         nullable: true
         sourceColumnReferences:
           - columnReferences:
