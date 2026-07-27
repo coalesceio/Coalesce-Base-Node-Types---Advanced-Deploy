@@ -107,7 +107,7 @@ operation:
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
-        name: COL_002234
+        name: COL_0022344
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -133,7 +133,7 @@ operation:
           columnCounter: e6054d36-2594-4a9c-8ed8-a2c2b906a9ac
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
-        dataType: NUMBER
+        dataType: VARCHAR(16777216)
         description: ""
         name: COL_004
         nullable: true
@@ -3023,7 +3023,7 @@ operation:
           columnCounter: 90de3198-8d44-4d9d-be29-c8af2d0baae6
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
-        dataType: VARCHAR
+        dataType: VARCHAR(1)
         defaultValue: ""
         description: ""
         isSystemCurrentFlag: true
@@ -3040,7 +3040,7 @@ operation:
           columnCounter: 7e6f5afa-0cfc-49ad-8432-755bc95f7507
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
-        dataType: VARCHAR
+        dataType: TIMESTAMP
         defaultValue: ""
         description: ""
         isSystemStartDate: true
@@ -3105,14 +3105,14 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: fae04af9-f1b2-45e2-819e-48eefabca009
+          columnCounter: 86ec3608-1e4b-4e3c-aa26-dee82b142ed7
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
         dataType: VARCHAR
         defaultValue: ""
-        description: WEWDWEF
+        description: ""
         keyColumnType: None
-        name: COL_211
+        name: COL_213
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -3125,14 +3125,14 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: e0400223-a563-4b03-bcf7-720e980a995d
+          columnCounter: b1601972-a093-4038-b177-263a08318424
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
         dataType: VARCHAR
         defaultValue: ""
-        description: GYEGDG
+        description: ""
         keyColumnType: None
-        name: COL_212
+        name: COL_214
         nullable: true
         sourceColumnReferences:
           - columnReferences:
