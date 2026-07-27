@@ -245,7 +245,7 @@ operation:
           columnCounter: f91172e7-62bc-4800-87cd-1b908542a87b
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
-        dataType: NUMBER
+        dataType: VARCHAR(16777216)
         description: ""
         name: COL_013
         nullable: true
@@ -3040,7 +3040,7 @@ operation:
           columnCounter: 7e6f5afa-0cfc-49ad-8432-755bc95f7507
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
-        dataType: TIMESTAMP
+        dataType: VARCHAR
         defaultValue: ""
         description: ""
         isSystemStartDate: true
