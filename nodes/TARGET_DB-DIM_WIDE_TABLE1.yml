@@ -93,13 +93,13 @@ operation:
         config: {}
         dataType: VARCHAR(16777216)
         description: COMMENT
-        name: COL_001
+        name: COL_001234
         nullable: true
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 07b88e88-fece-4cda-91db-5d78715c23d4
                 stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: "NULL"
+            transform: "1"
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 9fda3632-64d9-4c4d-8a51-6a0ccd1c333a
@@ -133,7 +133,7 @@ operation:
           columnCounter: e6054d36-2594-4a9c-8ed8-a2c2b906a9ac
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: NUMBER
         description: ""
         name: COL_004
         nullable: true
@@ -238,20 +238,6 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: fcaa9c12-1492-434e-9efc-59b8a2c48337
-                stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: e5fa15ad-b190-4410-9183-eb27a9705cdf
-          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
-        config: {}
-        dataType: VARCHAR(16777216)
-        description: ""
-        name: COL_012
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 6658db17-752b-4d40-ae32-d8caa00511c9
                 stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
             transform: ""
       - appliedColumnTests: {}
@@ -3128,6 +3114,26 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: fae04af9-f1b2-45e2-819e-48eefabca009
+          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: WEWDWEF
+        keyColumnType: None
+        name: COL_211
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
