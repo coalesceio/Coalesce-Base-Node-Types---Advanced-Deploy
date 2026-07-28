@@ -387,20 +387,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f0193c3c-c25c-465c-8ada-8734ce9f882f
-          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
-        config: {}
-        dataType: VARCHAR(16777216)
-        description: ""
-        name: COL_023
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: e164b139-250a-4b95-a57f-a0483af2949e
-                stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 846e8e5e-35de-4b4f-a869-2bab81df1c48
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
