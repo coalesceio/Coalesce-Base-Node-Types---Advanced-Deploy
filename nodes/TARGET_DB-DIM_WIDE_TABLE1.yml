@@ -3,13 +3,16 @@ id: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
 name: DIM_WIDE_TABLE1
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: dd6c8b59-d6a5-4432-a6aa-007ee77ec18d
+            stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
     clusterKeyConfigExpressions:
       items:
-        - {}
+        - columnNameExpressions: null
+          sqlExpression: ex. trunc("<column_name>", -5)
     clusterKeyExpressions: false
     customZeroKeyValues:
       items:
@@ -17,8 +20,13 @@ operation:
     deleteStrategy: NO DELETE
     excludeMergeList:
       items:
-        - {}
-    excludeMergeToggle: false
+        - excludeColName:
+            columnCounter: ca92a93b-e04b-473a-aed7-68e64a4ddf6e
+            stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
+        - excludeColName:
+            columnCounter: 1b5c7e8c-5974-4460-8a99-80263dba7bf2
+            stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
+    excludeMergeToggle: true
     groupByAll: false
     insertStrategy: UNION ALL
     insertZeroKey: false
@@ -28,22 +36,30 @@ operation:
     insertZeroKeyStr: UNKNOWN
     insertZeroKeySurrogateKey: "0"
     insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
-    lastModifiedComparison: false
+    lastModifiedColumn:
+      columnCounter: 286036ee-ce02-4ca0-9cf1-98ce99657dad
+      stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
+    lastModifiedComparison: true
     orderby: false
     orderbycolumn:
       items:
         - {}
     postSQL: ""
     preSQL: ""
-    primary: false
+    primary: true
     primaryKeyCol:
       items:
-        - {}
-    primaryKeyName: ""
+        - primaryKey:
+            columnCounter: 96cf5626-6866-40e7-b701-4f083024d078
+            stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
+        - primaryKey:
+            columnCounter: 7ff07cee-fc39-4adb-8502-227415683cbd
+            stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
+    primaryKeyName: Primrary
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
-    type2Dimension: false
+    type2Dimension: true
     updateStrategy: MERGE
   database: ""
   deployEnabled: true
