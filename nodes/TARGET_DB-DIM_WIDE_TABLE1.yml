@@ -10,7 +10,7 @@ operation:
             columnCounter: dd6c8b59-d6a5-4432-a6aa-007ee77ec18d
             stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         - columnName:
-            columnCounter: f0193c3c-c25c-465c-8ada-8734ce9f882f
+            columnCounter: 542943d4-4b99-4382-a551-a7fa9e211b5c
             stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
     clusterKeyConfigExpressions:
       items:
@@ -56,7 +56,7 @@ operation:
             columnCounter: 96cf5626-6866-40e7-b701-4f083024d078
             stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         - primaryKey:
-            columnCounter: 7ff07cee-fc39-4adb-8502-227415683cbd
+            columnCounter: 08983f90-1131-4a48-abbf-69b4298435e8
             stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
     primaryKeyName: Primrary
     selectDistinct: false
@@ -173,20 +173,6 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: e3b856a4-68ff-4acc-8389-23a70b8b98e5
-                stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 7ff07cee-fc39-4adb-8502-227415683cbd
-          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
-        config: {}
-        dataType: VARCHAR(16777216)
-        description: ""
-        name: COL_006
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 4dd6bdec-cc74-44c7-9fec-377fe89aaf53
                 stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
             transform: ""
       - appliedColumnTests: {}
