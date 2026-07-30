@@ -18,7 +18,7 @@ operation:
             columnCounter: 7b3e9630-c369-4f13-bb33-ed8129b55672
             stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
           sqlExpression: UPPER("COL_009")
-    clusterKeyExpressions: true
+    clusterKeyExpressions: false
     customZeroKeyValues:
       items:
         - columnNameDefault:
