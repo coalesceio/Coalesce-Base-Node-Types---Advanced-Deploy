@@ -222,25 +222,25 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Primary Key Name and Column List Addition
             ========================================================= #}
-            {% if desiredState.config.primary == true %}
+            {%- if desiredState.config.primary == true %}
 
-                {% set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
                                         | map(attribute='primaryKey')
                                         | map(attribute='name')
                                         | list %}
         
-                {% if primaryKeyList | length > 0 and primaryKeyList[0] %}
+                {%- if primaryKeyList | length > 0 and primaryKeyList[0] %}
                     , CONSTRAINT
 
-                    {% if desiredState.config.primaryKeyName | trim != '' %}
+                    {%- if desiredState.config.primaryKeyName | trim != '' %}
                         {{ desiredState.config.primaryKeyName }}
-                    {% else %}
+                    {%- else %}
                         pk_{{ desiredState.node.name }}
-                    {% endif %}
+                    {%- endif %}
 
                     PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
-                {% endif %}
-            {% endif %})
+                {%- endif %}
+            {%- endif %})
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 
             {% if desiredState.config.clusterKey == true %}

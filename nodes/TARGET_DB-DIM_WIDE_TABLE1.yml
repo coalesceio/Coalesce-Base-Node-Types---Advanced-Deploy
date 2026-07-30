@@ -7,19 +7,24 @@ operation:
     clusterKeyConfig:
       items:
         - columnName:
-            columnCounter: dd6c8b59-d6a5-4432-a6aa-007ee77ec18d
+            columnCounter: 7b3e9630-c369-4f13-bb33-ed8129b55672
             stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         - columnName:
             columnCounter: 542943d4-4b99-4382-a551-a7fa9e211b5c
             stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
     clusterKeyConfigExpressions:
       items:
-        - columnNameExpressions: null
-          sqlExpression: ex. trunc("<column_name>", -5)
-    clusterKeyExpressions: false
+        - columnNameExpressions:
+            columnCounter: 7b3e9630-c369-4f13-bb33-ed8129b55672
+            stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
+          sqlExpression: UPPER("COL_009")
+    clusterKeyExpressions: true
     customZeroKeyValues:
       items:
-        - {}
+        - columnNameDefault:
+            columnCounter: e07efcc4-94f2-4377-add6-d1c65b3071a8
+            stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
+          columnValueDefault: "5"
     deleteStrategy: NO DELETE
     excludeMergeList:
       items:
@@ -32,8 +37,8 @@ operation:
     excludeMergeToggle: true
     groupByAll: false
     insertStrategy: UNION ALL
-    insertZeroKey: false
-    insertZeroKeyAdvanced: false
+    insertZeroKey: true
+    insertZeroKeyAdvanced: true
     insertZeroKeyBol: "TRUE"
     insertZeroKeyDate: 01-01-1900
     insertZeroKeyStr: UNKNOWN
@@ -53,10 +58,10 @@ operation:
     primaryKeyCol:
       items:
         - primaryKey:
-            columnCounter: 96cf5626-6866-40e7-b701-4f083024d078
+            columnCounter: e6054d36-2594-4a9c-8ed8-a2c2b906a9ac
             stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         - primaryKey:
-            columnCounter: 08983f90-1131-4a48-abbf-69b4298435e8
+            columnCounter: 846e8e5e-35de-4b4f-a869-2bab81df1c48
             stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
     primaryKeyName: Primrary
     selectDistinct: false
@@ -135,20 +140,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: dd6c8b59-d6a5-4432-a6aa-007ee77ec18d
-          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
-        config: {}
-        dataType: VARCHAR(16777216)
-        description: ""
-        name: COL_003
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 247dfaa0-812b-4305-82ef-2a671f0181d9
-                stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: e6054d36-2594-4a9c-8ed8-a2c2b906a9ac
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
@@ -161,34 +152,6 @@ operation:
               - columnCounter: c0016f3c-6002-4c41-907e-fa0539e0a00f
                 stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
             transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 96cf5626-6866-40e7-b701-4f083024d078
-          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
-        config: {}
-        dataType: VARCHAR(16777216)
-        description: COMMENT
-        name: COL_005
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: e3b856a4-68ff-4acc-8389-23a70b8b98e5
-                stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 08983f90-1131-4a48-abbf-69b4298435e8
-          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
-        config: {}
-        dataType: VARCHAR(16777216)
-        description: COMMENT
-        name: COL_007
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 4e8696e0-806e-4d77-889e-90131185a968
-                stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: "NULL"
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 35176a6e-7ac2-45ff-8cc4-6662c5138243
@@ -2994,6 +2957,46 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
+          columnCounter: 86ec3608-1e4b-4e3c-aa26-dee82b142ed7
+          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: COL_213
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b1601972-a093-4038-b177-263a08318424
+          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: COL_214
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
           columnCounter: 566271d0-1bd8-4140-9eca-367218ada99b
           stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
         config: {}
@@ -3091,46 +3094,6 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 86ec3608-1e4b-4e3c-aa26-dee82b142ed7
-          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
-        config: {}
-        dataType: VARCHAR
-        defaultValue: ""
-        description: ""
-        keyColumnType: None
-        name: COL_213
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: "0"
-                stepCounter: "0"
-            transform: ""
-        systemColumnType: None
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: b1601972-a093-4038-b177-263a08318424
-          stepCounter: dcdbabb2-b713-4f0b-86c1-dfefd3267a1f
-        config: {}
-        dataType: VARCHAR
-        defaultValue: ""
-        description: ""
-        keyColumnType: None
-        name: COL_214
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: "0"
-                stepCounter: "0"
-            transform: ""
-        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
