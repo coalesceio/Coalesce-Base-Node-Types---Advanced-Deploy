@@ -1,0 +1,318 @@
+{#
+    Copyright (c) 2026 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalesce but does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Name           : SQL Work Advanced Deploy == #}
+{# == Node Type Description    : This node creates work/stage table, transient view with advanced deployment strategy  == #}
+{#---------------------------------------------------------------------------------------------#}
+
+{%- set nsNodeVariables = namespace(currentDatabaseSchema = "",
+                                    desiredDatabaseSchema = "",
+                                    desObjectNameFullPath = "",
+                                    curObjectNameFullPath = "",
+                                    metaDataChanged = false) %}
+{{ initializeNodeVariables(nsNodeVariables) }}
+
+{%- if desiredState %}
+    {%- if desiredState.node.materializationType == 'view' %}
+
+        {%- if (currentState and currentState.node.materializationType != desiredState.node.materializationType)
+            or (desiredState.node.name != currentState.node.name
+            or nsNodeVariables.desiredDatabaseSchema != nsNodeVariables.currentDatabaseSchema)
+        %}
+            {{ stage('Drop ' + nsNodeVariables.curObjectNameFullPath) }}
+            {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+            DROP {{ materialization }} {{ nsNodeVariables.curObjectNameFullPath }}
+        {%- endif %}
+
+        {# CreateSQL for View #}
+        {%- if currentState == undefined or currentState != desiredState %}
+            {{ stage('Create ' + desiredState.node.materializationType ) }}
+            CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ nsNodeVariables.desObjectNameFullPath }}
+            (
+                {%- for col in columns %}
+
+                    {%- set descriptionParams = col.description.parameters | default([]) %}
+
+                    "{{ col.name }}"
+                    {%- if descriptionParams and descriptionParams[0] | length > 0 %} COMMENT '{{ descriptionParams[0] | escape }}' {%- endif %}
+                    {%- if not loop.last -%}, {%- endif %}
+                {%- endfor %}
+            )
+            {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}' {%- endif %}
+            AS    
+            {{ sources[0].cteString }}
+            SELECT {%- if config.selectDistinct %} DISTINCT {%- endif %}
+            {%- for col in sources[0].columns %}
+                {{ get_source_transform_v2(col) }} AS "{{ col.name }}"
+                {%- if not loop.last -%}, {%- endif %}
+            {%- endfor %}
+
+            {{ sources[0].join }}
+        {%- endif %}
+
+    {%- elif desiredState.node.materializationType in ['table', 'transient table']  %}
+
+        {%- if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
+            {{ stage('Drop ' + currentState.node.materializationType) }}
+            {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+            DROP {{ materialization }} {{ nsNodeVariables.curObjectNameFullPath }}
+        {%- endif %}
+
+        {%- if currentState == undefined or (currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType)  %}
+
+            {% set clusterList =  get_cluster_by_v2() %}
+
+            {# CreateSQL for Table #}
+            {{ stage('Create ' + desiredState.node.materializationType ) }}
+            CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ nsNodeVariables.desObjectNameFullPath }}
+            (
+                {%- for col in columns %}
+
+                    {%- set nullParams = col.nullable.parameters | default([]) %}
+                    {%- set defaultValueParams = col.defaultValue.parameters | default([]) %}
+                    {%- set collateParams = (col.collate | default({})).parameters | default([]) %}
+                    {%- set descriptionParams = col.description.parameters | default([]) %}
+                    "{{ col.name }}" {{ col.dataType }} 
+                    {%- if collateParams and collateParams[0] is not none %} COLLATE '{{ collateParams[0] }}' {%- endif %}
+                    {%- if nullParams and (nullParams[0] in ['false', false]) %} NOT NULL {%- endif %}
+                    {%- if defaultValueParams and defaultValueParams[0] is not none %} DEFAULT {{ get_default(col.dataType, defaultValueParams[0]) }} {%- endif %}
+                    {%- if descriptionParams and descriptionParams[0] | length > 0 %} COMMENT '{{ descriptionParams[0] | escape }}' {%- endif %}
+                    {%- if not loop.last -%}, {%- endif %}
+                {%- endfor %}
+            )
+            {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}' {%- endif %}
+            {%- if desiredState.config.clusterKey %} CLUSTER BY ({{ clusterList }}) {%- endif %}
+
+        {%- elif currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
+
+            {# Rename / Move Object #}
+            {%- if (nsNodeVariables.currentDatabaseSchema != nsNodeVariables.desiredDatabaseSchema
+                    or currentState.node.name != desiredState.node.name) %}
+                {{ stage('Rename and / or Move Table') }}
+
+                ALTER TABLE {{ nsNodeVariables.curObjectNameFullPath }}
+                RENAME TO {{ nsNodeVariables.desObjectNameFullPath }}
+
+                {# Metadata changes detected #}
+                {%- set nsNodeVariables.metaDataChanged = true %}          
+            {%- endif %}
+
+            {# Change table description #}
+            {%- if currentState.node.description != desiredState.node.description %}
+                {{ stage('Change table description') }}
+                ALTER TABLE {{ nsNodeVariables.desObjectNameFullPath }}
+                SET COMMENT = '{{ desiredState.node.description | escape }}'
+
+                {# Metadata changes detected #}
+                {%- set nsNodeVariables.metaDataChanged = true %} 
+            {%- endif %}
+
+            {# Drop Columns #}
+            {%- set nsVariables = namespace(colchanges=0) %}
+            {%- for dropCurCol in currentState.columns %}
+                {%- set newColName = getNewColumnName(dropCurCol.id) %}
+                {%- if dropCurCol.id not in desiredState.columns | map(attribute="id") and newColName == '' %}
+                {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+
+                    {%- if nsVariables.colchanges == 1 %}
+                        {{ stage('Drop Columns') }}
+                        ALTER TABLE {{ nsNodeVariables.desObjectNameFullPath }}
+                        DROP COLUMN 
+                    {%- else %}
+                        , 
+                    {%- endif %}
+                    "{{ dropCurCol.name }}"
+
+                    {# Metadata changes detected #}
+                    {%- set nsNodeVariables.metaDataChanged = true %} 
+                {%- endif %}
+            {%- endfor %}
+
+            {# Add Columns #}
+            {%- set nsVariables = namespace(colchanges=0) %}
+            {%- for addDesCol in desiredState.columns %}
+                {%- set prevNames = addDesCol.previousName.parameters if addDesCol.previousName is defined and addDesCol.previousName else [] -%}
+                {%- if addDesCol.id not in currentState.columns | map(attribute="id") and (prevNames | length == 0) %}
+                {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+
+                    {%- if nsVariables.colchanges == 1 %}
+                        {{ stage('Add Columns') }}
+                        ALTER TABLE {{ nsNodeVariables.desObjectNameFullPath }}
+                        ADD COLUMN
+                    {%- else %}
+                        ,
+                    {%- endif %}
+                        "{{ addDesCol.name }}" {{ addDesCol.dataType }}
+                        {%- if not addDesCol.nullable %} NOT NULL
+                            {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{%- endif %}
+                        {%- endif %}
+                        {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDesCol.description | escape }}'{%- endif %}
+
+                    {# Metadata changes detected #}
+                    {%- set nsNodeVariables.metaDataChanged = true %}
+                {%- endif %}
+            {%- endfor %}
+
+            {# Rename Columns #}
+            {%- for renameCurCol in currentState.columns %}
+                {%- set newColName = getNewColumnName(renameCurCol.id) %}
+                {%- if newColName != '' %}
+                        {{ stage('Rename Column ' + renameCurCol.name) }}
+                        ALTER TABLE {{ nsNodeVariables.desObjectNameFullPath }}
+                        RENAME COLUMN "{{ renameCurCol.name }}"
+                        TO "{{ newColName }}"
+
+                        {# Metadata changes detected #}
+                        {%- set nsNodeVariables.metaDataChanged = true %} 
+                {%- endif %}
+            {%- endfor %}
+
+            {# Change data types etc #}
+            {%- set nsVariables.colchanges = 0 %}
+            {%- set nsVariables.setDefault = false %}
+            {%- for alterCurCol in currentState.columns %}
+
+                {%- set newColName = getNewColumnName(alterCurCol.id) %}
+                {%- if newColName != '' %}
+                    {%- set desiredCol = desiredState.columns | default([])
+                                        | selectattr('id', 'equalto', newColName)
+                                        | first
+                    %}
+                {%- else %}
+                    {%- set matchingCols = desiredState.columns | default([])
+                                        | selectattr('id', 'equalto', alterCurCol.id)
+                                        | list
+                    -%}
+
+                    {%- if matchingCols -%}
+                        {%- set desiredCol = matchingCols | first -%}
+                    {%- else -%}
+                        {%- set desiredCol = none -%}
+                    {%- endif -%}
+                {%- endif %}
+
+                {%- if alterCurCol.id == desiredCol.id or newColName != '' %}
+                    {%- set currentDatatype = alterCurCol.dataType %}
+                    {%- set currentNullable = alterCurCol.nullable.parameters[0] if alterCurCol.nullable and alterCurCol.nullable.parameters else true %}
+                    {%- set currentDefaultValue = alterCurCol.defaultValue.parameters[0] if alterCurCol.defaultValue and alterCurCol.defaultValue.parameters else none %}
+                    {%- set currentDescription = alterCurCol.description.parameters[0] if alterCurCol.description and alterCurCol.description.parameters else '' %}
+
+                    {%- set desiredColumnName = desiredCol.name %}
+                    {%- set desiredDatatype = desiredCol.dataType %}
+                    {%- set desiredNullable = desiredCol.nullable.parameters[0] if desiredCol.nullable and desiredCol.nullable.parameters else true
+                    %}
+                    {%- set desiredDefaultValue = desiredCol.defaultValue.parameters[0] if desiredCol.defaultValue and desiredCol.defaultValue.parameters else none
+                    %}
+                    {%- set desiredDescription = desiredCol.description.parameters[0] if desiredCol.description and desiredCol.description.parameters else ''
+                    %}
+
+                    {%- set datatypeTest = currentDatatype == desiredDatatype %}
+                    {%- set nullableTest = currentNullable == desiredNullable %}
+                    {%- set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
+                    {%- set descriptionTest = currentDescription == desiredDescription %}
+
+                    {% if defaultValueTest == false and desiredDefaultValue != None %}
+                        {%- set nsVariables.setDefault = true %}
+                    {% endif %}
+
+                    {%- if (datatypeTest == false 
+                            or nullableTest == false
+                            or (defaultValueTest == false and desiredDefaultValue == None)
+                            or descriptionTest == false) %}
+                        {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+
+                        {%- if nsVariables.colchanges == 1 %}
+                            {{ stage('Change Column Attributes') }}
+                            ALTER TABLE {{ nsNodeVariables.desObjectNameFullPath }}
+                            MODIFY
+                        {%- endif %}
+
+                        {%- if datatypeTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{%- endif %}
+                            COLUMN "{{ desiredColumnName }}"
+                            SET DATA TYPE {{ desiredDatatype }}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- endif %}
+
+                        {%- if nullableTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{%- endif %}
+                            COLUMN "{{ desiredColumnName }}"
+                            {%- if desiredNullable in ['false', false] %}
+                                SET
+                            {%- else %}
+                                DROP
+                            {%- endif %}
+                            NOT NULL
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- endif %}
+
+                        {%- if descriptionTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{%- endif %}
+                            COLUMN "{{ desiredColumnName }}"
+                            COMMENT '{{ desiredDescription | escape }}'
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- endif %}
+
+                        {% if defaultValueTest == false %}
+                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                            COLUMN "{{ desiredColumnName }}"
+                            {% if desiredDefaultValue == None %}
+                                DROP DEFAULT
+                                {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                            {% endif %}
+                        {% endif %}                                            
+                    {%- endif %}
+                {%- endif %}
+            {%- endfor %}
+
+            {%- if nsVariables.setDefault %}
+                {{ stage('⚠️Warning! Currently Unsupported Feature', false) }}
+                -- Adding a default for a column, after the table creation, is not supported in Snowflake as of now.
+                -- For more info: https://docs.snowflake.com/en/sql-reference/sql/alter-table-column#label-alter-table-column-usage-notes
+
+                select 1=0
+
+                {# Metadata changes detected #}
+                {%- set nsNodeVariables.metaDataChanged = true %}
+            {%- endif %}
+
+            {# Figure out cluster key changes #}
+            {%- set finalClusterKey = '' %}
+            {%- if desiredState.config.clusterKey and ((currentState.config.clusterKey
+                    and desiredState.config.clusterKeyConfig != currentState.config.clusterKeyConfig)
+                    or not currentState.config.clusterKey) %}
+                    {% set finalClusterKey =  'CLUSTER BY (' + get_cluster_by() + ')' %}
+            {%- elif not desiredState.config.clusterKey and currentState.config.clusterKey %}
+                    {%- set finalClusterKey = 'DROP CLUSTERING KEY' %}
+            {%- endif %}
+
+            {%- if finalClusterKey | trim | length > 0 %}
+                {{ stage('Recluster Table') }}
+                ALTER TABLE {{ nsNodeVariables.desObjectNameFullPath }}
+                {{ finalClusterKey }}
+
+                {# Metadata changes detected #}
+                {%- set nsNodeVariables.metaDataChanged = true %}
+            {%- endif %}
+
+            {# == Compare source CTEs and Joins == #}
+            {%- set cteStringTest = currentState.sources[0].cteString == desiredState.sources[0].cteString %}
+            {%- set joinTest = currentState.sources[0].join == desiredState.sources[0].join %}
+
+            {# == Handle undetected metadata changes and Default Update == #}
+            {%- if not nsNodeVariables.metaDataChanged and (not cteStringTest or not joinTest) %}
+                {{ stage('Metadata Update-Default') }}
+                select 1=0
+            {%- endif %}
+        {%- endif %}
+    {%- endif %}
+{%- elif currentState != undefined and desiredState == undefined %}
+
+    {{ stage('Drop ' + currentState.node.materializationType) }}
+    {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+    DROP {{ materialization }} {{ nsNodeVariables.curObjectNameFullPath }}
+
+{%- endif %}
