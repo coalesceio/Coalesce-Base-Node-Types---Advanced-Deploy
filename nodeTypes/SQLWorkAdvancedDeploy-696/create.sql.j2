@@ -284,7 +284,7 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
             {%- if desiredState.config.clusterKey and ((currentState.config.clusterKey
                     and desiredState.config.clusterKeyConfig != currentState.config.clusterKeyConfig)
                     or not currentState.config.clusterKey) %}
-                    {% set finalClusterKey =  'CLUSTER BY (' + get_cluster_by() + ')' %}
+                    {% set finalClusterKey =  'CLUSTER BY (' + get_cluster_by_v2() + ')' %}
             {%- elif not desiredState.config.clusterKey and currentState.config.clusterKey %}
                     {%- set finalClusterKey = 'DROP CLUSTERING KEY' %}
             {%- endif %}
