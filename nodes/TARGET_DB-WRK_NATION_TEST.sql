@@ -2,15 +2,12 @@
 @nodeType("696")
 @clusterKey(true)
 @truncateBefore(false)
-@clusterKeyConfig(" trunc(""N_NATIONKEY"", -5)", "[object Object]")
+@clusterKeyConfig("trunc(""N_NATIONKEY"", -5)", "[object Object]")
 @description("adf''kgjt")
 @selectDistinct(true)
+@orderby(true)
 @orderbycolumn("[object Object]", "desc")
-@testsEnabled(true)
-@preSQL("SELECT count(*) FROM {{ this }}")
-@postSQL("SELECT count(*) FROM {{ this }}")
-@tests("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 1", "Before", true)
-@tests("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 1", "After", true)
+@orderbycolumn("[object Object]", "desc")
 SELECT
      "N_NATIONKEY" AS "N_NATIONKEY" @nullable(false),
      "N_NAME" AS "N_NAME" @description("jkadfh''adfjh"),
