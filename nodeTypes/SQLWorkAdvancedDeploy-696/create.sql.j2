@@ -22,7 +22,7 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
             or (desiredState.node.name != currentState.node.name
             or nsNodeVariables.desiredDatabaseSchema != nsNodeVariables.currentDatabaseSchema)
         %}
-            {{ stage('Drop ' + nsNodeVariables.curObjectNameFullPath) }}
+            {{ stage('Drop ' + currentState.node.materializationType) }}
             {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
             DROP {{ materialization }} {{ nsNodeVariables.curObjectNameFullPath }}
         {%- endif %}

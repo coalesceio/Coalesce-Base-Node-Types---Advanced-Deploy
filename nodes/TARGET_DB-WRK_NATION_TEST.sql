@@ -3,6 +3,7 @@
 @clusterKey(true)
 @truncateBefore(false)
 @clusterKeyConfig("trunc(""N_NATIONKEY"", -5)", "[object Object]")
+@clusterKeyConfig("trunc(""N_NATIONKEY"", -5)", "[object Object]")
 @description("adf''kgjt - edited")
 @selectDistinct(true)
 @materializationType("transient table")
