@@ -8,6 +8,7 @@
 @orderby(true)
 @orderbycolumn("[object Object]", "desc")
 @orderbycolumn("[object Object]", "desc")
+@materializationType("transient table")
 SELECT
      "N_NATIONKEY" AS "N_NATIONKEY" @nullable(false),
      "N_NAME" AS "N_NAME" @description("jkadfh''adfjh"),
