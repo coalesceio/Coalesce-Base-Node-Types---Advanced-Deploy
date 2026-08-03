@@ -10,5 +10,5 @@ SELECT
      "N_NAME" AS "N_NAME" @description("jkadfh''afjh"),
      "N_REGIONKEY" AS "N_REGIONKEY_RENAME" @defaultValue(0) @previousName("N_REGIONKEY"),
      "N_LOAD_TIMESTAMP" AS "N_LOAD_TIMESTAMP",
-     {{ get_hash("GH_COL") }}::string AS "GH_COL @nullable(false)"
+     {{ get_hash("GH_COL") }}::string AS "GH_COL" @nullable(false)
 FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
