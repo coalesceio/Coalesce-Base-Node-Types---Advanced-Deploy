@@ -639,7 +639,12 @@ macroString: |-
   {%- macro generate_AsofJoin() -%}
 
       {%- if config.asOfJoin -%}
-          {%- for item in config.asofJoinConfig.get("items") -%}
+          {%- if config.asofJoinConfig is mapping -%}
+              {%- set asofJoinConfigItems = config.asofJoinConfig.get('items', []) -%}
+          {%- else -%}
+              {%- set asofJoinConfigItems = config.asofJoinConfig -%}
+          {%- endif -%}
+          {%- for item in asofJoinConfigItems -%}
               ASOF JOIN {{ ref(item.rightTableSL, item.rightTable) }} "{{ item.rightTable }}"
               MATCH_CONDITION ({{ item.matchCondition }})
               {%- if item.joinType == "ON" -%}
