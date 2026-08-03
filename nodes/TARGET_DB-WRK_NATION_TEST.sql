@@ -12,3 +12,4 @@ SELECT
      "N_LOAD_TIMESTAMP" AS "N_LOAD_TIMESTAMP"  @nullable(true) ,
      {{ get_hash("GH_COL") }}::string AS "GH_COL" @nullable(true)
 FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
+WHERE N_NATIONKEY = 2
