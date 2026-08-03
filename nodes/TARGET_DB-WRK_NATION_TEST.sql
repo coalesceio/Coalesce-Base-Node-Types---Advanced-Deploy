@@ -8,7 +8,7 @@
 SELECT
      "N_NATIONKEY" AS "N_NATIONKEY" @nullable(false) @inHash("1|GH_COL"),
      "N_NAME" AS "N_NAME" @description("jkadfh''adfjh"),
-     "N_REGIONKEY" AS "N_REGIONKEY" @defaultValue(0),
+     "N_REGIONKEY" AS "N_REGIONKEY_RENAME" @defaultValue(0) @previousName("N_REGIONKEY"),
      "N_LOAD_TIMESTAMP" AS "N_LOAD_TIMESTAMP",
-     {{ get_hash(GH_COL) }}::string AS "GH_COL"
+     {{ get_hash("GH_COL") }}::string AS "GH_COL"
 FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
