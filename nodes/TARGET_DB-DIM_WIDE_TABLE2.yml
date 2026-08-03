@@ -55,6 +55,12 @@ operation:
         - primaryKey:
             columnCounter: 98e05326-997f-43f0-96d2-53ebc2c2f2f7
             stepCounter: 4eb7f2c8-0da7-4bba-b189-599121c7c2b4
+        - primaryKey:
+            columnCounter: 0b998911-dc4c-442f-b7ac-8add79a5b482
+            stepCounter: 4eb7f2c8-0da7-4bba-b189-599121c7c2b4
+        - primaryKey:
+            columnCounter: fb0937fb-2ec9-424a-bdbf-ae16c51e7ff8
+            stepCounter: 4eb7f2c8-0da7-4bba-b189-599121c7c2b4
     primaryKeyName: Primary
     selectDistinct: false
     testsEnabled: false
