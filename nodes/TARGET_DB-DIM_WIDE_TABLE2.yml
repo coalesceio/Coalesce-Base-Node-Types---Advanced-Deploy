@@ -331,7 +331,7 @@ operation:
           columnCounter: b2f70989-e27c-4d5b-a5e2-c0c3240c1c2c
           stepCounter: 4eb7f2c8-0da7-4bba-b189-599121c7c2b4
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR
         description: ""
         name: COL_0171
         nullable: true
@@ -345,7 +345,7 @@ operation:
           columnCounter: fa3f46f7-05e9-4ad0-8cff-60056d246340
           stepCounter: 4eb7f2c8-0da7-4bba-b189-599121c7c2b4
         config: {}
-        dataType: VARCHAR(16)
+        dataType: VARCHAR
         description: ""
         name: COL_018
         nullable: true
