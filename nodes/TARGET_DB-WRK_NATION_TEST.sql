@@ -8,7 +8,7 @@
 @materializationType("transient table")
 SELECT
      "N_NATIONKEY" AS "N_NATIONKEY" @inHash("1|GH_COL") @description("jkdfh''afjh") @defaultValue(1),
-     "N_NAME"::VARCHAR(10) AS "N_NAME" @nullable(false) @description("jkafh''afjh"),
+     "N_NAME"::VARCHAR(200) AS "N_NAME" @nullable(false) @description("jkafh''afjh"),
      "N_REGIONKEY" AS "N_REGIONKEY_RENAME" @defaultValue(2) @previousName("N_REGIONKEY"),
      "N_LOAD_TIMESTAMP" AS "N_LOAD_TIMESTAMP"  @nullable(true) ,
      {{ get_hash("GH_COL") }}::string AS "GH_COL" @nullable(true)
