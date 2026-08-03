@@ -209,20 +209,20 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
                     {%- set desiredDescription = desiredCol.description.parameters[0] if desiredCol.description and desiredCol.description.parameters else ''
                     %}
 
-                    {%- set datatypeTest = currentDatatype == desiredDatatype %}
-                    {%- set nullableTest = currentNullable == desiredNullable %}
-                    {%- set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
-                    {%- set descriptionTest = currentDescription == desiredDescription %}
+                    {%- set datatypeTest = currentDatatype == desiredDatatype -%}
+                    {%- set nullableTest = currentNullable == desiredNullable -%}
+                    {%- set defaultValueTest = currentDefaultValue == desiredDefaultValue -%}
+                    {%- set descriptionTest = currentDescription == desiredDescription -%}
 
                     {% if defaultValueTest == false and desiredDefaultValue != None %}
-                        {%- set nsVariables.setDefault = true %}
+                        {%- set nsVariables.setDefault = true -%}
                     {% endif %}
 
                     {%- if (datatypeTest == false 
                             or nullableTest == false
                             or (defaultValueTest == false and desiredDefaultValue == None)
                             or descriptionTest == false) %}
-                        {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- set nsVariables.colchanges = nsVariables.colchanges + 1 -%}
 
                         {%- if nsVariables.colchanges == 1 %}
                             {{ stage('Change Column Attributes') }}
@@ -234,26 +234,21 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
                             {%- if nsVariables.colchanges > 1 %},{%- endif %}
                             COLUMN "{{ desiredColumnName }}"
                             SET DATA TYPE {{ desiredDatatype }}
-                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 -%}
                         {%- endif %}
 
                         {%- if nullableTest == false %}
                             {%- if nsVariables.colchanges > 1 %},{%- endif %}
                             COLUMN "{{ desiredColumnName }}"
-                            {%- if desiredNullable in ['false', false] %}
-                                SET
-                            {%- else %}
-                                DROP
-                            {%- endif %}
-                            NOT NULL
-                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                            {%- if desiredNullable in ['false', false] %} SET {%- else %} DROP {%- endif %} NOT NULL
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 -%}
                         {%- endif %}
 
                         {%- if descriptionTest == false %}
                             {%- if nsVariables.colchanges > 1 %},{%- endif %}
                             COLUMN "{{ desiredColumnName }}"
                             COMMENT '{{ desiredDescription | escape }}'
-                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 -%}
                         {%- endif %}
 
                         {% if defaultValueTest == false %}
@@ -261,7 +256,7 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
                             COLUMN "{{ desiredColumnName }}"
                             {% if desiredDefaultValue == None %}
                                 DROP DEFAULT
-                                {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                                {% set nsVariables.colchanges = nsVariables.colchanges + 1 -%}
                             {% endif %}
                         {% endif %}                                            
                     {%- endif %}
