@@ -6,9 +6,9 @@
 @description("adf''kgjt - edited")
 @selectDistinct(true)
 SELECT
-     "N_NATIONKEY" AS "N_NATIONKEY" @nullable(false) @inHash("1|GH_COL") @description("jkadfh''adfjh"),
-     "N_NAME" AS "N_NAME" @description("jkadfh''afjh"),
+     "N_NATIONKEY" AS "N_NATIONKEY" @nullable(false) @inHash("1|GH_COL") @description("jkdfh''adfjh"),
+     "N_NAME" AS "N_NAME",
      "N_REGIONKEY" AS "N_REGIONKEY_RENAME" @defaultValue(0) @previousName("N_REGIONKEY"),
-     "N_LOAD_TIMESTAMP" AS "N_LOAD_TIMESTAMP"  @nullable(false),
+     "N_LOAD_TIMESTAMP" AS "N_LOAD_TIMESTAMP"  @nullable(false) @description("jkadfh''afjh"),
      {{ get_hash("GH_COL") }}::string AS "GH_COL"
 FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
