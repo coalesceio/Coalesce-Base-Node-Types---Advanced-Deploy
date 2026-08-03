@@ -25,6 +25,8 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
         TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
     {%- endif %}
 
+    {%- set asofJoin =  generate_AsofJoin() %}
+
 	{# == Insert data from sources into Work table  == #}
     {{ stage('Load ' + node.materializationType + ' Using Insert') }}
     INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
@@ -41,8 +43,16 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
             {{ get_source_transform_v2(col) }} AS "{{ col.name }}"
             {%- if not loop.last -%}, {%- endif %}
         {%- endfor %}
-        {{ sources[0].join }}
-        {{ generate_AsofJoin() }}
+        {%- if asofJoin | trim |length > 0 %}
+            {{ get_clause(sources[0].join, 'from') }}
+            {{ asofJoin }}
+            {%- set clause = get_clause(sources[0].join) %}
+            {%- if clause %}
+                {{ ("WHERE " ~ clause.strip()[3:].strip()) if clause.strip().upper().startswith('AND') else clause }}
+            {%- endif %}
+        {%- else %}
+            {{ sources[0].join }}
+        {%- endif %}
         {%- if config.groupByAll %} GROUP BY ALL {%- endif %}
         {{ sortorder_by_col_v2() }}
     )
