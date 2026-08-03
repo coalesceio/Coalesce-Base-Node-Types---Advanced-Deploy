@@ -319,7 +319,7 @@ operation:
         config: {}
         dataType: VARCHAR(16777216)
         description: ""
-        name: COL_016
+        name: COL_0161
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -331,9 +331,9 @@ operation:
           columnCounter: b2f70989-e27c-4d5b-a5e2-c0c3240c1c2c
           stepCounter: 4eb7f2c8-0da7-4bba-b189-599121c7c2b4
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: VARCHAR(100)
         description: ""
-        name: COL_017
+        name: COL_0171
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -345,27 +345,13 @@ operation:
           columnCounter: fa3f46f7-05e9-4ad0-8cff-60056d246340
           stepCounter: 4eb7f2c8-0da7-4bba-b189-599121c7c2b4
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: VARCHAR(16)
         description: ""
         name: COL_018
         nullable: true
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 33922223-7b71-418f-a687-0c4c64c00fcc
-                stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 0617975c-ecfe-4e73-9556-ebf12ed70e96
-          stepCounter: 4eb7f2c8-0da7-4bba-b189-599121c7c2b4
-        config: {}
-        dataType: VARCHAR(16777216)
-        description: ""
-        name: COL_019
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 772a80da-837a-4a53-9c56-4cd3872433fa
                 stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
             transform: ""
       - appliedColumnTests: {}
@@ -380,20 +366,6 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 29a6206a-621b-4407-9113-55cc4e24875e
-                stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 492a2272-14f8-4b64-adb3-e3ef0e792b2f
-          stepCounter: 4eb7f2c8-0da7-4bba-b189-599121c7c2b4
-        config: {}
-        dataType: VARCHAR(16777216)
-        description: ""
-        name: COL_021
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 8db40f56-1a82-4560-8d3d-80985587f1e7
                 stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
             transform: ""
       - appliedColumnTests: {}
