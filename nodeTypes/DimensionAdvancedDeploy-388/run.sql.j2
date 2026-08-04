@@ -171,8 +171,8 @@ does not permit copying or modification for any other purpose.
 			     (
                  {%- for col in columns %}
 			      SOURCE_ZERO."{{ col.name}}"			
-			     	{% if not loop.last %}, {% endif %}			
-			     {% endfor -%}
+			     	{%- if not loop.last %}, {%- endif %}			
+			     {%- endfor %}
 			     )
 			{%- else %}  
             BEGIN
