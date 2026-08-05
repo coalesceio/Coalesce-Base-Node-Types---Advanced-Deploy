@@ -102,7 +102,7 @@ operation:
           - columnReferences:
               - columnCounter: 07b88e88-fece-4cda-91db-5d78715c23d4
                 stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
+            transform: "null"
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 1b010d4c-c9a3-4e5a-b90e-5715110e8159
@@ -116,7 +116,7 @@ operation:
           - columnReferences:
               - columnCounter: d7c8caaf-1041-48bf-9592-45494f1a0c53
                 stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
+            transform: "''"
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 181b7188-7ba3-400a-ab68-d000bdefd384
@@ -144,7 +144,7 @@ operation:
           - columnReferences:
               - columnCounter: c0016f3c-6002-4c41-907e-fa0539e0a00f
                 stepCounter: b20f2831-140d-4db5-930e-29015de5a75a
-            transform: ""
+            transform: "null"
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 76751ee7-c0c5-4e03-a80d-faa336291c1a

@@ -226,10 +226,8 @@ does not permit copying or modification for any other purpose.
                   FROM DUAL
               ) AS SOURCE_ZERO
 			     {%- for col in columns if col.isSurrogateKey %}
-				 {% if loop.first %} WHERE {% else %} AND {% endif %}
-			     	"{{ node.name}}"."{{ col.name}}" ={{config.insertZeroKeySurrogateKey}}
-			     {% endfor %}
-				;
+				 {% if loop.first %} WHERE {% else %} AND {% endif %} "{{ node.name}}"."{{ col.name}}" = {{config.insertZeroKeySurrogateKey}}
+			     {%- endfor %} ;
               -- Insert Zero Key Record if it does not exist
               INSERT INTO {{ ref_no_link(node.location.name, node.name) }} (
                   {%- for col in columns %}
@@ -238,47 +236,50 @@ does not permit copying or modification for any other purpose.
                   {%- endfor %}
               )
               SELECT
-                  {% for col in sources[0].columns %}
-                      {% set dtparams = col.dataType.partition('(')[-1].rpartition(')')[0].split(',') %}
-                      {% if col.isSurrogateKey %} {{config.insertZeroKeySurrogateKey}}
-                      {% elif config.insertZeroKeyAdvanced == true and col.name in ns.varColumnNameDefault %}
+                  {%- for col in sources[0].columns %}
+                      {%- set dtparams = col.dataType.partition('(')[-1].rpartition(')')[0].split(',') %}
+                      {%- if col.isSurrogateKey %} {{config.insertZeroKeySurrogateKey}}
+                      {%- elif config.insertZeroKeyAdvanced == true and col.name in ns.varColumnNameDefault %}
                           {%- for loopColumn in ns.varColumnNameDefault  -%}
-                              {% if col.name == loopColumn %}
-                         {%if col.dataType[:3] | upper in ('VAR','CHA','STR','BIN')%}
+                              {%- if col.name == loopColumn %}
+                         {%- if col.dataType[:3] | upper in ('VAR','CHA','STR','BIN')%}
 						 '{{ ns.varColumnValueDefault[loop.index0]}}'
-                         {%else%} 
+                         {%- else%} 
                          {{ ns.varColumnValueDefault[loop.index0]}}
-                        {%endif%}                               
-                              {% endif %}						
-                          {% endfor -%}
-                      {% elif col.isSystemCurrentFlag %}'Y'
-                      {% elif col.isSystemStartDate or col.isSystemEndDate or col.isSystemUpdateDate or col.isSystemCreateDate %}{{ get_source_transform(col) }}
-                      {% elif col.isSystemVersion%}1
-                      {% elif col.dataType | upper in ('BOOLEAN') %} {{ config.insertZeroKeyBol }}
-                      {% elif col.dataType[:3] | upper in ('NUM','INT','DEC','FLO') %}0
-                      {% elif col.dataType [:12] | upper in ('TIMESTAMP_LT','TIMESTAMP_NT','TIMESTAMP_TZ') %} '{{config.insertZeroKeyTimestamp}}' ::{{ col.dataType |upper}}
-                      {% elif col.dataType[:4] | upper in ('DATE','TIME') %}CAST(TO_TIMESTAMP('{{config.insertZeroKeyDate}}', 'DD-MM-YYYY') AS {{ col.dataType }})
-                      {% elif col.dataType[:3] | upper in ('VAR','CHA','STR','BIN') %}
-                          {% if dtparams[0] and dtparams[0] | int < config.insertZeroKeyStr | length  %}
+                        {%- endif%}                               
+                              {%- endif %}						
+                          {%- endfor %}
+                      {%- elif col.isSystemCurrentFlag %}'Y'
+                      {%- elif col.isSystemStartDate or col.isSystemEndDate or col.isSystemUpdateDate or col.isSystemCreateDate %}
+					     {{ get_source_transform(col) }}
+                      {%- elif col.isSystemVersion%}
+					     1
+                      {%- elif col.dataType | upper in ('BOOLEAN') %} 
+					     {{ config.insertZeroKeyBol }}
+                      {%- elif col.dataType[:3] | upper in ('NUM','INT','DEC','FLO') %}
+					     0
+                      {%- elif col.dataType [:12] | upper in ('TIMESTAMP_LT','TIMESTAMP_NT','TIMESTAMP_TZ') %} 
+					  '{{config.insertZeroKeyTimestamp}}' ::{{ col.dataType |upper}}
+                      {%- elif col.dataType[:4] | upper in ('DATE','TIME') %}CAST(TO_TIMESTAMP('{{config.insertZeroKeyDate}}', 'DD-MM-YYYY') AS {{ col.dataType }})
+                      {%- elif col.dataType[:3] | upper in ('VAR','CHA','STR','BIN') %}
+                          {%- if dtparams[0] and dtparams[0] | int < config.insertZeroKeyStr | length  %}
                           SUBSTRING('{{config.insertZeroKeyStr}}',1,{{ dtparams[0] }})
-                          {% else %}
+                          {%- else %}
                           '{{config.insertZeroKeyStr}}'
-                          {% endif %}
-                      {% elif col.nullable %}NULL
-                      {% else %}'' 
-                      {% endif %}
-                      AS "{{ col.name }}"
-                      {% if not loop.last %}, {% endif %}
-                  {% endfor %}
+                          {%- endif %}
+                      {%- elif col.nullable %}
+					     NULL
+                      {%- else %}
+					    '' 
+                      {%- endif %} AS "{{ col.name }}" {% if not loop.last %}, {%- endif %}
+                  {%- endfor %}
               FROM DUAL
               WHERE NOT EXISTS (
                   SELECT 1 FROM {{ ref_no_link(node.location.name, node.name) }} 			     
 				 {%- for col in columns if col.isSurrogateKey %}
-				 {% if loop.first %} WHERE {% else %} AND {% endif %}
-			     	"{{ node.name}}"."{{ col.name}}" = {{config.insertZeroKeySurrogateKey}}
+				 {% if loop.first %} WHERE {% else %} AND {% endif %} "{{ node.name}}"."{{ col.name}}" = {{config.insertZeroKeySurrogateKey}}
 			     {% endfor %}
-              )
-            ;
+              ) ;
 			COMMIT;
             END
 			{% endif %}
