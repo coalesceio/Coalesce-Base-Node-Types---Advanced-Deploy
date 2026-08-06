@@ -293,92 +293,89 @@ does not permit copying or modification for any other purpose.
             MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
             USING (
       
-        {% for source in sources %}
+        {%- for source in sources %}
 
-           {% set joinclause = source.join %}
-           
-            /* New Rows That Don't Exist */
+           {%- set joinclause = source.join %}
+             /* New Rows That Don't Exist */
             (SELECT
-            {% if config.selectDistinct %}
+            {%- if config.selectDistinct %}
             DISTINCT
-            {% endif %}
-            {% for col in source.columns if not col.isSurrogateKey %}
-                {% if col.isSystemVersion %}
+            {%- endif %}
+            {%- for col in source.columns if not col.isSurrogateKey %}
+                {%- if col.isSystemVersion %}
                     1
-                {% elif col.isSystemCurrentFlag %}
+                {%- elif col.isSystemCurrentFlag %}
                     'Y'
-                {% else %}
+                {%- else %}
                    {{ get_source_transform(col) }}
-                {% endif %}
-                AS "{{ col.name }}",
-            {% endfor %}
+                {%- endif %} AS "{{ col.name }}",
+            {%- endfor %}
                 'INSERT_INITAL_VERSION_ROWS' AS "DML_OPERATION"
             {{  get_clause(joinclause,'from')  }}
             LEFT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-            {% for col in source.columns if col.isBusinessKey -%}
-                {% if not loop.first %}
+            {%- for col in source.columns if col.isBusinessKey -%}
+                {%- if not loop.first %}
                     AND
-                {% endif %}
+                {%- endif %}
                     {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-            {% endfor %}
+            {%- endfor %}
             WHERE
-            {% for col in source.columns if col.isBusinessKey -%}
-                {% if not loop.first %}
+            {%- for col in source.columns if col.isBusinessKey %}
+                {%- if not loop.first %}
                     AND
-                {% endif %}
+                {%- endif %}
                 "DIM"."{{ col.name }}" IS NULL
-            {% endfor %}
+            {%- endfor %}
             {{ get_clause(joinclause) }}
-            {% if config.groupByAll %}
+            {%- if config.groupByAll %}
             GROUP BY ALL
-            {% endif %}
+            {%- endif %}
             {{ sortorder_by_colv() }}
             )
             UNION ALL
-            {%if config.lastModifiedComparison %}
+            {%- if config.lastModifiedComparison %}
                   /* Insert new records with incremented version/latest timestamp based on last modified column */
-            {%else%}
+            {%- else%}
                  /* New Row Needing To Be Inserted Due To Type-2 Column Changes */
-            {%endif%}
+            {%- endif%}
             (SELECT
-            {% if config.selectDistinct %}
+            {%- if config.selectDistinct %}
             DISTINCT
-            {% endif %}
-            {% for col in source.columns if not col.isSurrogateKey %}
-                {% if col.isSystemVersion %}
+            {%- endif %}
+            {%- for col in source.columns if not col.isSurrogateKey %}
+                {%- if col.isSystemVersion %}
                     "DIM"."{{ col.name }}" + 1
-                {% elif col.isSystemCurrentFlag %}
+                {%- elif col.isSystemCurrentFlag %}
                     'Y'
-                {% else %}
+                {%- else %}
                    {{ get_source_transform(col) }}
-                {% endif %}
-                AS "{{ col.name }}",
-            {% endfor %}
+                {%- endif %} AS "{{ col.name }}",
+            {%- endfor %}
                 'INSERT_NEW_VERSION_ROWS' AS "DML_OPERATION"
             {{  get_clause(joinclause,'from')  }}
             INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-            {% for col in source.columns if col.isBusinessKey -%}
-                {% if not loop.first %}
+            {%- for col in source.columns if col.isBusinessKey -%}
+                {%- if not loop.first %}
                     AND
-                {% endif %}
+                {%- endif %}
                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-            {% endfor %}
+            {%- endfor %}
             WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
-            {%if config.lastModifiedComparison %} 
-            {% for col in source.columns if col.name == last_modified_col -%}
+            {%- if config.lastModifiedComparison %} 
+            {%- for col in source.columns if col.name == last_modified_col %}
                 AND
                   {{ get_source_transform(col) }} > "DIM"."{{last_modified_col}}"
 
-            {% endfor %}  
-            {%endif%}
-            {% if not config.lastModifiedComparison %}
-             {% for col in source.columns if (col.isChangeTracking == true) %}
-                {% if loop.first %}
+            {%- endfor %}  
+            {%- endif%}
+            {%- if not config.lastModifiedComparison %}
+             {%- for col in source.columns if (col.isChangeTracking == true) %}
+                {%- if loop.first %}
                     AND (
-                {% else %}
+                {%- else %}
                     OR
-                {% endif %}
-                {% if col.dataType == 'GEOGRAPHY' %}
+                {%- endif %}
+                {%- if col.dataType == 'GEOGRAPHY' %}
                     (
                         ST_DISTANCE(
                             (CASE
@@ -391,7 +388,7 @@ does not permit copying or modification for any other purpose.
                             END)
                         ) > 0
                     )
-                {% elif col.dataType == 'GEOMETRY' %}
+                {%- elif col.dataType == 'GEOMETRY' %}
                     (
                         ST_DISTANCE(
                             (CASE
@@ -404,71 +401,69 @@ does not permit copying or modification for any other purpose.
                             END)
                         ) > 0
                     )
-                {% else %}
+                {%- else %}
                     (
-                        NVL(CAST({{ get_source_transform(col) }} AS STRING), '**NULL**') <> 
-                        NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
+                        NVL(CAST({{ get_source_transform(col) }} AS STRING), '**NULL**') <> NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
                     )
-                {% endif %}
+                {%- endif %}
                 
-                {% if loop.last %}
+                {%- if loop.last %}
                     )
-                {% endif %}
-             {% endfor %}
-            {%endif%}
+                {%- endif %}
+             {%- endfor %}
+            {%- endif%}
             {{  get_clause(joinclause)  }}
-            {% if config.groupByAll %}
+            {%- if config.groupByAll %}
             GROUP BY ALL
-            {% endif %}
+            {%- endif %}
             {{ sortorder_by_colv() }}
             )
             UNION ALL
-            {%if config.lastModifiedComparison %}
+            {%- if config.lastModifiedComparison %}
                    /* Rows Needing To Be Expired 
                     In this case, only two columns are merged (version and end date) */
-            {%else%}
+            {%- else%}
                  /*Rows Needing To Be Expired Due To Type-2 Column Changes
                  In this case, only two columns are merged (version and end date) */
-            {%endif%}
+            {%- endif%}
             (SELECT
-            {% if config.selectDistinct %}
+            {%- if config.selectDistinct %}
             DISTINCT
-            {% endif %}
+            {%- endif %}
             {%- for col in source.columns if not col.isSurrogateKey %}
-                {% if col.isSystemEndDate %}
+                {%- if col.isSystemEndDate %}
                     DATEADD(MILLISECONDS, -1, CAST(CURRENT_TIMESTAMP AS TIMESTAMP))
-                {% elif col.isSystemCurrentFlag %}
+                {%- elif col.isSystemCurrentFlag %}
                     'N'
-                {% else %}
+                {%- else %}
                     "DIM"."{{ col.name }}"
-                {% endif %}
-                AS "{{ col.name }}",
-            {% endfor -%}
+                {%- endif %} AS "{{ col.name }}",
+            {%- endfor %}
                 'update_expired_version_rows' AS "DML_OPERATION"
             {{  get_clause(joinclause,'from')  }}
             INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-            {% for col in source.columns if col.isBusinessKey -%}
-                {% if not loop.first %}
+            {%- for col in source.columns if col.isBusinessKey -%}
+                {%- if not loop.first %}
                     AND
-                {% endif %}
+                {%- endif %}
                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-            {% endfor %}
+            {%- endfor %}
             WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
-            {%if config.lastModifiedComparison %} 
-            {% for col in source.columns if col.name == last_modified_col -%}
+            {%- if config.lastModifiedComparison %} 
+            {%- for col in source.columns if col.name == last_modified_col %}
              AND
 			{{ get_source_transform(col) }} > "DIM"."{{last_modified_col}}"
-            {% endfor %}  
-            {%endif%}
-            {% if not config.lastModifiedComparison %}
-             {% for col in source.columns if (col.isChangeTracking == true) %}
-                {% if loop.first %}
+            {%- endfor %}  
+            {%- endif%}
+            {%- if not config.lastModifiedComparison %}
+             {%- for col in source.columns if (col.isChangeTracking == true) %}
+                {%- if loop.first %}
                     AND (
-                {% else %}
+                {%- else %}
                     OR
-                {% endif %}
+                {%- endif %}
 				
-                {% if col.dataType == 'GEOGRAPHY' %}
+                {%- if col.dataType == 'GEOGRAPHY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -481,7 +476,7 @@ does not permit copying or modification for any other purpose.
                             END)
                         ) > 0
                     )
-                {% elif col.dataType == 'GEOMETRY' %}
+                {%- elif col.dataType == 'GEOMETRY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -494,93 +489,93 @@ does not permit copying or modification for any other purpose.
                             END)
                         ) > 0
                     )
-                {% else %}
+                {%- else %}
                     (
                         NVL(CAST({{ get_source_transform(col) }} AS STRING), '**NULL**') <> 
                         NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
                     )
-                {% endif %}
+                {%- endif %}
 
-                {% if loop.last %}
+                {%- if loop.last %}
                     )
-                {% endif %}
-             {% endfor %}
-            {%endif%}
+                {%- endif %}
+             {%- endfor %}
+            {%- endif%}
             {{  get_clause(joinclause)  }}
-            {% if config.groupByAll %}
+            {%- if config.groupByAll %}
             GROUP BY ALL
-            {% endif %}
+            {%- endif %}
             {{ sortorder_by_colv() }}
             )
-            {% if (config.deleteStrategy == "SOFT DELETE"
+            {%- if (config.deleteStrategy == "SOFT DELETE"
                     or config.deleteStrategy == "HARD DELETE")
                     and node.isMultisource == false %}
             /* Rows To Be Deleted As They No Longer Exist In Source */
             UNION ALL
                 (
                     SELECT
-                    {% if config.selectDistinct %}
+                    {%- if config.selectDistinct %}
                         DISTINCT
-                    {% endif %}
+                    {%- endif %}
                     {%- for col in source.columns if not col.isSurrogateKey %}
-                        {% if col.isSystemVersion or col.isSystemCreateDate or col.isSystemStartDate %}
+                        {%- if col.isSystemVersion or col.isSystemCreateDate or col.isSystemStartDate %}
                             "DIM"."{{ col.name }}" AS "{{ col.name }}"
-                        {% elif col.isSystemCurrentFlag %}
+                        {%- elif col.isSystemCurrentFlag %}
                             '0'
-                        {% elif col.isSystemEndDate %}
+                        {%- elif col.isSystemEndDate %}
                             DATEADD(MILLISECONDS, -1, CAST(CURRENT_TIMESTAMP AS TIMESTAMP))
-                        {% else %}
+                        {%- else %}
                             "DIM"."{{ col.name }}"  AS "{{ col.name }}"
-                        {% endif %}   ,               
-                    {% endfor -%}
+                        {%- endif %}   ,               
+                    {%- endfor %}
 
-                    {% if config.deleteStrategy == "HARD DELETE" %}
+                    {%- if config.deleteStrategy == "HARD DELETE" %}
                         /* Hard delete rows */
                         'HARD_DELETE_ROWS' AS "DML_OPERATION"
-                    {% else %}
+                    {%- else %}
                         /* soft delete rows */
                         'SOFT_DELETE_ROWS' AS "DML_OPERATION"
-                    {% endif %}
+                    {%- endif %}
 
                     {{  get_clause(joinclause,'from')  }}
 
                     RIGHT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-                    {% for col in source.columns if col.isBusinessKey -%}
-                        {% if not loop.first %}
+                    {%- for col in source.columns if col.isBusinessKey -%}
+                        {%- if not loop.first %}
                             AND
-                        {% endif %}
+                        {%- endif %}
                             {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                    {% endfor %}
+                    {%- endfor %}
 
                     WHERE
-                    {% for col in source.columns if col.isBusinessKey -%}
-                        {% if not loop.first %}
+                    {%- for col in source.columns if col.isBusinessKey -%}
+                        {%- if not loop.first %}
                           AND
-                        {% endif%}
-                        {% if col.isBusinessKey %}
+                        {%- endif%}
+                        {%- if col.isBusinessKey %}
                             {{ get_source_transform(col) }} IS NULL
-                        {% endif %}
-                    {% endfor %}
+                        {%- endif %}
+                    {%- endfor %}
 
-                       {% if config.insertZeroKey %}
+                       {%- if config.insertZeroKey %}
                         AND "DIM"."{{ get_value_by_column_attribute("isSurrogateKey") }}" <> {{config.insertZeroKeySurrogateKey}}							 
-                        {% endif %}
+                        {%- endif %}
 
-                        {% if config.deleteStrategy == "SOFT DELETE" %}
+                        {%- if config.deleteStrategy == "SOFT DELETE" %}
                             AND "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" != '0'
-                        {% endif %}
+                        {%- endif %}
                 
                     {{ get_clause(joinclause) }}
 
-                    {% if config.groupByAll %}
+                    {%- if config.groupByAll %}
                         GROUP BY ALL
-                    {% endif %}
+                    {%- endif %}
 
                     {{ sortorder_by_colv() }}
                 )
-            {% endif %}
+            {%- endif %}
             {# The if-block below avoids unnecessary updates when no type 2 column changes are present #}
-            {% if source.columns 
+            {%- if source.columns 
                 | rejectattr('isSurrogateKey')
                 | rejectattr('isBusinessKey')
                 | rejectattr('isChangeTracking')
@@ -593,42 +588,41 @@ does not permit copying or modification for any other purpose.
                 | list | length == 0 
             %}
                 {# Skip Section #}
-            {% else %}
-             {%if not config.lastModifiedComparison %}
+            {%- else %}
+             {%- if not config.lastModifiedComparison %}
               UNION ALL
               /* Rows Needing To Be Updated Due To Changes To Non-Type-2 columns
               This case merges only when there are changes in non-type-2 column updates, but no changes in type-2 columns*/
 
               (SELECT
-              {% if config.selectDistinct %}
+              {%- if config.selectDistinct %}
               DISTINCT
-              {% endif %}
+              {%- endif %}
               {%- for col in source.columns if not col.isSurrogateKey %}
-                  {% if col.isSystemVersion or col.isSystemCreateDate or col.isSystemStartDate or col.isSystemEndDate %}
+                  {%- if col.isSystemVersion or col.isSystemCreateDate or col.isSystemStartDate or col.isSystemEndDate %}
                       "DIM"."{{ col.name }}"
-                  {% elif col.isSystemCurrentFlag %}
+                  {%- elif col.isSystemCurrentFlag %}
                       'Y'
-                  {% else %}
+                  {%- else %}
                       {{ get_source_transform(col) }}
-                  {% endif %}
-                  AS "{{ col.name }}",
-              {% endfor -%}
+                  {%- endif %} AS "{{ col.name }}",
+              {%- endfor %}
                   'UPDATE_NON_TYPE2_ROWS' AS "DML_OPERATION"
               {{  get_clause(joinclause,'from')  }}
               INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-              {% for col in source.columns if col.isBusinessKey -%}
-                  {% if not loop.first %}
+              {%- for col in source.columns if col.isBusinessKey -%}
+                  {%- if not loop.first %}
                       AND
-                  {% endif %}
+                  {%- endif %}
                   {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-              {% endfor %}
+              {%- endfor %}
               WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
               AND (
-              {% for col in source.columns if (col.isChangeTracking) -%}
-                  {% if not loop.first %}
+              {%- for col in source.columns if (col.isChangeTracking) -%}
+                  {%- if not loop.first %}
                       AND
-                  {% endif %}
-               {% if col.dataType == 'GEOGRAPHY' %}
+                  {%- endif %}
+               {%- if col.dataType == 'GEOGRAPHY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -641,7 +635,7 @@ does not permit copying or modification for any other purpose.
                             END)
                         ) = 0
                     )
-                {% elif col.dataType == 'GEOMETRY' %}
+                {%- elif col.dataType == 'GEOMETRY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -654,12 +648,12 @@ does not permit copying or modification for any other purpose.
                             END)
                         ) = 0
                     )
-                  {%else%}                      
+                  {%- else%}                      
                   {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                  {%endif%}
-              {% endfor %} )
+                  {%- endif%}
+              {%- endfor %} )
               
-              {% for col in source.columns if not (   col.isBusinessKey or
+              {%- for col in source.columns if not (   col.isBusinessKey or
                                                       col.isChangeTracking or
                                                       col.isSurrogateKey or
                                                       col.isSystemVersion or
@@ -668,13 +662,13 @@ does not permit copying or modification for any other purpose.
                                                       col.isSystemEndDate or
                                                       col.isSystemUpdateDate or
                                                       col.isSystemCreateDate) -%}
-                  {% if loop.first %}
+                  {%- if loop.first %}
                       AND (
-                  {% endif %}
-                  {% if not loop.first %}
+                  {%- endif %}
+                  {%- if not loop.first %}
                       OR
-                  {% endif %}
-               {% if col.dataType == 'GEOGRAPHY' %}
+                  {%- endif %}
+               {%- if col.dataType == 'GEOGRAPHY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -687,7 +681,7 @@ does not permit copying or modification for any other purpose.
                             END)
                         ) > 0
                     )
-                {% elif col.dataType == 'GEOMETRY' %}
+                {%- elif col.dataType == 'GEOMETRY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -700,81 +694,80 @@ does not permit copying or modification for any other purpose.
                             END)
                         ) > 0
                     )
-                {% else %}
+                {%- else %}
                         (
-                            NVL(CAST({{ get_source_transform(col) }} AS STRING), '**NULL**') <> 
-                            NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
+                            NVL(CAST({{ get_source_transform(col) }} AS STRING), '**NULL**') <> NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
                         )
-                    {% endif %}
+                    {%- endif %}
 
-                    {% if loop.last %}
+                    {%- if loop.last %}
                         )
-                    {% endif %}
-                {% endfor %}
+                    {%- endif %}
+                {%- endfor %}
             
             {{  get_clause(joinclause)  }}
-            {% if config.groupByAll%}
+            {%- if config.groupByAll%}
                 GROUP BY ALL
-            {% endif %}
+            {%- endif %}
             {{ sortorder_by_colv() }}) 
-            {% endif %}
-            {%endif%}
-            {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+            {%- endif %}
+            {%- endif%}
+            {%- if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
                 {{config.insertStrategy}}
-            {% endif %} 
+            {%- endif %} 
                       
-        {% endfor %}  
+        {%- endfor %}  
                          
         ) AS "SRC"
         ON
-        {% for col in columns if col.isBusinessKey -%}
-            {% if not loop.first %}
+        {%- for col in columns if col.isBusinessKey -%}
+            {%- if not loop.first %}
                 AND
-            {% endif %}
+            {%- endif %}
             "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
-        {% endfor %}
+        {%- endfor %}
         AND "TGT"."{{ get_value_by_column_attribute("isSystemVersion") }}" = "SRC"."{{ get_value_by_column_attribute("isSystemVersion") }}"
-		{% if config.deleteStrategy == "HARD DELETE" %}
+		{%- if config.deleteStrategy == "HARD DELETE" %}
 		    WHEN MATCHED AND SRC.DML_OPERATION = 'HARD_DELETE_ROWS'
             THEN DELETE
-		{% endif %}
-        {%if config.deleteStrategy == "SOFT DELETE" and config.lastModifiedComparison %}
+		{%- endif %}
+        {%- if config.deleteStrategy == "SOFT DELETE" and config.lastModifiedComparison %}
             WHEN MATCHED AND (SRC.DML_OPERATION = 'SOFT_DELETE_ROWS' OR SRC.DML_OPERATION = 'update_expired_version_rows' ) 
             THEN UPDATE SET 
-            {% for col in columns if (col.isSystemCurrentFlag
+            {%- for col in columns if (col.isSystemCurrentFlag
                                                 or col.isSystemEndDate) %}
-                            {% if not loop.first %} , {% endif %}
+                            {%- if not loop.first %} , {%- endif %}
                         "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
-            {% endfor %}
-        {%elif config.lastModifiedComparison%}
+            {%- endfor %}
+        {%- elif config.lastModifiedComparison%}
             WHEN MATCHED AND SRC.DML_OPERATION = 'update_expired_version_rows'  
             THEN UPDATE SET 
-            {% for col in columns if (col.isSystemCurrentFlag
+            {%- for col in columns if (col.isSystemCurrentFlag
                                                 or col.isSystemEndDate) %}
-                            {% if not loop.first %} , {% endif %}
+                            {%- if not loop.first %} , {%- endif %}
                         "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
-            {% endfor %}
-        {%endif%}
-        {%if not config.lastModifiedComparison%}
+            {%- endfor %}
+        {%- endif%}
+        {%- if not config.lastModifiedComparison%}
          WHEN MATCHED THEN UPDATE SET
          {%- for col in columns if not (col.isBusinessKey or col.isSurrogateKey or col.isSystemCreateDate) %}
             "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
-            {% if not loop.last %}, {% endif %}
-         {% endfor -%}
-        {%endif%}
+            {%- if not loop.last %}, {%- endif %}
+         {%- endfor %}
+        {%- endif%}
         WHEN NOT MATCHED THEN INSERT (
         {%- for col in columns if not col.isSurrogateKey %}
             "{{ col.name }}"
-            {% if not loop.last %}, {% endif %}
-        {% endfor -%}
+            {%- if not loop.last %}, {%- endif %}
+        {%- endfor %}
         )
         VALUES (
         {%- for col in columns if not col.isSurrogateKey %}
             "SRC"."{{ col.name }}"
-            {% if not loop.last %}, {% endif %}
-        {% endfor -%}
+            {%- if not loop.last %}, {%- endif %}
+        {%- endfor %}
         )
-    {% else %}
+    {%- else %}
 {{ stage('INSERT/UPDATE ' + ' Sources' | string) }}		
 BEGIN
 -- =====================================
@@ -784,45 +777,44 @@ BEGIN
 -- Step 1: Create a temporary table to hold SRC data
 CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  AS
  (
-        {% for source in sources %}
+        {%- for source in sources %}
 
-           {% set joinclause = source.join %}
+           {%- set joinclause = source.join %}
 
             /* New Rows That Don't Exist */
             (SELECT
-            {% if config.selectDistinct %}
+            {%- if config.selectDistinct %}
             DISTINCT
-            {% endif %}
-            {% for col in source.columns if not col.isSurrogateKey %}
-                {% if col.isSystemVersion %}
+            {%- endif %}
+            {%- for col in source.columns if not col.isSurrogateKey %}
+                {%- if col.isSystemVersion %}
                     1
-                {% elif col.isSystemCurrentFlag %}
+                {%- elif col.isSystemCurrentFlag %}
                     'Y'
-                {% else %}
+                {%- else %}
                    {{ get_source_transform(col) }}
-                {% endif %}
-                AS "{{ col.name }}",
-            {% endfor %}
+                {%- endif %} AS "{{ col.name }}",
+            {%- endfor %}
                 'INSERT_INITAL_VERSION_ROWS' AS "DML_OPERATION"
             {{  get_clause(joinclause,'from')  }}
             LEFT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-            {% for col in source.columns if col.isBusinessKey -%}
-                {% if not loop.first %}
+            {%- for col in source.columns if col.isBusinessKey -%}
+                {%- if not loop.first %}
                     AND
-                {% endif %}
+                {%- endif %}
                     {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-            {% endfor %}
+            {%- endfor %}
             WHERE
-            {% for col in source.columns if col.isBusinessKey -%}
-                {% if not loop.first %}
+            {%- for col in source.columns if col.isBusinessKey -%}
+                {%- if not loop.first %}
                     AND
-                {% endif %}
+                {%- endif %}
                 "DIM"."{{ col.name }}" IS NULL
-            {% endfor %}
+            {%- endfor %}
             {{ get_clause(joinclause) }}
-            {% if config.groupByAll %}
+            {%- if config.groupByAll %}
             GROUP BY ALL
-            {% endif %}
+            {%- endif %}
             {{ sortorder_by_colv() }}
             )
 
@@ -830,36 +822,35 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
             /* New Row Needing To Be Inserted Due To Type-2 Column Changes */
 
             (SELECT
-            {% if config.selectDistinct %}
+            {%- if config.selectDistinct %}
             DISTINCT
-            {% endif %}
-            {% for col in source.columns if not col.isSurrogateKey %}
-                {% if col.isSystemVersion %}
+            {%- endif %}
+            {%- for col in source.columns if not col.isSurrogateKey %}
+                {%- if col.isSystemVersion %}
                     "DIM"."{{ col.name }}" + 1
-                {% elif col.isSystemCurrentFlag %}
+                {%- elif col.isSystemCurrentFlag %}
                     'Y'
-                {% else %}
+                {%- else %}
                    {{ get_source_transform(col) }}
-                {% endif %}
-                AS "{{ col.name }}",
-            {% endfor %}
+                {%- endif %} AS "{{ col.name }}",
+            {%- endfor %}
                 'INSERT_NEW_VERSION_ROWS' AS "DML_OPERATION"
             {{  get_clause(joinclause,'from')  }}
             INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-            {% for col in source.columns if col.isBusinessKey -%}
-                {% if not loop.first %}
+            {%- for col in source.columns if col.isBusinessKey -%}
+                {%- if not loop.first %}
                     AND
-                {% endif %}
+                {%- endif %}
                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-            {% endfor %}
+            {%- endfor %}
             WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
-            {% for col in source.columns if (col.isChangeTracking == true) %}
-                {% if loop.first %}
+            {%- for col in source.columns if (col.isChangeTracking == true) %}
+                {%- if loop.first %}
                     AND (
-                {% else %}
+                {%- else %}
                     OR
-                {% endif %}
-               {% if col.dataType == 'GEOGRAPHY' %}
+                {%- endif %}
+               {%- if col.dataType == 'GEOGRAPHY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -872,7 +863,7 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                             END)
                         ) > 0
                     )
-                {% elif col.dataType == 'GEOMETRY' %}
+                {%- elif col.dataType == 'GEOMETRY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -885,57 +876,56 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                             END)
                         ) > 0
                     )
-                {% else %}
+                {%- else %}
                         (
-                            NVL(CAST({{ get_source_transform(col) }} AS STRING), '**NULL**') <> 
-                            NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
+                            NVL(CAST({{ get_source_transform(col) }} AS STRING), '**NULL**') <> NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
                         )
-                    {% endif %}
+                    {%- endif %}
 
-                    {% if loop.last %}
+                    {%- if loop.last %}
                         )
-                    {% endif %}
-                {% endfor %}
+                    {%- endif %}
+                {%- endfor %}
             {{  get_clause(joinclause)  }}
-            {% if config.groupByAll %}
+            {%- if config.groupByAll %}
             GROUP BY ALL
-            {% endif %}
+            {%- endif %}
             {{ sortorder_by_colv() }}
             )
             UNION ALL
             /* Rows Needing To Be Expired Due To Type-2 Column Changes */
             
             (SELECT
-            {% if config.selectDistinct %}
+            {%- if config.selectDistinct %}
             DISTINCT
-            {% endif %}
+            {%- endif %}
             {%- for col in source.columns if not col.isSurrogateKey %}
-                {% if col.isSystemEndDate %}
+                {%- if col.isSystemEndDate %}
                     DATEADD(MILLISECONDS, -1, CAST(CURRENT_TIMESTAMP AS TIMESTAMP))
-                {% elif col.isSystemCurrentFlag %}
+                {%- elif col.isSystemCurrentFlag %}
                     'N'
-                {% else %}
+                {%- else %}
                     "DIM"."{{ col.name }}"
-                {% endif %}
+                {%- endif %}
                 AS "{{ col.name }}",
-            {% endfor -%}
+            {%- endfor %}
                 'update_expired_version_rows' AS "DML_OPERATION"
             {{  get_clause(joinclause,'from')  }}
             INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-            {% for col in source.columns if col.isBusinessKey -%}
-                {% if not loop.first %}
+            {%- for col in source.columns if col.isBusinessKey -%}
+                {%- if not loop.first %}
                     AND
-                {% endif %}
+                {%- endif %}
                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-            {% endfor %}
+            {%- endfor %}
             WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
-            {% for col in source.columns if (col.isChangeTracking == true) %}
-                {% if loop.first %}
+            {%- for col in source.columns if (col.isChangeTracking == true) %}
+                {%- if loop.first %}
                     AND (
-                {% else %}
+                {%- else %}
                     OR
-                {% endif %}
-               {% if col.dataType == 'GEOGRAPHY' %}
+                {%- endif %}
+               {%- if col.dataType == 'GEOGRAPHY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -948,7 +938,7 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                             END)
                         ) > 0
                     )
-                {% elif col.dataType == 'GEOMETRY' %}
+                {%- elif col.dataType == 'GEOMETRY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -961,24 +951,23 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                             END)
                         ) > 0
                     )
-                {% else %}
+                {%- else %}
                         (
-                            NVL(CAST({{ get_source_transform(col) }} AS STRING), '**NULL**') <> 
-                            NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
+                            NVL(CAST({{ get_source_transform(col) }} AS STRING), '**NULL**') <> NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
                         )
-                    {% endif %}
+                    {%- endif %}
 
-                    {% if loop.last %}
+                    {%- if loop.last %}
                         )
-                    {% endif %}
-                {% endfor %}
+                    {%- endif %}
+                {%- endfor %}
             {{  get_clause(joinclause)  }}
-            {% if config.groupByAll %}
+            {%- if config.groupByAll %}
             GROUP BY ALL
-            {% endif %}
+            {%- endif %}
             {{ sortorder_by_colv() }}
             )
-            {% if source.columns 
+            {%- if source.columns 
                 | rejectattr('isSurrogateKey')
                 | rejectattr('isBusinessKey')
                 | rejectattr('isChangeTracking')
@@ -994,35 +983,34 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
               /* Rows Needing To Be Updated Due To Non-Type-2 Column Changes */
 
               (SELECT
-              {% if config.selectDistinct %}
+              {%- if config.selectDistinct %}
               DISTINCT
-              {% endif %}
+              {%- endif %}
               {%- for col in source.columns if not col.isSurrogateKey %}
-                  {% if col.isSystemVersion or col.isSystemCreateDate or col.isSystemStartDate or col.isSystemEndDate %}
+                  {%- if col.isSystemVersion or col.isSystemCreateDate or col.isSystemStartDate or col.isSystemEndDate %}
                       "DIM"."{{ col.name }}"
-                  {% elif col.isSystemCurrentFlag %}
+                  {%- elif col.isSystemCurrentFlag %}
                       'Y'
-                  {% else %}
+                  {%- else %}
                       {{ get_source_transform(col) }}
-                  {% endif %}
-                  AS "{{ col.name }}",
-              {% endfor -%}
+                  {%- endif %} AS "{{ col.name }}",
+              {%- endfor %}
                   'UPDATE_NON_TYPE2_ROWS' AS "DML_OPERATION"
               {{  get_clause(joinclause,'from')  }}
               INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-              {% for col in source.columns if col.isBusinessKey -%}
-                  {% if not loop.first %}
+              {%- for col in source.columns if col.isBusinessKey -%}
+                  {%- if not loop.first %}
                       AND
-                  {% endif %}
+                  {%- endif %}
                   {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-              {% endfor %}
+              {%- endfor %}
               WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
               AND (
-              {% for col in source.columns if (col.isChangeTracking) -%}
-                  {% if not loop.first %}
+              {%- for col in source.columns if (col.isChangeTracking) -%}
+                  {%- if not loop.first %}
                       AND
-                  {% endif %}
-               {% if col.dataType == 'GEOGRAPHY' %}
+                  {%- endif %}
+               {%- if col.dataType == 'GEOGRAPHY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -1035,7 +1023,7 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                             END)
                         ) = 0
                     )
-                {% elif col.dataType == 'GEOMETRY' %}
+                {%- elif col.dataType == 'GEOMETRY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -1048,12 +1036,12 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                             END)
                         ) = 0
                     )
-                  {%else%}                      
+                  {%- else%}                      
                   {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                  {%endif%}
-              {% endfor %})
+                  {%- endif%}
+              {%- endfor %})
               
-              {% for col in source.columns if not (   col.isBusinessKey or
+              {%- for col in source.columns if not (   col.isBusinessKey or
                                                       col.isChangeTracking or
                                                       col.isSurrogateKey or
                                                       col.isSystemVersion or
@@ -1062,13 +1050,13 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                                                       col.isSystemEndDate or
                                                       col.isSystemUpdateDate or
                                                       col.isSystemCreateDate) -%}
-                  {% if loop.first %}
+                  {%- if loop.first %}
                       AND (
-                  {% endif %}
-                  {% if not loop.first %}
+                  {%- endif %}
+                  {%- if not loop.first %}
                       OR
-                  {% endif %}
-               {% if col.dataType == 'GEOGRAPHY' %}
+                  {%- endif %}
+               {%- if col.dataType == 'GEOGRAPHY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -1081,7 +1069,7 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                             END)
                         ) > 0
                     )
-                {% elif col.dataType == 'GEOMETRY' %}
+                {%- elif col.dataType == 'GEOMETRY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -1094,28 +1082,27 @@ CREATE OR REPLACE TEMP TABLE {{ ref_no_link(node.location.name,"SRC_STAGE") }}  
                             END)
                         ) > 0
                     )
-                {% else %}
+                {%- else %}
                         (
-                            NVL(CAST({{ get_source_transform(col) }} AS STRING), '**NULL**') <> 
-                            NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
+                            NVL(CAST({{ get_source_transform(col) }} AS STRING), '**NULL**') <> NVL(CAST("DIM"."{{ col.name }}" AS STRING), '**NULL**')
                         )
-                    {% endif %}
+                    {%- endif %}
 
-                    {% if loop.last %}
+                    {%- if loop.last %}
                         )
-                    {% endif %}
-                {% endfor %}
+                    {%- endif %}
+                {%- endfor %}
             
             {{  get_clause(joinclause)  }}
-            {% if config.groupByAll %}
+            {%- if config.groupByAll %}
                 GROUP BY ALL
-            {% endif %}
+            {%- endif %}
             {{ sortorder_by_colv() }}) 
-            {% endif %}
-            {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+            {%- endif %}
+            {%- if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
                 {{config.insertStrategy}}
-            {% endif %} 
-        {% endfor %}  
+            {%- endif %} 
+        {%- endfor %}  
 );
 $$;
 {# SCD-Type 2 Dimension update== #}
@@ -1128,7 +1115,7 @@ UPDATE {{ ref_no_link(node.location.name, node.name) }} AS TGT
 SET
 {%- for col in columns if not (col.isBusinessKey or col.isSurrogateKey or col.isSystemCreateDate) %}
     "{{ col.name }}" = SRC."{{ col.name }}"
-    {% if not loop.last %}, {% endif %}
+    {%- if not loop.last %}, {%- endif %}
 {%- endfor %}
 FROM {{ ref_no_link(node.location.name,"SRC_STAGE") }} 	SRC
 WHERE
@@ -1136,7 +1123,7 @@ WHERE
     AND
     {%- for col in columns if col.isBusinessKey %}
         TGT."{{ col.name }}" = SRC."{{ col.name }}"
-        {% if not loop.last %} AND {% endif %}
+        {%- if not loop.last %} AND {%- endif %}
     {%- endfor %}
     AND TGT."{{ get_value_by_column_attribute("isSystemVersion") }}" = SRC."{{ get_value_by_column_attribute("isSystemVersion") }}"
 ;
@@ -1149,13 +1136,13 @@ $$;
 INSERT INTO {{ ref_no_link(node.location.name, node.name) }} (
     {%- for col in columns if not col.isSurrogateKey %}
         "{{ col.name }}"
-        {% if not loop.last %}, {% endif %}
+        {%- if not loop.last %}, {%- endif %}
     {%- endfor %}
 )
 SELECT
     {%- for col in columns if not col.isSurrogateKey %}
         SRC."{{ col.name }}"
-        {% if not loop.last %}, {% endif %}
+        {%- if not loop.last %}, {%- endif %}
     {%- endfor %}
 FROM {{ ref_no_link(node.location.name,"SRC_STAGE") }}   SRC
 WHERE SRC."DML_OPERATION" IN ('INSERT_INITAL_VERSION_ROWS', 'INSERT_NEW_VERSION_ROWS')
@@ -1171,149 +1158,149 @@ END
        {%- if varUpdateStrategy == 'MERGE' -%}
 
             {# Create a list of column names to exclude from the merge update, if the feature is enabled #}
-            {% if config.excludeMergeToggle and config.lastModifiedCompToggle == false %}
+            {%- if config.excludeMergeToggle and config.lastModifiedCompToggle == false %}
                 {%- set excludeColList = config.excludeMergeList.get('items', [])
                                         | map(attribute='excludeColName.name')
                                         | list %}
                 {%- set includeColList = columns | rejectattr('name', 'in', excludeColList) | list %}
-            {% else %}
+            {%- else %}
                 {%- set includeColList = columns | list %}
-            {% endif %}
+            {%- endif %}
 
             {{ stage('MERGE ' + ' Sources' | string) }}
             
             MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
             USING ( 
             
-            {% for source in sources %}
-                {%set joinclause = source.join %}
+            {%- for source in sources %}
+                {%- set joinclause = source.join %}
                  ( SELECT
-                    {% if config.selectDistinct %}
+                    {%- if config.selectDistinct %}
                       DISTINCT
-                    {% endif %}
-                  {% for col in source.columns if not col.isSurrogateKey %}
-                     {% if col.isSystemVersion %}
+                    {%- endif %}
+                  {%- for col in source.columns if not col.isSurrogateKey %}
+                     {%- if col.isSystemVersion %}
                     	1
-                      {% elif col.isSystemCurrentFlag %}
+                      {%- elif col.isSystemCurrentFlag %}
                     	'Y'	    
-                      {% elif col.name == last_modified_col %}
+                      {%- elif col.name == last_modified_col %}
 					     {{ get_source_transform(col) }} AS "{{ col.name }}",
 						 {{ get_source_transform(col) }} AS COMPARISON_VALUE,
 					     MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
-					  {% else %}
+					  {%- else %}
                         {{ get_source_transform(col) }}
-                      {% endif %}
-                      {%if col.name != last_modified_col %}  AS "{{ col.name }}"{%endif%}
-                      {%- if not loop.last %}, {% endif %}
-                  {% endfor %}
+                      {%- endif %}
+                      {%-if col.name != last_modified_col %}  AS "{{ col.name }}"{%- endif%}
+                      {%- if not loop.last %}, {%- endif %}
+                  {%- endfor %}
                    {{ get_clause(joinclause,'from')}}
-                  {%if config.lastModifiedComparison%}
+                  {%- if config.lastModifiedComparison%}
                    LEFT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-                   {% for col in source.columns if col.isBusinessKey -%}
-                                {% if not loop.first %}
+                   {%- for col in source.columns if col.isBusinessKey -%}
+                                {%- if not loop.first %}
                                     AND
-                                {% endif %}
+                                {%- endif %}
                                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                            {% endfor %}
-                  {%endif%}
-                   {% set clause = get_clause(joinclause) %}
-                   {% if clause %}
+                            {%- endfor %}
+                  {%- endif%}
+                   {%- set clause = get_clause(joinclause) %}
+                   {%- if clause %}
                       {{ ("WHERE " ~ clause.strip()[3:].strip()) if clause.strip().upper().startswith('AND') else clause }}
-                   {% endif %}
-                   {% if config.groupByAll or config.lastModifiedComparison %}
+                   {%- endif %}
+                   {%- if config.groupByAll or config.lastModifiedComparison %}
                      GROUP BY ALL
-                    {% endif %}
+                    {%- endif %}
                    {{ sortorder_by_colv() }} )
-                {% if (config.deleteStrategy == "SOFT DELETE"
+                {%- if (config.deleteStrategy == "SOFT DELETE"
                         or config.deleteStrategy == "HARD DELETE")
                         and node.isMultisource == false %}
                     /* Rows To Be Deleted As They No Longer Exist In Source */
                     UNION ALL
                         (
                             SELECT
-                            {% if config.selectDistinct %}
+                            {%- if config.selectDistinct %}
                                 DISTINCT
-                            {% endif %}
+                            {%- endif %}
                             {%- for col in source.columns if not col.isSurrogateKey %}
-                                {% if col.isSystemCurrentFlag %}
+                                {%- if col.isSystemCurrentFlag %}
                                     '0'
-                                {% elif col.isSystemEndDate %}
+                                {%- elif col.isSystemEndDate %}
                                     DATEADD(MILLISECONDS, -1, CAST(CURRENT_TIMESTAMP AS TIMESTAMP))
-                                {% elif col.name == last_modified_col %}
+                                {%- elif col.name == last_modified_col %}
                                     {{ get_source_transform(col) }} AS "{{ col.name }}",
                                     {{ get_source_transform(col) }} AS COMPARISON_VALUE,
                                     MAX("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
-                                {% else %}
+                                {%- else %}
                                     "DIM"."{{ col.name }}"	AS "{{ col.name }}"
-                                {% endif %}
-                                {%- if not loop.last %}, {% endif %}
-                            {% endfor -%}
+                                {%- endif %}
+                                {%- if not loop.last %}, {%- endif %}
+                            {%- endfor %}
                    {{ get_clause(joinclause,'from') }}
                   RIGHT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-                            {% for col in source.columns if col.isBusinessKey -%}
-                                {% if not loop.first %}
+                            {%- for col in source.columns if col.isBusinessKey -%}
+                                {%- if not loop.first %}
                                     AND
-                                {% endif %}
+                                {%- endif %}
                                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                            {% endfor %}
+                            {%- endfor %}
                             WHERE
-                            {% for col in source.columns if col.isBusinessKey -%}
-                                {% if not loop.first %}
+                            {%- for col in source.columns if col.isBusinessKey -%}
+                                {%- if not loop.first %}
                                     AND
-                                {% endif%}
-                                {% if col.isBusinessKey %}
+                                {%- endif%}
+                                {%- if col.isBusinessKey %}
                                     {{ get_source_transform(col) }} IS NULL
-                                {% endif %}
-                            {% endfor %} 
-                            {% if config.insertZeroKey %}
+                                {%- endif %}
+                            {%- endfor %} 
+                            {%- if config.insertZeroKey %}
                               AND "DIM"."{{ get_value_by_column_attribute("isSurrogateKey") }}" <> {{config.insertZeroKeySurrogateKey}}																	   										 
-                            {% endif %}
-                            {% if config.deleteStrategy == "SOFT DELETE" %}
+                            {%- endif %}
+                            {%- if config.deleteStrategy == "SOFT DELETE" %}
                                     AND "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" != '0'
-                            {% endif %}     
+                            {%- endif %}     
                              {{ get_clause(joinclause) }}   
-                 {% if config.groupByAll or config.lastModifiedComparison %}
+                 {%- if config.groupByAll or config.lastModifiedComparison %}
                      GROUP BY ALL
-                    {% endif %}
+                    {%- endif %}
                    {{ sortorder_by_colv() }}
                         )
-                    {% endif %} 
-                 {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+                    {%- endif %} 
+                 {%- if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
                      {{config.insertStrategy}}
-                {% endif %}
-        {% endfor %}
+                {%- endif %}
+        {%- endfor %}
                  )            
                 AS "SRC"
             ON
-            {% for col in columns if col.isBusinessKey -%}
-                {% if not loop.first %}
+            {%- for col in columns if col.isBusinessKey -%}
+                {%- if not loop.first %}
                     AND
-                {% endif %}
+                {%- endif %}
                 "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
-            {% endfor %}
+            {%- endfor %}
 
-            {% if (config.deleteStrategy == "SOFT DELETE"
+            {%- if (config.deleteStrategy == "SOFT DELETE"
                     or config.deleteStrategy == "HARD DELETE")
                     and node.isMultisource == false %}
 
                 WHEN MATCHED AND "SRC"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = '0'
-                {% if config.deleteStrategy == "HARD DELETE" %}
+                {%- if config.deleteStrategy == "HARD DELETE" %}
                     /* Hard delete rows */
                     THEN DELETE
-                {% else %}
+                {%- else %}
                     /* Soft delete rows */
                     THEN UPDATE SET
-                    {% for col in columns if (col.isSystemCurrentFlag
+                    {%- for col in columns if (col.isSystemCurrentFlag
                                                 or col.isSystemEndDate) %}
-                            {% if not loop.first %} , {% endif %}
+                            {%- if not loop.first %} , {% endif %}
                         "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
-                    {% endfor %}
-                {% endif %}
-            {% endif %}
+                    {%- endfor %}
+                {%- endif %}
+            {%- endif %}
 
             WHEN MATCHED
-             {%if not config.lastModifiedComparison%}
-                {% for col in includeColList if not (   col.isBusinessKey or
+             {%- if not config.lastModifiedComparison%}
+                {%- for col in includeColList if not (   col.isBusinessKey or
                                                         col.isSurrogateKey or
                                                         col.isSystemVersion or
                                                         col.isSystemCurrentFlag or
@@ -1321,13 +1308,13 @@ END
                                                         col.isSystemEndDate or
                                                         col.isSystemUpdateDate or
                                                         col.isSystemCreateDate) %}
-                    {% if loop.first %}
+                    {%- if loop.first %}
                         AND (
-                        {% else %}
+                        {%- else %}
                             OR
-                        {% endif %}
+                        {%- endif %}
 
-                    {% if col.dataType == 'GEOGRAPHY' %}
+                    {%- if col.dataType == 'GEOGRAPHY' %}
                         (
                             ST_DISTANCE(
                                 (CASE 
@@ -1340,7 +1327,7 @@ END
                                 END)
                             ) > 0
                         )
-                    {% elif col.dataType == 'GEOMETRY' %}
+                    {%- elif col.dataType == 'GEOMETRY' %}
                         (
                             ST_DISTANCE(
                                 
@@ -1354,21 +1341,21 @@ END
                                 END)
                             ) > 0
                         )
-                    {% else %}
+                    {%- else %}
                             (
                             
                                 NVL(CAST("SRC"."{{ col.name }}" AS STRING), '**NULL**') <> 
                                 NVL(CAST("TGT"."{{ col.name }}" AS STRING), '**NULL**')
                             )
-                    {% endif %}
+                    {%- endif %}
 
-                    {% if loop.last %}
+                    {%- if loop.last %}
                         )
-                    {% endif %}
-                {% endfor %}
-             {%else%}  
+                    {%- endif %}
+                {%- endfor %}
+             {%- else%}  
                     AND ("SRC".COMPARISON_VALUE > "SRC".MAX_TARGET_VALUE) 
-             {%endif%}     
+             {%- endif%}     
             THEN UPDATE SET
             {%- for col in includeColList if not (  col.isBusinessKey or
                                                     col.isSurrogateKey or
@@ -1377,22 +1364,22 @@ END
                                                     col.isSystemStartDate or
                                                     col.isSystemCreateDate) %}
                     "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
-                {% if not loop.last %}, {% endif %}
-            {% endfor %}
+                {%- if not loop.last %}, {% endif %}
+            {%- endfor %}
             WHEN NOT MATCHED THEN
             INSERT (
             {%- for col in columns if not col.isSurrogateKey %}
                 "{{ col.name }}"
-                {% if not loop.last %}, {% endif %}
-            {% endfor -%}
+                {%- if not loop.last %}, {%- endif %}
+            {%- endfor %}
             )
             VALUES (
             {%- for col in columns if not col.isSurrogateKey %}
                 "SRC"."{{ col.name }}"
-                {% if not loop.last %}, {% endif %}
-            {% endfor -%}
+                {%- if not loop.last %}, {%- endif %}
+            {%- endfor %}
             )
-		{% else %}
+		{%- else %}
 		 {{ stage('INSERT/UPDATE ' + ' Sources' | string) }}
 BEGIN
 
@@ -1481,12 +1468,10 @@ JOIN {{ ref_no_link(node.location.name, node.name) }}  TGT
                         ) > 0
                     )
                 {%- else %}
-                        (
-						   
+                        (  
                             NVL(CAST("SRC"."{{ col.name }}" AS STRING), '**NULL**') <> NVL(CAST("TGT"."{{ col.name }}" AS STRING), '**NULL**')
                         )
                     {%- endif %}
-
                     {%- if loop.last %}
                         )
                     {%- endif %}
@@ -1531,8 +1516,7 @@ FROM (
     {%- endfor %}
 ) SRC
 LEFT JOIN {{ ref_no_link(node.location.name, node.name) }}  TGT
-    ON
-    {%- for col in columns if col.isBusinessKey %}
+ON {%- for col in columns if col.isBusinessKey %}
         {%- if not loop.first %} AND {%- endif %}
         SRC."{{ col.name }}" = TGT."{{ col.name }}"
     {%- endfor %}
@@ -1541,10 +1525,8 @@ WHERE
         {%- if not loop.first %} AND {%- endif %}
         TGT."{{ col.name }}" IS NULL
     {%- endfor %};
-
 END;
-
-		{%- endif %}
+      {%- endif %}
     {%- endif %}
 
 {# == Queries to be excuted post data insertion  == #}
