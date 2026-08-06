@@ -19,7 +19,7 @@ operation:
       items:
         - {}
     excludeMergeToggle: false
-    groupByAll: false
+    groupByAll: true
     insertStrategy: UNION ALL
     insertZeroKey: true
     insertZeroKeyAdvanced: false
@@ -3136,13 +3136,20 @@ operation:
     sourceMapping:
       - aliases:
           WIDE_TABLE: b20f2831-140d-4db5-930e-29015de5a75a
+          WIDE_TABLE_SOURCE: a6523628-1bd4-450e-b84c-2c5be5d7adf4
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SOURCE_DATA
             nodeName: WIDE_TABLE
+          - locationName: SOURCE_DATA
+            nodeName: WIDE_TABLE_SOURCE
         join:
-          joinCondition: FROM {{ ref('SOURCE_DATA', 'WIDE_TABLE') }} "WIDE_TABLE"
+          joinCondition: |-
+            FROM {{ ref('SOURCE_DATA', 'WIDE_TABLE') }} "WIDE_TABLE"
+            INNER JOIN {{ ref( 'SOURCE_DATA', 'WIDE_TABLE_SOURCE') }} "WIDE_TABLE_SOURCE"
+            ON "WIDE_TABLE"."ID" = "WIDE_TABLE_SOURCE"."ID"
+            WHERE "WIDE_TABLE"."COL_001" = 50
         name: DIM_WIDE_TABLE1
         noLinkRefs: []
   name: DIM_WIDE_TABLE1

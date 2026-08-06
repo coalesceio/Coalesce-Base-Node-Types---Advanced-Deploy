@@ -1407,40 +1407,37 @@ SET
                                 col.isSystemEndDate or
                                 col.isSystemCreateDate) %}
     "{{ col.name }}" = SRC."{{ col.name }}"
-    {% if not loop.last %}, {% endif %}
+    {%- if not loop.last %}, {%- endif %}
 {%- endfor %}
 FROM (
-    {% for source in sources %}
+    {%- for source in sources %}
        ( SELECT
-        {% if config.selectDistinct %}
+        {%- if config.selectDistinct %}
         DISTINCT
-        {% endif %}
-        {% for col in source.columns if not col.isSurrogateKey %}
-            {% if col.isSystemVersion %}
+        {%- endif %}
+        {%- for col in source.columns if not col.isSurrogateKey %}
+            {%- if col.isSystemVersion %}
             	1
-            {% elif col.isSystemCurrentFlag %}
+            {%- elif col.isSystemCurrentFlag %}
             	'Y'
-            {% else %}
+            {%- else %}
                 {{ get_source_transform(col) }}
-            {% endif %}
-            AS "{{ col.name }}"
+            {%- endif %} AS "{{ col.name }}"
             {%- if not loop.last %}, {% endif %}
-        {% endfor %}
+        {%- endfor %}
         {{ source.join }}
-         {% if config.groupByAll %}
+         {%- if config.groupByAll %}
          GROUP BY ALL
-         {% endif %}
+         {%- endif %}
          {{ sortorder_by_colv() }} )     
-         {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+         {%- if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
              {{config.insertStrategy}}
-        {% endif %}
-    {% endfor %}
+        {%- endif %}
+    {%- endfor %}
 ) SRC
 JOIN {{ ref_no_link(node.location.name, node.name) }}  TGT
-    ON
-    {%- for col in columns if col.isBusinessKey %}
-        {% if not loop.first %} AND {% endif %}
-        SRC."{{ col.name }}" = TGT."{{ col.name }}"
+    ON {%- for col in columns if col.isBusinessKey %}
+        {%- if not loop.first %} AND {%- endif %} SRC."{{ col.name }}" = TGT."{{ col.name }}"
     {%- endfor %}
 
 {%- for col in columns if not (   col.isBusinessKey or
@@ -1451,12 +1448,12 @@ JOIN {{ ref_no_link(node.location.name, node.name) }}  TGT
                                   col.isSystemEndDate or
                                   col.isSystemUpdateDate or
                                   col.isSystemCreateDate) %}
-    {% if loop.first %}
+    {%- if loop.first %}
     WHERE (
-    {% else %}
+    {%- else %}
     OR
-    {% endif %}
-               {% if col.dataType == 'GEOGRAPHY' %}
+    {%- endif %}
+               {%- if col.dataType == 'GEOGRAPHY' %}
                     (
                         ST_DISTANCE(
                             (CASE 
@@ -1469,7 +1466,7 @@ JOIN {{ ref_no_link(node.location.name, node.name) }}  TGT
                             END)
                         ) > 0
                     )
-                {% elif col.dataType == 'GEOMETRY' %}
+                {%- elif col.dataType == 'GEOMETRY' %}
                     (
                         ST_DISTANCE(
 							
@@ -1483,18 +1480,17 @@ JOIN {{ ref_no_link(node.location.name, node.name) }}  TGT
                             END)
                         ) > 0
                     )
-                {% else %}
+                {%- else %}
                         (
 						   
-                            NVL(CAST("SRC"."{{ col.name }}" AS STRING), '**NULL**') <> 
-                            NVL(CAST("TGT"."{{ col.name }}" AS STRING), '**NULL**')
+                            NVL(CAST("SRC"."{{ col.name }}" AS STRING), '**NULL**') <> NVL(CAST("TGT"."{{ col.name }}" AS STRING), '**NULL**')
                         )
-                    {% endif %}
+                    {%- endif %}
 
-                    {% if loop.last %}
+                    {%- if loop.last %}
                         )
-                    {% endif %}
-                {% endfor %};
+                    {%- endif %}
+                {%- endfor %};
 
 -- Step 2: INSERT new rows
 INSERT INTO {{ ref_no_link(node.location.name, node.name) }}  (
