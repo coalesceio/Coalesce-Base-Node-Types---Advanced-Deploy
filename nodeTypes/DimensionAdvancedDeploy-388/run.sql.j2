@@ -1496,57 +1496,56 @@ JOIN {{ ref_no_link(node.location.name, node.name) }}  TGT
 INSERT INTO {{ ref_no_link(node.location.name, node.name) }}  (
 {%- for col in columns if not col.isSurrogateKey %}
     "{{ col.name }}"
-    {% if not loop.last %}, {% endif %}
+    {%- if not loop.last %}, {%- endif %}
 {%- endfor %}
 )
 SELECT
 {%- for col in columns if not col.isSurrogateKey %}
     SRC."{{ col.name }}"
-    {% if not loop.last %}, {% endif %}
+    {%- if not loop.last %}, {%- endif %}
 {%- endfor %}
 FROM (
-    {% for source in sources %}
+    {%- for source in sources %}
        ( SELECT
-        {% if config.selectDistinct %}
+        {%- if config.selectDistinct %}
         DISTINCT
-        {% endif %}
-        {% for col in source.columns if not col.isSurrogateKey %}
-            {% if col.isSystemVersion %}
+        {%- endif %}
+        {%- for col in source.columns if not col.isSurrogateKey %}
+            {%- if col.isSystemVersion %}
             	1
-            {% elif col.isSystemCurrentFlag %}
+            {%- elif col.isSystemCurrentFlag %}
             	'Y'
-            {% else %}
+            {%- else %}
                 {{ get_source_transform(col) }}
-            {% endif %}
-            AS "{{ col.name }}"
-            {%- if not loop.last %}, {% endif %}
-        {% endfor %}
+            {%- endif %} AS "{{ col.name }}"
+            {%- if not loop.last %}, {%- endif %}
+        {%- endfor %}
         {{ source.join }}
-         {% if config.groupByAll %}
+         {%- if config.groupByAll %}
          GROUP BY ALL
-         {% endif %}
+         {%- endif %}
          {{ sortorder_by_colv() }} )     
-         {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+         {%- if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
              {{config.insertStrategy}}
-        {% endif %}
-    {% endfor %}
+        {%- endif %}
+    {%- endfor %}
 ) SRC
 LEFT JOIN {{ ref_no_link(node.location.name, node.name) }}  TGT
     ON
     {%- for col in columns if col.isBusinessKey %}
-        {% if not loop.first %} AND {% endif %}
+        {%- if not loop.first %} AND {%- endif %}
         SRC."{{ col.name }}" = TGT."{{ col.name }}"
     {%- endfor %}
 WHERE
     {%- for col in columns if col.isBusinessKey %}
-        {% if not loop.first %} AND {% endif %}
+        {%- if not loop.first %} AND {%- endif %}
         TGT."{{ col.name }}" IS NULL
     {%- endfor %};
 
 END;
 
-		{% endif %}
-    {% endif %}
+		{%- endif %}
+    {%- endif %}
 
 {# == Queries to be excuted post data insertion  == #}
 
