@@ -50,7 +50,7 @@ operation:
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
-    type2Dimension: false
+    type2Dimension: true
     updateStrategy: MERGE
   database: ""
   deployEnabled: true
