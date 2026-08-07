@@ -15,8 +15,12 @@
 - **Work nodes**  
   Temporary or intermediate processing layers used during transformations. They support complex logic and performance optimization but are not intended for direct business consumption.
 
+- **SQL Work nodes** 
+
+  Temporary or intermediate processing layers used during data transformations. These nodes support complex transformation logic, improve pipeline performance, and serve as building blocks for downstream processing. They are not intended for direct business consumption. Supports Columns and CTEs in the V2 node format.
+
 - **External Sync**
-    Integrate Snowflake objects managed by external pipelines into the Coalesce DAG for passive lineage and mapping. They allow you to reference and map data created outside of Coalesce without requiring the tool to own the DDL or DML.     
+  Integrate Snowflake objects managed by external pipelines into the Coalesce DAG for passive lineage and mapping. They allow you to reference and map data created outside of Coalesce without requiring the tool to own the DDL or DML.     
 
 **Summary:**  
 Together, these node types ensure data is accurate, reusable, scalable, and aligned with business reporting and decision-making needs.
@@ -25,41 +29,41 @@ Together, these node types ensure data is accurate, reusable, scalable, and alig
 
 ## Nodetypes Config Matrix
 
-| Category | Feature                         | Dim | Fact | Factless | Work | PStage | External Sync |
-|----------|----------------------------------|-----|------|----------|------|--------|--------|
-| Create   | Create As Table                  | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
-| Create   | Create As Transient Table        | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
-| Create   | Create As View                   | ✅  | ✅   | ⬜       | ✅   | ⬜     | ✅     |
-| Create   | Create with Override SQL         | ✅  | ✅   | ⬜       | ✅   | ⬜     | ✅     |
-| Create   | Primary Key                      | ✅  | ✅   | ⬜       | ⬜   | ⬜     | ⬜     |
-| Create   | Cluster Key                      | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
-| Create   | Deploy Execute                   | ⬜  | ⬜   | ⬜       | ⬜   | ⬜     | ✅     |
-| Load     | MultiSource                      | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
-| Load     | Insert Strategy                  | ✅  | ✅   | ✅       | ✅   | ✅     | ⬜     |
-| Load     | Update Strategy                  | ✅  | ⬜   | ⬜       | ⬜   | ⬜     | ⬜     |
-| Load     | Unmatched Record Strategy        | ✅  | ⬜   | ⬜       | ⬜   | ⬜     | ⬜     |
-| Load     | Enable Source Soft Delete Handling | ⬜  | ✅   | ✅       | ⬜   | ⬜     | ⬜     |
-| Load     | Source Delete Strategy           | ⬜  | ✅   | ✅       | ⬜   | ⬜     | ⬜     |
-| Load     | Source Deleted Record Indicator  | ⬜  | ✅   | ✅       | ⬜   | ⬜     | ⬜     |
-| Load     | Business Key                     | ✅  | ✅   | ⬜       | ⬜   | ✅     | ⬜     |
-| Load     | Last Modified Comparison         | ✅  | ✅   | ⬜       | ⬜   | ✅     | ⬜     |
-| Load     | Lookback Days                    | ⬜  | ✅   | ✅       | ⬜   | ⬜     | ⬜     |
-| Load     | Change Tracking                  | ✅  | ⬜   | ⬜       | ⬜   | ✅     | ⬜     |
-| Load     | Delete Strategy(source DML-flag based)                  | ⬜  | ⬜   | ⬜       | ⬜   | ✅     | ⬜     |
-| Load     | Column that Identifies DML Operations(DELETE) | ⬜  | ⬜   | ⬜       | ⬜   | ✅     | ⬜     |
-| Load     | Delete Value | ⬜  | ⬜   | ⬜       | ⬜   | ✅     | ⬜     |
-| Load     | Exclude Columns from Merge       | ✅  | ✅   | ⬜       | ⬜   | ✅     | ⬜     |
-| Load     | Truncate Before                  | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
-| Load     | Distinct                         | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
-| Load     | Group By All                     | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
-| Load     | Order By                         | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
-| Load     | Insert Zero Key Record           | ✅  | ⬜   | ⬜       | ⬜   | ⬜     | ⬜     |
-| Load     | ASOF Join Options                | ⬜  | ⬜   | ⬜       | ✅   | ⬜     | ✅     |
-| Load     | Methods                          | MERGE<br/>INSERT/UPDATE | MERGE<br/>INSERT | MERGE |INSERT | MERGE<br/>INSERT |INSERT |
-| Load     | Run Execute                      | ⬜  | ⬜   | ⬜       | ⬜   | ⬜     | ✅     |
-| Others   | Enable Tests                     | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
-| Others   | Pre-SQL                          | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
-| Others   | Post-SQL                         | ✅  | ✅   | ✅       | ✅   | ✅     | ✅     |
+| Category | Feature                         | Dim | Fact | Factless | Work | SQL Work | PStage | External Sync |
+|----------|----------------------------------|-----|------|----------|------|------|--------|--------|
+| Create   | Create As Table                  | ✅  | ✅   | ✅       | ✅   | ✅   | ✅     | ✅     |
+| Create   | Create As Transient Table        | ✅  | ✅   | ✅       | ✅   | ✅   | ✅     | ✅     |
+| Create   | Create As View                   | ✅  | ✅   | ⬜       | ✅   | ✅   | ⬜     | ✅     |
+| Create   | Create with Override SQL         | ✅  | ✅   | ⬜       | ✅   | ⬜     | ⬜     | ✅     |
+| Create   | Primary Key                      | ✅  | ✅   | ⬜       | ⬜   | ⬜   | ⬜     | ⬜     |
+| Create   | Cluster Key                      | ✅  | ✅   | ✅       | ✅   | ✅   | ✅     | ✅     |
+| Create   | Deploy Execute                   | ⬜  | ⬜   | ⬜       | ⬜   | ⬜   | ⬜     | ✅     |
+| Load     | MultiSource                      | ✅  | ✅   | ✅       | ✅   | CTE Support | ✅   | ✅ |
+| Load     | Insert Strategy                  | ✅  | ✅   | ✅       | ✅   | ⬜     | ✅     | ⬜     |
+| Load     | Update Strategy                  | ✅  | ⬜   | ⬜       | ⬜   | ⬜     | ⬜     | ⬜     |
+| Load     | Unmatched Record Strategy        | ✅  | ⬜   | ⬜       | ⬜   | ⬜   | ⬜     | ⬜     |
+| Load     | Enable Source Soft Delete Handling | ⬜  | ✅   | ✅       | ⬜   | ⬜   | ⬜     | ⬜     |
+| Load     | Source Delete Strategy           | ⬜  | ✅   | ✅       | ⬜   | ⬜   | ⬜     | ⬜     |
+| Load     | Source Deleted Record Indicator  | ⬜  | ✅   | ✅       | ⬜   | ⬜   | ⬜     | ⬜     |
+| Load     | Business Key                     | ✅  | ✅   | ⬜       | ⬜   | ⬜   | ✅     | ⬜     |
+| Load     | Last Modified Comparison         | ✅  | ✅   | ⬜       | ⬜   | ⬜   | ✅     | ⬜     |
+| Load     | Lookback Days                    | ⬜  | ✅   | ✅       | ⬜   | ⬜   | ⬜     | ⬜     |
+| Load     | Change Tracking                  | ✅  | ⬜   | ⬜       | ⬜   | ⬜   | ✅     | ⬜     |
+| Load     | Delete Strategy(source DML-flag based)  | ⬜  | ⬜ | ⬜  | ⬜   | ⬜   | ✅     | ⬜     |
+| Load     | Column that Identifies DML Operations(DELETE) | ⬜  | ⬜ | ⬜ | ⬜ | ⬜ | ✅    | ⬜     |
+| Load     | Delete Value                     | ⬜  | ⬜   | ⬜       | ⬜   | ⬜   | ✅     | ⬜     |
+| Load     | Exclude Columns from Merge       | ✅  | ✅   | ⬜       | ⬜   | ⬜   | ✅     | ⬜     |
+| Load     | Truncate Before                  | ✅  | ✅   | ✅       | ✅   | ✅   | ✅     | ✅     |
+| Load     | Distinct                         | ✅  | ✅   | ✅       | ✅   | ✅   | ✅     | ✅     |
+| Load     | Group By All                     | ✅  | ✅   | ✅       | ✅   | ✅   | ✅     | ✅     |
+| Load     | Order By                         | ✅  | ✅   | ✅       | ✅   | ✅   | ✅     | ✅     |
+| Load     | Insert Zero Key Record           | ✅  | ⬜   | ⬜       | ⬜   | ⬜   | ⬜     | ⬜     |
+| Load     | ASOF Join Options                | ⬜  | ⬜   | ⬜       | ✅   | ✅   | ⬜     | ✅     |
+| Load     | Methods                          | MERGE<br/>INSERT/UPDATE | MERGE<br/>INSERT | MERGE |INSERT |INSERT | MERGE<br/>INSERT |INSERT |
+| Load     | Run Execute                      | ⬜  | ⬜   | ⬜       | ⬜   | ⬜   | ⬜     | ✅     |
+| Others   | Enable Tests                     | ✅  | ✅   | ✅       | ✅   | ✅   | ✅     | ✅     |
+| Others   | Pre-SQL                          | ✅  | ✅   | ✅       | ✅   | ✅   | ✅     | ✅     |
+| Others   | Post-SQL                         | ✅  | ✅   | ✅       | ✅   | ✅   | ✅     | ✅     |
 
 ---
 
@@ -68,6 +72,7 @@ Together, these node types ensure data is accurate, reusable, scalable, and alig
 The Coalesce Base Node Types Package includes:
 
 * [Work Advanced Deploy](#work-advanced-deploy)
+* [SQL Work Advanced Deploy](#work-advanced-deploy)
 * [Persistent Stage Advanced Deploy](#persistent-stage-advanced-deploy)
 * [Dimension Advanced Deploy](#dimension-advanced-deploy)
 * [Fact Advanced Deploy](#fact-advanced-deploy)
@@ -116,7 +121,7 @@ You can create the node as:
 | **Setting** | **Description** |
 |---------|-------------|
 | **Create As**| Table|
-| **Cluster key** | Toggle: True/False <br/> If the dimension is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
+| **Cluster key** | Toggle: True/False <br/> If the table is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
 | **Truncate Before** | Toggle: True/False<br/>Determines whether the table is truncated before execution.<br/>**True**: Table is truncated before the DML operation runs.<br/>**False**: The DML operation runs without truncation. |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
@@ -132,7 +137,6 @@ You can create the node as:
 | **Setting** | **Description** |
 |---------|-------------|
 | **Create As**| View|
-| **Cluster key** | Toggle: True/False <br/> If the dimension is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
 | **Truncate Before** | Toggle: True/False<br/>Determines whether the table is truncated before execution.<br/>**True**: Table is truncated before the DML operation runs.<br/>**False**: The DML operation runs without truncation. |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
@@ -145,7 +149,7 @@ You can create the node as:
 | **Setting** | **Description** |
 |---------|-------------|
 | **Create As**| Transient Table|
-| **Cluster key** | Toggle: True/False <br/> If the dimension is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
+| **Cluster key** | Toggle: True/False <br/> If the table is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
 | **Truncate Before** | Toggle: True/False<br/>Determines whether the table is truncated before execution.<br/>**True**: Table is truncated before the DML operation runs.<br/>**False**: The DML operation runs without truncation. |
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
@@ -196,7 +200,7 @@ After the WORK node with materialization type table/transient table/view has bee
 
 #### Altering the Work Tables and Transient Tables
 
-A few types of column or table changes will result in an ALTER statement to modify the Persistent Table in the target environment, whether these changes are made individually or all together:
+A few types of column or table changes will result in an ALTER statement to modify the Work Table in the target environment, whether these changes are made individually or all together:
 
 1. Changing table names
 2. Dropping existing columns
@@ -269,6 +273,406 @@ This is executed in below stage:
 
 ---
 
+## SQL Work Advanced Deploy
+
+The Coalesce SQL Work Node is a versatile node that allows you to develop and deploy a SQL Work table/view in Snowflake.
+
+The SQL Work node is a powerful transformation tool within Coalesce that allows developers to write custom, hand-coded SQL instead of using the standard graphical column-mapping interface. It is ideal for complex transformations, advanced window functions, or multi-step logic that is difficult to represent with the standard UI. While it provides maximum flexibility, it shifts the responsibility of column definition and logic maintenance to the SQL author.
+
+This pivotal step ensures that the raw data is processed and structured effectively.
+
+### SQL Work Advanced Deploy Node Configuration
+
+The SQL Work node type has two configuration groups:
+
+* [Node Properties](#sql-work-advanced-deploy-node-properties)
+* [General Options](#sql-work-advanced-deploy-general-options)
+* [Control Options](#sql-work-advanced-deploy-control-options)
+
+#### SQL Work Advanced Deploy Node Properties
+
+| **Setting** | **Description** |
+|----------|-------------|
+| **Storage Location** | Storage Location where the WORK will be created |
+
+#### Work Advanced Deploy Options
+
+You can create the node as:
+
+* [Table/Transient Table](#sql-work-advanced-deploy-create-as-table)
+* [View](#sql-work-advanced-deploy-create-as-view)
+
+#### SQL Work Advanced Deploy Create as Table
+
+| **Setting** | **Description** |
+|---------|-------------|
+| **Create As**| Table/Transient Table|
+| **Cluster By** | Toggle: **True / False** <br/> Determines whether clustering is applied to the table. <br/> **True**: Enables the following options: <br/>&emsp;• **Cluster By Expression**: Specify a clustering expression <br/>&emsp;• **Cluster By Column**: Select a column from dropdown <br/>**Note:** Specify either a clustering expression **or** a clustering column. Clustering is applied in the order defined in the configuration. <br/> **False**: No clustering is applied. |
+| **Truncate Before** | Toggle: True/False<br/>Determines whether the table is truncated before execution.<br/>**True**: Table is truncated before the DML operation runs.<br/>**False**: The DML operation runs without truncation. |
+| **Distinct** | Toggle: True/False<br/>**True**: Group by All is invisible. DISTINCT data is chosen for processing.<br/>**False**: Group by All is visible. |
+| **Group By All** | Toggle: True/False<br/>**True**: DISTINCT is invisible, data grouped by all columns<br/>**False**: DISTINCT is visible |
+| **Order By** | Toggle: True/False<br/>**True**: Sort column and sort order drop down are visible and are required to form order by clause. <br/>**False**: Sort options invisible |
+| **ASOF Join** | Toggle: True/False<br/>**True**: ASOF Join Options will be visible. <br/>**False**: ASOF Join Options will be invisible |
+
+### SQL Work Advanced Deploy Control Options
+
+| **Property** | **Description** |
+|---------|-------------|
+| **Enable tests ¹** | Toggle: True or False<br/>Determines if tests are enabled |
+| **Pre-SQL** | SQL to execute before data insert operation |
+| **Post-SQL** | SQL to execute after data insert operation |
+
+### SQL Work Advanced Deploy ASOF Join Options
+
+| **Property** | **Description** |
+|---------|-------------|
+| **Right Table Storage Location** | Storage location of the right table used in the ASOF Join. |
+| **Right Table Name** | Name of the right table to join against. |
+| **Match Condition** | Condition used to identify the nearest matching row. Example: `Table1.matchColumn >= Table2.matchColumn`. |
+| **Join Type** | Specifies how join columns are referenced. Supported values: `ON`, `USING`. |
+| **Join Condition** | Join predicate used with the selected Join Type. |
+
+### Column-Level Annotations
+
+| **Property** | **Description** |
+|---------|-------------|
+| `@nullable("false")`<br/>`@nullable(false)` | Marks column as NOT NULL |
+| `@description("<text>")` | Adds column description |
+| `@defaultValue("<text>")`<br/>`@defaultValue(<number>)`<br/>`@defaultValue(<bool>)` | Adds default value |
+| `@tests("null", "unique")` | Column tests are more restrictive and apply directly to individual columns.<br/>**Supported Tests**<br/>- **null** → Checks for NULL values<br/>- **unique** → Checks to ensure all values are unique |
+| `@inHash("<hash_order>\|<hash_name>")` **²** | Generates a hash key by combining and hashing the values of columns associated with a given hash group, ensuring consistent change detection and key generation.<br/>**Default:** Uses `SHA1` algorithm. |
+| `@previousName("<text>")` **³** | To rename a column, add this annotation to the renamed column and specify the original column name. |
+
+#### SQL Work Advanced Deploy Create as View
+
+| **Setting** | **Description** |
+|---------|-------------|
+| **Create As**| View|
+| **Distinct** | Toggle: True/False<br/>**True**: Group by All is invisible. DISTINCT data is chosen for processing.<br/>**False**: Group by All is visible. |
+| **Group by All** | Toggle: True/False<br/>**True**: DISTINCT is invisible, data grouped by all columns<br/>**False**: DISTINCT is visible |
+| **ASOF Join** | Toggle: True/False<br/>**True**: ASOF Join Options will be visible. <br/>**False**: ASOF Join Options will be invisible |
+
+### SQL Work Advanced Deploy Control Options
+
+| **Property** | **Description** |
+|---------|-------------|
+| **Enable tests ¹** | Toggle: True or False<br/>Determines if tests are enabled |
+
+### Notes
+
+- Verify that all **column datatypes** are successfully resolved before creating the object. Columns with an `UNKNOWN` datatype may cause stage generation or runtime failures.
+- `@nullable` defaults to **true**. Use `@nullable("false")` to enforce NOT NULL.
+- **¹** Tests are performed only when `Enable tests` is ON
+    ```text
+    @tests("<SQL Query>", "<Run Order>", <Continue On Failure>)
+    ```
+    | Parameter | Description |
+    |-----------|-------------|
+    | SQL Query | SQL statement to execute as a validation test. The test fails if the query returns any records. |
+    | Run Order | `Before` or `After`. Determines whether the test is executed before or after the load operation. |
+    | Continue On Failure | `true` or `false`. Determines whether execution continues when the test fails. |
+    
+    **Examples**
+    
+    ```text
+    @tests("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 1", "Before", true)
+    
+    @tests("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 1", "After", true)
+    ```
+- **²** The hash transformation can be defined either using the reusable macro or by writing the full hash expression explicitly. Both approaches are supported and will produce the same result. Choose the macro approach for better reusability and cleaner code, or use the explicit expression when custom logic is required.
+
+    #### Examples:
+    
+    Using hash macro(default-SHA1)
+    ```sql
+    <col_name> AS <col_name> @inHash("1|GH_COL"),
+    {{ get_hash('GH_COL') }}::STRING AS "GH_COL"
+    ```
+    Using hash macro(MD5)
+    ```sql
+    <col_name> AS <col_name> @inHash("1|GH_COL"),
+    {{ get_hash('GH_COL', 'MD5') }}::STRING AS "GH_COL"<SHA256
+    ```
+    Using hash macro(SHA256)
+    ```sql
+    <col_name> AS <col_name> @inHash("1|GH_COL"),
+    {{ get_hash('GH_COL', 'SHA256') }}::STRING AS "GH_COL"
+    ```
+    Using hash macro(algo=SHA256, delimeter='~' )
+    ```sql
+    <col_name> AS <col_name> @inHash("1|GH_COL"),
+    {{ get_hash('GH_COL', 'SHA256', '~') }}::STRING AS "GH_COL"
+    ```
+    Using multiple keys hash macro
+    ```sql
+    <col_name1> AS <col_name1> @inHash("1|GH_COL"),
+    <col_name2> AS <col_name2> @inHash("2|GH_COL"),
+    {{ get_hash('GH_COL') }}::STRING AS "GH_COL_COMBINED"
+    ```
+    Using multiple hash macros
+    ```sql
+    <col_name1> AS <col_name1> @inHash("1|GH_COL1", "2|GH_COL2"),
+    <col_name2> AS <col_name2> @inHash("2|GH_COL1"),
+    <col_name3> AS <col_name3> @inHash("1|GH_COL2"),
+    {{ get_hash('GH_COL1') }}::STRING AS "GH_COL_COMBINED1",
+    {{ get_hash('GH_COL2') }}::STRING AS "GH_COL_COMBINED2"
+    ```
+    Using explicit expression:
+    ```sql
+    CAST(
+      SHA1(
+        NVL(CAST(<col_name> AS VARCHAR), 'null')
+      ) AS STRING
+    )::STRING AS "GH_Key"
+    ```
+- **³** If the `previousName` annotation is missing or doesn't match the original column name while redeployment, it will fall back to the existing behavior of dropping and recreating the column.
+    #### Example:
+    ```sql
+        "N_NAME" AS "NATION_FULLNAME" @previousName("N_NAME"),
+    ```
+- It's a good practice to remove the `previousName` annotation after the deployment is complete. This avoids unnecessary comparisons in future deployments and prevents any confusion.
+---
+
+### Known Limitations
+
+Users should be aware of the following technical constraints when using SQL:
+
+* **Parsable SQL Only**:
+ The node only supports SQL that can be fully parsed by the platform’s engine. Non-standard SQL or vendor-specific "semantic views" that bypass standard parsing will not work.
+
+* **SELECT Statements Only**:  
+This node only supports data retrieval and transformation logic. DML or DDL commands such as `CREATE`, `MERGE`, `DELETE`, `UPDATE`, or `TRUNCATE` are not supported and will cause execution failures.
+
+* **Support for `DISTINCT`, `UNION`, and `UNION ALL`**:  
+`DISTINCT`, `UNION`, and `UNION ALL` are fully supported when used within **Common Table Expressions (CTEs)**. While these keywords can also be used in standard `SELECT` statements without generating an error, they may not parsed correctly by the platform. As a result, subsequent clauses (such as `JOIN`s) may be interpreted as part of a standard join structure, causing the generated SQL to differ from the intended query and potentially leading to inconsistent data loads. To ensure the SQL is parsed and executed as expected, always implement these operations inside a CTE.
+
+---
+
+### Usage Examples 
+
+The following patterns represent common ways to use the SQL Node.<br/>
+
+**Sample node with Annotations**
+```sql
+SELECT
+     "N_NATIONKEY" AS "N_NATIONKEY" @nullable("false") @inHash("1|GH_COL"),
+     "N_NAME" AS "N_NAME" @defaultValue("NA"),
+     "N_REGIONKEY" AS "N_REGIONKEY" @description("region key"),
+     "N_COMMENT" AS "N_COMMENT" @inHash("2|GH_COL"),
+     "N_LOAD_TIMESTAMP" AS "N_LOAD_TIMESTAMP" @tests("null", "unique"),
+     {{ get_hash('GH_COL') }}::STRING AS "GH_COL"
+FROM {{ ref('SRC', 'NATION') }} "NATION"
+```
+**Basic Transformation & Cleaning** - Standard pattern for renaming columns and handling nulls.
+
+```sql
+SELECT
+     "O_ORDERKEY" AS "O_ORDERKEY",
+     "O_CUSTKEY" AS "O_CUSTKEY",
+     UPPER("O_ORDERSTATUS") AS "O_ORDERSTATUS",
+     COALESCE("O_TOTALPRICE", 0) AS "O_TOTALPRICE",
+     "O_ORDERDATE" AS "O_ORDERDATE"
+FROM {{ ref('SRC', 'ORDERS') }} "ORDERS"
+WHERE "O_ORDERSTATUS" != 'F'
+```
+**Using CTEs (Common Table Expressions)** - For more complex, multi-step logic
+
+```sql
+WITH PRIORITY_COUNTS AS (
+    SELECT 
+        "O_ORDERPRIORITY" AS "O_ORDERPRIORITY",
+        COUNT(*) AS ORDER_COUNT
+    FROM {{ ref('SRC', 'ORDERS') }}
+    GROUP BY 1
+)
+SELECT * FROM PRIORITY_COUNTS
+```
+**Multi-CTE Transformation With Window Functions** <br/>
+Complex transformations that would otherwise require multiple nodes can be written as a single SQL statement. Coalesce tracks lineage through each CTE and down to the source tables
+```sql
+WITH ORDERED_ORDERS AS (
+-- CTE 1: Rank every order for each customer by date
+SELECT
+O_CUSTKEY,
+O_ORDERKEY,
+O_ORDERDATE,
+O_TOTALPRICE,
+O_ORDERSTATUS,
+ROW_NUMBER() OVER (
+PARTITION BY O_CUSTKEY
+ORDER BY O_ORDERDATE ASC, O_ORDERKEY ASC
+) AS ORDER_RANK
+FROM {{ ref('SRC', 'ORDERS') }}
+),
+FIRST_ORDERS AS (
+-- CTE 2: Filter to keep only the first order (rank 1) for each customer
+SELECT
+O_CUSTKEY,
+O_ORDERKEY AS FIRST_ORDER_ID,
+O_ORDERDATE AS FIRST_PURCHASE_DATE,
+O_TOTALPRICE AS FIRST_ORDER_VALUE,
+O_ORDERSTATUS
+FROM ORDERED_ORDERS
+WHERE ORDER_RANK = 1
+)
+-- Final Select: Add metadata and return the results
+SELECT
+F.O_CUSTKEY,
+F.FIRST_ORDER_ID,
+F.FIRST_PURCHASE_DATE,
+F.FIRST_ORDER_VALUE,
+F.O_ORDERSTATUS @nullable(false),
+CURRENT_TIMESTAMP() AS REFRESHED_AT,
+'Initial Customer Purchase' AS RECORD_TYPE
+FROM FIRST_ORDERS F
+```
+**Using Recursive CTE - Date Series**
+```sql
+WITH RECURSIVE RCTE_FNL AS (
+    SELECT TO_DATE('2025-01-01') AS "date_s"
+    UNION ALL
+    SELECT DATEADD(day, 1, "date_s") AS "date_s"
+    FROM RCTE_FNL
+    where "date_s" < TO_DATE('2025-01-10')
+  )
+SELECT "date_s"
+FROM RCTE_FNL
+```
+**Using Recursive CTE - Classic Employee**
+```sql
+WITH RECURSIVE RCTE_FINAL AS (
+
+    -- Anchor clause: top-level employees (no manager)
+    SELECT
+        "EMPLOYEES_RECUR"."EMPLOYEE_ID"  AS "EMPLOYEE_ID",
+        1                                AS "LEVEL",
+        "EMPLOYEES_RECUR"."TITLE"        AS "TITLE",
+        "EMPLOYEES_RECUR"."MANAGER_ID"   AS "MANAGER_ID"
+    FROM {{ ref('SRC', 'EMPLOYEES_RECUR') }} AS "EMPLOYEES_RECUR"
+    WHERE "EMPLOYEES_RECUR"."MANAGER_ID" IS NULL
+
+    UNION ALL
+
+    -- Recursive clause: employees reporting to someone in the CTE
+    SELECT
+        "EMPLOYEES_RECUR"."EMPLOYEE_ID"  AS "EMPLOYEE_ID",
+        "RCTE_FINAL"."LEVEL" + 1         AS "LEVEL",
+        "EMPLOYEES_RECUR"."TITLE"        AS "TITLE",
+        "EMPLOYEES_RECUR"."MANAGER_ID"   AS "MANAGER_ID"
+    FROM {{ ref('SRC', 'EMPLOYEES_RECUR') }} AS "EMPLOYEES_RECUR"
+    JOIN RCTE_FINAL
+        ON "EMPLOYEES_RECUR"."MANAGER_ID" = "RCTE_FINAL"."EMPLOYEE_ID"
+)
+
+SELECT
+    "LEVEL"          AS "LEVEL",
+    "TITLE"::VARCHAR AS "TITLE"
+FROM RCTE_FINAL
+```
+**Using CTE for multisource combine**
+```sql
+WITH ALL_NATIONS AS (
+    SELECT *
+    FROM {{ ref('SOURCE_DATA', 'NATION_COPY1') }}
+    UNION
+    SELECT *
+    FROM {{ ref('SOURCE_DATA', 'NATION_COPY2') }}
+)
+SELECT * FROM ALL_NATIONS
+```
+
+### Supported SQL Functionality
+
+- **Multi-Source Joins & Enrichment:** The ability to reference and join multiple upstream nodes (e.g., Joining ORDERS and CUSTOMER) within a single stage to flatten data or create enriched wide tables while maintaining full lineage for every source.
+
+- **Conditional Logic via CASE Statements:** Support for complex business rules and data categorization using standard CASE WHEN syntax to create derived columns based on multiple logical conditions.
+
+ - **Flexible Projection (SELECT * with Expressions):** Enhanced projection capabilities that allow for selecting all columns from a source (`SELECT *`) while simultaneously appending new calculated expressions, timestamps, or metadata in the same statement.
+
+- **Nested Subqueries:** Support for correlated and non-correlated subqueries within SELECT, FROM, or WHERE clauses, enabling granular filtering and complex lookups that don't require separate nodes.
+
+- **Common Table Expressions (CTEs)**: Support for standard `WITH` clauses to break down complex, multi-step transformation logic into readable, modular blocks. Coalesce tracks lineage through each CTE and back to the source tables.
+
+- **Recursive CTEs**: Full support for `WITH` RECURSIVE logic, enabling the transformation of hierarchical data and the programmatic generation of data sequences within a single node.
+  
+- If a CTE is referenced in templates that may include joins, always use a **table alias** and qualify all column references with that alias. This prevents ambiguous column errors and ensures the template remains extensible as additional joins are introduced.
+
+----
+
+### SQL Work Advanced Deploy Deployment
+
+#### SQL Work Advanced Deploy Initial Deployment
+
+When deployed for the first time into an environment the SQL Work node of materialization type table or view will execute the below stage:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create SQL Work Table** | This will execute a CREATE OR REPLACE statement and create a table in the target environment |
+| **Create SQL Work View** | This will execute a CREATE OR REPLACE statement and create a view in the target environment |
+
+#### SQL Work Advanced Deploy Redeployment
+
+After the SQL Work node with materialization type table/transient table/view has been deployed for the first time into a target environment, subsequent deployments may result in either altering the SQL Work Table or recreating the SQL Work table.
+
+#### Altering the SQL Work Tables and Transient Tables
+
+A few types of column or table changes will result in an ALTER statement to modify the Work Table in the target environment, whether these changes are made individually or all together:
+
+1. Changing table names
+2. Dropping existing columns
+3. Altering column data types
+4. Adding new columns
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Rename Table\| Alter Column \| Delete Column \| Add Column \| Edit table description** | Alter table statement is executed to perform the alter operation|
+
+Sometimes, changes to config can result in metadata changes from node edits, DML changes, or storage updates. A few cases are listed below:
+
+1. Changes in join clauses
+2. Transformations made at column level
+3. Changing DML options like DISTINCT, ORDER BY, GROUP BY ALL
+
+And many more. Most of the time, specific ‘is’ and ‘was’ values will be displayed to specifically show what changed.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A metadata update stage would run |
+
+#### SQL Work Advanced Deploy Recreating the SQL Work Views
+
+The subsequent deployment of SQL Work node of materialization type view with changes in view definition, adding table description or renaming view results in deleting the existing view and recreating the view.
+
+The following stages are executed:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Create View** | Creates a new view with updated definition |
+
+#### SQL Work Advanced Deploy Drop and Recreate SQL Work View/Table/Transient Table
+
+| **Change** | **Stages Executed** |
+|------------|-------------------|
+| **View to table/transient table** |  Drop view <br/> Create or Replace SQL Work table/transient table |
+| **Table/transient table to View** |  Drop table/transient table<br/> Create SQL Work view |
+| **Table to transient table or vice versa** |  Drop table/transient table<br/> Create or Replace SQL Work table/transient table |
+
+### SQL Work Advanced Deploy Undeployment
+
+If a SQL Work Node of materialization type table/view/transient table are deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher level environment then the WorkTable in the target environment will be dropped.
+
+This is executed in below stage:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop table/view** | Removes the table or view from the environment |
+
+---
+
 ## Persistent Stage Advanced Deploy
 
 The Coalesce Persistent Stage Nodes element, serving as an intermediary object, is frequently utilized to maintain data persistence across multiple execution cycles.
@@ -288,7 +692,7 @@ The Persistent node type has two configuration groups:
 
 | **Setting** | **Description** |
 |----------|-------------|
-| **Storage Location** | Storage Location where the WORK will be created |
+| **Storage Location** | Storage Location where the stage will be created |
 | **Node Type** | Name of template used to create node objects |
 | **Description** | A description of the Node's purpose |
 | **Deploy Enabled** |  If TRUE the node will be deployed or redeployed when changes are detected<br/> If FALSE the node will not be deployed or will be dropped during redeployment |
@@ -305,7 +709,7 @@ You can create the node as:
 | **Setting** | **Description** |
 |---------|-------------|
 | **Create As**| Table|
-| **Cluster key** | Toggle: True/False <br/> If the dimension is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
+| **Cluster key** | Toggle: True/False <br/> If the table is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
 | **Business key** | Required column for both Type 1 and Type 2 .<br/>**Note:** Geometry and Geography data type columns are not supported as business key columns. |
 | **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done. <br/> **Note:** When Last Modified is enabled, a validation stage is triggered to ensure the timestamp column contains no NULL values. Any NULL values detected will result in an error, immediately halting execution.|
@@ -328,7 +732,7 @@ You can create the node as:
 | **Setting** | **Description** |
 |---------|-------------|
 | **Create As**| Table|
-| **Cluster key** | Toggle: True/False <br/> If the dimension is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
+| **Cluster key** | Toggle: True/False <br/> If the table is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
 | **Multi Source** | Toggle: True/False<br/>Implementation of SQL UNIONs<br/>**True**: Combine multiple sources in a single node<br/>True Options:<br/>- **UNION**: Combines with duplicate elimination<br/>- **UNION ALL**: Combines without duplicate elimination<br/>- **INSERT**: Individual insert for each source<br/>**False**: Single source node or multiple sources combined using a join. |
 | **Business key** | Required column for both Type 1 and Type 2 |
 | **Last Modified Comparison** | **True**:When enabled we can do timestamp based CDC<br/>**False**:Regular CDC based on Change tracking columns is done. <br/> **Note:** When Last Modified is enabled, a validation stage is triggered to ensure the timestamp column contains no NULL values. Any NULL values detected will result in an error, immediately halting execution. |
@@ -554,7 +958,7 @@ After the Dimension node of materialization type table has been deployed for the
 
 #### Altering the Dimension Tables and Transient Tables
 
-A few types of column or table changes will result in an ALTER statement to modify the Persistent Table in the target environment, whether these changes are made individually or all together:
+A few types of column or table changes will result in an ALTER statement to modify the Dim Table in the target environment, whether these changes are made individually or all together:
 
 1. Changing table names
 2. Dropping existing columns
@@ -732,7 +1136,7 @@ After the Fact node of materialization type table has been deployed for the firs
 
 #### Altering the Fact Tables/Transient Tables
 
-A few types of column or table changes will result in an ALTER statement to modify the Persistent Table in the target environment, whether these changes are made individually or all together:
+A few types of column or table changes will result in an ALTER statement to modify the Fact Table in the target environment, whether these changes are made individually or all together:
 
 1. Changing table names
 2. Dropping existing columns
@@ -797,9 +1201,9 @@ This is executed in stages:
 | **Table/transient table to View** |  Drop table/transient table<br/> Create Fact view |
 | **Table to transient table or vice versa** |  Drop table/transient table<br/> Create Fact table/transient table |
 
-> 📘 **Materialization Type of Dimension node**
+> 📘 **Materialization Type of Fact node**
 >
-> When the materialization type of Dimension node is changed from table/transient table to View and use Override Create SQL for view creation, ensure that the below change is made in the stage function in Create SQL tab so that the order of deployment is maintained.
+> When the materialization type of Fact node is changed from table/transient table to View and use Override Create SQL for view creation, ensure that the below change is made in the stage function in Create SQL tab so that the order of deployment is maintained.
 
 ![CreateSQL](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/assets/7216836/7cf9e0a4-6832-452c-ba5e-cedad42d1c40)
 
@@ -874,7 +1278,7 @@ After the Fact node of materialization type table has been deployed for the firs
 
 #### Altering the Factless Fact Tables/Transient Tables
 
-A few types of column or table changes will result in an ALTER statement to modify the Persistent Table in the target environment, whether these changes are made individually or all together:
+A few types of column or table changes will result in an ALTER statement to modify the Factless Table in the target environment, whether these changes are made individually or all together:
 
 1. Changing table names
 2. Dropping existing columns
@@ -979,7 +1383,7 @@ You can create the node as:
 | **Setting** | **Description** |
 |---------|-------------|
 | **Create As**| Dropdown: Select the desired materialization. <br/> - Table <br/> - Transient Table <br/> - View.|
-| **Cluster key** | Toggle: True/False <br/> If the dimension is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
+| **Cluster key** | Toggle: True/False <br/> If the table is clustered or not. <br/> **True**: Allows you to specify the column based on which clustering is to be done.<br/>- **Allow Expressions Cluster Key**: Allows to add an expression to the specified cluster key<br/> **False**:No clustering done|
 | **Enable tests** | Toggle: True/False<br/>Determines if tests are enabled |
 
 #### External Sync Load Options
@@ -1150,6 +1554,14 @@ Review the documented limitations before performing a node type switch to ensure
 | **Node definition** | [definition.yml](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/WorkAdvancedDeploy-179/definition.yml) |
 | **Create Template** | [create.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/WorkAdvancedDeploy-179/create.sql.j2) |
 | **Run Template** | [run.sql.j2](https://github.com/coalesceio/Coalesce-Base-Node-Types---Advanced-Deploy/blob/main/nodeTypes/WorkAdvancedDeploy-179/run.sql.j2) |
+
+### SQL Work Advanced Deploy Code
+
+| **Component** | **Link** |
+|--------------|-----------|
+| **Node definition** | [definition.yml]() |
+| **Create Template** | [create.sql.j2]() |
+| **Run Template** | [run.sql.j2]() |
 
 ### Persistent Stage Advanced Deploy Code
 
