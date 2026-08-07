@@ -1,0 +1,6 @@
+excludeSelector: ""
+fileVersion: 1
+id: "107"
+includeSelector: "{ location: \"SOURCE_DATA\" name: \"WIDE_TABLE\" } OR { location: \"SOURCE_DATA\" name: \"WIDE_TABLE_SOURCE\" } OR { location: \"TARGET_DB\" name: \"DIM_WIDE_TABLE1\" }"
+name: Job_1
+type: Job
