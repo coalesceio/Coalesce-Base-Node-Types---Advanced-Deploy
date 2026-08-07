@@ -43,15 +43,9 @@ operation:
         - {}
     postSQL: ""
     preSQL: ""
-    primary: true
+    primary: false
     primaryKeyCol:
-      items:
-        - primaryKey:
-            columnCounter: 8c9650b5-4e80-4406-b79a-e48660cbee8d
-            stepCounter: 77859599-a503-474c-91ff-285528940707
-        - primaryKey:
-            columnCounter: 76751ee7-c0c5-4e03-a80d-faa336291c1a
-            stepCounter: 77859599-a503-474c-91ff-285528940707
+      items: []
     primaryKeyName: ""
     selectDistinct: false
     testsEnabled: false
