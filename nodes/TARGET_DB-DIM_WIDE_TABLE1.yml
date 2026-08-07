@@ -3,10 +3,15 @@ id: 77859599-a503-474c-91ff-285528940707
 name: DIM_WIDE_TABLE1
 operation:
   config:
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 6d5c75a9-2535-4b76-bae0-12be0f5101c7
+            stepCounter: 77859599-a503-474c-91ff-285528940707
+        - columnName:
+            columnCounter: 1d4ee86e-0b22-4d9a-a726-371121629d10
+            stepCounter: 77859599-a503-474c-91ff-285528940707
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -26,7 +31,7 @@ operation:
     insertZeroKeyBol: "TRUE"
     insertZeroKeyDate: 01-01-1900
     insertZeroKeyStr: UNKNOWN
-    insertZeroKeySurrogateKey: "0"
+    insertZeroKeySurrogateKey: "23"
     insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
     lastModifiedColumn:
       columnCounter: 1d1d7043-8eed-44dd-90b9-5d7eb0ee5b3d
@@ -51,7 +56,7 @@ operation:
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
-    type2Dimension: true
+    type2Dimension: false
     updateStrategy: MERGE
   database: ""
   deployEnabled: true
