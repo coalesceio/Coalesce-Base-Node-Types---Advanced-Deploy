@@ -3,7 +3,7 @@ id: 77859599-a503-474c-91ff-285528940707
 name: DIM_WIDE_TABLE1
 operation:
   config:
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
         - columnName:
@@ -26,7 +26,7 @@ operation:
     excludeMergeToggle: false
     groupByAll: true
     insertStrategy: UNION ALL
-    insertZeroKey: true
+    insertZeroKey: false
     insertZeroKeyAdvanced: false
     insertZeroKeyBol: "TRUE"
     insertZeroKeyDate: 01-01-1900
