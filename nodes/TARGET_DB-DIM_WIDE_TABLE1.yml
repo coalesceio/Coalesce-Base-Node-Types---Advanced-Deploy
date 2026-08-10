@@ -31,7 +31,7 @@ operation:
     insertZeroKeyBol: "TRUE"
     insertZeroKeyDate: 01-01-1900
     insertZeroKeyStr: UNKNOWN
-    insertZeroKeySurrogateKey: "23"
+    insertZeroKeySurrogateKey: "24"
     insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
     lastModifiedColumn:
       columnCounter: 1d1d7043-8eed-44dd-90b9-5d7eb0ee5b3d
