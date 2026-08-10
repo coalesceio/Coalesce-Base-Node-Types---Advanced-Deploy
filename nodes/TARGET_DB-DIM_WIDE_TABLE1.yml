@@ -51,7 +51,7 @@ operation:
     testsEnabled: false
     truncateBefore: false
     type2Dimension: true
-    updateStrategy: MERGE
+    updateStrategy: INSERT/UPDATE
   database: ""
   deployEnabled: true
   description: ""
