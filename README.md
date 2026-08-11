@@ -339,6 +339,7 @@ You can create the node as:
 | `@nullable("false")`<br/>`@nullable(false)` | Marks column as NOT NULL |
 | `@description("<text>")` | Adds column description |
 | `@defaultValue("<text>")`<br/>`@defaultValue(<number>)`<br/>`@defaultValue(<bool>)` | Adds default value |
+| `@collate("<collation_name>")` | To specify a collation for a column, add this annotation and provide the desired collation name. |
 | `@tests("null", "unique")` | Column tests are more restrictive and apply directly to individual columns.<br/>**Supported Tests**<br/>- **null** → Checks for NULL values<br/>- **unique** → Checks to ensure all values are unique |
 | `@inHash("<hash_order>\|<hash_name>")` **²** | Generates a hash key by combining and hashing the values of columns associated with a given hash group, ensuring consistent change detection and key generation.<br/>**Default:** Uses `SHA1` algorithm. |
 | `@previousName("<text>")` **³** | To rename a column, add this annotation to the renamed column and specify the original column name. |
