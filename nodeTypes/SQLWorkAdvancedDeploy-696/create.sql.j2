@@ -146,6 +146,8 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
                         ,
                     {%- endif %}
                         "{{ addDesCol.name }}" {{ addDesCol.dataType }}
+                        {%- set collateParams = (addDesCol.collate | default({})).parameters | default([]) %}
+                        {%- if collateParams and collateParams[0] is not none %} COLLATE '{{ collateParams[0] }}' {%- endif %}
                         {%- if not addDesCol.nullable %} NOT NULL
                             {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{%- endif %}
                         {%- endif %}

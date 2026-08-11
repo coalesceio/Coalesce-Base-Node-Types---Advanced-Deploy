@@ -1,8 +1,10 @@
 @id("992c4341-c109-4d7d-8b70-75245c3f4a75")
 @nodeType("696")
+@clusterKey(true)
+@clusterKeyConfig("", "[object Object]")
 SELECT
     N_NATIONKEY,
-    N_NAME AS NATION_NAME,
+    N_NAME AS NATION_NAME @description("Nation Name"),
     R_REGIONKEY,
     R_NAME AS REGION_NAME
 FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} NATION_TEST

@@ -39,12 +39,14 @@ metadata:
            displayName: Cluster By Expression[ℹ️Ex. trunc("<column_name>", -5)]
            attributeName: columnNameExpressions
            isRequired: false
+           default: ""
 
         -  type: columnDropdownSelector
            displayName: |
             "[𝗢𝗥]" Cluster By Column
            attributeName: columnName
            isRequired: false
+           default: ""
       
         isRequired: false
         enableIf: "{% if node.materializationType != 'view'
