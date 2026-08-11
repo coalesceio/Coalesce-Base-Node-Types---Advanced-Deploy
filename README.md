@@ -72,7 +72,7 @@ Together, these node types ensure data is accurate, reusable, scalable, and alig
 The Coalesce Base Node Types Package includes:
 
 * [Work Advanced Deploy](#work-advanced-deploy)
-* [SQL Work Advanced Deploy](#work-advanced-deploy)
+* [SQL Work Advanced Deploy](#sql-work-advanced-deploy)
 * [Persistent Stage Advanced Deploy](#persistent-stage-advanced-deploy)
 * [Dimension Advanced Deploy](#dimension-advanced-deploy)
 * [Fact Advanced Deploy](#fact-advanced-deploy)
