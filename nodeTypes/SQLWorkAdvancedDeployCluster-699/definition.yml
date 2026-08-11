@@ -1,11 +1,11 @@
 fileVersion: 2
-id: "696"
+id: "699"
 isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
   nodeMetadataSpec: |-
-    capitalized: SQL Work Advanced Deploy
+    capitalized: SQL Work Advanced Deploy(Cluster)
     short: WRK
     plural: Stages
     tagColor: '#2EB67D'
@@ -29,28 +29,6 @@ metadata:
         displayName: Cluster By
         default: false
         enableIf: "{% if node.materializationType != 'view' %} true {% else %} false {% endif %}"
-
-      - type: tabular
-        displayName: ℹ️ Choose expression "[𝗢𝗥]" column. Clustering applies in the same order
-        attributeName: clusterKeyConfig
-        columns:
-
-        -  type: textBox
-           displayName: Cluster By Expression
-           attributeName: columnNameExpressions
-           isRequired: false
-           default: "Ex:TO_DATE(<COLNAME>)"
-
-        -  type: columnDropdownSelector
-           displayName: |
-            "[𝗢𝗥]" Cluster By Column
-           attributeName: columnName
-           isRequired: false
-           default: "Choose a Column"
-      
-        isRequired: false
-        enableIf: "{% if node.materializationType != 'view'
-                    and config.clusterKey %} true {% else %} false {% endif %}"
 
       - displayName: Truncate Before
         attributeName: truncateBefore
@@ -244,5 +222,5 @@ metadata:
         ━━━━━━━━━━━━━━━━━━━"
 
       enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
-name: SQL Work Advanced Deploy
+name: SQL Work Advanced Deploy(Cluster)
 type: NodeType

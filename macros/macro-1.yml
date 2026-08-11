@@ -305,7 +305,7 @@ macroString: |-
 
   {%- endmacro -%}
 
-  {####################################################################################################################################
+  {# ========================================================================
   Description:
   Generates a correctly formatted SQL default value based on the provided datatype
   and input value. Ensures proper quoting, function handling, and datatype alignment
@@ -320,29 +320,44 @@ macroString: |-
 
   Output:
   - Returns a SQL-safe default value string formatted according to datatype
-  ####################################################################################################################################}
+   ========================================================================#}
   {%- macro get_default(dataType, defaultValue) -%}
 
       {%- if dataType is not none -%}
 
           {%- set dtype = dataType | upper -%}
           {%- set default_str = defaultValue | string -%}
-          {%- set is_function = default_str | upper in [
-              'CURRENT_DATE', 
-              'CURRENT_TIME', 
-              'CURRENT_TIMESTAMP', 
-              'SYSDATE()', 
-              'CURRENT_TIMESTAMP()'
+          {%- set is_quoted = default_str.startswith("'") and default_str.endswith("'") -%}
+          {%- set quote_types = [
+              'VARCHAR', 'STRING', 'TEXT', 'CHAR', 'DATE', 'TIME', 'VARIANT', 'OBJECT', 'ARRAY', 'GEOGRAPHY', 'GEOMETRY', 'XML', 'BINARY'
           ] -%}
-
+          {%- set upper_default = default_str | upper -%}
+          {%- set is_function =
+              not is_quoted
+              and (
+                  upper_default in [
+                      'CURRENT_DATE',
+                      'CURRENT_TIME',
+                      'CURRENT_TIMESTAMP',
+                      'CURRENT_USER',
+                      'CURRENT_ROLE'
+                  ]
+                  or upper_default.startswith('SYSDATE(')
+                  or upper_default.startswith('CURRENT_TIMESTAMP(')
+                  or upper_default.startswith('TO_DATE(')
+                  or upper_default.startswith('TO_TIME(')
+                  or upper_default.startswith('TO_TIMESTAMP(')
+                  or upper_default.startswith('TO_TIMESTAMP_NTZ(')
+                  or upper_default.startswith('TO_TIMESTAMP_LTZ(')
+                  or upper_default.startswith('TO_TIMESTAMP_TZ(')
+                  or upper_default.startswith('UUID_STRING(')
+                  or upper_default.startswith('RAND(')
+                  or upper_default.startswith('RANDOM(')
+              )
+          -%}
           {%- set is_null = default_str | upper == 'NULL' -%}
           {%- set is_boolean = default_str | upper in ['TRUE', 'FALSE'] -%}
           {%- set is_number = default_str.replace('.', '', 1).isdigit() -%}
-          {%- set is_quoted = default_str.startswith("'") and default_str.endswith("'") -%}
-
-          {%- set quote_types = [
-              'VARCHAR', 'STRING', 'TEXT', 'CHAR', 'DATE', 'TIME', 'VARIANT', 'OBJECT', 'ARRAY'
-          ] -%}
 
           {%- if is_null -%}
               NULL
@@ -362,7 +377,7 @@ macroString: |-
           {%- else -%}
               {%- for qt in quote_types -%}
                   {%- if dtype.startswith(qt) -%}
-                      '{{ default_str }}'
+                      '{{ default_str | escape }}'
                   {%- endif -%}
               {%- endfor -%}
           {%- endif -%}
@@ -723,6 +738,59 @@ macroString: |-
       {%- else -%}
           NULL
       {%- endif -%}
+  {%- endmacro -%}
+
+  {####################################################################################################################################
+    Macro : get_clusterby_v2
+
+    Description:
+      Generates the CLUSTER BY clause for the nodes cluster configuration. Supports both column-level
+      clusters and transform expressions (e.g., TRUNCATE, BUCKET).
+
+    Inputs (from node config):
+      - config.clusterKey      : boolean — enables/disables clustering
+      - config.clusterKeyConfig.items: list of cluster entries, each containing:
+          - columnNameExpressions     : transform expression (e.g., TRUNCATE(10, n_name), BUCKET(6, n_nationkey))
+          - columnName.name           : plain column name used when no expression is defined (e.g., n_regionkey)
+
+    Output:
+      - If toggle is ON and valid clusters exist:
+          CLUSTER BY (TRUNCATE(10, n_name), n_regionkey, BUCKET(6, n_nationkey))
+      - If toggle is OFF or no valid clusters found:
+          '' (empty string)
+  ####################################################################################################################################}
+  {%- macro get_clusterby_v2() -%}
+
+      {%- set cols = namespace(items=[]) -%}
+
+      {# Collect columns participating in this clustreBy #}
+      {%- for col in sources[0].columns -%}
+
+          {%- if col.clusterBy is defined
+              and col.clusterBy.parameters is defined -%}
+
+              {%- for p in col.clusterBy.parameters -%}
+
+                  {%- set parts = p.split('|') -%}
+                  {%- set position = parts[0] | int -%}
+                  {%- set expression = parts[1] | trim -%}
+
+                  {%- set cols.items = cols.items + [{
+                      "position": position,
+                      "column": col.name if expression | length == 0 else  expression
+                  }] -%}
+              {%- endfor -%}
+          {%- endif -%}
+      {%- endfor -%}
+
+      {%- if cols.items | length > 0 -%}
+          {{ cols.items
+              | sort(attribute='position')
+              | map(attribute='column')
+              | join(', ')
+          }}
+      {%- endif -%}
+
   {%- endmacro -%}
 name: macro
 type: Macro

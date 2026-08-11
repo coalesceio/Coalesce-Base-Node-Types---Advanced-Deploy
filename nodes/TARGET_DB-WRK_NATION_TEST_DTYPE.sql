@@ -1,5 +1,6 @@
 @id("a787cad9-b63c-4dee-93f2-249747fc5e5f")
 @nodeType("696")
+@deployEnabled(false)
 SELECT
     N_NAME::VARCHAR(100) AS NATION_NAME @nullable(false) @defaultValue("NA") @collate('en') @description("Hello"),
     R_NAME::VARCHAR(100) AS REGION_NAME,
