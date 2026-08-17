@@ -1,13 +1,5 @@
 @id("992c4341-c109-4d7d-8b70-75245c3f4a75")
 @nodeType("696")
-SELECT
-    N_NATIONKEY,
-    N_NAME AS NATION_NAME @description("Nation Name"),
-    R_REGIONKEY,
-    R_NAME AS REGION_NAME
-FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} NATION_TEST
-INNER JOIN {{ ref('SOURCE_DATA', 'REGION_PK') }} REGION_PK
-    ON NATION_TEST.N_REGIONKEY = REGION_PK.R_REGIONKEY
-ORDER BY
-    R_NAME,
-    N_NAME
+@clusterKey(true)
+@clusterKeyConfig("Ex:TO_DATE(<CtOLNAME>)", "NATION_NAME")
+@clusterKeyConfig("Ex:TO_DATE(<COLNAME>)", "R_REGIONKEY")
