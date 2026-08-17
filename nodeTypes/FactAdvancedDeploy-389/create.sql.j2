@@ -68,75 +68,74 @@ does not permit copying or modification for any other purpose.
 
 		CREATE OR REPLACE VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
 		(
-			{% for col in desiredState.columns %}
+			{%- for col in desiredState.columns %}
 				"{{ col.name }}"
 				{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
 				{%- if not loop.last -%},{% endif %}
-			{% endfor %}
+			{%- endfor %}
 		)
 		{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 		AS
-		{% for source in desiredState.sources %}
+		{%- for source in desiredState.sources %}
 
-			SELECT{% if desiredState.config.selectDistinct %} DISTINCT {% endif %} 
+			SELECT{%- if desiredState.config.selectDistinct %} DISTINCT {%- endif %} 
             
-			{% for col in source.columns %}
-				{% if col.isSurrogateKey or col.isSystemUpdateDate or col.isSystemCreateDate %}
+			{%- for col in source.columns %}
+				{%- if col.isSurrogateKey or col.isSystemUpdateDate or col.isSystemCreateDate %}
 					NULL
-				{% else %}
+				{%- else %}
 					{{ get_source_transform(col) }}
-				{% endif %}
-				AS "{{ col.name }}"
-				{%- if not loop.last -%}, {% endif %}
-			{% endfor %}
+				{%- endif %} AS "{{ col.name }}"
+				{%- if not loop.last %}, {%- endif %}
+			{%- endfor %}
 			{{ source.join }}            
-            {% if desiredState.config.groupByAll %}
+            {%- if desiredState.config.groupByAll %}
 		       Group By All
-	         {% endif %}
-			{% if not loop.last %}                 
-               {% if desiredState.config.insertStrategy in ['UNION', 'UNION ALL'] %}
+	         {%- endif %}
+			{%- if not loop.last %}                 
+               {%- if desiredState.config.insertStrategy in ['UNION', 'UNION ALL'] %}
                     {{ desiredState.config.insertStrategy }}
-                {% else %}
+                {%- else %}
                     UNION
-                {% endif %}
-            {% endif %}
-		{% endfor %}
-        {% endif %}
+                {%- endif %}
+            {%- endif %}
+		{%- endfor %}
+        {%- endif %}
 {% elif desiredState.node.materializationType == 'table' or desiredState.node.materializationType == 'transient table' %}
 
 
         {# Figure out cluster key #}
         {% set nsVariables = namespace(finalClusterKey="") %}
-        {% if desiredState.config.clusterKey == true %}
-            {% if desiredState.config.clusterKeyExpressions == true %}
-                {% set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='columnNameExpressions.name') | list, desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='sqlExpression') | list %}
+        {%- if desiredState.config.clusterKey == true %}
+            {%- if desiredState.config.clusterKeyExpressions == true %}
+                {%- set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='columnNameExpressions.name') | list, desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='sqlExpression') | list %}
 
                 {%- set nsVariables = namespace(clusterValues=[]) %}
 
-                {% for r in column %}
-                    {% if expression[loop.index0] == "" %}
-                        {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
-                    {% else %}
-                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
-                    {% endif %}
-                {% endfor %}
+                {%- for r in column %}
+                    {%- if expression[loop.index0] == "" %}
+                        {%- set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
+                    {%- else %}
+                        {%- set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
+                    {%- endif %}
+                {%- endfor %}
 
-                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+                {%- set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
 
-            {% else %}
+            {%- else %}
 
-                {% set column = desiredState.config.clusterKeyConfig.get('items') | map(attribute='columnName.name') | list %}
+                {%- set column = desiredState.config.clusterKeyConfig.get('items') | map(attribute='columnName.name') | list %}
 
                 {%- set nsVariables = namespace(clusterValues=[]) %}
 
-                {% for r in column %}
-                    {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
-                {% endfor %}
+                {%- for r in column %}
+                    {%- set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
+                {%- endfor %}
 
-                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+                {%- set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
 
-            {% endif %}
-        {% endif %}
+            {%- endif %}
+        {%- endif %}
 
         {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
 
@@ -148,99 +147,89 @@ does not permit copying or modification for any other purpose.
              {{ stage('Create Fact ' + desiredState.node.materializationType ) }}
 			  CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
-                {% for col in desiredState.columns %}
+                {%- for col in desiredState.columns %}
                     "{{ col.name }}" {{ col.dataType }}
                     {%- if not col.nullable %} NOT NULL
-                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-                    {% endif %}
-                    {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-                    {%- if not loop.last -%}, {% endif %}
-                {% endfor %}
+                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{%- endif %}
+                    {%- endif %}
+                    {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{%- endif %}
+                    {%- if not loop.last -%}, {%- endif %}
+                {%- endfor %}
 
                 {# =========================================================
                 Primary Key Name and Column List Addition
                 ========================================================= #}
                 {% if desiredState.config.primary == true %}
 
-                    {% set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                    {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
                                             | map(attribute='primaryKey')
                                             | map(attribute='name')
                                             | list %}
             
-                    {% if primaryKeyList | length > 0 and primaryKeyList[0] %}
-                        , CONSTRAINT
-
-                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                    {%- if primaryKeyList | length > 0 and primaryKeyList[0] %}, CONSTRAINT
+                        {%- if desiredState.config.primaryKeyName | trim != '' %}
                             {{ desiredState.config.primaryKeyName }}
-                        {% else %}
+                        {%- else %}
                             pk_{{ desiredState.node.name }}
-                        {% endif %}
-
-                        PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
-
-                    {% endif %}
-                {% endif %}
+                        {%- endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                    {%- endif %}
+                {%- endif %}
 		    	)
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 
-            {% if desiredState.config.clusterKey == true %}
+            {%- if desiredState.config.clusterKey == true %}
                 {{ stage('Apply Table Clustering') }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
 
                 {{ stage('Resume Recluster Table') }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
-            {% endif %}
+            {%- endif %}
 
 
-        {% endif %}
+        {%- endif %}
 
 
-        {% if currentState == undefined or currentState.storageLocations | length == 0  %}
+        {%- if currentState == undefined or currentState.storageLocations | length == 0  %}
             {{ stage('Create Fact ' + desiredState.node.materializationType ) }}
 			CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
-                {% for col in desiredState.columns %}
+                {%- for col in desiredState.columns %}
                     "{{ col.name }}" {{ col.dataType }}
                     {%- if not col.nullable %} NOT NULL
-                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-                    {% endif %}
-                    {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-                    {%- if not loop.last -%}, {% endif %}
-                {% endfor %}
+                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{%- endif %}
+                    {%- endif %}
+                    {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{%- endif %}
+                    {%- if not loop.last %}, {%- endif %}
+                {%- endfor %}
 
                 {# =========================================================
                 Primary Key Name and Column List Addition
                 ========================================================= #}
-                {% if desiredState.config.primary == true %}
+                {%- if desiredState.config.primary == true %}
 
-                    {% set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                    {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
                                             | map(attribute='primaryKey')
                                             | map(attribute='name')
                                             | list %}
             
-                    {% if primaryKeyList | length > 0 and primaryKeyList[0] %}
-                        , CONSTRAINT 
-
-                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                    {%- if primaryKeyList | length > 0 and primaryKeyList[0] %}, CONSTRAINT 
+                        {%- if desiredState.config.primaryKeyName | trim != '' %}
                             {{ desiredState.config.primaryKeyName }}
-                        {% else %}
+                        {%- else %}
                             pk_{{ desiredState.node.name }}
-                        {% endif %}
-
-                        PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
-
-                    {% endif %}
-                {% endif %}
+                        {%- endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                    {%- endif %}
+                {%- endif %}
 		    	)
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 
-            {% if desiredState.config.clusterKey == true %}
+            {%- if desiredState.config.clusterKey == true %}
                 {{ stage('Apply Table Clustering') }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
 
                 {{ stage('Resume Recluster Table') }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
-            {% endif %}
+            {%- endif %}
 
         {% elif currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
 
@@ -907,8 +896,7 @@ does not permit copying or modification for any other purpose.
                             {{ desiredState.config.primaryKeyName }}
                         {% else %}
                             pk_{{ desiredState.node.name }}
-                        {% endif %}
-                        PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                        {% endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
                     {% endif %}
                 {% endif %}
                     {# Metadata changes detected #}
