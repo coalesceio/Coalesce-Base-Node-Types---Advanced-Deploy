@@ -84,6 +84,25 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d836ce99-0ebe-41fb-9cc0-6a44a0b087a6
+          stepCounter: bc5b063d-25f6-42be-9c49-6fcf5fe7c598
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        defaultValue: ""
+        description: ""
+        name: N_LOAD_TIMESTAMP
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
   name: NATION_TEST
   schema: ""
   sqlType: Source
