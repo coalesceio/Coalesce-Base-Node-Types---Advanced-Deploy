@@ -14,7 +14,7 @@
 @postSQL("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 1")
 @postSQL("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 2")
 SELECT
-     "N_NATIONKEY" AS "N_NATIONKEY" @isClusterKey(5) @description("Column '''decsripton --adfk") @inHash("GH_COL", 1),
+     "N_NATIONKEY" AS "N_NATIONKEY" @isClusterKey(5) @description("Column '''decsripton --adfk") @inHash("GH_COL", 1) @collate("en"),
      "N_NAME" AS "N_NAME" @isClusterKey(6) @inHash("GH_COL", 2) @notNull @tests("null") @tests("unique"),
      "N_REGIONKEY" AS "N_REGIONKEY" @inHash("GH_COL", 3) @inHash("GH_COL", 4) @tests("null"),
      "N_COMMENT" AS "N_COMMENT" @tests("unique") @defaultValue("N/A") @isClusterKey(7) @notNull @description("Added later") @inHash("GH_COL", 5),
