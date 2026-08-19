@@ -1,7 +1,6 @@
-@id("10491a59-3684-40d8-84aa-314c8a7faa2f")
+@id("3d35ffd4-0f57-42aa-b1d9-746c4665ab97")
 @nodeType("702")
 @description("a join example using two'' CTEs")
-@materializationType("view")
 WITH nation_cte AS (
     SELECT
         N_NATIONKEY,
