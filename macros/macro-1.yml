@@ -288,7 +288,7 @@ macroString: |-
       {%- set nsNodeVariables.curObjectNameFullPath = ref_no_link(currentState.node.location.name, currentState.node.name) -%}
     {%- endif -%}
 
-      {%- if desiredState is defined -%}
+    {%- if desiredState is defined -%}
       {%- set desiredDatabase = desiredState.storageLocations
                                 | selectattr('name', 'equalto', desiredState.node.location.name)
                                 | map(attribute='database')
@@ -515,7 +515,7 @@ macroString: |-
           - A SHA1 hash of concatenated column values  
           - Returns `NULL` if no columns are mapped to the given hash group
   ====================================================================================================#}
-  {%- macro get_hash(hash_name, algo='SHA1', delimiter='||', datatype='CHAR(32)') -%}
+  {%- macro get_hash(hash_name, algo='SHA1', delimiter='||', datatype='STRING') -%}
 
       {%- set cols = namespace(items=[]) -%}
       {%- set algo_upper = algo | upper -%}
@@ -561,7 +561,7 @@ macroString: |-
                       {%- endif -%}
                   {%- endfor -%}
               {{ algo_end }}
-          AS STRING)
+          AS {{ datatype }})
       {%- endif -%}
   {%- endmacro -%}
 

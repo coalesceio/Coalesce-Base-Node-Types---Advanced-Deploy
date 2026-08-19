@@ -1,0 +1,73 @@
+fileVersion: 1
+id: 88df3c15-c08e-4981-9fba-db85269793fa
+name: REGION_PK
+operation:
+  database: ""
+  deployEnabled: true
+  description: Region data as defined by TPC-H
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b7ff1d7f-8e7a-4ee8-b742-84471979271f
+          stepCounter: 88df3c15-c08e-4981-9fba-db85269793fa
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: R_REGIONKEY
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6bd15411-b0ee-4925-9449-146384e49dcc
+          stepCounter: 88df3c15-c08e-4981-9fba-db85269793fa
+        config: {}
+        dataType: VARCHAR(25)
+        defaultValue: ""
+        description: ""
+        name: R_NAME
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 858a95f7-e722-46b2-9854-ae08aab6ae86
+          stepCounter: 88df3c15-c08e-4981-9fba-db85269793fa
+        config: {}
+        dataType: VARCHAR(152)
+        defaultValue: ""
+        description: ""
+        name: R_COMMENT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: REGION_PK
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

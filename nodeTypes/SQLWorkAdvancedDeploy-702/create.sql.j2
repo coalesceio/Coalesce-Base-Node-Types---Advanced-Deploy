@@ -18,9 +18,9 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
 {%- if desiredState %}
     {%- if desiredState.node.materializationType == 'view' %}
 
-        {%- if (currentState and currentState.node.materializationType != desiredState.node.materializationType)
+        {%- if currentState != undefined and (currentState.node.materializationType != desiredState.node.materializationType
             or (desiredState.node.name != currentState.node.name
-            or nsNodeVariables.desiredDatabaseSchema != nsNodeVariables.currentDatabaseSchema)
+            or nsNodeVariables.desiredDatabaseSchema != nsNodeVariables.currentDatabaseSchema))
         %}
             {{ stage('Drop ' + currentState.node.materializationType) }}
             {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
@@ -28,7 +28,7 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
         {%- endif %}
 
         {# CreateSQL for View #}
-        {%- if currentState == undefined or currentState != desiredState %}
+        {%- if currentState == undefined or (currentState != undefined and currentState != desiredState) %}
             {{ stage('Create ' + desiredState.node.materializationType ) }}
             CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ nsNodeVariables.desObjectNameFullPath }}
             (
