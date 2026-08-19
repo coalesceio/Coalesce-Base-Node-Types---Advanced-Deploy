@@ -33,22 +33,20 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
             CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ nsNodeVariables.desObjectNameFullPath }}
             (
                 {%- for col in columns %}
-                    {%- set descriptionParams = col.description.parameters | default([]) %}
                     "{{ col.name }}"
-                    {%- if descriptionParams and descriptionParams[0] | length > 0 %} COMMENT '{{ descriptionParams[0] | escape }}' {%- endif %}
+                    {%- if col.description | trim | length > 0 %} COMMENT '{{ col.description | trim | escape }}' {%- endif %}
                     {%- if not loop.last -%}, {%- endif %}
                 {%- endfor %}
             )
             {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}' {%- endif %}
-            AS    
-            {{ sources[0].cteString }}
-            SELECT {%- if config.selectDistinct %} DISTINCT {%- endif %}
-            {%- for col in sources[0].columns %}
+            AS
+            {{ desiredState.sources[0].cteString }}
+            SELECT {%- if get_boolean_config("selectDistinct") == "true" %} DISTINCT {%- endif %}
+            {%- for col in desiredState.sources[0].columns %}
                 {{ get_source_transform_v2(col) }} AS "{{ col.name }}"
                 {%- if not loop.last -%}, {%- endif %}
             {%- endfor %}
-
-            {{ sources[0].join }}
+            {{ desiredState.sources[0].join }}
         {%- endif %}
 
     {%- elif desiredState.node.materializationType in ['table', 'transient table']  %}
@@ -66,23 +64,17 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
             CREATE OR REPLACE {{ desiredState.node.materializationType }} {{ nsNodeVariables.desObjectNameFullPath }}
             (
                 {%- for col in columns %}
-
-                    {%- set nullParams = col.nullable.parameters | default([]) %}
-                    {%- set defaultValueParams = col.defaultValue.parameters | default([]) %}
-                    {%- set collateParams = (col.collate | default({})).parameters | default([]) %}
-                    {%- set descriptionParams = col.description.parameters | default([]) %}
-                    "{{ col.name }}" {{ col.dataType }} 
-                    {%- if collateParams and collateParams[0] is not none %} COLLATE '{{ collateParams[0] }}' {%- endif %}
-                    {%- if nullParams and (nullParams[0] in ['false', false]) %} NOT NULL {%- endif %}
-                    {%- if defaultValueParams and defaultValueParams[0] is not none %} DEFAULT {{ get_default(col.dataType, defaultValueParams[0]) }} {%- endif %}
-                    {%- if descriptionParams and descriptionParams[0] | length > 0 %} COMMENT '{{ descriptionParams[0] | escape }}' {%- endif %}
+                    "{{ col.name }}" {{ col.dataType }}
+                    {%- if col.nullable == false %} NOT NULL {%- endif %}
+                    {%- if col.defaultValue %} DEFAULT {{ get_default(col.dataType, col.defaultValue) }} {%- endif %}
+                    {%- if col.description | trim | length > 0 %} COMMENT '{{ col.description | trim | escape }}' {%- endif %}
                     {%- if not loop.last -%}, {%- endif %}
                 {%- endfor %}
             )
-            {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}' {%- endif %}
+            {%- if desiredState.node.description | trim | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}' {%- endif %}
             {{ get_clusterby_v2() }}
 
-        {%- elif currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
+        {%- elif currentState != undefined and currentState != desiredState and currentState.node.materializationType == desiredState.node.materializationType %}
 
             {# Rename / Move Object #}
             {%- if (nsNodeVariables.currentDatabaseSchema != nsNodeVariables.desiredDatabaseSchema
@@ -277,7 +269,7 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
             {%- if desiredState.config.clusterEnabled and ((currentState.config.clusterEnabled
                     and desiredState.config.clusterEnabled != currentState.config.clusterEnabled)
                     or not currentState.config.clusterEnabled) %}
-                    {% set finalClusterKey =  'CLUSTER BY (' + get_cluster_by_v2() + ')' %}
+                    {% set finalClusterKey =  get_cluster_by_v2() %}
             {%- elif not desiredState.config.clusterEnabled and currentState.config.clusterEnabled %}
                     {%- set finalClusterKey = 'DROP CLUSTERING KEY' %}
             {%- endif %}

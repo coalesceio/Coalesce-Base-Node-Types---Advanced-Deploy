@@ -305,6 +305,29 @@ macroString: |-
 
   {%- endmacro -%}
 
+  {####################################################################################################################################
+  getNewColumnName(oldName)
+
+  Description:
+  Returns the current column name corresponding to a previous column name.
+
+  Input:
+  oldName (String) - Previous column name.
+
+  Output:
+  String - Current column name if found; otherwise an empty string.
+  ####################################################################################################################################}
+  {% macro getNewColumnName(oldName) -%}
+      {%- set ns = namespace(newName='') -%}
+      {%- for col in columns -%}
+          {%- set prevNames = (col.previousName | default({})).parameters | default([]) -%}
+          {%- if prevNames and prevNames[0] == oldName -%}
+              {%- set ns.newName = col.name -%}
+          {%- endif -%}
+      {%- endfor -%}
+      {{- ns.newName -}}
+  {%- endmacro %}
+
   {# ========================================================================
   Description:
   Generates a correctly formatted SQL default value based on the provided datatype
@@ -399,7 +422,7 @@ macroString: |-
   ========================================================================= #}
   {%- macro run_tests(runOrder) -%}
 
-      {%- if config.testsEnabled is defined and config.testsEnabled == true -%}
+      {%- if get_boolean_config("testsEnabled") == "true" %}
           {%- if runOrder == 'After' -%}
               {%- for column in columns -%}
                   {%- if column.tests is defined -%}
@@ -542,6 +565,51 @@ macroString: |-
       {%- endif -%}
   {%- endmacro -%}
 
+  {#===================================================================================================
+    get_boolean_config(flag)
+
+    Description:
+      Extracts the boolean value of a configuration flag, supporting both
+      annotation formats:
+        - @flag
+        - @flag(true) / @flag(false)
+
+    Input:
+      flag: Name of the boolean configuration flag, e.g. "truncateBefore",
+            "testsEnabled", or "clusterDefined".
+
+    Examples:
+      @truncateBefore
+        -> config["truncateBefore"] = true
+        -> Output: true
+
+      @truncateBefore(true)
+        -> config["truncateBefore"] = { parameters: [true] }
+        -> Output: true
+
+      @truncateBefore(false)
+        -> config["truncateBefore"] = { parameters: [false] }
+        -> Output: false
+
+      No annotation
+        -> config["truncateBefore"] is not defined
+        -> Output: empty
+
+    Usage:
+      {% if get_boolean_config("truncateBefore") | trim | lower == "true" %}
+        ...
+      {% endif %}
+  ====================================================================================================#}
+  {%- macro get_boolean_config(flag) -%}
+      {%- if config[flag] is defined -%}
+          {%- if config[flag] is boolean -%}
+              {{- config[flag] | trim | lower -}}
+          {%- elif config[flag].parameters is defined and config[flag].parameters|length > 0 -%}
+              {{- config[flag].parameters[0] | trim | lower -}}
+          {%- endif -%}
+      {%- endif -%}
+  {%- endmacro -%}
+
   {####################################################################################################################################
     Macro : get_clusterby_v2
 
@@ -563,7 +631,7 @@ macroString: |-
   ####################################################################################################################################}
   {%- macro get_clusterby_v2() -%}
 
-      {%- if config.clusterEnabled is defined and config.clusterEnabled == true -%}
+      {%- if get_boolean_config("clusterEnabled") == "true" -%}
           {%- set cols = namespace(items=[]) -%}
           {# Collect columns participating in this clustreBy #}
           {%- for col in sources[0].columns -%}
@@ -589,28 +657,5 @@ macroString: |-
        {%- endif -%}
 
   {%- endmacro -%}
-
-  {####################################################################################################################################
-  getNewColumnName(oldName)
-
-  Description:
-  Returns the current column name corresponding to a previous column name.
-
-  Input:
-  oldName (String) - Previous column name.
-
-  Output:
-  String - Current column name if found; otherwise an empty string.
-  ####################################################################################################################################}
-  {% macro getNewColumnName(oldName) -%}
-      {%- set ns = namespace(newName='') -%}
-      {%- for col in columns -%}
-          {%- set prevNames = (col.previousName | default({})).parameters | default([]) -%}
-          {%- if prevNames and prevNames[0] == oldName -%}
-              {%- set ns.newName = col.name -%}
-          {%- endif -%}
-      {%- endfor -%}
-      {{- ns.newName -}}
-  {%- endmacro %}
 name: macro
 type: Macro

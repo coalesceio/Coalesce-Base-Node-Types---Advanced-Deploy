@@ -129,7 +129,7 @@ metadata:
             isRequired: true
 
       - name: isClusterKey
-        description: Determines whether column is part of table cluster. Applicable only when @𝐜𝐥𝐮𝐬𝐭𝐞𝐫𝐄𝐧𝐚𝐛𝐥𝐞𝐝 is applied. 
+        description: Determines whether column is part of table cluster. Applicable only when @𝐜𝐥𝐮𝐬𝐭𝐞𝐫𝐄𝐧𝐚𝐛𝐥𝐞𝐝 is applied. Ignored on views.
         allowsMultiple: true
         parameters:
           - name: clusterOrder
@@ -141,7 +141,7 @@ metadata:
           - name: clusterExpression
             isRequired: false
             type: string
-            description: Expression used while clustering. If the expression is omitted, the column name is used as the clustering expression by default.
+            description: Expression used while clustering. If the expression is omitted, the 𝐂𝐨𝐥𝐮𝐦𝐧 𝐍𝐚𝐦𝐞 is used as the clustering expression by default.
             example: trunc(columnName, -5)
 
       - name: inHash
@@ -159,6 +159,18 @@ metadata:
             type: number
             description: Order of columns used to calculate the hash.
             example: 1
+
+      - name: previousName
+        description: |
+          To rename a column, add this to the renamed column.
+          Ignored on views.
+          ⚠️Warning: Cluster keys cannot be renamed.
+        isRequired: false
+        parameters:
+          - name: oldColumnName
+            description: Previous column name.
+            type: string
+            isRequired: true
 
       - name: tests
         description: Column level tests for data quality requirements. Either or both tests can be specified based on validation requirements. Order of specification does not matter. Applicable only when @𝘁𝗲𝘀𝘁𝘀𝗘𝗻𝗮𝗯𝗹𝗲𝗱 is applied.
