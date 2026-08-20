@@ -153,7 +153,7 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
                         TO "{{ newColName }}"
 
                         {# Metadata changes detected #}
-                        {%- set nsNodeVariables.metaDataChanged = true %} 
+                        {%- set nsNodeVariables.metaDataChanged = true %}
                 {%- endif %}
             {%- endfor %}
 
@@ -204,7 +204,7 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
                             or descriptionTest == false) %}
                         {%- set nsVariables.colchanges = nsVariables.colchanges + 1 -%}
                         {# Metadata changes detected #}
-                        {% set nsMetaVariables.metaDataChanged = true %}
+                        {%- set nsNodeVariables.metaDataChanged = true %}
 
                         {%- if nsVariables.colchanges == 1 %}
                             {{ stage('Change Column Attributes') }}
