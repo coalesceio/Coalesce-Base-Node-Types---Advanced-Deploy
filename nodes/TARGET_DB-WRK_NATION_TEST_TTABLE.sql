@@ -10,10 +10,10 @@
 @tests("SELECT 4 FROM {{ this }}", "After", true)
 @selectDistinct
 @description("Table '''decsripton --adfk")
-@preSQL("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 1")
-@preSQL("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 2")
-@postSQL("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 1")
-@postSQL("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 2")
+@preSQL("SELECT 1 FROM {{ this }} GROUP BY N_LOAD_TIMESTAMP HAVING COUNT(*) > 1")
+@preSQL("SELECT 1 FROM {{ this }} GROUP BY N_LOAD_TIMESTAMP HAVING COUNT(*) > 2")
+@postSQL("SELECT 1 FROM {{ this }} GROUP BY N_LOAD_TIMESTAMP HAVING COUNT(*) > 1")
+@postSQL("SELECT 1 FROM {{ this }} GROUP BY N_LOAD_TIMESTAMP HAVING COUNT(*) > 2")
 SELECT
      "N_NATIONKEY" AS "N_NATIONKEY" @isClusterKey(5) @description("Column '''decsripton --adfk") @inHash("GH_COL", 1),
      "N_NAME" AS "N_NAME_RENAMED" @previousName("N_NAME") @isClusterKey(6) @inHash("GH_COL", 2) @notNull @tests("null") @tests("unique"),
