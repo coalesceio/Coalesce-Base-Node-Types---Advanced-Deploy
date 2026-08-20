@@ -1,4 +1,4 @@
-@id("609a867c-66ca-4d7e-8f52-ecd7653071e3")
+@id("c3f6afa1-a01d-4be3-bcd3-31a753f9dab1")
 @nodeType("702")
 @materializationType("transient table")
 @clusterEnabled
