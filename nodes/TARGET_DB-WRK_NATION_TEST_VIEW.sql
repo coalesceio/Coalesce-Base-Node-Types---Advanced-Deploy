@@ -17,7 +17,7 @@
 SELECT
      "N_NATIONKEY" AS "N_NATIONKEY" @isClusterKey(5) @description("Column '''decsripton --adfk") @inHash("GH_COL", 1),
      "N_NAME" AS "N_NAME" @isClusterKey(6) @inHash("GH_COL", 2) @notNull @tests("null") @tests("unique"),
-     "N_REGIONKEY" AS "N_REGIONKEY" @inHash("GH_COL", 3) @inHash("GH_COL", 4) @tests("null") @defaultValue(0) @notNull @description("Added Later"),
+     "N_REGIONKEY" AS "N_REGIONKEY_RENAMED" @previousName("N_REGIONKEY") @inHash("GH_COL", 3) @inHash("GH_COL", 4) @tests("null") @defaultValue(0) @notNull @description("Added Later"),
      "N_COMMENT" AS "N_COMMENT" @tests("unique"),
      "N_LOAD_TIMESTAMP" AS "N_LOAD_TIMESTAMP" @isClusterKey(2, "DATE_TRUNC('MONTH', N_LOAD_TIMESTAMP)") @isClusterKey(3, "DATE_TRUNC('YEAR', N_LOAD_TIMESTAMP)") @isClusterKey(4, "TO_DATE(N_LOAD_TIMESTAMP)"),
      {{get_hash("GH_COL")}}::STRING AS HASH_COL,
