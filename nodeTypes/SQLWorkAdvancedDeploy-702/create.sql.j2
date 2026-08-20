@@ -198,6 +198,10 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
                     {%- set defaultValueTest = currentDefaultValue == desiredDefaultValue -%}
                     {%- set descriptionTest = currentDescription == desiredDescription -%}
 
+                    {% if defaultValueTest == false and currentDefaultValue == "" and desiredDefaultValue != "" %}
+                        {%- set nsVariables.setDefault = true -%}
+                    {% endif %}
+
                     {%- if (datatypeTest == false 
                             or nullableTest == false
                             or (defaultValueTest == false and desiredDefaultValue == "")
@@ -243,7 +247,7 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
                 {%- endif %}
             {%- endfor %}
 
-            {%- if defaultValueTest == false and currentDefaultValue == "" and desiredDefaultValue != "" %}
+            {%- if nsVariables.setDefault %}
                 {{ stage('⚠️Warning! Currently Unsupported Feature', true) }}
                 -- Adding a default for a column, after the table creation, is not supported in Snowflake as of now.
                 -- For more info: https://docs.snowflake.com/en/sql-reference/sql/alter-table-column#label-alter-table-column-usage-notes
