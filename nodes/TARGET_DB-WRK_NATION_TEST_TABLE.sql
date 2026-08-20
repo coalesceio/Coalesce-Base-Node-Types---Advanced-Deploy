@@ -14,10 +14,10 @@
 @postSQL("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 1")
 @postSQL("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 2")
 SELECT
-     "N_NATIONKEY" AS "N_NATIONKEY" @isClusterKey(5) @description("Column '''decsripton --adfk-modified") @inHash("GH_COL", 1) @collate("en") @defaultValue(0),
+     "N_NATIONKEY" AS "N_NATIONKEY" @isClusterKey(5) @description("Column '''decsripton --adfk-modified") @inHash("GH_COL", 1) @collate("en") @defaultValue("'N/A'"),
      "N_NAME"::STRING AS "N_NAME_RENAMED" @previousName("N_NAME") @isClusterKey(6) @inHash("GH_COL", 2) @tests("null") @tests("unique") @description("Column '''decsripton --adfk-add"),
-     "N_REGIONKEY" AS "N_REGIONKEY_RENAMED" @previousName("N_REGIONKEY") @inHash("GH_COL", 3) @inHash("GH_COL", 4) @tests("null")  @notNull,
-     "N_COMMENT" AS "N_COMMENT" @tests("unique") @defaultValue("'N/A-Mod'") @isClusterKey(7) @notNull @description("Added later") @inHash("GH_COL", 5),
+     "N_REGIONKEY" AS "N_REGIONKEY_RENAMED" @previousName("N_REGIONKEY") @inHash("GH_COL", 3) @inHash("GH_COL", 4) @tests("null") @defaultValue(0) @notNull,
+     "N_COMMENT" AS "N_COMMENT" @tests("unique") @isClusterKey(7) @notNull @description("Added later") @inHash("GH_COL", 5),
      "N_LOAD_TIMESTAMP" AS "N_LOAD_TIMESTAMP" @isClusterKey(2, "DATE_TRUNC('MONTH', N_LOAD_TIMESTAMP)") @notNull @isClusterKey(3, "DATE_TRUNC('YEAR', N_LOAD_TIMESTAMP)") @isClusterKey(4, "TO_DATE(N_LOAD_TIMESTAMP)"),
      {{get_hash("GH_COL")}}::STRING AS HASH_COL,
      {{get_hash("GH_COL", algo='SHA256', delimiter='-') }}::STRING AS HASH_COL_SHA256,
