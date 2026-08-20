@@ -1,0 +1,9 @@
+fileVersion: 1
+id: 96146fe9-c60e-450d-8ab1-22e951ed5c9a
+name: A1_2
+steps:
+  - 05eff767-7700-42d1-9c23-0585f0817eed
+  - 4674efd2-be46-4557-9565-2cf9fcfa2f7f
+  - bc5b063d-25f6-42be-9c49-6fcf5fe7c598
+  - dc6a5305-6063-4c33-8462-328b5dbadd07
+type: Subgraph

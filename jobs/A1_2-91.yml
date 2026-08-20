@@ -1,6 +1,6 @@
 excludeSelector: ""
 fileVersion: 1
 id: "91"
-includeSelector: "{nodeType: \"702\"} OR { location: \"SOURCE_DATA\" name: \"NATION_TEST\" } OR  { location: \"SOURCE_DATA\" name: \"ALL_DATATYPES_DEMO\" }"
+includeSelector: "{ subgraph: \"A1_2\" }"
 name: A1_2
 type: Job
