@@ -235,11 +235,11 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
 
                         {%- if defaultValueTest == false %}
                             {%- if nsVariables.colchanges > 1 %}, {%- endif %}
+                            {%- if desiredDefaultValue == "" %}
                                 COLUMN "{{ desiredColumnName }}"
-                                {%- if desiredDefaultValue == "" %}
-                                    DROP DEFAULT
-                                    {%- set nsVariables.colchanges = nsVariables.colchanges + 1 -%}
-                                {%- endif %}
+                                DROP DEFAULT
+                                {%- set nsVariables.colchanges = nsVariables.colchanges + 1 -%}
+                            {%- endif %}
                         {%- endif %}                                            
                     {%- endif %}
                 {%- endif %}
