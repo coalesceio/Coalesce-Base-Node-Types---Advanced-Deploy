@@ -243,7 +243,7 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
                 {%- endif %}
             {%- endfor %}
 
-            {%- if defaultValueTest == false and desiredDefaultValue != "" %}
+            {%- if defaultValueTest == false and currentDefaultValue == "" and desiredDefaultValue != "" %}
                 {{ stage('⚠️Warning! Currently Unsupported Feature', true) }}
                 -- Adding a default for a column, after the table creation, is not supported in Snowflake as of now.
                 -- For more info: https://docs.snowflake.com/en/sql-reference/sql/alter-table-column#label-alter-table-column-usage-notes
