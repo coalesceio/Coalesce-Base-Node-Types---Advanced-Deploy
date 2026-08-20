@@ -1,6 +1,6 @@
 excludeSelector: ""
 fileVersion: 1
 id: "91"
-includeSelector: "{ location: \"SOURCE_DATA\" name: \"NATION_TEST\" } OR { location: \"TARGET_DB\" name: \"WRK_NATION_TEST_TABLE\" } OR { location: \"TARGET_DB\" name: \"WRK_NATION_TEST_VIEW\" } OR { location: \"TARGET_DB\" name: \"WRK_NATION_TEST_TTABLE\" }"
+includeSelector: "{ location: \"SOURCE_DATA\" name: \"NATION_TEST\" } OR { location: \"TARGET_DB\" name: \"WRK_NATION_TEST_TABLE\" } OR { location: \"TARGET_DB\" name: \"WRK_NATION_TEST_VIEW\" } OR { location: \"TARGET_DB\" name: \"WRK_NATION_TEST_TTABLE\" } OR { location: \"TARGET_DB\" name: \"WRK_NATION_TEST_TRANSTABLE_DUP\" }"
 name: A1_2
 type: Job
