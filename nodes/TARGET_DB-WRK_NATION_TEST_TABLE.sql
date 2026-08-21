@@ -3,6 +3,7 @@
 @clusterEnabled
 @truncateBefore
 @testsEnabled
+@materializationType("transient table")
 @tests("SELECT 1 FROM {{ this }}")
 @tests("SELECT 2 FROM {{ this }}", "Before", true)
 @tests("SELECT 3 FROM {{ this }}", "After")
@@ -14,7 +15,7 @@
 @postSQL("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 1")
 @postSQL("SELECT 1 FROM {{ this }} GROUP BY N_COMMENT HAVING COUNT(*) > 2")
 SELECT
-     "N_NATIONKEY" AS "N_NATIONKEY" @isClusterKey(5) @description("Column '''decsripton --adfk-modified") @inHash("GH_COL", 1) @collate("en") @defaultValue("'N/A'"),
+     "N_NATIONKEY" AS "N_NATIONKEY" @isClusterKey(5) @description("Column '''decsripton --adfk-modified") @inHash("GH_COL", 1) @collate("en"),
      "N_NAME"::STRING AS "N_NAME_RENAMED" @previousName("N_NAME") @isClusterKey(6) @inHash("GH_COL", 2) @tests("null") @tests("unique") @description("Column '''decsripton --adfk-add"),
      "N_REGIONKEY" AS "N_REGIONKEY_RENAMED" @previousName("N_REGIONKEY") @inHash("GH_COL", 3) @inHash("GH_COL", 4) @tests("null") @defaultValue(0) @notNull,
      "N_COMMENT" AS "N_COMMENT" @tests("unique") @isClusterKey(7) @notNull @description("Added later") @inHash("GH_COL", 5),

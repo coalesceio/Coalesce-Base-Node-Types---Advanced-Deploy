@@ -1,6 +1,5 @@
 @id("dc6a5305-6063-4c33-8462-328b5dbadd07")
 @nodeType("702")
-@materializationType("view")
 @clusterEnabled
 @truncateBefore
 @testsEnabled

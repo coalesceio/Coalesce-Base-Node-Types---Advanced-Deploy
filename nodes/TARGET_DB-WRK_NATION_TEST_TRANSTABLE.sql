@@ -1,6 +1,6 @@
 @id("05eff767-7700-42d1-9c23-0585f0817eed")
 @nodeType("702")
-@materializationType("transient table")
+@materializationType("view")
 @clusterEnabled
 @truncateBefore
 @testsEnabled
