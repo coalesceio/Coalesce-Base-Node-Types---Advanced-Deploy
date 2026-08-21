@@ -3,7 +3,6 @@
 @clusterEnabled
 @truncateBefore
 @testsEnabled
-@materializationType("transient table")
 @tests("SELECT 1 FROM {{ this }}")
 @tests("SELECT 2 FROM {{ this }}", "Before", true)
 @tests("SELECT 3 FROM {{ this }}", "After")

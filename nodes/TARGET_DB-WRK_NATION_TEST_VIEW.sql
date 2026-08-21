@@ -1,6 +1,7 @@
 @id("dc6a5305-6063-4c33-8462-328b5dbadd07")
 @nodeType("702")
 @clusterEnabled
+@materializationType("view")
 @truncateBefore
 @testsEnabled
 @tests("SELECT 1 FROM {{ this }}")
