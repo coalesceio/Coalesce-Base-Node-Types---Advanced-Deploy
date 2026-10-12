@@ -1,0 +1,6 @@
+excludeSelector: ""
+fileVersion: 1
+id: "115"
+includeSelector: "{ location: \"SOURCE_DATA\" name: \"SRC_CUSTOMER_EVENTS\" } OR { location: \"SOURCE_DATA\" name: \"SRC_CUSTOMERS\" } OR { location: \"SOURCE_DATA\" name: \"SRC_ORDER_LINES\" } OR { location: \"SOURCE_DATA\" name: \"SRC_PRODUCT_CHANGES\" } OR { location: \"SOURCE_DATA\" name: \"SRC_WORK_TASKS\" } OR { location: \"TARGET_DB\" name: \"WRK_SRC_WORK_TASKS\" } OR { location: \"TARGET_DB\" name: \"PSTG_SRC_PRODUCT_CHANGES\" } OR { location: \"TARGET_DB\" name: \"FCT_SRC_CUSTOMER_EVENTS\" } OR { location: \"TARGET_DB\" name: \"FCT_SRC_ORDER_LINES\" } OR { location: \"TARGET_DB\" name: \"DIM_SRC_CUSTOMERS\" }"
+name: Job_2
+type: Job

@@ -13,9 +13,13 @@ operation:
     clusterKeyExpressions: false
     groupByAll: false
     insertStrategy: UNION ALL
-    lastModifiedComparison: false
+    lastModifiedColumn:
+      columnCounter: 857c0af6-026b-4d93-96c3-5e48d1610fa9
+      name: CUSTOMER_ID
+      stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+    lastModifiedComparison: true
     lookbackdays: 0
-    mergeDeleteStrategy: NO DELETES
+    mergeDeleteStrategy: HARD DELETED
     orderby: false
     orderbycolumn:
       items:
@@ -23,7 +27,7 @@ operation:
     postSQL: ""
     preSQL: ""
     selectDistinct: false
-    softDeleteStrategy: false
+    softDeleteStrategy: true
     testsEnabled: false
     truncateBefore: false
   database: ""

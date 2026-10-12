@@ -28,7 +28,11 @@ operation:
     insertZeroKeyStr: UNKNOWN
     insertZeroKeySurrogateKey: "0"
     insertZeroKeyTimestamp: "1900-01-01 00:00:00.000"
-    lastModifiedComparison: false
+    lastModifiedColumn:
+      columnCounter: dd644068-07da-4d8b-854e-ad3cc9cd716b
+      name: CUSTOMER_ID
+      stepCounter: fbed626d-8a4a-46eb-8827-d4c419e7282f
+    lastModifiedComparison: true
     orderby: false
     orderbycolumn:
       items:
@@ -79,6 +83,7 @@ operation:
         dataType: NUMBER(10,0)
         description: ""
         isBusinessKey: true
+        isChangeTracking: true
         name: CUSTOMER_ID
         nullable: false
         sourceColumnReferences:
