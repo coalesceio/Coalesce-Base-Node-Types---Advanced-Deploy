@@ -69,7 +69,7 @@ operation:
           stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
         config: {}
         dataType: DATE
-        description: ""
+        description: "'test'"
         name: EVENT_DATE
         nullable: false
         sourceColumnReferences:
@@ -82,8 +82,8 @@ operation:
           columnCounter: 1a89cb97-4410-471b-8870-b738bfe30a20
           stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
         config: {}
-        dataType: VARCHAR(40)
-        description: ""
+        dataType: VARCHAR(50)
+        description: "'test'"
         name: EVENT_TYPE
         nullable: false
         sourceColumnReferences:
@@ -96,7 +96,7 @@ operation:
           columnCounter: b1ef697d-1c59-4703-9154-202c83f59374
           stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
         config: {}
-        dataType: VARCHAR(30)
+        dataType: VARCHAR(25)
         description: ""
         name: CHANNEL
         nullable: true
@@ -119,34 +119,46 @@ operation:
               - columnCounter: c3df7bc4-e5ba-48df-9f6e-a14ac748850d
                 stepCounter: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
             transform: ""
-      - appliedColumnTests: {}
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 3892b53d-fc0c-4604-af77-7921768f13ef
+          columnCounter: 450b8a25-d83c-48d5-a831-48c6743ccb88
           stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
         config: {}
-        dataType: BOOLEAN
+        dataType: VARCHAR
+        defaultValue: ""
         description: ""
-        name: IS_SUCCESSFUL
+        keyColumnType: None
+        name: STATUS
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: e6443f55-8dbf-4894-904f-be9d41ca29c9
-                stepCounter: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
-            transform: ""
-      - appliedColumnTests: {}
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: "NULL"
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 79f3ab39-ed79-4598-b277-3c0cbecadfb8
+          columnCounter: ca4556e9-de56-43d8-b5f4-3de7363d17f1
           stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
         config: {}
-        dataType: VARCHAR(50)
+        dataType: VARCHAR(25)
+        defaultValue: ""
         description: ""
-        name: EVENT_SOURCE
+        keyColumnType: None
+        name: DESC
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 2dec90b9-d390-4dea-adfe-c7f11bd991cf
-                stepCounter: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
-            transform: ""
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: "NULL"
+        systemColumnType: None
       - acceptedValues:
           strictMatch: true
           values: []

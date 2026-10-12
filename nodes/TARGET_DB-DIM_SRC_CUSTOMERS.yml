@@ -119,9 +119,9 @@ operation:
           columnCounter: 82616c9e-2b45-4933-b80d-b202a7d606a4
           stepCounter: fbed626d-8a4a-46eb-8827-d4c419e7282f
         config: {}
-        dataType: VARCHAR(150)
-        description: ""
-        name: EMAIL_ADDRESS
+        dataType: VARCHAR(100)
+        description: "'test'"
+        name: EMAIL_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -133,8 +133,8 @@ operation:
           columnCounter: a0d19ea6-a30c-4247-9707-b3af61d72cf2
           stepCounter: fbed626d-8a4a-46eb-8827-d4c419e7282f
         config: {}
-        dataType: VARCHAR(20)
-        description: ""
+        dataType: VARCHAR(30)
+        description: "'test'"
         name: CUSTOMER_STATUS
         nullable: true
         sourceColumnReferences:
@@ -197,37 +197,6 @@ operation:
           - columnReferences:
               - columnCounter: 976628a3-bf0c-40fe-8114-a6b508c11fe4
                 stepCounter: 5c2fa75e-acd6-421a-a3e7-76f38b161d33
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 1430e606-014a-4799-84d9-f0ce77072295
-          stepCounter: fbed626d-8a4a-46eb-8827-d4c419e7282f
-        config: {}
-        dataType: TIMESTAMP_NTZ(9)
-        description: ""
-        name: LAST_UPDATED_AT
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: e736f4f3-c350-4274-be8c-00ce5002bc2b
-                stepCounter: 5c2fa75e-acd6-421a-a3e7-76f38b161d33
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: dd27f595-ce3e-46b3-afce-f9385bc83d2f
-          stepCounter: fbed626d-8a4a-46eb-8827-d4c419e7282f
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: ""
-        isSystemVersion: true
-        name: SYSTEM_VERSION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
             transform: ""
       - acceptedValues:
           strictMatch: true

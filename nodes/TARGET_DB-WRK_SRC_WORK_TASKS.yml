@@ -72,7 +72,7 @@ operation:
           stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
         config: {}
         dataType: VARCHAR(20)
-        description: ""
+        description: Test desc
         name: TASK_STATUS
         nullable: true
         sourceColumnReferences:
@@ -85,8 +85,8 @@ operation:
           columnCounter: acc924e5-0c4a-4e89-a573-e86806957629
           stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
         config: {}
-        dataType: NUMBER(10,0)
-        description: ""
+        dataType: NUMBER(12,0)
+        description: Test desc
         name: OWNER_ID
         nullable: true
         sourceColumnReferences:
@@ -96,24 +96,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 4d9f5d8f-9e72-44d3-b2ba-e48dc5ede71c
-          stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
-        config: {}
-        dataType: NUMBER(8,2)
-        description: ""
-        name: ESTIMATED_HOURS
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: a1a23398-36a7-4835-bb17-8ef85c3100ce
-                stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 3f5a924d-6ab2-4638-ae6f-c3c3952c0f89
           stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
         config: {}
         dataType: BOOLEAN
+        defaultValue: "'ABC'"
         description: ""
         name: IS_ACTIVE
         nullable: true
@@ -141,29 +128,55 @@ operation:
           columnCounter: 094702c5-5734-4fc7-958a-cfbd743a5386
           stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
         config: {}
-        dataType: VARCHAR(50)
+        dataType: VARCHAR(40)
         description: ""
-        name: TASK_CATEGORY
+        name: T_CATEGORY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 925dde75-985f-492f-ac0a-7797aa1c2b23
                 stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
             transform: ""
-      - appliedColumnTests: {}
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 509cd926-e19b-46ea-8bbb-708214300733
+          columnCounter: 3728dbd3-31ff-488d-8de3-a1b25a5df0af
           stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
         config: {}
-        dataType: VARCHAR(500)
+        dataType: VARCHAR
+        defaultValue: ""
         description: ""
-        name: NOTES
+        keyColumnType: None
+        name: New_col
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 3fb8abab-5c95-4b9c-a4e8-15e7d33907f4
-                stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
-            transform: ""
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: "NULL"
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 30f0e45d-60d6-4827-a5a7-0eb7c03799b6
+          stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: NEW_COL2
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: "NULL"
+        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:

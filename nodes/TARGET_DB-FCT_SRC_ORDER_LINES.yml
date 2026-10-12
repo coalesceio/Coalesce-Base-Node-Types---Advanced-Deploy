@@ -79,7 +79,7 @@ operation:
         config: {}
         dataType: NUMBER(10,0)
         description: ""
-        name: CUSTOMER_ID
+        name: C_ID
         nullable: false
         sourceColumnReferences:
           - columnReferences:
@@ -93,7 +93,7 @@ operation:
         config: {}
         dataType: NUMBER(10,0)
         description: ""
-        name: PRODUCT_ID
+        name: P_ID
         nullable: false
         sourceColumnReferences:
           - columnReferences:
@@ -106,7 +106,7 @@ operation:
           stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
         config: {}
         dataType: DATE
-        description: ""
+        description: "'This is order date'"
         name: ORDER_DATE
         nullable: false
         sourceColumnReferences:
@@ -120,7 +120,7 @@ operation:
           stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
         config: {}
         dataType: NUMBER(10,0)
-        description: ""
+        description: "'This is quantity'"
         name: QUANTITY
         nullable: false
         sourceColumnReferences:
@@ -148,6 +148,7 @@ operation:
           stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
         config: {}
         dataType: NUMBER(12,2)
+        defaultValue: "'TEST'"
         description: ""
         name: DISCOUNT_AMOUNT
         nullable: true
@@ -161,41 +162,13 @@ operation:
           columnCounter: a3150b2f-af61-4b83-8aff-794a9116dac8
           stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
         config: {}
-        dataType: NUMBER(12,2)
+        dataType: NUMBER(18,2)
         description: ""
         name: TAX_AMOUNT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 1848976a-4918-47e3-acc8-f53f037202c8
-                stepCounter: 756c0203-75b0-4ac8-b6c9-a8c401ae5389
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: c0c34e30-6e1f-4d04-9617-e5da30761554
-          stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
-        config: {}
-        dataType: VARCHAR(20)
-        description: ""
-        name: LINE_STATUS
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 42291e44-33c0-469e-9c65-979e6b79ff81
-                stepCounter: 756c0203-75b0-4ac8-b6c9-a8c401ae5389
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 2251e304-909c-4853-8519-7d0d535b6c6b
-          stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
-        config: {}
-        dataType: VARCHAR(200)
-        description: ""
-        name: LINE_DESCRIPTION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 8f030b9d-888b-449f-ae21-3596794a1f82
                 stepCounter: 756c0203-75b0-4ac8-b6c9-a8c401ae5389
             transform: ""
       - acceptedValues:
@@ -232,6 +205,46 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: dde8e85d-d772-4d54-af2d-41fe0fb4ea8b
+          stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: STATUS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: "NULL"
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9b17b14d-0e99-496a-a862-53befa5ea9a9
+          stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: DESC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: "NULL"
+        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
