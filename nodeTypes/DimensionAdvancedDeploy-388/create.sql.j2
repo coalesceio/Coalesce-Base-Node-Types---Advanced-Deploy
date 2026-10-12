@@ -157,9 +157,8 @@ does not permit copying or modification for any other purpose.
 				{% if col.isSurrogateKey %}
 					identity
 				{% endif %}
-				{%- if not col.nullable %} NOT NULL
-					{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-				{% endif %}
+				{%- if not col.nullable %} NOT NULL {% endif %}
+					{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{%- endif %}
 				{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
 				{%- if not loop.last -%}, {% endif %}
 			  {% endfor %}
@@ -212,9 +211,8 @@ does not permit copying or modification for any other purpose.
 				"{{ col.name }}" {{ col.dataType }}
 				{%- if col.isSurrogateKey %} identity {%- endif %}
 
-				{%- if not col.nullable %} NOT NULL
-					{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-				{%- endif -%}
+				{%- if not col.nullable %} NOT NULL {%- endif %}
+					{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{%- endif %}
 				{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
 				{%- if not loop.last -%}, {%- endif -%} 
 				{%- endfor -%}
@@ -894,7 +892,7 @@ does not permit copying or modification for any other purpose.
                 {% set cdb = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
                 {% set csch = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
 
-                ALTER TABLE  "{{cdb}}"."{{csch}}"."{{currentState.node.name}}"
+                ALTER TABLE IF EXISTS "{{cdb}}"."{{csch}}"."{{currentState.node.name}}"
                 RENAME TO   {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
 
                 {# Metadata changes detected #}
@@ -940,8 +938,7 @@ does not permit copying or modification for any other purpose.
                         ADD COLUMN
                         {%- else %},
                         {%- endif %}
-                        "{{ addDesCol.name }}" {{ addDesCol.dataType }}{%- if not addDesCol.nullable %} NOT NULL {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{% endif %}
-                        {%- endif %}
+                        "{{ addDesCol.name }}" {{ addDesCol.dataType }}{%- if not addDesCol.nullable %} NOT NULL {%- endif %} {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{%- endif %}  
                         {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDesCol.description | escape }}'{% endif %}
                     {# Metadata changes detected #}
                     {%- set nsMetaVariables.metaDataChanged = true %}

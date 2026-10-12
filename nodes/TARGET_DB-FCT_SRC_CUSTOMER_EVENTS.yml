@@ -1,0 +1,204 @@
+fileVersion: 1
+id: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+name: FCT_SRC_CUSTOMER_EVENTS
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    lastModifiedComparison: false
+    lookbackdays: 0
+    mergeDeleteStrategy: NO DELETES
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    softDeleteStrategy: false
+    testsEnabled: false
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 857c0af6-026b-4d93-96c3-5e48d1610fa9
+          stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+        config: {}
+        dataType: NUMBER(10,0)
+        description: ""
+        name: CUSTOMER_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b0c7eb01-dad3-4c6c-9274-043dba110ae5
+                stepCounter: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c2870efe-e94f-4620-86f8-9e685ec47a0d
+          stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+        config: {}
+        dataType: NUMBER(10,0)
+        description: ""
+        name: EVENT_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0c41064e-e357-43d1-8dcf-bab5b0e08686
+                stepCounter: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5469909c-1da0-4e76-bfcb-582859890cb4
+          stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+        config: {}
+        dataType: DATE
+        description: ""
+        name: EVENT_DATE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0ddf3bea-603c-4545-a99c-51fe612679d2
+                stepCounter: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1a89cb97-4410-471b-8870-b738bfe30a20
+          stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+        config: {}
+        dataType: VARCHAR(40)
+        description: ""
+        name: EVENT_TYPE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e93f82fd-2e47-492e-9802-2f33cddc34c9
+                stepCounter: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b1ef697d-1c59-4703-9154-202c83f59374
+          stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+        config: {}
+        dataType: VARCHAR(30)
+        description: ""
+        name: CHANNEL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4ba24361-21c0-4f81-9deb-03d048fbd1be
+                stepCounter: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c92de4ac-81a1-4885-9169-025ba46a56e5
+          stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+        config: {}
+        dataType: NUMBER(10,0)
+        description: ""
+        name: CAMPAIGN_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c3df7bc4-e5ba-48df-9f6e-a14ac748850d
+                stepCounter: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3892b53d-fc0c-4604-af77-7921768f13ef
+          stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+        config: {}
+        dataType: BOOLEAN
+        description: ""
+        name: IS_SUCCESSFUL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e6443f55-8dbf-4894-904f-be9d41ca29c9
+                stepCounter: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 79f3ab39-ed79-4598-b277-3c0cbecadfb8
+          stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: EVENT_SOURCE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2dec90b9-d390-4dea-adfe-c7f11bd991cf
+                stepCounter: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f228dfef-ff2d-4c6e-b260-3b4dd26cff72
+          stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9e9a7f1b-3b0c-48da-b92b-fd5eed5920fe
+          stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SRC_CUSTOMER_EVENTS: 8b5b10dc-a3fe-43d2-91e5-5567f150a505
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: SRC_CUSTOMER_EVENTS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'SRC_CUSTOMER_EVENTS') }} "SRC_CUSTOMER_EVENTS"
+        name: FCT_SRC_CUSTOMER_EVENTS
+        noLinkRefs: []
+  name: FCT_SRC_CUSTOMER_EVENTS
+  overrideSQL: false
+  schema: ""
+  sqlType: "390"
+  type: sql
+  version: 1
+type: Node

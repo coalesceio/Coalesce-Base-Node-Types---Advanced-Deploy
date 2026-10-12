@@ -1,0 +1,187 @@
+fileVersion: 1
+id: effed5ff-4d66-4b65-923b-4285f50cd244
+name: WRK_SRC_WORK_TASKS
+operation:
+  config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fd3a8506-54ae-4315-85b1-5ee3dcbe4354
+          stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
+        config: {}
+        dataType: NUMBER(10,0)
+        description: ""
+        name: TASK_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 620d62cd-0644-4677-8843-54b5f27658e9
+                stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e70d39f3-f164-4164-865f-46a38df5de54
+          stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: TASK_NAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 029a153b-dc41-4a6e-b2c9-8519995cc37e
+                stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 10ea1625-fc73-4e00-8d42-5a708b6ae784
+          stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: TASK_STATUS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9b2531ef-a91c-4d81-9083-01ccdfa21029
+                stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: acc924e5-0c4a-4e89-a573-e86806957629
+          stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
+        config: {}
+        dataType: NUMBER(10,0)
+        description: ""
+        name: OWNER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 76f9fffa-136a-4a5e-8580-f340154484a2
+                stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4d9f5d8f-9e72-44d3-b2ba-e48dc5ede71c
+          stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
+        config: {}
+        dataType: NUMBER(8,2)
+        description: ""
+        name: ESTIMATED_HOURS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1a23398-36a7-4835-bb17-8ef85c3100ce
+                stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3f5a924d-6ab2-4638-ae6f-c3c3952c0f89
+          stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
+        config: {}
+        dataType: BOOLEAN
+        description: ""
+        name: IS_ACTIVE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 38806a1e-469f-487c-941d-08f9306c99b1
+                stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bd40a7a4-8548-440b-88f0-52f97bb1c53a
+          stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9dc0bdb3-e6fc-4257-be03-d7e409503132
+                stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 094702c5-5734-4fc7-958a-cfbd743a5386
+          stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: TASK_CATEGORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 925dde75-985f-492f-ac0a-7797aa1c2b23
+                stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 509cd926-e19b-46ea-8bbb-708214300733
+          stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
+        config: {}
+        dataType: VARCHAR(500)
+        description: ""
+        name: NOTES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3fb8abab-5c95-4b9c-a4e8-15e7d33907f4
+                stepCounter: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SRC_WORK_TASKS: d93c681f-42e3-4b8e-a8f4-9b14d6af7928
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: SRC_WORK_TASKS
+        join:
+          joinCondition: FROM  {{ ref('SOURCE_DATA', 'SRC_WORK_TASKS') }} SRC_WORK_TASKS
+        name: WRK_SRC_WORK_TASKS
+        noLinkRefs: []
+  name: WRK_SRC_WORK_TASKS
+  overrideSQL: false
+  schema: ""
+  sqlType: "179"
+  type: sql
+  version: 1
+type: Node
