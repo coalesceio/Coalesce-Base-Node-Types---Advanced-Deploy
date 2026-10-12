@@ -78,6 +78,7 @@ operation:
         config: {}
         dataType: NUMBER(10,0)
         description: ""
+        isBusinessKey: true
         name: CUSTOMER_ID
         nullable: false
         sourceColumnReferences:
