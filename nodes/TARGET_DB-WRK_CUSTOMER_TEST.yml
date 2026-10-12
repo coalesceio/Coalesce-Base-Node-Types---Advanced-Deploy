@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 8c639932-17f5-4070-a723-a5d475e39163
-name: WRK_CUSTOMER
+name: WRK_CUSTOMER_TEST
 operation:
   config:
     asofColumn:
@@ -204,9 +204,9 @@ operation:
             nodeName: CUSTOMER
         join:
           joinCondition: FROM  {{ ref('SOURCE_DATA', 'CUSTOMER') }} CUSTOMER
-        name: WRK_CUSTOMER
+        name: WRK_CUSTOMER_TEST
         noLinkRefs: []
-  name: WRK_CUSTOMER
+  name: WRK_CUSTOMER_TEST
   overrideSQL: false
   schema: ""
   sqlType: "179"
