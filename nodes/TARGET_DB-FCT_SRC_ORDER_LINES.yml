@@ -148,7 +148,7 @@ operation:
           stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
         config: {}
         dataType: NUMBER(12,2)
-        defaultValue: "'TEST'"
+        defaultValue: ""
         description: ""
         name: DISCOUNT_AMOUNT
         nullable: true

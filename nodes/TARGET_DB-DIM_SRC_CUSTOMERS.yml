@@ -119,7 +119,7 @@ operation:
           columnCounter: 82616c9e-2b45-4933-b80d-b202a7d606a4
           stepCounter: fbed626d-8a4a-46eb-8827-d4c419e7282f
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(150)
         description: "'test'"
         name: EMAIL_ID
         nullable: true

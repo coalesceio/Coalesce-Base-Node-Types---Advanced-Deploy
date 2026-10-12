@@ -196,7 +196,7 @@ operation:
           columnCounter: 83ed0fd2-eb15-436d-a8e0-c6f5285fe977
           stepCounter: 15f71597-3695-40b0-b584-5d047bdb7afe
         config: {}
-        dataType: VARCHAR(50)
+        dataType: VARCHAR(100)
         description: ""
         name: P_NAME
         nullable: true

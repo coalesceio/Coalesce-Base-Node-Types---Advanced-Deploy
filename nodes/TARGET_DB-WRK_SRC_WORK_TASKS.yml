@@ -100,7 +100,7 @@ operation:
           stepCounter: effed5ff-4d66-4b65-923b-4285f50cd244
         config: {}
         dataType: BOOLEAN
-        defaultValue: "'ABC'"
+        defaultValue: ""
         description: ""
         name: IS_ACTIVE
         nullable: true

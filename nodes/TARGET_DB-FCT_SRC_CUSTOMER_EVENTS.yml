@@ -96,7 +96,7 @@ operation:
           columnCounter: b1ef697d-1c59-4703-9154-202c83f59374
           stepCounter: c28d6f9e-a744-42fe-9979-c35721c8a7b5
         config: {}
-        dataType: VARCHAR(25)
+        dataType: VARCHAR(30)
         description: ""
         name: CHANNEL
         nullable: true
