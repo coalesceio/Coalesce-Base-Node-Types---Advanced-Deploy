@@ -152,6 +152,46 @@ operation:
               - columnCounter: 45e088bc-b3a3-4c97-acd5-680c906ea2a3
                 stepCounter: 53e596ad-4db2-4edf-9584-727028d16c17
             transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3b6a4d6c-7e54-41f2-b194-788fa276e4b5
+          stepCounter: 8c639932-17f5-4070-a723-a5d475e39163
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: "'ACTIVE'"
+        description: ""
+        keyColumnType: None
+        name: C_STATUS
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a6fd2988-eeb1-4389-a277-3c4c864ba561
+          stepCounter: 8c639932-17f5-4070-a723-a5d475e39163
+        config: {}
+        dataType: VARCHAR(15)
+        defaultValue: "'General'"
+        description: ""
+        keyColumnType: None
+        name: C_CATEGORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
