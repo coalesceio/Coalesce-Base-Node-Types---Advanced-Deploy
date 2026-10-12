@@ -21,7 +21,7 @@ operation:
       columnCounter: 4322dca6-bd40-4532-8266-3fdfa8a27786
       name: ORDER_ID
       stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
-    lastModifiedComparison: true
+    lastModifiedComparison: false
     lookbackdays: 0
     mergeDeleteStrategy: NO DELETES
     orderby: false
