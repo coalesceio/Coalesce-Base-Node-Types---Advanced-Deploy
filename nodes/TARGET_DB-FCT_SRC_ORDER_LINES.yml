@@ -55,6 +55,7 @@ operation:
         config: {}
         dataType: NUMBER(10,0)
         description: ""
+        isBusinessKey: true
         name: ORDER_ID
         nullable: false
         sourceColumnReferences:
