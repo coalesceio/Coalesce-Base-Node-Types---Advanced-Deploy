@@ -68,75 +68,74 @@ does not permit copying or modification for any other purpose.
 
 		CREATE OR REPLACE VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
 		(
-			{% for col in desiredState.columns %}
+			{%- for col in desiredState.columns %}
 				"{{ col.name }}"
 				{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
 				{%- if not loop.last -%},{% endif %}
-			{% endfor %}
+			{%- endfor %}
 		)
 		{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 		AS
-		{% for source in desiredState.sources %}
+		{%- for source in desiredState.sources %}
 
-			SELECT{% if desiredState.config.selectDistinct %} DISTINCT {% endif %} 
+			SELECT{%- if desiredState.config.selectDistinct %} DISTINCT {%- endif %} 
             
-			{% for col in source.columns %}
-				{% if col.isSurrogateKey or col.isSystemUpdateDate or col.isSystemCreateDate %}
+			{%- for col in source.columns %}
+				{%- if col.isSurrogateKey or col.isSystemUpdateDate or col.isSystemCreateDate %}
 					NULL
-				{% else %}
+				{%- else %}
 					{{ get_source_transform(col) }}
-				{% endif %}
-				AS "{{ col.name }}"
-				{%- if not loop.last -%}, {% endif %}
-			{% endfor %}
+				{%- endif %} AS "{{ col.name }}"
+				{%- if not loop.last %}, {%- endif %}
+			{%- endfor %}
 			{{ source.join }}            
-            {% if desiredState.config.groupByAll %}
+            {%- if desiredState.config.groupByAll %}
 		       Group By All
-	         {% endif %}
-			{% if not loop.last %}                 
-               {% if desiredState.config.insertStrategy in ['UNION', 'UNION ALL'] %}
+	         {%- endif %}
+			{%- if not loop.last %}                 
+               {%- if desiredState.config.insertStrategy in ['UNION', 'UNION ALL'] %}
                     {{ desiredState.config.insertStrategy }}
-                {% else %}
+                {%- else %}
                     UNION
-                {% endif %}
-            {% endif %}
-		{% endfor %}
-        {% endif %}
+                {%- endif %}
+            {%- endif %}
+		{%- endfor %}
+        {%- endif %}
 {% elif desiredState.node.materializationType == 'table' or desiredState.node.materializationType == 'transient table' %}
 
 
         {# Figure out cluster key #}
         {% set nsVariables = namespace(finalClusterKey="") %}
-        {% if desiredState.config.clusterKey == true %}
-            {% if desiredState.config.clusterKeyExpressions == true %}
-                {% set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='columnNameExpressions.name') | list, desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='sqlExpression') | list %}
+        {%- if desiredState.config.clusterKey == true %}
+            {%- if desiredState.config.clusterKeyExpressions == true %}
+                {%- set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='columnNameExpressions.name') | list, desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='sqlExpression') | list %}
 
                 {%- set nsVariables = namespace(clusterValues=[]) %}
 
-                {% for r in column %}
-                    {% if expression[loop.index0] == "" %}
-                        {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
-                    {% else %}
-                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
-                    {% endif %}
-                {% endfor %}
+                {%- for r in column %}
+                    {%- if expression[loop.index0] == "" %}
+                        {%- set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
+                    {%- else %}
+                        {%- set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
+                    {%- endif %}
+                {%- endfor %}
 
-                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+                {%- set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
 
-            {% else %}
+            {%- else %}
 
-                {% set column = desiredState.config.clusterKeyConfig.get('items') | map(attribute='columnName.name') | list %}
+                {%- set column = desiredState.config.clusterKeyConfig.get('items') | map(attribute='columnName.name') | list %}
 
                 {%- set nsVariables = namespace(clusterValues=[]) %}
 
-                {% for r in column %}
-                    {% set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
-                {% endfor %}
+                {%- for r in column %}
+                    {%- set nsVariables.clusterValues = nsVariables.clusterValues + ['"'+r+'"'] %}
+                {%- endfor %}
 
-                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+                {%- set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
 
-            {% endif %}
-        {% endif %}
+            {%- endif %}
+        {%- endif %}
 
         {% if currentState != undefined and currentState.node.materializationType != desiredState.node.materializationType %}
 
@@ -148,99 +147,87 @@ does not permit copying or modification for any other purpose.
              {{ stage('Create Fact ' + desiredState.node.materializationType ) }}
 			  CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
-                {% for col in desiredState.columns %}
+                {%- for col in desiredState.columns %}
                     "{{ col.name }}" {{ col.dataType }}
-                    {%- if not col.nullable %} NOT NULL
-                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-                    {% endif %}
-                    {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-                    {%- if not loop.last -%}, {% endif %}
-                {% endfor %}
+                    {%- if not col.nullable %} NOT NULL {%- endif %}
+                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{%- endif %}
+                    {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{%- endif %}
+                    {%- if not loop.last -%}, {%- endif %}
+                {%- endfor %}
 
                 {# =========================================================
                 Primary Key Name and Column List Addition
                 ========================================================= #}
                 {% if desiredState.config.primary == true %}
 
-                    {% set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                    {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
                                             | map(attribute='primaryKey')
                                             | map(attribute='name')
                                             | list %}
             
-                    {% if primaryKeyList | length > 0 and primaryKeyList[0] %}
-                        , CONSTRAINT
-
-                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                    {%- if primaryKeyList | length > 0 and primaryKeyList[0] %}, CONSTRAINT
+                        {%- if desiredState.config.primaryKeyName | trim != '' %}
                             {{ desiredState.config.primaryKeyName }}
-                        {% else %}
+                        {%- else %}
                             pk_{{ desiredState.node.name }}
-                        {% endif %}
-
-                        PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
-
-                    {% endif %}
-                {% endif %}
+                        {%- endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                    {%- endif %}
+                {%- endif %}
 		    	)
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 
-            {% if desiredState.config.clusterKey == true %}
+            {%- if desiredState.config.clusterKey == true %}
                 {{ stage('Apply Table Clustering') }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
 
                 {{ stage('Resume Recluster Table') }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
-            {% endif %}
+            {%- endif %}
 
 
-        {% endif %}
+        {%- endif %}
 
 
-        {% if currentState == undefined or currentState.storageLocations | length == 0  %}
+        {%- if currentState == undefined or currentState.storageLocations | length == 0  %}
             {{ stage('Create Fact ' + desiredState.node.materializationType ) }}
 			CREATE OR REPLACE {{desiredState.node.materializationType}} {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
             (
-                {% for col in desiredState.columns %}
+                {%- for col in desiredState.columns %}
                     "{{ col.name }}" {{ col.dataType }}
-                    {%- if not col.nullable %} NOT NULL
-                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-                    {% endif %}
-                    {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-                    {%- if not loop.last -%}, {% endif %}
-                {% endfor %}
+                    {%- if not col.nullable %} NOT NULL {%- endif %}
+                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{%- endif %}
+                    {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{%- endif %}
+                    {%- if not loop.last %}, {%- endif %}
+                {%- endfor %}
 
                 {# =========================================================
                 Primary Key Name and Column List Addition
                 ========================================================= #}
-                {% if desiredState.config.primary == true %}
+                {%- if desiredState.config.primary == true %}
 
-                    {% set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                    {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
                                             | map(attribute='primaryKey')
                                             | map(attribute='name')
                                             | list %}
             
-                    {% if primaryKeyList | length > 0 and primaryKeyList[0] %}
-                        , CONSTRAINT 
-
-                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                    {%- if primaryKeyList | length > 0 and primaryKeyList[0] %}, CONSTRAINT 
+                        {%- if desiredState.config.primaryKeyName | trim != '' %}
                             {{ desiredState.config.primaryKeyName }}
-                        {% else %}
+                        {%- else %}
                             pk_{{ desiredState.node.name }}
-                        {% endif %}
-
-                        PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
-
-                    {% endif %}
-                {% endif %}
+                        {%- endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                    {%- endif %}
+                {%- endif %}
 		    	)
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
 
-            {% if desiredState.config.clusterKey == true %}
+            {%- if desiredState.config.clusterKey == true %}
                 {{ stage('Apply Table Clustering') }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} {{ nsVariables.finalClusterKey }}
 
                 {{ stage('Resume Recluster Table') }}
                 ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }} RESUME RECLUSTER
-            {% endif %}
+            {%- endif %}
 
         {% elif currentState != undefined and currentState.node.materializationType == desiredState.node.materializationType %}
 
@@ -724,196 +711,188 @@ does not permit copying or modification for any other purpose.
             {% endif %}
 
             {# Rename / Move Object #}
-            {% if (nsVariables.storageLocationTest == false or currentState.node.name != desiredState.node.name) %}
+            {%- if (nsVariables.storageLocationTest == false or currentState.node.name != desiredState.node.name) %}
                 {{ stage('Rename and / or Move Table') }}
-                {% set srcSchName = currentState.node.location.name %}
-                {% set cdb = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
-                {% set csch = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
+                {%- set srcSchName = currentState.node.location.name %}
+                {%- set cdb = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
+                {%- set csch = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
 
-                ALTER TABLE  "{{cdb}}"."{{csch}}"."{{currentState.node.name}}"
+                ALTER TABLE IF EXISTS "{{cdb}}"."{{csch}}"."{{currentState.node.name}}"
                 RENAME TO   {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
 
                 {# Metadata changes detected #}
-                {% set nsMetaVariables.metaDataChanged = true %}      
-            {% endif %}
+                {%- set nsMetaVariables.metaDataChanged = true %}      
+            {%- endif %}
 
             {# Change table description #}
-            {% if (nsVariables.nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
+            {%- if (nsVariables.nodeCommentTest == false or currentState.node.description != desiredState.node.description) %}
                  {{ stage('Change table description') }}
                  ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                 SET COMMENT = '{{ desiredState.node.description | escape }}'
 
                 {# Metadata changes detected #}
-                {% set nsMetaVariables.metaDataChanged = true %}
-            {% endif %}
+                {%- set nsMetaVariables.metaDataChanged = true %}
+            {%- endif %}
 
             {# Drop Columns #}
-            {% set nsVariables = namespace(colchanges=0) %}
-            {% for dropCurCol in currentState.columns %}
-                {% if dropCurCol.id not in desiredState.columns | map(attribute="id") %}
-                {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+            {%- set nsVariables = namespace(colchanges=0) %}
+            {%- for dropCurCol in currentState.columns %}
+                {%- if dropCurCol.id not in desiredState.columns | map(attribute="id") %}
+                {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
-                    {% if nsVariables.colchanges == 1 %}
+                    {%- if nsVariables.colchanges == 1 %}
                         {{ stage('Drop Columns') }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                         DROP COLUMN
-                    {% else %}
-                        , 
-                    {% endif %}
+                    {%- else %} , 
+                    {%- endif %}
                     "{{ dropCurCol.name }}"
-
                     {# Metadata changes detected #}
-                    {% set nsMetaVariables.metaDataChanged = true %}
-                {% endif %}
-            {% endfor %}
+                    {%- set nsMetaVariables.metaDataChanged = true %}
+                {%-endif %}
+            {%- endfor %}
 
             {# Add Columns #}
-            {% set nsVariables = namespace(colchanges=0) %}
-            {% for addDesCol in desiredState.columns %}
-                {% if addDesCol.id not in currentState.columns | map(attribute="id") %}
-                {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+            {%- set nsVariables = namespace(colchanges=0) %}
+            {%- for addDesCol in desiredState.columns %}
+                {%- if addDesCol.id not in currentState.columns | map(attribute="id") %}
+                {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
-                    {% if nsVariables.colchanges == 1 %}
+                    {%- if nsVariables.colchanges == 1 %}
                         {{ stage('Add Columns') }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                        ADD COLUMN
-                    {% else %}
-                        ,
-                    {% endif %}
-                        "{{ addDesCol.name }}" {{ addDesCol.dataType }}
-                        {%- if not addDesCol.nullable %} NOT NULL
-                            {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{% endif %}
-                        {% endif %}
-                        {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDesCol.description | escape }}'{% endif %}
+                        ADD COLUMN 
+					{%- else %},
+                    {%- endif %} "{{ addDesCol.name }}" {{ addDesCol.dataType }}
+                        {%- if not addDesCol.nullable %} NOT NULL {%- endif %}
+                            {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{%- endif %}
+                        {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDesCol.description | escape }}'{%- endif %}
 
                         {# Metadata changes detected #}
-                        {% set nsMetaVariables.metaDataChanged = true %}
-                {% endif %}
-            {% endfor %}
+                        {%- set nsMetaVariables.metaDataChanged = true %}
+                {%- endif %}
+            {%- endfor %}
 
             {# Rename Columns #}
-            {% for renameCurCol in currentState.columns %}
-                {% if renameCurCol.id in desiredState.columns | map(attribute="id") %}
-                    {% set desiredColumnName = desiredState.columns | selectattr('id', 'equalto', renameCurCol.id) | map(attribute='name') | first %}
-                    {% if renameCurCol.name != desiredColumnName %}
+            {%- for renameCurCol in currentState.columns %}
+                {%- if renameCurCol.id in desiredState.columns | map(attribute="id") %}
+                    {%- set desiredColumnName = desiredState.columns | selectattr('id', 'equalto', renameCurCol.id) | map(attribute='name') | first %}
+                    {%- if renameCurCol.name != desiredColumnName %}
                         {{ stage('Rename Column ' + renameCurCol.name) }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                         RENAME COLUMN "{{ renameCurCol.name }}"
                         TO "{{ desiredColumnName }}"
-
                         {# Metadata changes detected #}
-                        {% set nsMetaVariables.metaDataChanged = true %}
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
+                        {%- set nsMetaVariables.metaDataChanged = true %}
+                    {%- endif %}
+                {%- endif %}
+            {%- endfor %}
 
             {# Change data types etc #}
-            {% set nsVariables.colchanges = 0 %}
-            {% for alterCurCol in currentState.columns %}        
-                {% if alterCurCol.id in desiredState.columns | map(attribute="id") %}
-                    {% set currentDatatype = alterCurCol.dataType %}
-                    {% set currentNullable = alterCurCol.nullable %}
-                    {% set currentDefaultValue = alterCurCol.defaultValue %}
-                    {% set currentDescription = alterCurCol.description %}
+            {%-set nsVariables.colchanges = 0 %}
+            {%- for alterCurCol in currentState.columns %}        
+                {%- if alterCurCol.id in desiredState.columns | map(attribute="id") %}
+                    {%- set currentDatatype = alterCurCol.dataType %}
+                    {%- set currentNullable = alterCurCol.nullable %}
+                    {%- set currentDefaultValue = alterCurCol.defaultValue %}
+                    {%- set currentDescription = alterCurCol.description %}
 
-                    {% set desiredColumnName = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='name') | first %}
-                    {% set desiredDatatype = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='dataType') | first %}
-                    {% set desiredNullable = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='nullable') | first %}
-                    {% set desiredDefaultValue = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='defaultValue') | first %}
-                    {% set desiredDescription = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='description') | first %}
+                    {%- set desiredColumnName = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='name') | first %}
+                    {%- set desiredDatatype = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='dataType') | first %}
+                    {%- set desiredNullable = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='nullable') | first %}
+                    {%- set desiredDefaultValue = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='defaultValue') | first %}
+                    {%- set desiredDescription = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='description') | first %}
 
-                    {% set datatypeTest = currentDatatype == desiredDatatype %}
-                    {% set nullableTest = currentNullable == desiredNullable %}
-                    {% set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
-                    {% set descriptionTest = currentDescription == desiredDescription %}
+                    {%- set datatypeTest = currentDatatype == desiredDatatype %}
+                    {%- set nullableTest = currentNullable == desiredNullable %}
+                    {%- set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
+                    {%- set descriptionTest = currentDescription == desiredDescription %}
 
-                    {% if (datatypeTest == false or 
+                    {%- if (datatypeTest == false or 
                             nullableTest == false  or
                             defaultValueTest == false or
                             descriptionTest == false) %}
-                        {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
 
-                        {% if nsVariables.colchanges == 1 %}
+                        {%- if nsVariables.colchanges == 1 %}
                             {{ stage('Change Column Attributes') }}
                             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                             MODIFY
-                        {% endif %}
-                        {% if datatypeTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                        {%- endif %}
+                        {%- if datatypeTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
                             SET DATA TYPE {{ desiredDatatype }}
-                            {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
-                        {% if nullableTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- endif %}
+                        {%- if nullableTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
-                            {% if currentNullable == true %}
+                            {%- if currentNullable == true %}
                                 SET
-                            {% else %}
+                            {%- else %}
                                 DROP
-                            {% endif %}
-                            NOT NULL
+                            {%- endif %} NOT NULL
                             {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
-                        {% if descriptionTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                        {%- endif %}
+                        {%- if descriptionTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
                             COMMENT '{{ desiredDescription | escape}}'
-                            {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
-                        {% if defaultValueTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%-endif %}
+                        {%- if defaultValueTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
-                            {% if desiredDefaultValue == '' %}
+                            {%- if desiredDefaultValue == '' %}
                                 DROP DEFAULT
-                            {% else %}
+                            {%-else %}
                                 SET DEFAULT {{ desiredDefaultValue }}
-                            {% endif %}
-                            {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
+                            {%- endif %}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- endif %}
 
                         {# Metadata changes detected #}
-                        {% set nsMetaVariables.metaDataChanged = true %}
+                        {%- set nsMetaVariables.metaDataChanged = true %}
                         
-                    {% else %}                
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
+                    {%- else %}                
+                    {%- endif %}
+                {%- endif %}
+            {%- endfor %}
 
             {# =========================================================
             Primary Key Name and Column List Test
             ========================================================= #}
-            {% set primaryKeyTest = currentState.config.primary | default(false) == desiredState.config.primary %}
-            {% set primaryKeyNameTest = currentState.config.primaryKeyName | default('') == desiredState.config.primaryKeyName %}
-            {% set primaryKeyColList = currentState.config.primaryKeyCol | default({'items': [{}]}) == desiredState.config.primaryKeyCol %}
+            {%- set primaryKeyTest = currentState.config.primary | default(false) == desiredState.config.primary %}
+            {%- set primaryKeyNameTest = currentState.config.primaryKeyName | default('') == desiredState.config.primaryKeyName %}
+            {%- set primaryKeyColList = currentState.config.primaryKeyCol | default({'items': [{}]}) == desiredState.config.primaryKeyCol %}
             
-            {% if primaryKeyTest == false or primaryKeyNameTest == false or primaryKeyColList == false %}
-                {% if not desiredState.config.primary %}
+            {%- if primaryKeyTest == false or primaryKeyNameTest == false or primaryKeyColList == false %}
+                {%- if not desiredState.config.primary %}
                     {{ stage('Drop Primary Key Constraint') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     DROP PRIMARY KEY
-                {% else %}
+                {%- else %}
 
-                    {% set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
+                    {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
                                             | map(attribute='primaryKey')
                                             | map(attribute='name')
                                             | list %}
             
-                    {% if primaryKeyList | length > 0 %}
+                    {%- if primaryKeyList | length > 0 %}
                         {{ stage('Alter Primary Key Constraint') }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                         ADD CONSTRAINT
-                        {% if desiredState.config.primaryKeyName | trim != '' %}
+                        {%- if desiredState.config.primaryKeyName | trim != '' %}
                             {{ desiredState.config.primaryKeyName }}
-                        {% else %}
+                        {%- else %}
                             pk_{{ desiredState.node.name }}
-                        {% endif %}
-                        PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
-                    {% endif %}
-                {% endif %}
+                        {%- endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                    {%- endif %}
+                {%- endif %}
                     {# Metadata changes detected #}
-                    {% set nsMetaVariables.metaDataChanged = true %}
-            {% endif %}
+                    {%- set nsMetaVariables.metaDataChanged = true %}
+            {%- endif %}
 
             {# Figure out cluster key #}
             {% set nsVariables = namespace(finalClusterKey="") %}

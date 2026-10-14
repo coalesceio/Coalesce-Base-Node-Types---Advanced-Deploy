@@ -123,39 +123,39 @@ does not permit copying or modification for any other purpose.
                 MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
                 USING (
                 
-                {% for source in sources %}
-                    {%set joinclause= source.join%}
+                {%- for source in sources %}
+                    {%- set joinclause= source.join%}
                     (SELECT
-                    {% if config.selectDistinct %}
+                    {%- if config.selectDistinct %}
                     DISTINCT
-                    {% endif %}
-                    {% for col in source.columns %}	    
-                       {% if col.name == last_modified_col %}
+                    {%- endif %}
+                    {%- for col in source.columns %}	    
+                       {%- if col.name == last_modified_col %}
 					     {{ get_source_transform(col) }} AS "{{ col.name }}",
 						 {{ get_source_transform(col) }} AS COMPARISON_VALUE,
 					     MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
-                       {%else%}
+                       {%-else%}
                         {{ get_source_transform(col) }} AS "{{ col.name }}"
-                       {%endif%}
+                       {%- endif%}
                       {%- if not loop.last %}, {% endif %}
-                    {% endfor %}
+                    {%- endfor %}
                     {{ get_clause(joinclause,'from')}}
-                    {%if config.lastModifiedComparison%}	        
+                    {%- if config.lastModifiedComparison%}	        
                         LEFT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-                             {% for col in source.columns if col.isBusinessKey -%}
-                                {% if not loop.first %}
+                             {%- for col in source.columns if col.isBusinessKey -%}
+                                {%- if not loop.first %}
                                     AND
-                                {% endif %}
+                                {%- endif %}
                                 {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                            {% endfor %}
-                  {%endif%}
-                  {% set clause = get_clause(joinclause) %}
-                   {% if clause %}
+                            {%- endfor %}
+                  {%- endif%}
+                  {%- set clause = get_clause(joinclause) %}
+                   {%- if clause %}
                       {{ ("WHERE " ~ clause.strip()[3:].strip()) if clause.strip().upper().startswith('AND') else clause }}
-                   {% endif %}
-                  {% if config.groupByAll or config.lastModifiedComparison %}
+                   {%- endif %}
+                  {%- if config.groupByAll or config.lastModifiedComparison %}
                         GROUP BY ALL
-                  {% endif %}
+                  {%- endif %}
                     {{ sortorder_by_colv() }}
                   )
                     
@@ -164,64 +164,62 @@ does not permit copying or modification for any other purpose.
                     UNION ALL
                         (
                             SELECT
-                            {% if config.selectDistinct %}
+                            {%- if config.selectDistinct %}
                                 DISTINCT
-                            {% endif %}
+                            {%- endif %}
                             {%- for col in source.columns %}
-                                {% if col.isSystemUpdateDate %}
+                                {%- if col.isSystemUpdateDate %}
                                     NULL AS "{{ col.name }}"
-                                {% elif col.name == last_modified_col%}
+                                {%- elif col.name == last_modified_col%}
 					                 "DIM"."{{col.name}}" AS "{{ col.name }}",
 						             "DIM"."{{last_modified_col}}" AS COMPARISON_VALUE,
 					                 MAX ("DIM"."{{last_modified_col}}") AS MAX_TARGET_VALUE
-                                {% else %}
+                                {%- else %}
                                     "DIM"."{{ col.name }}" AS "{{ col.name }}"
-                                {% endif %}
-                                {%- if not loop.last %}, {% endif %}
-                            {% endfor -%}
+                                {%- endif %}
+                                {%- if not loop.last %}, {%- endif %}
+                            {%- endfor %}
 
                             {{ get_clause(joinclause,'from') }}
 
                             RIGHT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-                            {% for col in source.columns if col.isBusinessKey -%}
-                                {% if not loop.first %}
+                            {%- for col in source.columns if col.isBusinessKey -%}
+                                {%- if not loop.first %}
                                     AND
-                                {% endif %}
+                                {%- endif %}
                                     {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                            {% endfor %}
+                            {%- endfor %}
 
                             WHERE
-                            {% for col in source.columns if col.isBusinessKey -%}
-                                {% if not loop.first %}
+                            {%- for col in source.columns if col.isBusinessKey -%}
+                                {%- if not loop.first %}
                                     AND
-                                {% endif %}
+                                {%- endif %}
                                 {{ get_source_transform(col) }} IS NULL
-                            {% endfor %}
+                            {%- endfor %}
                         
                             {{ get_clause(joinclause) }}
 
-                            {% if config.groupByAll or config.lastModifiedComparison %}
+                            {%- if config.groupByAll or config.lastModifiedComparison %}
                                 GROUP BY ALL
-                            {% endif %}
+                            {%- endif %}
 
                             {{ sortorder_by_colv() }}
                         )
-                    {% endif %}
-
-                    {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+                    {%- endif %}
+                    {%- if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
                         {{config.insertStrategy}}
-                    {% endif %}
-                {% endfor %}  
+                    {%- endif %}
+                {%- endfor %}  
                     )
                     AS "SRC"
                 ON
-                {% for col in columns if col.isBusinessKey -%}
-                    {% if not loop.first %}
+                {%- for col in columns if col.isBusinessKey -%}
+                    {%- if not loop.first %}
                         AND
-                    {% endif %}
+                    {%- endif %}
                     "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
-                {% endfor %}
-
+                {%- endfor %}
         {%- if mergeDeleteStrategy == "HARD DELETED" %}
             /* Hard deleted rows */
             WHEN MATCHED AND "SRC"."{{ get_value_by_column_attribute("isSystemUpdateDate") }}" IS NULL
@@ -238,12 +236,12 @@ does not permit copying or modification for any other purpose.
                     {%- if not (lastModifiedComparison) %}
 					{%- for col in includeColList if not (col.isBusinessKey or col.isSystemUpdateDate or col.isSystemCreateDate) %}
 								  
-						{% if loop.first %}
+						{%- if loop.first %}
 							AND (
-						{% else %}
+						{%- else %}
 							OR
-						{% endif %}
-						{% if col.dataType == 'GEOGRAPHY' %}
+						{%- endif %}
+						{%- if col.dataType == 'GEOGRAPHY' %}
 							(
 								ST_DISTANCE(
 									(CASE 
@@ -256,7 +254,7 @@ does not permit copying or modification for any other purpose.
 									END)
 								) > 0
 							)
-						{% elif col.dataType == 'GEOMETRY' %}
+						{%- elif col.dataType == 'GEOMETRY' %}
 							(
 								ST_DISTANCE(
 									(CASE 
@@ -269,16 +267,15 @@ does not permit copying or modification for any other purpose.
 									END)
 								) > 0
 							)
-						{% else %}
+						{%- else %}
 							(
-								NVL(CAST("SRC"."{{ col.name }}" AS STRING), '**NULL**') <> 
-								NVL(CAST("TGT"."{{ col.name }}" AS STRING), '**NULL**')
+								NVL(CAST("SRC"."{{ col.name }}" AS STRING), '**NULL**') <> NVL(CAST("TGT"."{{ col.name }}" AS STRING), '**NULL**')
 							)
-						{% endif %}
-						{% if loop.last %}
+						{%- endif %}
+						{%- if loop.last %}
 							)
-						{% endif %}
-					{% endfor %}  
+						{%- endif %}
+					{%- endfor %}  
                 {%- elif lastModifiedComparison %}
                     AND
                     {%- if 'TIMESTAMP' in (config.lastModifiedColumn.dataType | upper) %}
@@ -290,8 +287,8 @@ does not permit copying or modification for any other purpose.
                 THEN UPDATE SET
                 {%- for col in includeColList if not (col.isBusinessKey or col.isSystemCreateDate) %}
                         "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
-                    {% if not loop.last %}, {% endif %}
-                {% endfor %}
+                    {%- if not loop.last %}, {%- endif %}
+                {%- endfor %}
                 WHEN NOT MATCHED
 				{%- if mergeDeleteStrategy == 'SOFT DELETED'%}
                       AND COALESCE("SRC"."{{ soft_deleted_col }}", FALSE) = FALSE
@@ -300,17 +297,17 @@ does not permit copying or modification for any other purpose.
                 INSERT (
                 {%- for col in columns if not col.isSurrogateKey %}
                     "{{ col.name }}"
-                    {% if not loop.last %}, {% endif %}
-                {% endfor -%}
+                    {%- if not loop.last %}, {%- endif %}
+                {%- endfor %}
                 )
                 VALUES (
                 {%- for col in columns if not col.isSurrogateKey %}
                     "SRC"."{{ col.name }}"
-                    {% if not loop.last %}, {% endif %}
-                {% endfor -%}
+                    {%- if not loop.last %}, {%- endif %}
+                {%- endfor %}
                 )
         
-            {% else %}
+            {%- else %}
 
                {# == Executed if business key is not specified  == #}
 
@@ -318,20 +315,20 @@ does not permit copying or modification for any other purpose.
         
                     INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
                     (
-                        {% for col in columns %}
+                        {%- for col in columns %}
                             "{{ col.name }}"
-                            {%- if not loop.last -%},{% endif %}
-                        {% endfor %}
+                            {%- if not loop.last %},{%- endif %}
+                        {%- endfor %}
                     )
-                {% for source in sources %}
+                {%- for source in sources %}
                     (SELECT
-                    {% if config.selectDistinct %}
+                    {%- if config.selectDistinct %}
                     DISTINCT
-                    {% endif %}
-                    {% for col in source.columns %}
+                    {%- endif %}
+                    {%- for col in source.columns %}
                         {{ get_source_transform(col) }} AS "{{ col.name }}"
-                        {%- if not loop.last -%}, {% endif %}
-                    {% endfor %}
+                        {%- if not loop.last %}, {%- endif %}
+                    {%- endfor %}
                     {%- if lastModifiedComparison %}
                         {{ get_clause(source.join, 'from') }}
                         {%- for col in source.columns if col.name == last_modified_col -%}
@@ -346,7 +343,7 @@ does not permit copying or modification for any other purpose.
                         {{ get_clause(source.join, 'from') }}
                         {%- set clause = get_clause(source.join) %}
                         {%- set normalized = clause.strip()[3:].strip() if clause and clause.strip().upper().startswith('AND') else clause %}
-                        {%- set parts = [normalized, ('COALESCE("' ~ soft_deleted_col ~ '", FALSE) = FALSE' if softDeleteStrategy else '')] | select %}
+                        {%- set parts = [normalized, ('COALESCE("' ~ soft_deleted_col ~ '", FALSE) = FALSE' if softDeleteStrategy else '')] | select | list %}
 
                         {%- if parts %}
                             WHERE {{ parts | join(' AND ') }}
@@ -357,11 +354,11 @@ does not permit copying or modification for any other purpose.
                      GROUP BY ALL
                  {%- endif %}
                  {{ sortorder_by_colv() }})
-                 {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+                 {%- if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
                      {{config.insertStrategy}}
-                 {% endif %}
-                {% endfor %} 
-            {% endif %}
+                 {%- endif %}
+                {%- endfor %} 
+            {%- endif %}
 
  {# == Queries to be excuted post data insertion  == #}
 

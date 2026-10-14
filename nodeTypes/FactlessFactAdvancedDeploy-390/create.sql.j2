@@ -68,11 +68,10 @@ does not permit copying or modification for any other purpose.
             (
                 {% for col in desiredState.columns %}
                     "{{ col.name }}" {{ col.dataType }}
-                    {%- if not col.nullable %} NOT NULL
-                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-                    {% endif %}
+                    {%- if not col.nullable %} NOT NULL {%- endif %}
+                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{%- endif %}
                     {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-                    {%- if not loop.last -%}, {% endif %}
+                    {%- if not loop.last -%}, {% endif -%}
                 {% endfor %}
             )
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
@@ -92,11 +91,10 @@ does not permit copying or modification for any other purpose.
             (
                 {% for col in desiredState.columns %}
                     "{{ col.name }}" {{ col.dataType }}
-                    {%- if not col.nullable %} NOT NULL
-                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-                    {% endif %}
+                    {%- if not col.nullable %} NOT NULL {%- endif %}
+                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{%- endif %}
                     {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-                    {%- if not loop.last -%}, {% endif %}
+                    {%- if not loop.last -%}, {% endif -%}
                 {% endfor %}
             )
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
@@ -544,7 +542,7 @@ does not permit copying or modification for any other purpose.
                 {% set cdb = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
                 {% set csch = currentState.storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
 
-                ALTER TABLE  "{{cdb}}"."{{csch}}"."{{currentState.node.name}}"
+                ALTER TABLE IF EXISTS "{{cdb}}"."{{csch}}"."{{currentState.node.name}}"
                 RENAME TO   {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}  
  
                 {# Metadata changes detected #}
@@ -562,48 +560,41 @@ does not permit copying or modification for any other purpose.
             {% endif %}
 
             {# Drop Columns #}
-            {% set nsVariables = namespace(colchanges=0) %}
-            {% for dropCurCol in currentState.columns %}
-                {% if dropCurCol.id not in desiredState.columns | map(attribute="id") %}
-                {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-
-                    {% if nsVariables.colchanges == 1 %}
+            {%- set nsVariables = namespace(colchanges=0) %}
+            {%- for dropCurCol in currentState.columns %}
+                {%- if dropCurCol.id not in desiredState.columns | map(attribute="id") %}
+                {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                    {%- if nsVariables.colchanges == 1 %}
                         {{ stage('Drop Columns') }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                         DROP COLUMN 
-                    {% else %}
-                        , 
-                    {% endif %}
+                    {% else -%}
+                        , {% endif -%}
                     "{{ dropCurCol.name }}"
-
                     {# Metadata changes detected #}
-                    {% set nsMetaVariables.metaDataChanged = true %} 
-                {% endif %}
-            {% endfor %}
+                    {%- set nsMetaVariables.metaDataChanged = true %} 
+                {%- endif %}
+            {%- endfor %}
 
             {# Add Columns #}
-            {% set nsVariables = namespace(colchanges=0) %}
-            {% for addDesCol in desiredState.columns %}
-                {% if addDesCol.id not in currentState.columns | map(attribute="id") %}
-                {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-
-                    {% if nsVariables.colchanges == 1 %}
+            {%- set nsVariables = namespace(colchanges=0) %}
+            {%- for addDesCol in desiredState.columns %}
+                {%- if addDesCol.id not in currentState.columns | map(attribute="id") %}
+                {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                    {%- if nsVariables.colchanges == 1 -%}
                         {{ stage('Add Columns') }}
                         ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                         ADD COLUMN
-                    {% else %}
-                        ,
-                    {% endif %}
+                    {% else -%}
+                        , {% endif -%}
                         "{{ addDesCol.name }}" {{ addDesCol.dataType }}
-                        {%- if not addDesCol.nullable %} NOT NULL
-                            {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{% endif %}
-                        {% endif %}
+                        {%- if not addDesCol.nullable %} NOT NULL {%- endif %}
+                            {%- if addDesCol.defaultValue | length > 0 %} DEFAULT {{ addDesCol.defaultValue }}{%- endif %}
                         {%- if addDesCol.description | length > 0 %} COMMENT '{{ addDesCol.description | escape }}'{% endif %}
-
                 {# Metadata changes detected #}
-                {% set nsMetaVariables.metaDataChanged = true %} 
-                {% endif %}
-            {% endfor %}
+                {%- set nsMetaVariables.metaDataChanged = true -%} 
+                {%- endif %}
+            {%- endfor %}
 
             {# Rename Columns #}
             {% for renameCurCol in currentState.columns %}
@@ -622,78 +613,77 @@ does not permit copying or modification for any other purpose.
             {% endfor %}
 
             {# Change data types etc #}
-            {% set nsVariables.colchanges = 0 %}
-            {% for alterCurCol in currentState.columns %}        
-                {% if alterCurCol.id in desiredState.columns | map(attribute="id") %}
-                    {% set currentDatatype = alterCurCol.dataType %}
-                    {% set currentNullable = alterCurCol.nullable %}
-                    {% set currentDefaultValue = alterCurCol.defaultValue %}
-                    {% set currentDescription = alterCurCol.description %}
+            {%- set nsVariables.colchanges = 0 %}
+            {%- for alterCurCol in currentState.columns %}        
+                {%- if alterCurCol.id in desiredState.columns | map(attribute="id") %}
+                    {%- set currentDatatype = alterCurCol.dataType %}
+                    {%- set currentNullable = alterCurCol.nullable %}
+                    {%- set currentDefaultValue = alterCurCol.defaultValue %}
+                    {%- set currentDescription = alterCurCol.description %}
 
-                    {% set desiredColumnName = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='name') | first %}
-                    {% set desiredDatatype = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='dataType') | first %}
-                    {% set desiredNullable = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='nullable') | first %}
-                    {% set desiredDefaultValue = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='defaultValue') | first %}
-                    {% set desiredDescription = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='description') | first %}
+                    {%- set desiredColumnName = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='name') | first %}
+                    {%- set desiredDatatype = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='dataType') | first %}
+                    {%- set desiredNullable = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='nullable') | first %}
+                    {%- set desiredDefaultValue = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='defaultValue') | first %}
+                    {%- set desiredDescription = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='description') | first %}
 
-                    {% set datatypeTest = currentDatatype == desiredDatatype %}
-                    {% set nullableTest = currentNullable == desiredNullable %}
-                    {% set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
-                    {% set descriptionTest = currentDescription == desiredDescription %}
+                    {%- set datatypeTest = currentDatatype == desiredDatatype %}
+                    {%- set nullableTest = currentNullable == desiredNullable %}
+                    {%- set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
+                    {%- set descriptionTest = currentDescription == desiredDescription %}
 
-                    {% if (datatypeTest == false or 
+                    {%- if (datatypeTest == false or 
                             nullableTest == false  or
                             defaultValueTest == false or
                             descriptionTest == false) %}
-                        {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-
-                        {% if nsVariables.colchanges == 1 %}
+                        {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- if nsVariables.colchanges == 1 %}
                             {{ stage('Change Column Attributes') }}
                             ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                             MODIFY
-                        {% endif %}
-                        {% if datatypeTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                        {%- endif -%}
+                        {%- if datatypeTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
                             SET DATA TYPE {{ desiredDatatype }}
-                            {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
-                        {% if nullableTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- endif %}
+                        {%- if nullableTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
-                            {% if currentNullable == true %}
+                            {%- if currentNullable == true %}
                                 SET
-                            {% else %}
+                            {%- else %}
                                 DROP
-                            {% endif %}
+                            {%- endif %}
                             NOT NULL
-                            {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
-                        {% if descriptionTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- endif %}
+                        {%- if descriptionTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
                             COMMENT '{{ desiredDescription |escape }}'
-                            {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
-                        {% if defaultValueTest == false %}
-                            {% if nsVariables.colchanges > 1 %},{% endif %}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- endif %}
+                        {%- if defaultValueTest == false %}
+                            {%- if nsVariables.colchanges > 1 %},{% endif %}
                             COLUMN "{{ desiredColumnName }}"
                             {% if desiredDefaultValue == '' %}
                                 DROP DEFAULT
-                            {% else %}
+                            {%- else -%}
                                 SET DEFAULT {{ desiredDefaultValue }}
-                            {% endif %}
-                            {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
-                        {% endif %}
+                            {%- endif %}
+                            {%- set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                        {%- endif %}
 
                 {# Metadata changes detected #}
-                {% set nsMetaVariables.metaDataChanged = true %} 
+                {%- set nsMetaVariables.metaDataChanged = true %} 
                         
-                    {% else %}
+                    {%- else %}
                                             
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
+                    {%- endif %}
+                {%- endif %}
+            {%- endfor %}
 
             {# Figure out cluster key #}
             {% set nsVariables = namespace(finalClusterKey="") %}
