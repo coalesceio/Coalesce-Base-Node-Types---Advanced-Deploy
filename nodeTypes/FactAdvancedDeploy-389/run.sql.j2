@@ -343,7 +343,7 @@ does not permit copying or modification for any other purpose.
                         {{ get_clause(source.join, 'from') }}
                         {%- set clause = get_clause(source.join) %}
                         {%- set normalized = clause.strip()[3:].strip() if clause and clause.strip().upper().startswith('AND') else clause %}
-                        {%- set parts = [normalized, ('COALESCE("' ~ soft_deleted_col ~ '", FALSE) = FALSE' if softDeleteStrategy else '')] | select %}
+                        {%- set parts = [normalized, ('COALESCE("' ~ soft_deleted_col ~ '", FALSE) = FALSE' if softDeleteStrategy else '')] | select | list %}
 
                         {%- if parts %}
                             WHERE {{ parts | join(' AND ') }}

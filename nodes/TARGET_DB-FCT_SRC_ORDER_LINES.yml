@@ -6,7 +6,10 @@ operation:
     clusterKey: false
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: bd54c790-dc32-4e3f-a985-a108127518a3
+            name: QUANTITY
+            stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -15,19 +18,23 @@ operation:
       items:
         - {}
     excludeMergeToggle: false
-    groupByAll: false
+    groupByAll: true
     insertStrategy: UNION ALL
     lastModifiedColumn:
-      columnCounter: 4322dca6-bd40-4532-8266-3fdfa8a27786
-      name: ORDER_ID
+      columnCounter: 4e1f7398-3979-43f7-a46b-56c2b45a3970
+      name: SYSTEM_CREATE_DATE
       stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
-    lastModifiedComparison: false
+    lastModifiedComparison: true
     lookbackdays: 0
     mergeDeleteStrategy: NO DELETES
-    orderby: false
+    orderby: true
     orderbycolumn:
       items:
-        - {}
+        - sortColName:
+            columnCounter: 636b6042-d47d-48be-8bf4-33b3f314d4fc
+            name: UNIT_PRICE
+            stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
+          sortOrder: asc
     postSQL: ""
     preSQL: ""
     primary: false
@@ -37,6 +44,10 @@ operation:
     primaryKeyName: ""
     selectDistinct: false
     softDeleteStrategy: false
+    softdelcolumn:
+      columnCounter: 4322dca6-bd40-4532-8266-3fdfa8a27786
+      name: ORDER_ID
+      stepCounter: dba02bd8-4a00-43da-88f4-1ec958cbd696
     testsEnabled: false
     truncateBefore: false
   database: ""
@@ -55,7 +66,7 @@ operation:
         config: {}
         dataType: NUMBER(10,0)
         description: ""
-        isBusinessKey: true
+        isBusinessKey: false
         name: ORDER_ID
         nullable: false
         sourceColumnReferences:
