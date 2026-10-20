@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 6c090d1c-55df-4820-90ed-68fe483382ae
-name: FCT_Nation_Test_PKTest
+id: 87c15a73-bbd7-46d7-890e-eaf594e07000
+name: FCT_Nation_Test_ToggleOn
 operation:
   config:
     clusterKey: false
@@ -46,8 +46,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: b2ef2194-bf99-43d0-99bf-e3d6e05297de
-          stepCounter: 6c090d1c-55df-4820-90ed-68fe483382ae
+          columnCounter: eb85f334-8e1d-465d-b7df-31247567de03
+          stepCounter: 87c15a73-bbd7-46d7-890e-eaf594e07000
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -60,8 +60,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: cbf8f288-cf05-4311-b700-29f8f445f7d5
-          stepCounter: 6c090d1c-55df-4820-90ed-68fe483382ae
+          columnCounter: 36dee6b8-f706-4e8f-8f92-0665bdb2cb1d
+          stepCounter: 87c15a73-bbd7-46d7-890e-eaf594e07000
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -74,8 +74,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 5e5512ed-5d56-4036-910b-59cad0585cb1
-          stepCounter: 6c090d1c-55df-4820-90ed-68fe483382ae
+          columnCounter: df8d214f-50d3-46f2-8e38-7ae371c45400
+          stepCounter: 87c15a73-bbd7-46d7-890e-eaf594e07000
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -88,8 +88,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7a5e7eee-3346-4ca9-8ba1-e84ef29aaa16
-          stepCounter: 6c090d1c-55df-4820-90ed-68fe483382ae
+          columnCounter: c6e7ca4f-605c-49bc-b2b7-d21a6b673a8d
+          stepCounter: 87c15a73-bbd7-46d7-890e-eaf594e07000
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -102,8 +102,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ddec0d60-19d0-4c35-8a24-82d1f2c525af
-          stepCounter: 6c090d1c-55df-4820-90ed-68fe483382ae
+          columnCounter: 33bc230e-6aae-4b61-a58f-5b2580aa5b05
+          stepCounter: 87c15a73-bbd7-46d7-890e-eaf594e07000
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -119,8 +119,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: f78d467b-7521-4316-87a2-ef295263f723
-          stepCounter: 6c090d1c-55df-4820-90ed-68fe483382ae
+          columnCounter: 3bc799f2-5339-492d-8098-7f336b48ecf4
+          stepCounter: 87c15a73-bbd7-46d7-890e-eaf594e07000
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -136,8 +136,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: c1fda4e0-c980-421d-a3c2-d63bec0e740b
-          stepCounter: 6c090d1c-55df-4820-90ed-68fe483382ae
+          columnCounter: 40c263cf-2806-4496-955f-a3ab7d496eca
+          stepCounter: 87c15a73-bbd7-46d7-890e-eaf594e07000
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -160,9 +160,9 @@ operation:
             nodeName: Nation_Test
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'Nation_Test') }} "Nation_Test"
-        name: FCT_Nation_Test_PKTest
+        name: FCT_Nation_Test_ToggleOn
         noLinkRefs: []
-  name: FCT_Nation_Test_PKTest
+  name: FCT_Nation_Test_ToggleOn
   overrideSQL: false
   schema: ""
   sqlType: "389"
