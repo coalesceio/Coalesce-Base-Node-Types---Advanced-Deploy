@@ -1,6 +1,6 @@
 fileVersion: 1
-id: e446ba83-1cb5-4ba0-b43a-ce3e22015e2b
-name: FCT_Nation_Test_PKTest
+id: 528b1991-b41d-4ae3-9f7f-b61ef166dcfc
+name: FCT_Nation_Test
 operation:
   config:
     clusterKey: false
@@ -11,28 +11,15 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    excludeMergeList:
-      items:
-        - {}
-    excludeMergeToggle: false
     groupByAll: false
     insertStrategy: UNION ALL
-    lastModifiedComparison: false
-    lookbackdays: 0
-    mergeDeleteStrategy: NO DELETES
     orderby: false
     orderbycolumn:
       items:
         - {}
     postSQL: ""
     preSQL: ""
-    primary: false
-    primaryKeyCol:
-      items:
-        - {}
-    primaryKeyName: ""
     selectDistinct: false
-    softDeleteStrategy: false
     testsEnabled: false
     truncateBefore: false
   database: ""
@@ -44,9 +31,11 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
-      - columnReference:
-          columnCounter: 4637f639-5cd1-4491-bc69-300bc625e735
-          stepCounter: e446ba83-1cb5-4ba0-b43a-ce3e22015e2b
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 63f05a10-d39c-48ed-bd7b-fd350403e77f
+          stepCounter: 528b1991-b41d-4ae3-9f7f-b61ef166dcfc
+        config: {}
         dataType: NUMBER(38,0)
         description: ""
         name: NAtionKey
@@ -56,9 +45,11 @@ operation:
               - columnCounter: fc709475-366e-40a8-90ae-2ddc13debefc
                 stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
             transform: ""
-      - columnReference:
-          columnCounter: 029a22c2-75ff-49c7-ac27-9829d73c4eb6
-          stepCounter: e446ba83-1cb5-4ba0-b43a-ce3e22015e2b
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 67074616-77e8-46e1-bcd0-7e76f3d19d57
+          stepCounter: 528b1991-b41d-4ae3-9f7f-b61ef166dcfc
+        config: {}
         dataType: VARCHAR(25)
         description: ""
         name: name
@@ -68,9 +59,11 @@ operation:
               - columnCounter: 6998a992-5b43-465e-8a3d-e87615590937
                 stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
             transform: ""
-      - columnReference:
-          columnCounter: c9e2c5c8-a957-4d80-a6fb-7fedc2ae403d
-          stepCounter: e446ba83-1cb5-4ba0-b43a-ce3e22015e2b
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6b45abb3-1103-4a8e-ba25-b5867e80e22a
+          stepCounter: 528b1991-b41d-4ae3-9f7f-b61ef166dcfc
+        config: {}
         dataType: NUMBER(38,0)
         description: ""
         name: REGIONKEY
@@ -80,9 +73,11 @@ operation:
               - columnCounter: cfe96597-2db9-4dbe-b9f0-f5512a374e1f
                 stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
             transform: ""
-      - columnReference:
-          columnCounter: c132b581-f16b-4edc-97a5-e9ed982aecdc
-          stepCounter: e446ba83-1cb5-4ba0-b43a-ce3e22015e2b
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a3d3c395-057c-4b9e-9193-3006b1d0ec9d
+          stepCounter: 528b1991-b41d-4ae3-9f7f-b61ef166dcfc
+        config: {}
         dataType: VARCHAR(152)
         description: ""
         name: CommenT
@@ -92,9 +87,11 @@ operation:
               - columnCounter: 17cc36b0-ee17-46ce-9072-2bb4acd0c48e
                 stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
             transform: ""
-      - columnReference:
-          columnCounter: 0b3da58c-0df5-442b-8503-c82b06f885e5
-          stepCounter: e446ba83-1cb5-4ba0-b43a-ce3e22015e2b
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8cdb1f4f-4b03-42b8-8309-341241ed770f
+          stepCounter: 528b1991-b41d-4ae3-9f7f-b61ef166dcfc
+        config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
         name: N_Load_Timestamp
@@ -109,8 +106,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 1e74e83b-b9e3-4bbb-86ce-b99dd2eb258b
-          stepCounter: e446ba83-1cb5-4ba0-b43a-ce3e22015e2b
+          columnCounter: c22cc86d-959f-4a3e-bc0d-0e97ceff92ef
+          stepCounter: 528b1991-b41d-4ae3-9f7f-b61ef166dcfc
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -126,8 +123,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 6a0f7ece-5c35-4a8d-b066-c30f2593eb57
-          stepCounter: e446ba83-1cb5-4ba0-b43a-ce3e22015e2b
+          columnCounter: 22c5265c-73ff-4438-92ee-c6a51a96f818
+          stepCounter: 528b1991-b41d-4ae3-9f7f-b61ef166dcfc
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -150,12 +147,12 @@ operation:
             nodeName: Nation_Test
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'Nation_Test') }} "Nation_Test"
-        name: FCT_Nation_Test_PKTest
+        name: FCT_Nation_Test
         noLinkRefs: []
-  name: FCT_Nation_Test_PKTest
+  name: FCT_Nation_Test
   overrideSQL: false
   schema: ""
-  sqlType: "389"
+  sqlType: WithoutPK:::389
   type: sql
   version: 1
 type: Node
