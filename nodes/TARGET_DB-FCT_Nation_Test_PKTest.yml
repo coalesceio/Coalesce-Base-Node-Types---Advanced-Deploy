@@ -29,8 +29,11 @@ operation:
     primary: false
     primaryKeyCol:
       items:
-        - {}
-    primaryKeyName: ""
+        - primaryKey:
+            columnCounter: 9b3ed463-1b20-4856-bcb2-86e61399bc50
+            name: NAtionKey
+            stepCounter: bce0f3ad-3c1a-4dd3-b933-9998d646c94f
+    primaryKeyName: PK-Test
     selectDistinct: false
     softDeleteStrategy: false
     testsEnabled: false
