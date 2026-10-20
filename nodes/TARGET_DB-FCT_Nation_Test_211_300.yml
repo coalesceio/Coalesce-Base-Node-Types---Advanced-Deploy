@@ -11,15 +11,28 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
+    excludeMergeList:
+      items:
+        - {}
+    excludeMergeToggle: false
     groupByAll: false
     insertStrategy: UNION ALL
+    lastModifiedComparison: false
+    lookbackdays: 0
+    mergeDeleteStrategy: NO DELETES
     orderby: false
     orderbycolumn:
       items:
         - {}
     postSQL: ""
     preSQL: ""
+    primary: false
+    primaryKeyCol:
+      items:
+        - {}
+    primaryKeyName: ""
     selectDistinct: false
+    softDeleteStrategy: false
     testsEnabled: false
     truncateBefore: false
   database: ""
@@ -101,16 +114,12 @@ operation:
               - columnCounter: 54bd57e9-1d38-408f-a39a-0e5151d49df5
                 stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 824b121e-df5b-41e0-9c62-567fff7c3609
+          columnCounter: 91d31cd3-d301-41b1-b590-e1853268da81
           stepCounter: d4fd5313-1cd0-4d4b-af64-6a8079b43c69
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
@@ -118,16 +127,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: ad369fea-5e04-483c-8f26-2c1cba27b3d3
+          columnCounter: d244b18b-05f9-4356-af0c-313ba4c4eb9e
           stepCounter: d4fd5313-1cd0-4d4b-af64-6a8079b43c69
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
@@ -152,7 +157,7 @@ operation:
   name: FCT_Nation_Test_211_300
   overrideSQL: false
   schema: ""
-  sqlType: BN211:::389
+  sqlType: BN310:::389
   type: sql
   version: 1
 type: Node

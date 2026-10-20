@@ -30,7 +30,7 @@ operation:
     primaryKeyCol:
       items:
         - {}
-    primaryKeyName: ""
+    primaryKeyName: Pk_Name
     selectDistinct: false
     softDeleteStrategy: false
     testsEnabled: false
