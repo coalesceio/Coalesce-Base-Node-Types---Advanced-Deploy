@@ -26,11 +26,6 @@ operation:
         - {}
     postSQL: ""
     preSQL: ""
-    primary: false
-    primaryKeyCol:
-      items:
-        - {}
-    primaryKeyName: ""
     selectDistinct: false
     softDeleteStrategy: false
     testsEnabled: false
