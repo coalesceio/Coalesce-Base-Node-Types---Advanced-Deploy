@@ -403,10 +403,10 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Insert Strategy comparison
             ========================================================= #}
-            {% if currentState.config.insertStrategy | default('') != desiredState.config.insertStrategy %}
+            {% if currentState.config.insertStrategy | default('') != desiredState.config.insertStrategy | default('') %}
                 {% set nsMetaVariables.insertStrategyTest = false %}
                 {% set _ = nsMetaVariables.insertStrategyDiff.append({
-                    "is": desiredState.config.insertStrategy,
+                    "is": desiredState.config.insertStrategy | default(''),
                     "was": currentState.config.insertStrategy | default('')
                 }) %}
 
@@ -417,10 +417,10 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Delete Strategy comparison
             ========================================================= #}
-            {% if currentState.config.deleteStrategy | default('') != desiredState.config.deleteStrategy %}
+            {% if currentState.config.deleteStrategy | default('') != desiredState.config.deleteStrategy | default('') %}
                 {% set nsMetaVariables.deleteStrategyTest = false %}
                 {% set _ = nsMetaVariables.deleteStrategyDiff.append({
-                    "is": desiredState.config.deleteStrategy,
+                    "is": desiredState.config.deleteStrategy | default(''),
                     "was": currentState.config.deleteStrategy | default('')
                 }) %}
 
@@ -431,10 +431,10 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Truncate Table comparison
             ========================================================= #}
-            {% if currentState.config.truncateBefore | default(false) != desiredState.config.truncateBefore %}
+            {% if currentState.config.truncateBefore | default(false) != desiredState.config.truncateBefore | default(false) %}
                 {% set nsMetaVariables.truncateBeforeTest = false %}
                 {% set _ = nsMetaVariables.truncateBeforeDiff.append({
-                    "is": desiredState.config.truncateBefore,
+                    "is": desiredState.config.truncateBefore | default(false),
                     "was": currentState.config.truncateBefore | default(false)
                 }) %}
 
@@ -445,11 +445,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Test Enabled comparison (per column)
             ========================================================= #}
-            {% if desiredState.config.testsEnabled != currentState.config.testsEnabled | default(false) %}
+            {% if desiredState.config.testsEnabled | default(false) != currentState.config.testsEnabled | default(false) %}
 
                     {% set nsMetaVariables.testsEnabledTest = false %}
                     {% set _ = nsMetaVariables.testsEnabledDiff.append({
-                        "is": desiredState.config.testsEnabled,
+                        "is": desiredState.config.testsEnabled | default(false),
                         "was": currentState.config.testsEnabled | default(false)
                     }) %}
 
@@ -513,10 +513,10 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Distinct Toggle comparison
             ========================================================= #}
-            {% if currentState.config.selectDistinct | default(false) != desiredState.config.selectDistinct %}
+            {% if currentState.config.selectDistinct | default(false) != desiredState.config.selectDistinct | default(false) %}
                 {% set nsMetaVariables.distinctTest = false %}
                 {% set _ = nsMetaVariables.distinctDiff.append({
-                    "is": desiredState.config.selectDistinct,
+                    "is": desiredState.config.selectDistinct | default(false),
                     "was": currentState.config.selectDistinct | default(false)
                 }) %}
 
@@ -527,10 +527,10 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             GroupByAll Toggle comparison
             ========================================================= #}
-            {% if currentState.config.groupByAll | default(false) != desiredState.config.groupByAll %}
+            {% if currentState.config.groupByAll | default(false) != desiredState.config.groupByAll | default(false) %}
                 {% set nsMetaVariables.groupByAllTest = false %}
                 {% set _ = nsMetaVariables.groupByAllDiff.append({
-                    "is": desiredState.config.groupByAll,
+                    "is": desiredState.config.groupByAll | default(false),
                     "was": currentState.config.groupByAll | default(false)
                 }) %}
 
@@ -541,10 +541,10 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             PRE-SQL comparison
             ========================================================= #}
-            {% if currentState.config.preSQL  | default('') != desiredState.config.preSQL %}				
+            {% if currentState.config.preSQL  | default('') != desiredState.config.preSQL | default('') %}				
                 {% set nsMetaVariables.preSQLTest = false %}
                 {% set _ = nsMetaVariables.preSQLDiff.append({
-                    "is": safe_metadata(desiredState.config.preSQL),
+                    "is": safe_metadata(desiredState.config.preSQL | default('')),
                     "was": safe_metadata(currentState.config.preSQL | default(''))
                 }) %}
 
@@ -555,10 +555,10 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             POST-SQL comparison
             ========================================================= #}
-            {% if currentState.config.postSQL | default('') != desiredState.config.postSQL %}				
+            {% if currentState.config.postSQL | default('') != desiredState.config.postSQL | default('') %}				
                 {% set nsMetaVariables.postSQLTest = false %}
                 {% set _ = nsMetaVariables.postSQLDiff.append({
-                    "is": safe_metadata(desiredState.config.postSQL),
+                    "is": safe_metadata(desiredState.config.postSQL | default('')),
                     "was": safe_metadata(currentState.config.postSQL | default(''))
                 }) %}
 
@@ -569,11 +569,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Order By comparison (per column)
             ========================================================= #}
-            {% if currentState.config.orderby | default(false) != desiredState.config.orderby %}
+            {% if currentState.config.orderby | default(false) != desiredState.config.orderby | default(false) %}
 
                 {% set nsMetaVariables.orderByTest = false %}
                 {% set _ = nsMetaVariables.orderByDiff.append({
-                     "is": desiredState.config.orderby,
+                     "is": desiredState.config.orderby | default(false),
                     "was": currentState.config.orderby | default(false)
                 }) %}
     
@@ -613,11 +613,11 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Merge Exclude Column List (per column)
             ========================================================= #}
-            {% if currentState.config.excludeMergeToggle | default(false) != desiredState.config.excludeMergeToggle %}
+            {% if currentState.config.excludeMergeToggle | default(false) != desiredState.config.excludeMergeToggle | default(false) %}
 
                 {% set nsMetaVariables.excludeMergeTest = false %}
                 {% set _ = nsMetaVariables.excludeMergeDiff.append({
-                     "is": desiredState.config.excludeMergeToggle,
+                     "is": desiredState.config.excludeMergeToggle | default(false),
                     "was": currentState.config.excludeMergeToggle | default(false)
                 }) %}
     
@@ -694,10 +694,10 @@ does not permit copying or modification for any other purpose.
 
 
             {# Clustering Test #}
-            {% set clusterKeyTest = currentState.config.clusterKey | default(false) == desiredState.config.clusterKey %}
-            {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions | default(false) == desiredState.config.clusterKeyExpressions %}
-            {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig | default({'items': [{}]}) == desiredState.config.clusterKeyConfig %}
-            {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions | default({'items': [{}]}) == desiredState.config.clusterKeyConfigExpressions %}
+            {% set clusterKeyTest = currentState.config.clusterKey | default(false) == desiredState.config.clusterKey | default(false) %}
+            {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions | default(false) == desiredState.config.clusterKeyExpressions | default(false) %}
+            {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig | default({'items': [{}]}) == desiredState.config.clusterKeyConfig | default({'items': [{}]}) %}
+            {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions | default({'items': [{}]}) == desiredState.config.clusterKeyConfigExpressions | default({'items': [{}]}) %}
 
             {% if 
                 clusterKeyTest == false or
@@ -863,32 +863,39 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Primary Key Name and Column List Test
             ========================================================= #}
-            {%- set primaryKeyTest = currentState.config.primary | default(false) == desiredState.config.primary %}
-            {%- set primaryKeyNameTest = currentState.config.primaryKeyName | default('') == desiredState.config.primaryKeyName %}
-            {%- set primaryKeyColList = currentState.config.primaryKeyCol | default({'items': [{}]}) == desiredState.config.primaryKeyCol %}
+            {%- set primaryKeyTest = currentState.config.primary | default(false) == desiredState.config.primary | default(false) %}
+            {%- set primaryKeyNameTest = currentState.config.primaryKeyName | default('') == desiredState.config.primaryKeyName | default('') %}
+            {%- set primaryKeyColList = currentState.config.primaryKeyCol | default({'items': [{}]}) == desiredState.config.primaryKeyCol | default({'items': [{}]}) %}
             
             {%- if primaryKeyTest == false or primaryKeyNameTest == false or primaryKeyColList == false %}
-                {%- if not desiredState.config.primary %}
+                {# The table only has a primary key when the toggle is on and at least one column is selected #}
+                {%- set currentPrimaryKeyList = (currentState.config.primaryKeyCol | default({'items': []})).get('items', [])
+                                        | map(attribute='primaryKey')
+                                        | map(attribute='name')
+                                        | select
+                                        | list %}
+                {%- set primaryKeyList = (desiredState.config.primaryKeyCol | default({'items': []})).get('items', [])
+                                        | map(attribute='primaryKey')
+                                        | map(attribute='name')
+                                        | select
+                                        | list %}
+
+                {# Drop the existing primary key first, Snowflake allows only one per table #}
+                {%- if currentState.config.primary | default(false) and currentPrimaryKeyList | length > 0 %}
                     {{ stage('Drop Primary Key Constraint') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     DROP PRIMARY KEY
-                {%- else %}
+                {%- endif %}
 
-                    {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
-                                            | map(attribute='primaryKey')
-                                            | map(attribute='name')
-                                            | list %}
-            
-                    {%- if primaryKeyList | length > 0 %}
-                        {{ stage('Alter Primary Key Constraint') }}
-                        ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                        ADD CONSTRAINT
-                        {%- if desiredState.config.primaryKeyName | trim != '' %}
-                            {{ desiredState.config.primaryKeyName }}
-                        {%- else %}
-                            pk_{{ desiredState.node.name }}
-                        {%- endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
-                    {%- endif %}
+                {%- if desiredState.config.primary and primaryKeyList | length > 0 %}
+                    {{ stage('Alter Primary Key Constraint') }}
+                    ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                    ADD CONSTRAINT
+                    {%- if desiredState.config.primaryKeyName | default('') | trim != '' %}
+                        {{ desiredState.config.primaryKeyName }}
+                    {%- else %}
+                        pk_{{ desiredState.node.name }}
+                    {%- endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
                 {%- endif %}
                     {# Metadata changes detected #}
                     {%- set nsMetaVariables.metaDataChanged = true %}
