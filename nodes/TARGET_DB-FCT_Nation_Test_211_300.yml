@@ -116,7 +116,7 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9e9e3929-d73f-43ae-8912-4ea4a8e7b693
+          columnCounter: a3491135-2568-409e-9ea5-738344876bc0
           stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
         config: {}
         dataType: TIMESTAMP
@@ -129,7 +129,7 @@ operation:
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 926fc334-6f07-4c58-9fc1-74e275000c16
+          columnCounter: db6e7b28-cfee-4fb6-9a43-9549b76adb80
           stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
         config: {}
         dataType: TIMESTAMP
@@ -157,7 +157,7 @@ operation:
   name: FCT_Nation_Test_211_300
   overrideSQL: false
   schema: ""
-  sqlType: BN310:::389
+  sqlType: "389"
   type: sql
   version: 1
 type: Node

@@ -26,6 +26,11 @@ operation:
         - {}
     postSQL: ""
     preSQL: ""
+    primary: false
+    primaryKeyCol:
+      items:
+        - {}
+    primaryKeyName: ""
     selectDistinct: false
     softDeleteStrategy: false
     testsEnabled: false
@@ -109,16 +114,12 @@ operation:
               - columnCounter: 54bd57e9-1d38-408f-a39a-0e5151d49df5
                 stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 21d76380-c754-4de7-b90e-962aec194fb2
+          columnCounter: ecbbddf6-e662-4af7-8879-4bffd74029d6
           stepCounter: 1dfbe008-96a8-48f4-a93f-7bcb36610c1d
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
@@ -126,16 +127,12 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6d0366f7-5f91-4f32-bbc2-84745118b0fb
+          columnCounter: bcabb97c-0efd-4836-9463-c140d3b39969
           stepCounter: 1dfbe008-96a8-48f4-a93f-7bcb36610c1d
         config: {}
         dataType: TIMESTAMP
-        defaultValue: ""
         description: ""
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
@@ -160,7 +157,7 @@ operation:
   name: FCT_Nation_Test_300_GitEdit
   overrideSQL: false
   schema: ""
-  sqlType: BN310:::389
+  sqlType: "389"
   type: sql
   version: 1
 type: Node
