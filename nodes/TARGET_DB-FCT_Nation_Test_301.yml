@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
-name: FCT_Nation_Test_211_300
+id: 96874171-2a13-427f-aa19-5ee2f277f1ed
+name: FCT_Nation_Test_301
 operation:
   config:
     clusterKey: false
@@ -46,8 +46,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 04d6748a-9d0c-4b88-89e0-bd53f1296a7f
-          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
+          columnCounter: 3014d3f3-58bd-4a4c-8581-1965bc8d311d
+          stepCounter: 96874171-2a13-427f-aa19-5ee2f277f1ed
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -60,8 +60,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: dc09d70c-0e82-4598-b73f-a26a60196fba
-          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
+          columnCounter: ed2d4648-a8d8-4455-bc3b-2cf557bc237e
+          stepCounter: 96874171-2a13-427f-aa19-5ee2f277f1ed
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -74,8 +74,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: fe9a95d4-6a84-40e1-b57e-a29d598022f9
-          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
+          columnCounter: afc45007-9133-4cef-820d-cb642572db9f
+          stepCounter: 96874171-2a13-427f-aa19-5ee2f277f1ed
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -88,8 +88,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 3eaa3bc3-cb02-4e8a-8f06-9702c93cb2be
-          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
+          columnCounter: f1424984-0a03-40b1-91d5-c4d75e81586c
+          stepCounter: 96874171-2a13-427f-aa19-5ee2f277f1ed
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -102,8 +102,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1def6375-0a8e-42dc-985e-1916b218c266
-          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
+          columnCounter: e44fb222-70ec-40ec-bad3-f82fcb5b0944
+          stepCounter: 96874171-2a13-427f-aa19-5ee2f277f1ed
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -114,12 +114,16 @@ operation:
               - columnCounter: 54bd57e9-1d38-408f-a39a-0e5151d49df5
                 stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
             transform: ""
-      - appliedColumnTests: {}
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: a3491135-2568-409e-9ea5-738344876bc0
-          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
+          columnCounter: e201250b-56b3-4884-8814-fc52a6f36dd6
+          stepCounter: 96874171-2a13-427f-aa19-5ee2f277f1ed
         config: {}
         dataType: TIMESTAMP
+        defaultValue: ""
         description: ""
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
@@ -127,12 +131,16 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - appliedColumnTests: {}
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: db6e7b28-cfee-4fb6-9a43-9549b76adb80
-          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
+          columnCounter: 445585b9-e009-479b-997b-adb98aa87f4f
+          stepCounter: 96874171-2a13-427f-aa19-5ee2f277f1ed
         config: {}
         dataType: TIMESTAMP
+        defaultValue: ""
         description: ""
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
@@ -152,9 +160,9 @@ operation:
             nodeName: Nation_Test
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'Nation_Test') }} "Nation_Test"
-        name: FCT_Nation_Test_211_300
+        name: FCT_Nation_Test_301
         noLinkRefs: []
-  name: FCT_Nation_Test_211_300
+  name: FCT_Nation_Test_301
   overrideSQL: false
   schema: ""
   sqlType: "389"

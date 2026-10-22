@@ -1,0 +1,158 @@
+fileVersion: 1
+id: 6f2defa9-4cb0-4de9-8879-171e8cf0448e
+name: FCT_Nation_Test_211
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dd1a4a56-301e-4487-9ded-dfa30d6bc9d0
+          stepCounter: 6f2defa9-4cb0-4de9-8879-171e8cf0448e
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: NAtionKey
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fc709475-366e-40a8-90ae-2ddc13debefc
+                stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4e4e4972-bd8a-475a-b21e-6ff330c8a49c
+          stepCounter: 6f2defa9-4cb0-4de9-8879-171e8cf0448e
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: name
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6998a992-5b43-465e-8a3d-e87615590937
+                stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 89c88f8d-9549-4733-95da-577813c53cb0
+          stepCounter: 6f2defa9-4cb0-4de9-8879-171e8cf0448e
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cfe96597-2db9-4dbe-b9f0-f5512a374e1f
+                stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2e22ce20-eab0-41c8-a657-2c68185d46c5
+          stepCounter: 6f2defa9-4cb0-4de9-8879-171e8cf0448e
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: CommenT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 17cc36b0-ee17-46ce-9072-2bb4acd0c48e
+                stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8e6dae63-21a4-4ba7-8a70-30a8c300f901
+          stepCounter: 6f2defa9-4cb0-4de9-8879-171e8cf0448e
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: N_Load_Timestamp
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 54bd57e9-1d38-408f-a39a-0e5151d49df5
+                stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0736adad-b51f-4ccc-8682-8eac06b45e77
+          stepCounter: 6f2defa9-4cb0-4de9-8879-171e8cf0448e
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0115ed64-9c69-4da7-9feb-6db4b51b104a
+          stepCounter: 6f2defa9-4cb0-4de9-8879-171e8cf0448e
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          Nation_Test: 89b81bab-2283-4ca1-9c6a-cc0336cea728
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: Nation_Test
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'Nation_Test') }} "Nation_Test"
+        name: FCT_Nation_Test_211
+        noLinkRefs: []
+  name: FCT_Nation_Test_211
+  overrideSQL: false
+  schema: ""
+  sqlType: BN211:::389
+  type: sql
+  version: 1
+type: Node
