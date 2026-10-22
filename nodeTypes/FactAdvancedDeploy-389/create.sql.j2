@@ -863,25 +863,34 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Primary Key Name and Column List Test
             ========================================================= #}
+            {# Compare PK column names only, the column objects also carry attributes such as nullable #}
+            {%- set currentPrimaryKeyList = [] %}
+            {%- set nsPrimaryKey = namespace(columnDropped=false) %}
+            {%- for item in (currentState.config.primaryKeyCol | default({'items': []})).get('items', []) %}
+                {%- if item.primaryKey and item.primaryKey.name %}
+                    {%- set _ = currentPrimaryKeyList.append(item.primaryKey.name) %}
+                    {%- if item.primaryKey.id not in desiredState.columns | map(attribute="id") %}
+                        {%- set nsPrimaryKey.columnDropped = true %}
+                    {%- endif %}
+                {%- endif %}
+            {%- endfor %}
+            {%- set primaryKeyList = [] %}
+            {%- for item in (desiredState.config.primaryKeyCol | default({'items': []})).get('items', []) %}
+                {%- if item.primaryKey and item.primaryKey.name %}
+                    {%- set _ = primaryKeyList.append(item.primaryKey.name) %}
+                {%- endif %}
+            {%- endfor %}
+
             {%- set primaryKeyTest = currentState.config.primary | default(false) == desiredState.config.primary | default(false) %}
             {%- set primaryKeyNameTest = currentState.config.primaryKeyName | default('') == desiredState.config.primaryKeyName | default('') %}
-            {%- set primaryKeyColList = currentState.config.primaryKeyCol | default({'items': [{}]}) == desiredState.config.primaryKeyCol | default({'items': [{}]}) %}
-            
+            {%- set primaryKeyColList = currentPrimaryKeyList == primaryKeyList %}
+
             {%- if primaryKeyTest == false or primaryKeyNameTest == false or primaryKeyColList == false %}
                 {# The table only has a primary key when the toggle is on and at least one column is selected #}
-                {%- set currentPrimaryKeyList = (currentState.config.primaryKeyCol | default({'items': []})).get('items', [])
-                                        | map(attribute='primaryKey')
-                                        | map(attribute='name')
-                                        | select
-                                        | list %}
-                {%- set primaryKeyList = (desiredState.config.primaryKeyCol | default({'items': []})).get('items', [])
-                                        | map(attribute='primaryKey')
-                                        | map(attribute='name')
-                                        | select
-                                        | list %}
 
                 {# Drop the existing primary key first, Snowflake allows only one per table #}
-                {%- if currentState.config.primary | default(false) and currentPrimaryKeyList | length > 0 %}
+                {# Dropping a primary key column already removes the constraint in Snowflake #}
+                {%- if currentState.config.primary | default(false) and currentPrimaryKeyList | length > 0 and not nsPrimaryKey.columnDropped %}
                     {{ stage('Drop Primary Key Constraint') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     DROP PRIMARY KEY
