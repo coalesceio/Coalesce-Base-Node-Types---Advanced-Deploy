@@ -1,5 +1,5 @@
 fileVersion: 1
-id: d4fd5313-1cd0-4d4b-af64-6a8079b43c69
+id: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
 name: FCT_Nation_Test_211_300
 operation:
   config:
@@ -11,28 +11,15 @@ operation:
       items:
         - {}
     clusterKeyExpressions: false
-    excludeMergeList:
-      items:
-        - {}
-    excludeMergeToggle: false
     groupByAll: false
     insertStrategy: UNION ALL
-    lastModifiedComparison: false
-    lookbackdays: 0
-    mergeDeleteStrategy: NO DELETES
     orderby: false
     orderbycolumn:
       items:
         - {}
     postSQL: ""
     preSQL: ""
-    primary: false
-    primaryKeyCol:
-      items:
-        - {}
-    primaryKeyName: ""
     selectDistinct: false
-    softDeleteStrategy: false
     testsEnabled: false
     truncateBefore: false
   database: ""
@@ -46,8 +33,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d25e2363-832e-4588-9717-96a37f75383f
-          stepCounter: d4fd5313-1cd0-4d4b-af64-6a8079b43c69
+          columnCounter: 04d6748a-9d0c-4b88-89e0-bd53f1296a7f
+          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -60,8 +47,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a4e3d59d-4c7c-4e1f-bf79-21ba7f690089
-          stepCounter: d4fd5313-1cd0-4d4b-af64-6a8079b43c69
+          columnCounter: dc09d70c-0e82-4598-b73f-a26a60196fba
+          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -74,8 +61,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 009a10a0-6895-44cc-9283-ee10f880c89b
-          stepCounter: d4fd5313-1cd0-4d4b-af64-6a8079b43c69
+          columnCounter: fe9a95d4-6a84-40e1-b57e-a29d598022f9
+          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -88,8 +75,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6845b624-4306-49f5-a5cf-61a81b8fd4ff
-          stepCounter: d4fd5313-1cd0-4d4b-af64-6a8079b43c69
+          columnCounter: 3eaa3bc3-cb02-4e8a-8f06-9702c93cb2be
+          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
         config: {}
         dataType: VARCHAR(152)
         description: ""
@@ -102,8 +89,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 015cfb42-9236-447d-939f-1e4a8555d50f
-          stepCounter: d4fd5313-1cd0-4d4b-af64-6a8079b43c69
+          columnCounter: 1def6375-0a8e-42dc-985e-1916b218c266
+          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
         config: {}
         dataType: TIMESTAMP_LTZ(9)
         description: ""
@@ -114,12 +101,16 @@ operation:
               - columnCounter: 54bd57e9-1d38-408f-a39a-0e5151d49df5
                 stepCounter: 89b81bab-2283-4ca1-9c6a-cc0336cea728
             transform: ""
-      - appliedColumnTests: {}
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: 91d31cd3-d301-41b1-b590-e1853268da81
-          stepCounter: d4fd5313-1cd0-4d4b-af64-6a8079b43c69
+          columnCounter: 1ebc37b9-0959-4bde-b5b2-cf4f423d1250
+          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
         config: {}
         dataType: TIMESTAMP
+        defaultValue: ""
         description: ""
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
@@ -127,12 +118,16 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - appliedColumnTests: {}
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
         columnReference:
-          columnCounter: d244b18b-05f9-4356-af0c-313ba4c4eb9e
-          stepCounter: d4fd5313-1cd0-4d4b-af64-6a8079b43c69
+          columnCounter: 2fedad6f-e150-4bc7-a4ce-37a10b7f94cf
+          stepCounter: 364cd62f-2739-44ac-a4b3-91e38f84a5ea
         config: {}
         dataType: TIMESTAMP
+        defaultValue: ""
         description: ""
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
@@ -157,7 +152,7 @@ operation:
   name: FCT_Nation_Test_211_300
   overrideSQL: false
   schema: ""
-  sqlType: BN310:::389
+  sqlType: BN211:::389
   type: sql
   version: 1
 type: Node
