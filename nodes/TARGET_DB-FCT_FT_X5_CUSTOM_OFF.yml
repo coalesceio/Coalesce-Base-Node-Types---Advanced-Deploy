@@ -26,14 +26,6 @@ operation:
         - {}
     postSQL: ""
     preSQL: ""
-    primary: false
-    primaryKeyCol:
-      items:
-        - primaryKey:
-            columnCounter: 7bd122a4-176e-42d1-92a8-8ae2354bd225
-            name: N_NATIONKEY
-            stepCounter: 30565666-fa36-4cde-a955-e95a90655b71
-    primaryKeyName: "PK_X5_CUSTOM"
     selectDistinct: false
     softDeleteStrategy: false
     testsEnabled: false
