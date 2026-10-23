@@ -35,14 +35,6 @@ operation:
         - {}
     postSQL: ""
     preSQL: ""
-    primary: true
-    primaryKeyCol:
-      items:
-        - primaryKey:
-            columnCounter: d1bb095d-75d7-489d-8a1a-e452b8dad1fd
-            name: N_NATIONKEY
-            stepCounter: 10140349-76fa-44e8-bd27-a6ec915b4690
-    primaryKeyName: ""
     selectDistinct: false
     testsEnabled: false
     treatNullAsCurrentTimestamp: false
