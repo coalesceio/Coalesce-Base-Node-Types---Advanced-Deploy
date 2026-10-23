@@ -87,7 +87,7 @@ operation:
           stepCounter: c280ea11-abd7-4d9f-a031-811e7b9f2ac0
         config: {}
         dataType: VARCHAR(152)
-        description: "Phase 3 unrelated change"
+        description: "Delete strategy cleanup check"
         name: N_COMMENT
         nullable: true
         sourceColumnReferences:
