@@ -181,7 +181,7 @@ does not permit copying or modification for any other purpose.
                             pk_{{ desiredState.node.name }}
                         {% endif %}
 
-                        PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                        PRIMARY KEY ( "{{ primaryKeyList | join('", "') }}" )
 
                     {% endif %}
                 {% endif %}
@@ -233,7 +233,7 @@ does not permit copying or modification for any other purpose.
                         {{ desiredState.config.primaryKeyName }}
                     {%- else %}
                         pk_{{ desiredState.node.name }}
-                    {%- endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                    {%- endif %} PRIMARY KEY ( "{{ primaryKeyList | join('", "') }}" )
                 {%- endif %}
             {%- endif %})
 			{%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
@@ -961,6 +961,16 @@ does not permit copying or modification for any other purpose.
                 {% endif %}
             {% endfor %}
 
+            {# Snowflake keeps primary key columns NOT NULL, so their nullability is not compared #}
+            {%- set desiredPrimaryKeyIds = [] %}
+            {%- if desiredState.config.primary | default(false) %}
+                {%- for item in (desiredState.config.primaryKeyCol | default({'items': []})).get('items', []) %}
+                    {%- if item.primaryKey and item.primaryKey.id %}
+                        {%- set _ = desiredPrimaryKeyIds.append(item.primaryKey.id) %}
+                    {%- endif %}
+                {%- endfor %}
+            {%- endif %}
+
             {# Change data types etc #}
             {%- set nsVariables.colchanges = 0 %}
             {%- for alterCurCol in currentState.columns %}        
@@ -975,7 +985,7 @@ does not permit copying or modification for any other purpose.
                     {%- set desiredDefaultValue = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='defaultValue') | first %}
                     {%- set desiredDescription = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='description') | first %}
                     {%- set datatypeTest = currentDatatype == desiredDatatype %}
-                    {%- set nullableTest = currentNullable == desiredNullable %}
+                    {%- set nullableTest = (currentNullable == desiredNullable) or (alterCurCol.id in desiredPrimaryKeyIds) %}
                     {%- set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
                     {%- set descriptionTest = currentDescription == desiredDescription %}
                     {%- if (datatypeTest == false or 
@@ -1066,7 +1076,7 @@ does not permit copying or modification for any other purpose.
                 {% endif %}
 
                 {% if desiredState.config.primary and primaryKeyList | length > 0 %}
-                    {{ stage('Alter Primary Key Constraint') }}
+                    {{ stage('Add Primary Key Constraint') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     ADD CONSTRAINT
                     {% if desiredState.config.primaryKeyName | default('') | trim != '' %}
@@ -1074,7 +1084,7 @@ does not permit copying or modification for any other purpose.
                     {% else %}
                         pk_{{ desiredState.node.name }}
                     {% endif %}
-                    PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                    PRIMARY KEY ( "{{ primaryKeyList | join('", "') }}" )
                 {% endif %}
                     {# Metadata changes detected #}
                     {% set nsMetaVariables.metaDataChanged = true %}

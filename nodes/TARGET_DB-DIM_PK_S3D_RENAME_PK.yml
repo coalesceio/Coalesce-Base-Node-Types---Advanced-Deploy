@@ -42,7 +42,7 @@ operation:
             columnCounter: 40736119-7dae-4ada-ba2f-05eb7cf81f27
             name: N_NATIONKEY
             stepCounter: aa88c543-63e9-49de-84b7-d4b3c4efe9bd
-    primaryKeyName: "PK_DIM_S3D_CUSTOM"
+    primaryKeyName: "PK_DIM_S3D_RENAMED"
     selectDistinct: false
     testsEnabled: false
     treatNullAsCurrentTimestamp: false
@@ -120,7 +120,7 @@ operation:
           stepCounter: aa88c543-63e9-49de-84b7-d4b3c4efe9bd
         config: {}
         dataType: VARCHAR(152)
-        description: ""
+        description: "Phase 5 NOT NULL check"
         name: N_COMMENT
         nullable: true
         sourceColumnReferences:

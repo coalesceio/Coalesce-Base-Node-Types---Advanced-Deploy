@@ -33,7 +33,7 @@ operation:
             columnCounter: 1832fb8a-a011-40ff-9329-4e02c2d87730
             name: N_NATIONKEY
             stepCounter: 1b82eea3-9f29-487d-a1f5-cffcacd94f98
-    primaryKeyName: "PK_S3D_CUSTOM"
+    primaryKeyName: "PK_S3D_RENAMED"
     selectDistinct: false
     softDeleteStrategy: false
     testsEnabled: false
@@ -95,7 +95,7 @@ operation:
           stepCounter: 1b82eea3-9f29-487d-a1f5-cffcacd94f98
         config: {}
         dataType: VARCHAR(152)
-        description: "Phase 3 unrelated change"
+        description: "Phase 5 NOT NULL check"
         name: N_COMMENT
         nullable: true
         sourceColumnReferences:

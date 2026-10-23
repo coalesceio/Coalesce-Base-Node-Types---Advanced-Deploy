@@ -120,7 +120,7 @@ operation:
           stepCounter: bde5bad3-19fb-44f4-9ba3-f6f62dd6ce5f
         config: {}
         dataType: VARCHAR(152)
-        description: ""
+        description: "Phase 3 unrelated change"
         name: N_COMMENT
         nullable: true
         sourceColumnReferences:

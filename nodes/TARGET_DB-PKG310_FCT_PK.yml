@@ -1,0 +1,166 @@
+fileVersion: 1
+id: 7d226aff-a9b7-47cb-88a3-b1751ff733bf
+name: PKG310_FCT_PK
+operation:
+  config:
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    excludeMergeList:
+      items:
+        - {}
+    excludeMergeToggle: false
+    groupByAll: false
+    insertStrategy: UNION ALL
+    lastModifiedComparison: false
+    lookbackdays: 0
+    mergeDeleteStrategy: NO DELETES
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    primary: true
+    primaryKeyCol:
+      items:
+        - primaryKey:
+            columnCounter: ac16bab0-23eb-4ee8-a6a0-332dcc23dfb4
+            name: N_NATIONKEY
+            stepCounter: 7d226aff-a9b7-47cb-88a3-b1751ff733bf
+    primaryKeyName: "PK_PKG310"
+    selectDistinct: false
+    softDeleteStrategy: false
+    testsEnabled: false
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ac16bab0-23eb-4ee8-a6a0-332dcc23dfb4
+          stepCounter: 7d226aff-a9b7-47cb-88a3-b1751ff733bf
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_NATIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: af9dee27-dd6b-4bdb-8884-bb4ec7a2b68a
+                stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+            transform: ''
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ee7595c6-cbd5-4c09-aea7-44ee5d71478a
+          stepCounter: 7d226aff-a9b7-47cb-88a3-b1751ff733bf
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: N_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 845db2dd-daeb-4e93-b38a-14eafe4844a7
+                stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+            transform: ''
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 04b49d54-3984-49cc-97ac-2bf1bc22f396
+          stepCounter: 7d226aff-a9b7-47cb-88a3-b1751ff733bf
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9166a4c7-c65c-4975-83a2-19c15f25d16b
+                stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+            transform: ''
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dbdbc823-ea23-44be-8064-416326994ddf
+          stepCounter: 7d226aff-a9b7-47cb-88a3-b1751ff733bf
+        config: {}
+        dataType: VARCHAR(152)
+        description: "Phase 4 unrelated change"
+        name: N_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 19adcb08-255c-4cf7-aa9b-7f1b95ba200e
+                stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+            transform: ''
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 350d5926-e18f-4ff1-aa08-f3301d307924
+          stepCounter: 7d226aff-a9b7-47cb-88a3-b1751ff733bf
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: N_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a6d50b3e-eb76-49a3-88f0-8888832fc02f
+                stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+            transform: ''
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0d01e047-6e9b-48cb-bc2b-9b4a93a0a837
+          stepCounter: 7d226aff-a9b7-47cb-88a3-b1751ff733bf
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 977e0495-2569-4561-b2a9-3ea59137882e
+          stepCounter: 7d226aff-a9b7-47cb-88a3-b1751ff733bf
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          NATION_TEST: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: NATION_TEST
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'NATION_TEST') }} "NATION_TEST"
+        name: PKG310_FCT_PK
+        noLinkRefs: []
+  name: PKG310_FCT_PK
+  overrideSQL: false
+  schema: ""
+  sqlType: "389"
+  type: sql
+  version: 1
+type: Node
