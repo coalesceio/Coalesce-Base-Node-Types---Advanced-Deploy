@@ -35,7 +35,7 @@ operation:
         - {}
     postSQL: ""
     preSQL: ""
-    primary: true
+    primary: false
     primaryKeyCol:
       items:
         - primaryKey:
@@ -84,7 +84,7 @@ operation:
           - columnReferences:
               - columnCounter: af9dee27-dd6b-4bdb-8884-bb4ec7a2b68a
                 stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
-            transform: ''
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 9cd773fe-1e7c-446d-b398-0c003933ce92
@@ -99,7 +99,7 @@ operation:
           - columnReferences:
               - columnCounter: 845db2dd-daeb-4e93-b38a-14eafe4844a7
                 stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
-            transform: ''
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 6bf90f37-bdac-4bff-ad5c-3e3181bbf5cf
@@ -113,21 +113,21 @@ operation:
           - columnReferences:
               - columnCounter: 9166a4c7-c65c-4975-83a2-19c15f25d16b
                 stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
-            transform: ''
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 48c66c51-a3c3-4dda-8520-0157f084b14b
           stepCounter: a7640248-1d25-46cb-a034-f8633aa30143
         config: {}
         dataType: VARCHAR(152)
-        description: "Phase 3 unrelated change"
+        description: Phase 3 unrelated change
         name: N_COMMENT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 19adcb08-255c-4cf7-aa9b-7f1b95ba200e
                 stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
-            transform: ''
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: c3165b81-ea6f-4191-a182-28633793b4db
@@ -141,7 +141,7 @@ operation:
           - columnReferences:
               - columnCounter: a6d50b3e-eb76-49a3-88f0-8888832fc02f
                 stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
-            transform: ''
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 200551ee-016d-4410-99ca-c141f1d0ad51
@@ -180,7 +180,7 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: "CAST(CURRENT_TIMESTAMP AS TIMESTAMP)"
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
       - appliedColumnTests: {}
         columnReference:
           columnCounter: a33ad4fb-31c9-4f3d-999c-cc608d69ad04
@@ -193,7 +193,7 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: "CAST('2999-12-31 00:00:00' AS TIMESTAMP)"
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 6dfa227e-b383-4877-a422-c18ce1e81ed1
@@ -206,7 +206,7 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: "CAST(CURRENT_TIMESTAMP AS TIMESTAMP)"
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
       - appliedColumnTests: {}
         columnReference:
           columnCounter: a6594acc-57b9-466b-b141-08edc63e092d
@@ -219,7 +219,7 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: "CAST(CURRENT_TIMESTAMP AS TIMESTAMP)"
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
