@@ -93,6 +93,7 @@ operation:
         config: {}
         dataType: NUMBER(3,2)
         description: ""
+        isBusinessKey: true
         name: PRECIP
         nullable: true
         sourceColumnReferences:

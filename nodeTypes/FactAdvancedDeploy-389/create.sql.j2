@@ -170,7 +170,7 @@ does not permit copying or modification for any other purpose.
                             {{ desiredState.config.primaryKeyName }}
                         {%- else %}
                             pk_{{ desiredState.node.name }}
-                        {%- endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                        {%- endif %} PRIMARY KEY ( "{{ primaryKeyList | join('", "') }}" )
                     {%- endif %}
                 {%- endif %}
 		    	)
@@ -215,7 +215,7 @@ does not permit copying or modification for any other purpose.
                             {{ desiredState.config.primaryKeyName }}
                         {%- else %}
                             pk_{{ desiredState.node.name }}
-                        {%- endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
+                        {%- endif %} PRIMARY KEY ( "{{ primaryKeyList | join('", "') }}" )
                     {%- endif %}
                 {%- endif %}
 		    	)
@@ -244,7 +244,6 @@ does not permit copying or modification for any other purpose.
                 sourceLinkTest      = true,
                 businessKeyTest     = true,
                 insertStrategyTest  = true,
-                deleteStrategyTest  = true,
                 truncateBeforeTest  = true,
                 testsEnabledTest    = true,
                 distinctTest        = true,
@@ -259,7 +258,6 @@ does not permit copying or modification for any other purpose.
                 sourceLinkDiff      = [],
                 businessDiff        = [],
                 insertStrategyDiff  = [],
-                deleteStrategyDiff  = [],
                 truncateBeforeDiff  = [],
                 testsEnabledDiff    = [],
                 distinctDiff        = [],
@@ -411,20 +409,6 @@ does not permit copying or modification for any other purpose.
                 }) %}
 
                 {{ update_metadata("Insert Strategy", nsMetaVariables.insertStrategyDiff, "Insert Strategy") }}
-
-            {% endif %}
-
-            {# =========================================================
-            Delete Strategy comparison
-            ========================================================= #}
-            {% if currentState.config.deleteStrategy | default('') != desiredState.config.deleteStrategy %}
-                {% set nsMetaVariables.deleteStrategyTest = false %}
-                {% set _ = nsMetaVariables.deleteStrategyDiff.append({
-                    "is": desiredState.config.deleteStrategy,
-                    "was": currentState.config.deleteStrategy | default('')
-                }) %}
-
-                {{ update_metadata("Delete Strategy", nsMetaVariables.deleteStrategyDiff, "Delete Strategy") }}
 
             {% endif %}
 
@@ -652,7 +636,6 @@ does not permit copying or modification for any other purpose.
             or nsMetaVariables.sourceLinkTest == false
             or nsMetaVariables.businessKeyTest == false
             or nsMetaVariables.insertStrategyTest == false
-            or nsMetaVariables.deleteStrategyTest == false
             or nsMetaVariables.truncateBeforeTest == false
             or nsMetaVariables.testsEnabledTest == false
             or nsMetaVariables.distinctTest == false
@@ -788,6 +771,16 @@ does not permit copying or modification for any other purpose.
                 {%- endif %}
             {%- endfor %}
 
+            {# Snowflake keeps primary key columns NOT NULL, so their nullability is not compared #}
+            {%- set desiredPrimaryKeyIds = [] %}
+            {%- if desiredState.config.primary | default(false) %}
+                {%- for item in (desiredState.config.primaryKeyCol | default({'items': []})).get('items', []) %}
+                    {%- if item.primaryKey and item.primaryKey.id %}
+                        {%- set _ = desiredPrimaryKeyIds.append(item.primaryKey.id) %}
+                    {%- endif %}
+                {%- endfor %}
+            {%- endif %}
+
             {# Change data types etc #}
             {%-set nsVariables.colchanges = 0 %}
             {%- for alterCurCol in currentState.columns %}        
@@ -804,7 +797,7 @@ does not permit copying or modification for any other purpose.
                     {%- set desiredDescription = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='description') | first %}
 
                     {%- set datatypeTest = currentDatatype == desiredDatatype %}
-                    {%- set nullableTest = currentNullable == desiredNullable %}
+                    {%- set nullableTest = (currentNullable == desiredNullable) or (alterCurCol.id in desiredPrimaryKeyIds) %}
                     {%- set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
                     {%- set descriptionTest = currentDescription == desiredDescription %}
 
@@ -863,32 +856,48 @@ does not permit copying or modification for any other purpose.
             {# =========================================================
             Primary Key Name and Column List Test
             ========================================================= #}
-            {%- set primaryKeyTest = currentState.config.primary | default(false) == desiredState.config.primary %}
-            {%- set primaryKeyNameTest = currentState.config.primaryKeyName | default('') == desiredState.config.primaryKeyName %}
-            {%- set primaryKeyColList = currentState.config.primaryKeyCol | default({'items': [{}]}) == desiredState.config.primaryKeyCol %}
-            
+            {# Compare PK column names only, the column objects also carry attributes such as nullable #}
+            {%- set currentPrimaryKeyList = [] %}
+            {%- set nsPrimaryKey = namespace(columnDropped=false) %}
+            {%- for item in (currentState.config.primaryKeyCol | default({'items': []})).get('items', []) %}
+                {%- if item.primaryKey and item.primaryKey.name %}
+                    {%- set _ = currentPrimaryKeyList.append(item.primaryKey.name) %}
+                    {%- if item.primaryKey.id not in desiredState.columns | map(attribute="id") %}
+                        {%- set nsPrimaryKey.columnDropped = true %}
+                    {%- endif %}
+                {%- endif %}
+            {%- endfor %}
+            {%- set primaryKeyList = [] %}
+            {%- for item in (desiredState.config.primaryKeyCol | default({'items': []})).get('items', []) %}
+                {%- if item.primaryKey and item.primaryKey.name %}
+                    {%- set _ = primaryKeyList.append(item.primaryKey.name) %}
+                {%- endif %}
+            {%- endfor %}
+
+            {%- set primaryKeyTest = currentState.config.primary | default(false) == desiredState.config.primary | default(false) %}
+            {%- set primaryKeyNameTest = currentState.config.primaryKeyName | default('') == desiredState.config.primaryKeyName | default('') %}
+            {%- set primaryKeyColList = currentPrimaryKeyList == primaryKeyList %}
+
             {%- if primaryKeyTest == false or primaryKeyNameTest == false or primaryKeyColList == false %}
-                {%- if not desiredState.config.primary %}
+                {# The table only has a primary key when the toggle is on and at least one column is selected #}
+
+                {# Drop the existing primary key first, Snowflake allows only one per table #}
+                {# Dropping a primary key column already removes the constraint in Snowflake #}
+                {%- if currentState.config.primary | default(false) and currentPrimaryKeyList | length > 0 and not nsPrimaryKey.columnDropped %}
                     {{ stage('Drop Primary Key Constraint') }}
                     ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
                     DROP PRIMARY KEY
-                {%- else %}
+                {%- endif %}
 
-                    {%- set primaryKeyList = desiredState.config.primaryKeyCol.get('items', [])
-                                            | map(attribute='primaryKey')
-                                            | map(attribute='name')
-                                            | list %}
-            
-                    {%- if primaryKeyList | length > 0 %}
-                        {{ stage('Alter Primary Key Constraint') }}
-                        ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                        ADD CONSTRAINT
-                        {%- if desiredState.config.primaryKeyName | trim != '' %}
-                            {{ desiredState.config.primaryKeyName }}
-                        {%- else %}
-                            pk_{{ desiredState.node.name }}
-                        {%- endif %} PRIMARY KEY ( {{ primaryKeyList | join(', ') }} )
-                    {%- endif %}
+                {%- if desiredState.config.primary and primaryKeyList | length > 0 %}
+                    {{ stage('Add Primary Key Constraint') }}
+                    ALTER TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                    ADD CONSTRAINT
+                    {%- if desiredState.config.primaryKeyName | default('') | trim != '' %}
+                        {{ desiredState.config.primaryKeyName }}
+                    {%- else %}
+                        pk_{{ desiredState.node.name }}
+                    {%- endif %} PRIMARY KEY ( "{{ primaryKeyList | join('", "') }}" )
                 {%- endif %}
                     {# Metadata changes detected #}
                     {%- set nsMetaVariables.metaDataChanged = true %}
