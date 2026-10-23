@@ -583,6 +583,17 @@ The following stages are executed:
 |-----------|----------------|
 | **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
 
+##### Dimension Advanced Deploy Primary Key Changes
+
+Turning the Primary Key toggle on or off, or changing the primary key name or columns, executes the following stages:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Primary Key Constraint** | Drops the existing primary key. Skipped when the table has no primary key, or when a primary key column is dropped from the node, since Snowflake removes the constraint together with the column |
+| **Add Primary Key Constraint** | Adds the primary key with the configured name and columns |
+
+> **Note:** Snowflake makes primary key columns NOT NULL when the table is created with a primary key. While the Primary Key toggle is on, the nullable setting of primary key columns is not compared, so that NOT NULL stays in place. If those columns are marked nullable in the node, each deployment of the node shows a **Metadata Update-Default** stage that makes no changes. To avoid it, set **Nullable** to false on the primary key columns.
+
 #### Recreating the Dimension Views
 
 The subsequent deployment of Dimension node of materialization type view with changes in view definition, adding table description or renaming view results in recreating the dimension view.
@@ -760,6 +771,17 @@ The following stages are executed:
 | **Stage** | **Description** |
 |-----------|----------------|
 | **Metadata Update \| Business Keys \| Change Tracking \| Distinct \| Transformation \| Join** | A dummy statement would execute with specific changes listed in comments|
+
+##### Fact Advanced Deploy Primary Key Changes
+
+Turning the Primary Key toggle on or off, or changing the primary key name or columns, executes the following stages:
+
+| **Stage** | **Description** |
+|-----------|----------------|
+| **Drop Primary Key Constraint** | Drops the existing primary key. Skipped when the table has no primary key, or when a primary key column is dropped from the node, since Snowflake removes the constraint together with the column |
+| **Add Primary Key Constraint** | Adds the primary key with the configured name and columns |
+
+> **Note:** Snowflake makes primary key columns NOT NULL when the table is created with a primary key. While the Primary Key toggle is on, the nullable setting of primary key columns is not compared, so that NOT NULL stays in place. If those columns are marked nullable in the node, each deployment of the node shows a **Metadata Update-Default** stage that makes no changes. To avoid it, set **Nullable** to false on the primary key columns.
 
 #### Recreating the Fact Advanced Deploy Views
 
