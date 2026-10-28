@@ -3,7 +3,7 @@ id: "960"
 mappingDefinitions:
   SOURCE_DATA:
     database: TANVI_DEV
-    schema: SOURCE
+    schema: QA_PHASE2
   TARGET_ACC:
     database: TANVI_DEV
     schema: TARGET
