@@ -9,7 +9,7 @@ mappingDefinitions:
     schema: TARGET
   TARGET_DB:
     database: TANVI_DEV
-    schema: QA_PHASE2
+    schema: QA
   TARGET_DEV:
     database: TANVI_DEV
     schema: QA_PHASE

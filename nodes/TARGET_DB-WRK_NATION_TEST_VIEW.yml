@@ -1,0 +1,131 @@
+fileVersion: 1
+id: 023eef6a-1238-4d76-9081-4bf8c4647dce
+name: WRK_NATION_TEST_VIEW
+operation:
+  config:
+    asofColumn:
+      items:
+        - {}
+    asofJoin: true
+    asofJoinMain: false
+    asofJoinON: false
+    asofJoinUSING: false
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    groupByAll: false
+    insertStrategy: INSERT
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f26200af-9256-441a-b1dc-eb5ff0a86e64
+          stepCounter: 023eef6a-1238-4d76-9081-4bf8c4647dce
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_NATIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: af9dee27-dd6b-4bdb-8884-bb4ec7a2b68a
+                stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 631a65a0-36e9-4c7f-8cda-1ee025da161f
+          stepCounter: 023eef6a-1238-4d76-9081-4bf8c4647dce
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: N_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 845db2dd-daeb-4e93-b38a-14eafe4844a7
+                stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 428dee2f-ef8d-4e83-9bce-6693b84c3df4
+          stepCounter: 023eef6a-1238-4d76-9081-4bf8c4647dce
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: N_REGIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9166a4c7-c65c-4975-83a2-19c15f25d16b
+                stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 63d2ddd5-467b-4913-af57-9a871d133e8a
+          stepCounter: 023eef6a-1238-4d76-9081-4bf8c4647dce
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 19adcb08-255c-4cf7-aa9b-7f1b95ba200e
+                stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 64f3543a-038d-4fe4-ab93-8719b3e87a55
+          stepCounter: 023eef6a-1238-4d76-9081-4bf8c4647dce
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: N_LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a6d50b3e-eb76-49a3-88f0-8888832fc02f
+                stepCounter: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          NATION_TEST: 8dd3b1d3-a40a-4840-9bf8-e49cf61293ed
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: NATION_TEST
+        join:
+          joinCondition: FROM  {{ ref('SOURCE_DATA', 'NATION_TEST') }} NATION_TEST
+        name: WRK_NATION_TEST_VIEW
+        noLinkRefs: []
+  name: WRK_NATION_TEST_VIEW
+  overrideSQL: false
+  schema: ""
+  sqlType: "179"
+  type: sql
+  version: 1
+type: Node
